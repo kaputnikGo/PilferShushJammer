@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private PassiveJammer passiveJammer;
     private boolean PASSIVE;
     //private boolean ACTIVE;
+    public static String START_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.startpassive";
+    public static String STOP_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.stoppassive";
 
 
     @Override
