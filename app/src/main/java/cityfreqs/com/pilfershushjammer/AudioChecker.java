@@ -1,8 +1,10 @@
-package jammer.pilfershush.cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer;
 
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
+
+import jammer.pilfershush.cityfreqs.com.pilfershushjammer.R;
 
 public class AudioChecker {
     private Context context;

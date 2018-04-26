@@ -1,4 +1,4 @@
-package jammer.pilfershush.cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer;
 
 import android.media.AudioFormat;
 

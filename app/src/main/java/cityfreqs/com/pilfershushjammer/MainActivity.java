@@ -1,4 +1,4 @@
-package jammer.pilfershush.cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -22,7 +22,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,14 +35,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jammer.pilfershush.cityfreqs.com.pilfershushjammer.R;
+
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "1.0.02";
+    public static final String VERSION = "1.0.03";
 
     // note:: API 23+ AudioRecord READ_BLOCKING const
 
     //TODO add headset toggleButton
     //TODO ugly notification 0xffffff icon
+    //TODO make clear in UI audioFocus is to do with output
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_ID = 123;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private Notification.Builder notifyBuilder;
     private boolean PASSIVE_RUNNING;
 
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog alertDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         debugText.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                debugText.setGravity(Gravity.NO_GRAVITY);
                 debugText.setSoundEffectsEnabled(false); // no further click sounds
             }
         });
@@ -194,13 +198,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_about) {
+            aboutDialog();
             return true;
         }
 
@@ -270,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private boolean initApplication() {
-        entryLogger(getResources().getString(R.string.init_state_1) + VERSION  + "\n", true);
+        //entryLogger(getResources().getString(R.string.init_state_1) + VERSION  + "\n", true);
 
         introText();
 
@@ -460,6 +459,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
             }
         }
+    }
+
+    private void aboutDialog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getResources().getString(R.string.about_version) + VERSION  + "\n\n");
+        sb.append(getResources().getString(R.string.about_dialog_2) + "\n\n");
+        sb.append(getResources().getString(R.string.about_dialog_3) + "\n\n");
+        sb.append(getResources().getString(R.string.about_dialog_4));
+
+        dialogBuilder = new AlertDialog.Builder(this);
+
+        dialogBuilder.setTitle(R.string.about_dialog_1);
+        dialogBuilder.setMessage(sb.toString());
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.cancel();
+            }
+        });
+
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
 

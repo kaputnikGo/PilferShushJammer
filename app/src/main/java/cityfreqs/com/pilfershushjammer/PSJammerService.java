@@ -1,4 +1,4 @@
-package jammer.pilfershush.cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,14 +9,16 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
 
+import jammer.pilfershush.cityfreqs.com.pilfershushjammer.R;
+
 public class PSJammerService extends Service {
     public static final String TAG = "PSJammer_service";
 
     private PassiveJammer passiveJammer;
     private AudioSettings audioSettings;
 
-    public static final String START_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.startpassive";
-    public static final String STOP_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.stoppassive";
+    public static final String START_PASSIVE_ACTION = "PSJammerService.action.startpassive";
+    public static final String STOP_PASSIVE_ACTION = "PSJammerService.action.stoppassive";
 
 
     final int NOTIFICATION_ID = 1;
