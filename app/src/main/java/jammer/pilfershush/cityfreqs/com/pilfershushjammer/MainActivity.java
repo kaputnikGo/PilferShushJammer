@@ -2,13 +2,17 @@ package jammer.pilfershush.cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -22,9 +26,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,26 +38,33 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "1.0.01";
+    public static final String VERSION = "1.0.02";
 
-    private PendingIntent permissionIntent;
+    // note:: API 23+ AudioRecord READ_BLOCKING const
+
+    //TODO add headset toggleButton
+    //TODO ugly notification 0xffffff icon
+
     private static final int REQUEST_AUDIO_PERMISSION = 1;
+    private static final int NOTIFY_ID = 123;
 
     private static TextView debugText;
-    private Button passiveJammerButton;
-    private Button activeJammerButton;
+    private ToggleButton passiveJammerButton;
 
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
     private HeadsetIntentReceiver headsetReceiver;
+    private IntentFilter headsetFilter;
 
     private AudioSettings audioSettings;
     private AudioChecker audioChecker;
     private PassiveJammer passiveJammer;
-    private boolean PASSIVE;
-    //private boolean ACTIVE;
-    public static String START_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.startpassive";
-    public static String STOP_PASSIVE_ACTION = "jammer.pilfershush.cityfreqs.com.pilfershushjammer.PSJammerService.action.stoppassive";
+
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor sharedPrefsEditor;
+    private NotificationManager notifyManager;
+    private Notification.Builder notifyBuilder;
+    private boolean PASSIVE_RUNNING;
 
 
     @Override
@@ -74,17 +86,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
-        passiveJammerButton = (Button) findViewById(R.id.run_passive_button);
-        passiveJammerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                togglePassiveJamming();
-            }
-        });
-        activeJammerButton = (Button) findViewById(R.id.run_active_button);
-        activeJammerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO not yet implemented
-                //toggleActiveJamming();
+        passiveJammerButton = (ToggleButton) findViewById(R.id.run_passive_button);
+        passiveJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    runPassive();
+                }
+                else {
+                    stopPassive();
+                }
             }
         });
 
@@ -139,20 +149,34 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
-        registerReceiver(headsetReceiver, filter);
+        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
+
+        headsetFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        registerReceiver(headsetReceiver, headsetFilter);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // refocus app
         toggleHeadset(false); // default state at init
-        audioFocusCheck();
+        if (PASSIVE_RUNNING) {
+            // return from background etc
+            entryLogger(getResources().getString(R.string.app_status_1), true);
+        }
+        else {
+            entryLogger(getResources().getString(R.string.app_status_2), true);
+            audioFocusCheck();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // backgrounded, stop recording, possible audio_focus loss due to telephony...
+        // backgrounded, possible audio_focus loss due to telephony...
         unregisterReceiver(headsetReceiver);
         interruptRequestAudio();
+        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        sharedPrefsEditor = sharedPrefs.edit();
+        sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
+        sharedPrefsEditor.commit();
     }
 
     @Override
@@ -235,9 +259,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+    private void introText() {
+        // simple and understandable statements about app usage.
+        entryLogger(getResources().getString(R.string.intro_1) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_2) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_3) + "\n\n", false);
+        entryLogger(getResources().getString(R.string.intro_4) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_5) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_6) + "\n", true);
+    }
 
     private boolean initApplication() {
-        entryLogger(getResources().getString(R.string.init_state_1) + VERSION, false);
+        entryLogger(getResources().getString(R.string.init_state_1) + VERSION  + "\n", true);
+
+        introText();
+
         headsetReceiver = new HeadsetIntentReceiver();
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
@@ -253,31 +289,60 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
 
         passiveJammer = new PassiveJammer(this, audioSettings);
+        PASSIVE_RUNNING = false;
 
+        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        sharedPrefsEditor = sharedPrefs.edit();
+        sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
+        sharedPrefsEditor.commit();
+
+        createNotification();
         return true;
     }
 
-    private void togglePassiveJamming() {
-        if (PASSIVE) {
-            PASSIVE = false;
-            if (passiveJammer != null) {
-                passiveJammer.stopPassiveJammer();
-                passiveJammerButton.setBackgroundColor(Color.LTGRAY);
-                entryLogger(getResources().getString(R.string.main_scanner_4), false);
-            }
-        }
-        else {
-            PASSIVE = true;
-            if (passiveJammer != null) {
-                if (passiveJammer.startPassiveJammer()) {
-                    passiveJammer.runPassiveJammer();
-                    passiveJammerButton.setBackgroundColor(Color.RED);
+    private void runPassive() {
+        if (passiveJammer != null && PASSIVE_RUNNING == false) {
+            if (passiveJammer.startPassiveJammer()) {
+                if (!passiveJammer.runPassiveJammer()) {
+                    // check for errors in running
+                    passiveJammerButton.toggle();
+                    stopPassive();
+                }
+                else {
                     entryLogger(getResources().getString(R.string.main_scanner_3), false);
+                    PASSIVE_RUNNING = true;
+                    notifyManager.notify(NOTIFY_ID, notifyBuilder.build());
                 }
             }
         }
     }
+    private void stopPassive() {
+        if (passiveJammer != null && PASSIVE_RUNNING == true) {
+            passiveJammer.stopPassiveJammer();
+            PASSIVE_RUNNING = false;
+            entryLogger(getResources().getString(R.string.main_scanner_4), false);
+            notifyManager.cancel(NOTIFY_ID);
+        }
+    }
 
+    private void createNotification() {
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent,0);
+
+        notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notifyBuilder = new Notification.Builder(this);
+
+        notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_notify)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
+                .setContentTitle("passive jamming running")
+                .setContentText("Tap to return to app")
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(false);
+    }
 
     /*
 
@@ -287,11 +352,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void interruptRequestAudio() {
         // possible system app request audio focus, respond here
         entryLogger(getResources().getString(R.string.audiofocus_check_5), true);
-        /*
-        if (SCANNING) {
-            toggleScanning();
-        }
-        */
     }
 
     private void audioFocusCheck() {

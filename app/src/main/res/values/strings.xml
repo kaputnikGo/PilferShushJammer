@@ -1,7 +1,20 @@
 <resources>
+    <!--
+    MainActivity.java
+    -->
     <string name="app_name">PilferShush Jammer</string>
     <string name="debug_text">app status...</string>
     <string name="action_settings">Settings</string>
+
+    <string name="app_status_1">status: passive jamming running.</string>
+    <string name="app_status_2">status: passive jamming not running.</string>
+
+    <string name="intro_1">Android allows only one app to use the microphone at a time, however the system can override this.</string>
+    <string name="intro_2">For instance when a phone call is being made. Or, possibly, if a voice assistant is enabled.</string>
+    <string name="intro_3">Some apps use the microphone to listen to tracking signals that are inaudible to human hearing.</string>
+    <string name="intro_4">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
+    <string name="intro_5">It does this via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
+    <string name="intro_6">This app does NOT listen to or record any of the audio from the microphone.</string>
 
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -37,4 +50,19 @@
     <string name="audiofocus_6">Audio Focus Listener: GAIN_TRANSIENT.</string>
     <string name="audiofocus_7">Audio Focus Listener: GAIN_TRANSIENT_DUCK.</string>
     <string name="audiofocus_8">Audio Focus Listener: UNKNOWN STATE.</string>
+
+    <!--
+    PassiveJammer.java
+    -->
+    <string name="passive_state_1">Passive Jammer init.</string>
+    <string name="passive_state_2">Passive Jammer failed to init.</string>
+    <string name="passive_state_3">Passive Jammer start.</string>
+    <string name="passive_state_4">Passive Jammer audio status error: invalid operation.</string>
+    <string name="passive_state_5_1">Passive Jammer audio status error: uninitialized.</string>
+    <string name="passive_state_5_2">Possible cause: microphone already in use.</string>
+    <string name="passive_state_6">Passive Jammer get recording state = false.</string>
+    <string name="passive_state_7">Passive Jammer exception, failed to run.</string>
+    <string name="passive_state_8">Passive Jammer audio record failed to init.</string>
+    <string name="passive_state_9">Passive Jammer stop and release.</string>
+    <string name="passive_state_10">Passive Jammer not running.</string>
 </resources>

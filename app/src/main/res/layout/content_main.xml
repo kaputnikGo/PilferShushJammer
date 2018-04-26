@@ -11,11 +11,15 @@
     <TextView
         android:id="@+id/debug_text"
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="410dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="#000000"
         android:gravity="bottom"
+        android:padding="8dp"
         android:scrollbars="vertical"
-        android:text="@string/debug_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
@@ -26,24 +30,17 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <Button
-            android:id="@+id/run_active_button"
-            android:layout_width="wrap_content"
-            android:layout_weight=".30"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom ="@dimen/activity_vertical_margin"
-            android:text="@string/main_scanner_1" />
-        <Button
+        <ToggleButton
             android:id="@+id/run_passive_button"
             android:layout_width="wrap_content"
-            android:layout_weight=".30"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom ="@dimen/activity_vertical_margin"
-            android:text="@string/main_scanner_2" />
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="26dp"
+            android:layout_marginStart="11dp"
+            android:text="Passive"
+            android:textOff="@string/main_scanner_2" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
