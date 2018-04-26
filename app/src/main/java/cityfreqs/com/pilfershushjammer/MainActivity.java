@@ -35,8 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jammer.pilfershush.cityfreqs.com.pilfershushjammer.R;
-
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
     public static final String VERSION = "1.0.03";
@@ -262,15 +260,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // simple and understandable statements about app usage.
         entryLogger(getResources().getString(R.string.intro_1) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_2) + "\n", false);
-        entryLogger(getResources().getString(R.string.intro_3) + "\n\n", false);
+        entryLogger(getResources().getString(R.string.intro_3) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_4) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_5) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_6) + "\n", true);
     }
 
     private boolean initApplication() {
-        //entryLogger(getResources().getString(R.string.init_state_1) + VERSION  + "\n", true);
-
         introText();
 
         headsetReceiver = new HeadsetIntentReceiver();
@@ -334,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         notifyBuilder = new Notification.Builder(this);
 
-        notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_notify)
+        notifyBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("passive jamming running")
                 .setContentText("Tap to return to app")

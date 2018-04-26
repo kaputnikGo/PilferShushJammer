@@ -9,17 +9,13 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
 
-import jammer.pilfershush.cityfreqs.com.pilfershushjammer.R;
-
 public class PSJammerService extends Service {
     public static final String TAG = "PSJammer_service";
 
-    private PassiveJammer passiveJammer;
-    private AudioSettings audioSettings;
+    //TODO active jamming
 
-    public static final String START_PASSIVE_ACTION = "PSJammerService.action.startpassive";
-    public static final String STOP_PASSIVE_ACTION = "PSJammerService.action.stoppassive";
-
+    public static final String START_SERVICE_ACTION = "PSJammerService.action.start";
+    public static final String STOP_SERVICE_ACTION = "PSJammerService.action.stop";
 
     final int NOTIFICATION_ID = 1;
 
@@ -31,10 +27,10 @@ public class PSJammerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getAction().equals(START_PASSIVE_ACTION)) {
+        if (intent.getAction().equals(START_SERVICE_ACTION)) {
             processStartService();
         }
-        else if (intent.getAction().equals(STOP_PASSIVE_ACTION)) {
+        else if (intent.getAction().equals(STOP_SERVICE_ACTION)) {
             processStopService();
         }
         return START_STICKY;
@@ -55,10 +51,9 @@ public class PSJammerService extends Service {
         Notification.Builder builder = new Notification.Builder(getApplicationContext());
 
         builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.mipmap.ic_launcher_notify)
+                .setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher))
-                .setContentTitle("passive jamming running")
-                .setTicker("passive jamming running")
+                .setContentTitle("jamming service running")
                 .setContentText("Tap to return to app")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true);
