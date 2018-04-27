@@ -7,14 +7,14 @@ import java.nio.ByteBuffer;
 public class AudioSettings {
     // helper vars and defaults
     // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-    public static final int[] SAMPLE_RATES = new int[] {
-            48000, 44100, 22050, 16000, 11025, 8000 };
+    public static final int[] SAMPLE_RATES = new int[]{
+            48000, 44100, 22050, 16000, 11025, 8000};
 
-    public static final int[] POWERS_TWO_HIGH = new int[] {
-            512, 1024, 2048, 4096, 8192, 16384 };
+    public static final int[] POWERS_TWO_HIGH = new int[]{
+            512, 1024, 2048, 4096, 8192, 16384};
 
-    public static final int[] POWERS_TWO_LOW = new int[] {
-            2, 4, 8, 16, 32, 64, 128, 256 };
+    public static final int[] POWERS_TWO_LOW = new int[]{
+            2, 4, 8, 16, 32, 64, 128, 256};
 
     // vars for AudioRecord creation and use
     private int sampleRate;
@@ -39,6 +39,7 @@ public class AudioSettings {
     public void setEncoding(int encoding) {
         this.encoding = encoding;
     }
+
     public void setAudioSource(int audioSource) {
         this.audioSource = audioSource;
     }
@@ -46,9 +47,11 @@ public class AudioSettings {
     public int getSampleRate() {
         return sampleRate;
     }
+
     public int getBufferSize() {
         return bufferSize;
     }
+
     public int getEncoding() {
         return encoding;
     }
@@ -60,6 +63,7 @@ public class AudioSettings {
     public int getChannelCount() {
         return channelCount;
     }
+
     public int getAudioSource() {
         return audioSource;
     }
@@ -119,7 +123,7 @@ public class AudioSettings {
     public static byte[] toBytes(short s) {
         // convert shorts to bytes
         // Java short is a 16-bit type, and byte is an 8-bit type.
-        return new byte[]{(byte)(s & 0x00FF),(byte)((s & 0xFF00)>>8)};
+        return new byte[]{(byte) (s & 0x00FF), (byte) ((s & 0xFF00) >> 8)};
     }
 
     public static byte[] shortToByte(short[] arr) {
@@ -136,6 +140,7 @@ public class AudioSettings {
         double value = Math.pow(power, 0.5) / buffer.length;
         return 20.0 * Math.log10(value);
     }
+}
 
     /********************************************************************/
     /*
@@ -221,7 +226,5 @@ public static final int HOTWORD = 1999; //  always-on software hotword detection
 
  *
  */
-
-}
 
 

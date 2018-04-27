@@ -70,5 +70,4 @@ public class AudioChecker {
         MainActivity.entryLogger(context.getString(R.string.audio_check_1), true);
         return false;
     }
-
 }

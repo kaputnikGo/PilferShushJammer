@@ -12,7 +12,7 @@ import android.os.IBinder;
 public class PSJammerService extends Service {
     public static final String TAG = "PSJammer_service";
 
-    //TODO active jamming
+    //TODO active jamming as a service - use audio output whitenoise and hpf/bpf
 
     public static final String START_SERVICE_ACTION = "PSJammerService.action.start";
     public static final String STOP_SERVICE_ACTION = "PSJammerService.action.stop";
@@ -37,7 +37,6 @@ public class PSJammerService extends Service {
     }
 
     private void processStartService() {
-        //TODO check this huh
         //
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),

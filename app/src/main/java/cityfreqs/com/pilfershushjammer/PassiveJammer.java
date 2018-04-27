@@ -14,9 +14,6 @@ public class PassiveJammer {
     }
 
     protected boolean startPassiveJammer() {
-        // grab mic via AudioRecord object,
-        // zero the input
-        // battery use check, CPU use check
         if (audioRecord == null) {
             try {
                 audioRecord = new AudioRecord(audioSettings.getAudioSource(),
@@ -36,8 +33,6 @@ public class PassiveJammer {
         return false;
     }
 
-    // assumption:: only one api call can be made to the mic at a time
-
     protected boolean runPassiveJammer() {
         if ((audioRecord != null) || (audioRecord.getState() == AudioRecord.STATE_INITIALIZED)) {
             try {
@@ -53,10 +48,13 @@ public class PassiveJammer {
 
                 // check for initialising audioRecord
                 short buffer[] = new short[audioSettings.getBufferSize()];
+
+                // returns either 0, number of shorts read, or an error code - not audio data
                 int audioStatus = audioRecord.read(buffer, 0, audioSettings.getBufferSize());
                 // check for error on pre 6.x and 6.x API
                 if (audioStatus == AudioRecord.ERROR_INVALID_OPERATION) {
                     MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_4), true);
+                    // error from improper use of method
                     return false;
                 }
                 else  if (audioStatus == AudioRecord.STATE_UNINITIALIZED) {
@@ -86,6 +84,8 @@ public class PassiveJammer {
                       read += bytesRead;
                       return read;
                 */
+
+                // this line is here to demonstrate its typical use and its unavailability in this app.
 
                 /*
                 short[] tempBuffer = new short[audioSettings.getBufferSize()];;
