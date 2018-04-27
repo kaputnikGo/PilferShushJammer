@@ -12,8 +12,8 @@
     <string name="about_dialog_3">It is open source, available at github, for viewing and raising issues.</string>
     <string name="about_dialog_4">Part of ongoing Android audio counter-surveillance research.</string>
 
-    <string name="app_status_1">status: passive jamming running.</string>
-    <string name="app_status_2">status: passive jamming not running.</string>
+    <string name="app_status_1">status: passive jammer running.</string>
+    <string name="app_status_2">status: passive jammer not running.</string>
 
     <string name="intro_1">Android allows only one app to use the microphone at a time, however the system can override this.</string>
     <string name="intro_2">For instance when a phone call is being made. Or, possibly, if a voice assistant is enabled.</string>

@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "1.0.04";
+    public static final String VERSION = "1.0.05";
 
     // note:: API 23+ AudioRecord READ_BLOCKING const
 
@@ -166,8 +166,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // refocus app
         toggleHeadset(false); // default state at init
-        if (PASSIVE_RUNNING) {
-            // return from background etc
+
+        if (IRQ_TELEPHONY && PASSIVE_RUNNING) {
+            // return from background with state irq_telephony and passive_running
+            // check audio focus gain - in case user just checking state during call
+            if (audioFocusCheck() == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                // reset booleans to init state
+                PASSIVE_RUNNING = false;
+                IRQ_TELEPHONY = false;
+                runPassive();
+            }
+        }
+        else if (PASSIVE_RUNNING) {
+            // return from background without irq_telephony
             entryLogger(getResources().getString(R.string.app_status_1), true);
         }
         else {
@@ -182,13 +193,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // backgrounded, possible audio_focus loss due to telephony...
         // if so (AudioFocus LOSS_TRANSIENT etc) then toggle Jammer, save prefs
         unregisterReceiver(headsetReceiver);
-        interruptRequestAudio();
+
+        //interruptRequestAudio(99); // <-- this is unneeded here ??
+
+        // save state first
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         sharedPrefsEditor.commit();
-        // TODO work out if need to toggle jammer off (UI) due to irq_telephony
+        // then work out if need to toggle jammer off (UI) due to irq_telephony
+        if (PASSIVE_RUNNING && IRQ_TELEPHONY) {
+            // make UI conform to jammer override by system telephony
+            stopPassive();
+        }
     }
 
     @Override
@@ -344,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         notifyBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle("passive jamming running")
+                .setContentTitle("passive jammer running")
                 .setContentText("Tap to return to app")
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
@@ -356,14 +374,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         UTILITY FUNCTIONS
 
     */
-    private void interruptRequestAudio() {
-        // possible system app request audio focus, respond here
+    private void interruptRequestAudio(int focusChange) {
+        // possible system app request audio focus
         entryLogger(getResources().getString(R.string.audiofocus_check_5), true);
+        // may want to handle focus change reason differently in future
+        if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+            // total loss, focus abandoned
+        }
+        if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+            // system forced loss, assuming telephony
+            IRQ_TELEPHONY = true;
+        }
     }
 
-    private void audioFocusCheck() {
-        // this may not work as SDKs requesting focus may not get it cos we already have it?
-        // also: getting MIC access does not require getting AUDIO_FOCUS
+    private int audioFocusCheck() {
         entryLogger(getResources().getString(R.string.audiofocus_check_1), false);
         int result = audioManager.requestAudioFocus(audioFocusListener,
                 AudioManager.STREAM_MUSIC,
@@ -378,6 +402,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         else {
             entryLogger(getResources().getString(R.string.audiofocus_check_4), false);
         }
+        return result;
     }
 
     private void toggleHeadset(boolean hasHeadset) {
@@ -406,19 +431,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         // loss for unknown duration
                         entryLogger(getResources().getString(R.string.audiofocus_1), false);
                         audioManager.abandonAudioFocus(audioFocusListener);
-                        interruptRequestAudio();
+                        interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         // -2
                         // temporary loss ? API docs says a "transient loss"!
                         entryLogger(getResources().getString(R.string.audiofocus_2), false);
-                        interruptRequestAudio();
+                        interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         // -3
                         // loss to other audio source, this can duck for the short duration if it wants
+                        // can be system notification or ringtone sounds
                         entryLogger(getResources().getString(R.string.audiofocus_3), false);
-                        interruptRequestAudio();
+                        interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
                         // 0
