@@ -24,8 +24,7 @@ Adds a notification as a reminder for running while in background
  
  TODO:
  - full and proper testing
- - telephony response
- - user app whitelist
+ - telephony response: takes over microphone, Jammer to re-gain post call
  - active jamming
 
 # 2018 Kaputnik Go

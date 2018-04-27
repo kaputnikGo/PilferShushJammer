@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     //TODO ugly notification 0xffffff icon
     //TODO make clear in UI audioFocus is to do with output
 
+    // TODO telephony listener, respond with call start at GUI by toggle()
+    // TODO telephony listener, respond to call end with restart of jammer
+    // TODO telephony call causes AudioFocusListener-LOSS_TRANSIENT, may be enough to trigger without telephony listener
+
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_ID = 123;
 
