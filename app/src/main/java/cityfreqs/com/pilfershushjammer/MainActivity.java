@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private NotificationManager notifyManager;
     private Notification.Builder notifyBuilder;
     private boolean PASSIVE_RUNNING;
+    private boolean IRQ_TELEPHONY;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
@@ -156,7 +157,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onResume() {
         super.onResume();
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        // TODO from here work out if need to restart jamming
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
+        IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
 
         headsetFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(headsetReceiver, headsetFilter);
@@ -177,12 +180,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onPause() {
         super.onPause();
         // backgrounded, possible audio_focus loss due to telephony...
+        // if so (AudioFocus LOSS_TRANSIENT etc) then toggle Jammer, save prefs
         unregisterReceiver(headsetReceiver);
         interruptRequestAudio();
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
+        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         sharedPrefsEditor.commit();
+        // TODO work out if need to toggle jammer off (UI) due to irq_telephony
     }
 
     @Override
@@ -289,10 +295,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         passiveJammer = new PassiveJammer(this, audioSettings);
         PASSIVE_RUNNING = false;
+        IRQ_TELEPHONY = false;
 
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
+        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         sharedPrefsEditor.commit();
 
         createNotification();
