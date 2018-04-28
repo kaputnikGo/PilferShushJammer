@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "1.1.01";
+    public static final String VERSION = "1.1.02";
 
     // note:: API 23+ AudioRecord READ_BLOCKING const
 
@@ -166,11 +166,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // refocus app
         toggleHeadset(false); // default state at init
+        int status = audioFocusCheck();
 
         if (IRQ_TELEPHONY && PASSIVE_RUNNING) {
             // return from background with state irq_telephony and passive_running
-            // check audio focus gain - in case user just checking state during call
-            if (audioFocusCheck() == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // check audio focus status
+            if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                // reset booleans to init state
+                PASSIVE_RUNNING = false;
+                IRQ_TELEPHONY = false;
+                runPassive();
+            }
+            else if (status == AudioManager.AUDIOFOCUS_LOSS) {
+                // possible music player etc that has speaker focus but no need of microphone,
+                // can end up fighting for focus with music player,
+                // TODO may get an error from VOIP here.
                 // reset booleans to init state
                 PASSIVE_RUNNING = false;
                 IRQ_TELEPHONY = false;
@@ -183,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         else {
             entryLogger(getResources().getString(R.string.app_status_2), true);
-            audioFocusCheck();
         }
     }
 

@@ -13,8 +13,9 @@ Adds a notification as a reminder for running while in background .
 
 Responds (stop and restart jammer) to telephony audio focus LOSS_TRANSIENT and GAIN.
 
+Handle music player audio focus gain.
 
-   vers. 1.1.01
+   vers. 1.1.02
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)
