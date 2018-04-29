@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     //TODO ugly notification 0xffffff icon
     //TODO make clear in UI audioFocus is to do with output
 
-    // TODO telephony listener, respond with call start at GUI by toggle()
-    // TODO telephony listener, respond to call end with restart of jammer
-    // TODO telephony call causes AudioFocusListener-LOSS_TRANSIENT, may be enough to trigger without telephony listener
+    //TODO determine whether to rely only on audioFocus as auto-trigger for jammer
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_ID = 123;
@@ -157,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onResume() {
         super.onResume();
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
-        // TODO from here work out if need to restart jamming
+        // work out if need to restart jamming
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
 
@@ -200,10 +198,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onPause() {
         super.onPause();
         // backgrounded, possible audio_focus loss due to telephony...
-        // if so (AudioFocus LOSS_TRANSIENT etc) then toggle Jammer, save prefs
         unregisterReceiver(headsetReceiver);
-
-        //interruptRequestAudio(99); // <-- this is unneeded here ??
 
         // save state first
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
@@ -430,6 +425,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+    // currently, audioFocus listener is the only method of auto-triggering the jammer behaviour
     private void initAudioFocusListener() {
         audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
