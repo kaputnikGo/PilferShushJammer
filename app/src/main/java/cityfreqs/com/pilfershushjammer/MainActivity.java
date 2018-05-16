@@ -22,10 +22,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,9 +58,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private ToggleButton passiveJammerButton;
     private ToggleButton activeJammerButton;
     private Switch activeTypeSwitch;
-    private Switch testRangeSwitch;
-    private int activeTypeValue;
-    private boolean testRangeValue;
+    private boolean activeTypeValue;
+    private boolean modeSwitch; // to be an int for multiple types
+    private String[] jammerTypes;
 
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
@@ -128,25 +130,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         activeTypeSwitch = (Switch) findViewById(R.id.active_type_switch);
         activeTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               // activeTypeValue = isChecked;
                 if (isChecked) {
                     // ON position, whitenoise = 1
-                    activeTypeValue = AudioSettings.JAMMER_WHITE;
-                    //TODO check behaviour if ACTIVE_RUNNING
-
+                    activeTypeValue = true;//AudioSettings.JAMMER_WHITE == 1;
+                    //TODO check behaviours if ACTIVE_RUNNING
                 }
                 else {
                     // OFF position, tone = 0
-                    activeTypeValue = AudioSettings.JAMMER_TONE;
-                }
-            }
-        });
-
-        testRangeSwitch = (Switch) findViewById(R.id.test_range_switch);
-        testRangeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                testRangeValue = isChecked;
-                if (activeJammer != null) {
-                    activeJammer.setTestRangeSwitch(testRangeValue);
+                    activeTypeValue = false;//AudioSettings.JAMMER_TONE == 0;
                 }
             }
         });
@@ -279,12 +271,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            aboutDialog();
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_about:
+                aboutDialog();
+                return true;
+            case R.id.action_jammer:
+                jammerDialog();
+                return true;
+            default:
+                // do not consume the action
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /*
@@ -381,7 +378,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         //TODO test with fixed carrierFrequency
         activeJammer = new ActiveJammer(this, audioSettings);
-        activeJammer.setTestRangeSwitch(testRangeValue);
         activeJammer.setCarrierFrequency(audioSettings.CARRIER_TEST_FREQUENCY);
         ACTIVE_RUNNING = false;
 
@@ -429,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             ACTIVE_RUNNING = true;
             notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
             entryLogger(getResources().getString(R.string.main_scanner_5), false);
-            activeJammer.play(activeTypeValue);
+            activeJammer.play(activeTypeValue ? 1 : 0); // to change to proper int
             //toggleHeadset();
         }
     }
@@ -628,6 +624,118 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 alertDialog.cancel();
             }
         });
+
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void populateMenuItems() {
+        jammerTypes = new String[4];
+        jammerTypes[0] = getResources().getString(R.string.jammer_dialog_2);
+        jammerTypes[1] = getResources().getString(R.string.jammer_dialog_3);
+        jammerTypes[2] = getResources().getString(R.string.jammer_dialog_4);
+        jammerTypes[3] = getResources().getString(R.string.jammer_dialog_5);
+    }
+
+    private void jammerDialog() {
+        //TODO options and brief description for the jammer types
+        populateMenuItems();
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setItems(jammerTypes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int which) {
+                // types listing as above
+                // other user input needed for the below options
+                switch(which) {
+                    case 0:
+                        activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_TEST);
+                        entryLogger("Jammer type changed to " + jammerTypes[which], false);
+                        break;
+                    case 1:
+                        activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_NUHF);
+                        entryLogger("Jammer type changed to " + jammerTypes[which], false);
+                        break;
+                    case 2:
+                        defaultRangedDialog();
+                        break;
+                    case 3:
+                        userRangedDialog();
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        });
+        dialogBuilder.setTitle(R.string.jammer_dialog_1);
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+    private void defaultRangedDialog() {
+        // open dialog with field for carrierfrequency
+        dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.default_ranged_form, null);
+        dialogBuilder.setView(inputView);
+        final EditText userCarrierInput = (EditText) inputView.findViewById(R.id.carrier_input);
+
+        dialogBuilder.setTitle(R.string.jammer_dialog_4);
+
+        dialogBuilder
+                .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        int userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        activeJammer.setUserCarrier(userInputCarrier);
+                        activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
+                        entryLogger("Jammer type changed to 1000Hz drift with carrier at " + userInputCarrier, false);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
+
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+    private void userRangedDialog() {
+        // open dialog with 2 fields - carrier and limit
+        dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.user_ranged_form, null);
+        dialogBuilder.setView(inputView);
+
+        final EditText userCarrierInput = (EditText) inputView.findViewById(R.id.carrier_input);
+        final EditText userLimitInput = (EditText) inputView.findViewById(R.id.limit_input);
+
+        dialogBuilder.setTitle(R.string.jammer_dialog_5);
+
+        dialogBuilder
+                .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        int userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        int userInputLimit = Integer.parseInt(userLimitInput.getText().toString());
+
+                        activeJammer.setUserCarrier(userInputCarrier);
+                        activeJammer.setUserLimit(userInputLimit);
+                        activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_USER_RANGED);
+                        entryLogger("Jammer type changed to " + userInputLimit + " Hz drift with carrier at " + userInputCarrier, false);
+
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
 
         alertDialog = dialogBuilder.create();
         alertDialog.show();

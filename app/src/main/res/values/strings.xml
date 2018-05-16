@@ -5,12 +5,27 @@
     <string name="app_name">PilferShush Jammer</string>
     <string name="debug_text">app status...</string>
     <string name="action_about">About</string>
+    <string name="action_jammer">Active Jammer Settings</string>
 
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
     <string name="about_dialog_2">This is an experimental app designed to unobtrusively block unwanted, hidden use of the onboard microphone.</string>
     <string name="about_dialog_3">It is open source, available at github, for viewing and raising issues.</string>
     <string name="about_dialog_4">Part of ongoing Android audio counter-surveillance research.</string>
+
+    <string name="jammer_dialog_1">Change active jammer signal type.</string>
+    <string name="jammer_dialog_2">Audible tone drift (~440Hz)</string>
+    <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>
+    <string name="jammer_dialog_4">1000Hz NUHF drift with user carrier</string>
+    <string name="jammer_dialog_5">User NUHF drift with user carrier</string>
+
+    <string name="jammer_dialog_6">Carrier frequency (18kHz - 24kHz):</string>
+    <string name="jammer_dialog_7">Jammer output within 1000 Hz either side of carrier.</string>
+    <string name="jammer_dialog_8">19000</string>
+    <string name="jammer_dialog_9">Range limit (Hz) either side of the carrier.</string>
+    <string name="jammer_dialog_10">1000</string>
+    <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
+
 
     <string name="app_status_1">status: passive jammer running.</string>
     <string name="app_status_2">status: passive jammer not running.</string>

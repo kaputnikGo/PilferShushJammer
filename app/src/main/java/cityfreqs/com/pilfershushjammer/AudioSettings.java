@@ -32,6 +32,11 @@ public class AudioSettings {
     public static final int JAMMER_TONE = 0;
     public static final int JAMMER_WHITE = 1;
 
+    public static final int JAMMER_TYPE_TEST = 0; // only test tone drift
+    public static final int JAMMER_TYPE_NUHF = 1;
+    public static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
+    public static final int JAMMER_TYPE_USER_RANGED = 3;
+
 
     // vars for AudioRecord and AudioTrack creation and use
     private int sampleRate;
@@ -140,30 +145,38 @@ public class AudioSettings {
      * Utilities, that may be useful...
      *
      */
-    public static int getTestValue() {
+    public static int getTestDrift() {
         return new Random().nextInt(MAXIMUM_TEST_FREQUENCY
                 - MINIMUM_TEST_FREQUENCY)
                 + MINIMUM_TEST_FREQUENCY;
     }
 
-    public static int getNuhfValue() {
+    public static int getNuhfDrift() {
         return new Random().nextInt(MAXIMUM_NUHF_FREQUENCY
                 - MINIMUM_NUHF_FREQUENCY)
                 + MINIMUM_NUHF_FREQUENCY;
     }
 
-    public static int getDefaultRangedValue(int carrierFrequency) {
+    public static int getDefaultRangedDrift(int carrierFrequency) {
         int min = conformMinimumRangedValue(carrierFrequency - DEFAULT_RANGE_DRIFT_LIMIT);
         int max = conformMaximumRangedValue(carrierFrequency + DEFAULT_RANGE_DRIFT_LIMIT);
 
         return new Random().nextInt(max - min) + min;
     }
 
-    public static int getUserRangedValue(int carrierFrequency, int limit) {
+    // carrier should be between 18k - 24k
+    public static int getUserRangedDrift(int carrierFrequency, int limit) {
+        carrierFrequency = conformCarrierFrequency(carrierFrequency);
         int min = conformMinimumRangedValue(carrierFrequency - limit);
         int max = conformMaximumRangedValue(carrierFrequency + limit);
 
         return new Random().nextInt(max - min) + min;
+    }
+
+    public static int conformCarrierFrequency(int carrier) {
+        if (carrier < MINIMUM_NUHF_FREQUENCY) carrier = MINIMUM_NUHF_FREQUENCY;
+        if (carrier > MAXIMUM_NUHF_FREQUENCY) carrier = MAXIMUM_NUHF_FREQUENCY;
+        return carrier;
     }
 
     public static int conformMinimumRangedValue(int minValue) {

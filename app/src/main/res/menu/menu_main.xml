@@ -4,7 +4,13 @@
     tools:context="jammer.pilfershush.cityfreqs.com.pilfershushjammer.cityfreqs.com.pilfershushjammer.MainActivity">
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="100"
+        android:orderInCategory="10"
         android:title="@string/action_about"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_jammer"
+        android:orderInCategory="20"
+        android:title="@string/action_jammer"
         app:showAsAction="never" />
 </menu>

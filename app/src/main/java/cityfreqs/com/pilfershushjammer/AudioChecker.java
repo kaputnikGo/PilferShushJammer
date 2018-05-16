@@ -53,7 +53,7 @@ public class AudioChecker {
                                     buffSize);
 
                             if (recorder.getState() == AudioRecord.STATE_INITIALIZED) {
-                                MainActivity.entryLogger("rate: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
+                                MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
                                 // set found values
                                 // AudioRecord.getChannelCount() is number of input audio channels (1 is mono, 2 is stereo)
                                 sampleRate = rate;

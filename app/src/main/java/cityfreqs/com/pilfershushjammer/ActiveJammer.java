@@ -19,17 +19,22 @@ public class ActiveJammer {
 
     private AudioTrack audioTrack;
     private boolean isPlaying;
-    private boolean testRangeSwitch;
     private int audioSessionId;
     private Equalizer equalizer;
+    private int jammerTypeSwitch;
+    private int userCarrier;
+    private int userLimit;
 
     private Thread jammerThread;
 
     public ActiveJammer(Context context, AudioSettings audioSettings) {
         this.context = context;
         this.audioSettings = audioSettings;
-        testRangeSwitch = false;
         audioSessionId = 0;
+        // defaults
+        jammerTypeSwitch = 0;
+        userCarrier = 21000;
+        userLimit = 1000;
 
         resetActiveJammer();
     }
@@ -73,7 +78,6 @@ public class ActiveJammer {
         // 0 - 100
         this.volume = volume;
     }
-
     public int getVolume() {
         return volume;
     }
@@ -82,20 +86,15 @@ public class ActiveJammer {
         // 0.0f - 1.0f
         this.amplitude = amplitude;
     }
-
     public float getAmplitude() {
         return amplitude;
     }
 
-    public double getCarrierFrequency() {
-        return carrierFrequency;
+    public void setJammerTypeSwitch(int jammerTypeSwitch) {
+        this.jammerTypeSwitch = jammerTypeSwitch;
     }
-
-    public void setTestRangeSwitch(boolean testRangeSwitch) {
-        this.testRangeSwitch = testRangeSwitch;
-    }
-    public boolean getTestRangeSwitch() {
-        return testRangeSwitch;
+    public int getJammerTypeSwitch() {
+        return jammerTypeSwitch;
     }
 
     public int getAudioSessionId() {
@@ -113,13 +112,29 @@ public class ActiveJammer {
             this.carrierFrequency = carrierFrequency;
         }
     }
+    public double getCarrierFrequency() {
+        return carrierFrequency;
+    }
 
     public void setMaximumDeviceFrequencyOverride(boolean override) {
         maximumDeviceFrequencyOverride = override;
     }
-
     public boolean getMaximumDeviceFrequencyOverride() {
         return maximumDeviceFrequencyOverride;
+    }
+
+    public void setUserCarrier(int userCarrier) {
+        this.userCarrier = userCarrier;
+    }
+    public int getUserCarrier() {
+        return userCarrier;
+    }
+
+    public void setUserLimit(int userLimit) {
+        this.userLimit = userLimit;
+    }
+    public int getUserLimit() {
+        return userLimit;
     }
 
     /*
@@ -183,24 +198,37 @@ public class ActiveJammer {
         }
     }
 
+    private synchronized int loadDriftTone() {
+        switch (jammerTypeSwitch) {
+            case AudioSettings.JAMMER_TYPE_TEST:
+                return AudioSettings.getTestDrift();
+
+            case AudioSettings.JAMMER_TYPE_NUHF:
+                return AudioSettings.getNuhfDrift();
+
+            case AudioSettings.JAMMER_TYPE_DEFAULT_RANGED:
+                return AudioSettings.getDefaultRangedDrift(userCarrier);
+
+            case AudioSettings.JAMMER_TYPE_USER_RANGED:
+                return AudioSettings.getUserRangedDrift(userCarrier, userLimit);
+
+            default:
+                return AudioSettings.getTestDrift();
+        }
+    }
+
     private synchronized void createTone() {
         //TODO UI controls
-        // change testRangeSwitch boolean to an int for different drift modes
         double sample[] = new double[audioSettings.getSampleRate()];
         byte soundData[] = new byte[2 * audioSettings.getSampleRate()];
 
-        int driftFreq;
-        if (testRangeSwitch)
-            driftFreq = AudioSettings.getTestValue();
-        else
-            driftFreq = AudioSettings.getNuhfValue();
-
-        // TODO different modes here:
-        // driftFreq = (int)carrierFrequency;
-        // driftFreq = AudioSettings.getDefaultRangedValue(int carrierFrequency)
-        // driftFreq = AudioSettings.getUserRangedValue(int carrierFrequency, int limit)
-
+        // driftFreq = (int)carrierFrequency; <- this too??
+        int driftFreq = loadDriftTone();
+        // every 1000th iteration get a new drift freq (48k rate / 1000ms)
         for (int i = 0; i < audioSettings.getSampleRate(); ++i) {
+            if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % 1000 == 0) {
+                driftFreq = loadDriftTone();
+            }
             sample[i] = Math.sin(
                     driftFreq * 2 * Math.PI * i / (audioSettings.getSampleRate()));
         }
