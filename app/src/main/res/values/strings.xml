@@ -19,8 +19,9 @@
     <string name="intro_2">For instance when a phone call is being made. Or, possibly, if a voice assistant is enabled.</string>
     <string name="intro_3">Some apps use the microphone to listen to tracking signals that are inaudible to human hearing.</string>
     <string name="intro_4">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
-    <string name="intro_5">It does this via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
-    <string name="intro_6">This app does NOT listen to or record any of the audio from the microphone.</string>
+    <string name="intro_5">Firstly, via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
+    <string name="intro_6">This app does NOT listen to or record any of the audio from the microphone during this.</string>
+    <string name="intro_7">Also an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
 
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -30,14 +31,22 @@
     <string name="main_scanner_2">Passive</string>
     <string name="main_scanner_3">Running passive jamming...</string>
     <string name="main_scanner_4">Stop passive jamming.</string>
+    <string name="main_scanner_5">Running active jamming...</string>
+    <string name="main_scanner_6">Stop active jamming.</string>
 
-    <string name="audio_check_1">determine internal audio failure.</string>
+    <string name="audio_check_pre_1">Checking for best audio record type.</string>
+    <string name="audio_check_pre_2">\nChecking for best audio output type.</string>
+    <string name="audio_check_1">Determine record audio type failure.</string>
+    <string name="audio_check_2">Unable to initiate audio output function, can still block microphone.</string>
+    <string name="audio_check_3">Error: No audioSettings object found.</string>
+    <string name="audio_check_4">Exception error initialising audioTrack.</string>
+    <string name="audio_check_5">Setting maximum frequency to device limit:\u0020</string>
 
     <string name="perms_state_1">Record Audio</string>
     <string name="perms_state_2">Permissions request to access microphone:\u0020</string>
     <string name="perms_state_3">Permissions denied, unable to use this app.</string>
 
-    <string name="headset_state_1">Headset is unplugged, mute output</string>
+    <string name="headset_state_1">No headset found</string>
     <string name="headset_state_2">Headset is plugged in.</string>
     <string name="headset_state_3">Headset state unknown</string>
 
@@ -70,4 +79,12 @@
     <string name="passive_state_8">Passive Jammer audio record failed to init.</string>
     <string name="passive_state_9">Passive Jammer stop and release.</string>
     <string name="passive_state_10">Passive Jammer not running.</string>
+
+    <!--
+    ActiveJammer.java
+    -->
+    <string name="active_state_1">threadPlay run exception.</string>
+    <string name="active_state_2">stopPlayer thread exception.</string>
+    <string name="active_state_3">stopPlayer audioTrack exception.</string>
+
 </resources>

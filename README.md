@@ -1,7 +1,7 @@
 # PilferShush Jammer
-Android microphone checker and passive jamming application.  
+Android microphone checker and jamming application.  
 
-Test application for low battery requirement microphone jamming.
+Test application for low battery requirement microphone passive jamming.
 
 Calls audioRecord.startRecording() but DOES NOT READ THE AUDIO BUFFER.
 
@@ -15,7 +15,11 @@ Responds (stop and restart jammer) to telephony audio focus LOSS_TRANSIENT and G
 
 Handle music player audio focus gain.
 
-   vers. 1.1.02
+Tested and blocks Google Voice search (user) app.
+
+Adding active jammer - tone and white noise versions.
+
+   vers. 2.0.03
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)
@@ -28,8 +32,9 @@ Handle music player audio focus gain.
    - DEV : s5 G900I (tainted) 7.1.2 (25)(LineageOS 14.1, GApps)
  
  TODO:
+ - refine active jammer
+ - app behaviours with active/passive jammers running
  - full and proper testing ( incl. VOIP ? )
- - active jamming
 
 # 2018 Kaputnik Go
 

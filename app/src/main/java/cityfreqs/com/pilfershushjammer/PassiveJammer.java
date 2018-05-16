@@ -4,9 +4,9 @@ import android.content.Context;
 import android.media.AudioRecord;
 
 public class PassiveJammer {
-    Context context;
-    AudioSettings audioSettings;
-    AudioRecord audioRecord;
+    private Context context;
+    private AudioSettings audioSettings;
+    private AudioRecord audioRecord;
 
     public PassiveJammer(Context context, AudioSettings audioSettings) {
         this.context = context;
@@ -18,9 +18,9 @@ public class PassiveJammer {
             try {
                 audioRecord = new AudioRecord(audioSettings.getAudioSource(),
                         audioSettings.getSampleRate(),
-                        audioSettings.getChannelConfig(),
+                        audioSettings.getChannelInConfig(),
                         audioSettings.getEncoding(),
-                        audioSettings.getBufferSize());
+                        audioSettings.getBufferInSize());
 
                 MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_1), false);
                 return true;
@@ -47,10 +47,10 @@ public class PassiveJammer {
                 MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_3), false);
 
                 // check for initialising audioRecord
-                short buffer[] = new short[audioSettings.getBufferSize()];
+                short buffer[] = new short[audioSettings.getBufferInSize()];
 
                 // returns either 0, number of shorts read, or an error code - not audio data
-                int audioStatus = audioRecord.read(buffer, 0, audioSettings.getBufferSize());
+                int audioStatus = audioRecord.read(buffer, 0, audioSettings.getBufferInSize());
                 // check for error on pre 6.x and 6.x API
                 if (audioStatus == AudioRecord.ERROR_INVALID_OPERATION) {
                     MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_4), true);

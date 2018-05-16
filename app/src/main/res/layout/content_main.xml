@@ -42,6 +42,36 @@
             android:textAllCaps="false"
             android:textOff="@string/main_scanner_2" />
 
+        <ToggleButton
+            android:id="@+id/run_active_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="26dp"
+            android:layout_marginStart="11dp"
+            android:text="Active"
+            android:textAllCaps="false"
+            android:textOff="@string/main_scanner_1" />
+
+        <Switch
+            android:id="@+id/active_type_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/run_passive_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="108dp"
+            android:checked="false"
+            android:text="Noise" />
+
+        <Switch
+            android:id="@+id/test_range_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/active_type_switch"
+            android:layout_alignEnd="@+id/active_type_switch"
+            android:text="Test" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
