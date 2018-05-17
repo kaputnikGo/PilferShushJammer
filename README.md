@@ -19,7 +19,7 @@ Tested and blocks Google Voice search (user) app.
 
 Added active jammer - tone and white noise versions.
 
-   vers. 2.0.04
+   vers. 2.0.05
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)

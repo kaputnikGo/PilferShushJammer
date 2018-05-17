@@ -32,10 +32,10 @@ public class ActiveJammer {
         this.audioSettings = audioSettings;
         audioSessionId = 0;
         // defaults
-        jammerTypeSwitch = AudioSettings.JAMMER_TYPE_TEST;
-        userCarrier = 21000;
-        userLimit = 1000;
-        driftSpeed = AudioSettings.DEFAULT_DRIFT_SPEED;
+        jammerTypeSwitch = audioSettings.JAMMER_TYPE_TEST;
+        userCarrier = audioSettings.CARRIER_NUHF_FREQUENCY;
+        userLimit = audioSettings.DEFAULT_DRIFT_SPEED;
+        driftSpeed = audioSettings.DEFAULT_DRIFT_SPEED;
 
         resetActiveJammer();
     }

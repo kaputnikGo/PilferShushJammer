@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="cityfreqs.com.pilfershushjammer.PSJammerService"
-            android:exported="false" />
     </application>
 
 </manifest>
