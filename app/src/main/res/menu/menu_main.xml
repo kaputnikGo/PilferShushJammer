@@ -13,4 +13,11 @@
         android:orderInCategory="20"
         android:title="@string/action_jammer"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_drift_speed"
+        android:orderInCategory="30"
+        android:title="@string/action_drift_speed"
+        app:showAsAction="never" />
+
 </menu>

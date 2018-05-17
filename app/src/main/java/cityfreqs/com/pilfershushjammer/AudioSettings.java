@@ -29,6 +29,7 @@ public class AudioSettings {
 
     public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
     public static final int DEFAULT_DRIFT_SPEED = 1000;
+    public static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
     public static final int JAMMER_TONE = 0;
     public static final int JAMMER_WHITE = 1;

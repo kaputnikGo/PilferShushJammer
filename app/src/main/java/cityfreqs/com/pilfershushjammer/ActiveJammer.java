@@ -130,6 +130,11 @@ public class ActiveJammer {
     }
 
     public void setDriftSpeed(int driftSpeed) {
+        //TODO
+        // is 1 - 10, then * 1000
+        if (driftSpeed < 1) driftSpeed = 1;
+        if (driftSpeed > 10) driftSpeed = 10;
+        driftSpeed *= audioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
         this.driftSpeed = driftSpeed;
     }
     public int getDriftSpeed() {

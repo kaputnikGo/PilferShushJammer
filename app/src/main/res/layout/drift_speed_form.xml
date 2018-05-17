@@ -5,22 +5,22 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/carrier_input_text"
+        android:id="@+id/drift_input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/jammer_dialog_6" />
+        android:text="@string/drift_dialog_1" />
 
     <EditText
-        android:id="@+id/carrier_input"
-        android:layout_below="@id/carrier_input_text"
+        android:id="@+id/drift_input"
+        android:layout_below="@id/drift_input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="2dp"
-        android:hint="@string/jammer_dialog_8"
+        android:hint="@string/drift_dialog_2"
         android:inputType="number">
 
         <requestFocus />
@@ -28,10 +28,10 @@
 
     <TextView
         android:id="@+id/constrain_text"
-        android:layout_below="@id/carrier_input"
+        android:layout_below="@id/drift_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/jammer_dialog_11" />
+        android:text="@string/drift_dialog_3" />
 
 </LinearLayout>

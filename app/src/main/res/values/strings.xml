@@ -6,6 +6,7 @@
     <string name="debug_text">app status...</string>
     <string name="action_about">About</string>
     <string name="action_jammer">Active Jammer Settings</string>
+    <string name="action_drift_speed">Drift Speed Settings</string>
 
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
@@ -25,6 +26,10 @@
     <string name="jammer_dialog_9">Range limit (Hz) either side of the carrier.</string>
     <string name="jammer_dialog_10">1000</string>
     <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
+
+    <string name="drift_dialog_1">Drift speed (1-10)</string>
+    <string name="drift_dialog_2">1</string>
+    <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
 
 
     <string name="app_status_1">status: passive jammer running,</string>

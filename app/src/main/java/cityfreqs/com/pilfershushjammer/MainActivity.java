@@ -44,10 +44,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     // note:: API 23+ AudioRecord READ_BLOCKING const
 
-    //TODO add headset toggleButton
     //TODO ugly notification 0xffffff icon
-    //TODO make clear in UI audioFocus is to do with output
-
     //TODO determine whether to rely only on audioFocus as auto-trigger for jammer
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
@@ -220,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             else if (status == AudioManager.AUDIOFOCUS_LOSS) {
                 // possible music player etc that has speaker focus but no need of microphone,
                 // can end up fighting for focus with music player,
-                // TODO may get an error from VOIP here.
+                // TODO test for an error from VOIP here.
                 // reset booleans to init state
                 PASSIVE_RUNNING = false;
                 IRQ_TELEPHONY = false;
@@ -261,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // make UI conform to jammer override by system telephony
             stopPassive();
         }
-        //TODO ACTIVE state stop and reset UI
         if (ACTIVE_RUNNING && IRQ_TELEPHONY) {
             // make UI conform
             stopActive();
@@ -289,6 +285,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 return true;
             case R.id.action_jammer:
                 jammerDialog();
+                return true;
+            case R.id.action_drift_speed:
+                speedDriftDialog();
                 return true;
             default:
                 // do not consume the action
@@ -432,7 +431,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void runActive() {
-        //TODO
         if (activeJammer != null && ACTIVE_RUNNING == false) {
             // run it
             ACTIVE_RUNNING = true;
@@ -443,7 +441,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void stopActive() {
-        //TODO
         if (activeJammer != null && ACTIVE_RUNNING == true) {
             // stop it
             ACTIVE_RUNNING = false;
@@ -643,7 +640,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void jammerDialog() {
-        //TODO options and brief description for the jammer types
         dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setItems(jammerTypes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int which) {
@@ -741,6 +737,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     }
                 });
 
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void speedDriftDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.drift_speed_form, null);
+        dialogBuilder.setView(inputView);
+
+        final EditText userDriftInput = (EditText) inputView.findViewById(R.id.drift_input);
+
+        dialogBuilder.setTitle(R.string.drift_dialog_1);
+        dialogBuilder.setMessage("");
+        dialogBuilder
+                .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        int userInputDrift = Integer.parseInt(userDriftInput.getText().toString());
+                        activeJammer.setDriftSpeed(userInputDrift);
+                        entryLogger("Jammer drift speed changed to " + userInputDrift, false);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
         alertDialog = dialogBuilder.create();
         alertDialog.show();
     }

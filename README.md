@@ -17,9 +17,9 @@ Handle music player audio focus gain.
 
 Tested and blocks Google Voice search (user) app.
 
-Adding active jammer - tone and white noise versions.
+Added active jammer - tone and white noise versions.
 
-   vers. 2.0.03
+   vers. 2.0.04
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)
@@ -32,9 +32,8 @@ Adding active jammer - tone and white noise versions.
    - DEV : s5 G900I (tainted) 7.1.2 (25)(LineageOS 14.1, GApps)
  
  TODO:
- - refine active jammer
  - app behaviours with active/passive jammers running
- - full and proper testing ( incl. VOIP ? )
+ - full and proper testing ( incl. VOIP )
 
 # 2018 Kaputnik Go
 
