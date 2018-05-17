@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.03"; // active jammer version
+    public static final String VERSION = "2.0.04"; // active jammer version
 
     // note:: API 23+ AudioRecord READ_BLOCKING const
 
