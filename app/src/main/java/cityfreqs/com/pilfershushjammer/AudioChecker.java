@@ -103,28 +103,30 @@ public class AudioChecker {
                                 buffSize,
                                 AudioTrack.MODE_STREAM);
 
-                        if (audioTrack != null && audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
-                            MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
-                            // set output values
-                            // buffOutSize may not be same as buffInSize conformed to powersOfTwo
-                            audioSettings.setChannelOutConfig(this.channelOutConfig = channelOutConfig);
-                            audioSettings.setBufferOutSize(bufferOutSize = buffSize);
+                        if (audioTrack != null) {
+                            if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
 
-                            // test onboardEQ
-                            MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
-                            if (testOnboardEQ(audioTrack.getAudioSessionId())) {
-                                MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
-                                // set a thing somewhere so that active jammer can use it
-                                // add settings to AudioSettings
-                            }
-                            else {
-                                MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
-                            }
+                                MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
+                                // set output values
+                                // buffOutSize may not be same as buffInSize conformed to powersOfTwo
+                                audioSettings.setChannelOutConfig(this.channelOutConfig = channelOutConfig);
+                                audioSettings.setBufferOutSize(bufferOutSize = buffSize);
 
-                            audioTrack.pause();
-                            audioTrack.flush();
-                            audioTrack.release();
-                            return true;
+                                // test onboardEQ
+                                MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
+                                if (testOnboardEQ(audioTrack.getAudioSessionId())) {
+                                    MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
+                                    // set a thing somewhere so that active jammer can use it
+                                    // add settings to AudioSettings
+                                } else {
+                                    MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
+                                }
+
+                                audioTrack.pause();
+                                audioTrack.flush();
+                                audioTrack.release();
+                                return true;
+                            }
                         }
                     }
                     catch (Exception e) {
@@ -137,7 +139,7 @@ public class AudioChecker {
         return false;
     }
 
-    //TODO testing android/media/audiofx/Equalizer
+    // testing android/media/audiofx/Equalizer
     // idea is to make the whitenoise less annoying
     private boolean testOnboardEQ(int audioSessionId) {
         try {
@@ -146,7 +148,6 @@ public class AudioChecker {
             audioSettings.setHasEQ(true);
             // get some info
             short bands = equalizer.getNumberOfBands();
-            audioSettings.setBandsEQ(bands);
             final short minEQ = equalizer.getBandLevelRange()[0]; // returns milliBel
             final short maxEQ = equalizer.getBandLevelRange()[1];
 
@@ -154,11 +155,10 @@ public class AudioChecker {
             MainActivity.entryLogger("EQ min mB: " + minEQ, false);
             MainActivity.entryLogger("EQ max mB: " + maxEQ, false);
 
-            for (short i = 0; i < bands; i++) {
-                final short band = i;
+            for (short band = 0; band < bands; band++) {
                 // divide by 1000 to get numbers into recognisable ranges
                 MainActivity.entryLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
-                MainActivity.entryLogger("Band " + i + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
+                MainActivity.entryLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
                 MainActivity.entryLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
                 // band 5 reports center freq: 14kHz, minrange: 7000 and maxrange: 0  <- is this infinity? uppermost limit?
                 // could be 21kHz if report standard of same min to max applies.

@@ -11,53 +11,50 @@ public class ActiveJammer {
     private Context context;
     private AudioSettings audioSettings;
 
-    private double carrierFrequency;
+    //private double carrierFrequency;
     private float amplitude;
-    private double maximumDeviceFrequency;
-    private boolean maximumDeviceFrequencyOverride;
+    //private double maximumDeviceFrequency;
+    //private boolean maximumDeviceFrequencyOverride;
 
     private AudioTrack audioTrack;
     private boolean isPlaying;
-    private int audioSessionId;
-    private Equalizer equalizer;
     private int jammerTypeSwitch;
     private int userCarrier;
     private int userLimit;
     private int driftSpeed;
+    private boolean eqOn;
 
     private Thread jammerThread;
 
     public ActiveJammer(Context context, AudioSettings audioSettings) {
         this.context = context;
         this.audioSettings = audioSettings;
-        audioSessionId = 0;
+        eqOn = false;
         // defaults
-        jammerTypeSwitch = audioSettings.JAMMER_TYPE_TEST;
-        userCarrier = audioSettings.CARRIER_NUHF_FREQUENCY;
-        userLimit = audioSettings.DEFAULT_DRIFT_SPEED;
-        driftSpeed = audioSettings.DEFAULT_DRIFT_SPEED;
+        jammerTypeSwitch = AudioSettings.JAMMER_TYPE_TEST;
+        userCarrier = AudioSettings.CARRIER_NUHF_FREQUENCY;
+        userLimit = AudioSettings.DEFAULT_DRIFT_SPEED;
+        driftSpeed = AudioSettings.DEFAULT_DRIFT_SPEED;
 
         resetActiveJammer();
     }
 
-    public void resetActiveJammer() {
+    private void resetActiveJammer() {
         amplitude = 1.0f;
         audioTrack = null;
         isPlaying = false;
 
-        // device unique
+        // device unique, override reported maximum frequency?
         // ie. if sampleRate found is 22kHz, try run over it anyway
-        // TODO - hard value, not the sampleRate * 0.5 as it is so far, below can be a default?
-        maximumDeviceFrequency = audioSettings.getSampleRate() * 0.5;
-        maximumDeviceFrequencyOverride = false;
+        //maximumDeviceFrequency = audioSettings.getSampleRate() * 0.5;
+        //maximumDeviceFrequencyOverride = false;
     }
 
     /*
         PUBLIC CONTROLS
      */
     public void play(int type) {
-        //TODO add control to manually sweep carrierFrequency?
-        // or an FFT to find key NUHF freq in the environment and tune jammer to it...
+        // FFT to find key NUHF freq in the environment and tune jammer to it?
         if (isPlaying) {
             return;
         }
@@ -74,14 +71,6 @@ public class ActiveJammer {
         stopPlayer();
     }
 
-    public void setAmplitude(float amplitude) {
-        // 0.0f - 1.0f
-        this.amplitude = amplitude;
-    }
-    public float getAmplitude() {
-        return amplitude;
-    }
-
     public void setJammerTypeSwitch(int jammerTypeSwitch) {
         this.jammerTypeSwitch = jammerTypeSwitch;
     }
@@ -89,11 +78,8 @@ public class ActiveJammer {
         return jammerTypeSwitch;
     }
 
-    public int getAudioSessionId() {
-        return audioSessionId;
-    }
-
-    public void setCarrierFrequency(double carrierFrequency) {
+    /*
+    public void setCarrierFrequency5(double carrierFrequency) {
         // allow option/switch to override device reported maximum
         if (carrierFrequency > maximumDeviceFrequency && !maximumDeviceFrequencyOverride) {
             // note this, and restrict:
@@ -107,38 +93,32 @@ public class ActiveJammer {
     public double getCarrierFrequency() {
         return carrierFrequency;
     }
-
     public void setMaximumDeviceFrequencyOverride(boolean override) {
         maximumDeviceFrequencyOverride = override;
     }
     public boolean getMaximumDeviceFrequencyOverride() {
         return maximumDeviceFrequencyOverride;
     }
+    */
 
     public void setUserCarrier(int userCarrier) {
         this.userCarrier = userCarrier;
-    }
-    public int getUserCarrier() {
-        return userCarrier;
     }
 
     public void setUserLimit(int userLimit) {
         this.userLimit = userLimit;
     }
-    public int getUserLimit() {
-        return userLimit;
-    }
 
     public void setDriftSpeed(int driftSpeed) {
-        //TODO
         // is 1 - 10, then * 1000
         if (driftSpeed < 1) driftSpeed = 1;
         if (driftSpeed > 10) driftSpeed = 10;
-        driftSpeed *= audioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
+        driftSpeed *= AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
         this.driftSpeed = driftSpeed;
     }
-    public int getDriftSpeed() {
-        return driftSpeed;
+
+    public void setEqOn(boolean eqOn) {
+        this.eqOn = eqOn;
     }
 
     /*
@@ -158,7 +138,7 @@ public class ActiveJammer {
 
                     audioTrack.setStereoVolume(amplitude, amplitude);
 
-                    if (audioSettings.getHasEQ()) {
+                    if (audioSettings.getHasEQ() && eqOn) {
                         onboardEQ(audioTrack.getAudioSessionId());
                     }
 
@@ -222,7 +202,6 @@ public class ActiveJammer {
     }
 
     private synchronized void createTone() {
-        //TODO UI controls
         double sample[] = new double[audioSettings.getSampleRate()];
         byte soundData[] = new byte[2 * audioSettings.getSampleRate()];
 
@@ -273,7 +252,6 @@ public class ActiveJammer {
             }
             else {
                 MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_3), true);
-                return;
             }
         }
         catch (Exception e) {
@@ -285,7 +263,7 @@ public class ActiveJammer {
     // this works reasonably well for the tone, but not whitenoise.
     private void onboardEQ(int audioSessionId) {
         try {
-            equalizer = new Equalizer(0, audioSessionId);
+            Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
             short bands = equalizer.getNumberOfBands();
             final short minEQ = equalizer.getBandLevelRange()[0];

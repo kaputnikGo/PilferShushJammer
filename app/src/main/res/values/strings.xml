@@ -36,6 +36,8 @@
     <string name="app_status_2">status: passive jammer not running,</string>
     <string name="app_status_3">active jammer running.</string>
     <string name="app_status_4">active jammer not running.</string>
+    <string name="app_status_5">EQ is turned off.</string>
+    <string name="app_status_6">EQ is turned on.</string>
 
     <string name="intro_1">Android allows only one app to use the microphone at a time, however the system can override this.</string>
     <string name="intro_2">For instance when a phone call is being made. Or, possibly, if a voice assistant is enabled.</string>
@@ -71,6 +73,7 @@
     <string name="headset_state_1">No headset found</string>
     <string name="headset_state_2">Headset is plugged in.</string>
     <string name="headset_state_3">Headset state unknown</string>
+    <string name="headset_state_4">Connected headset means the active jammer cannot output to speakers and jam microphone.</string>
 
     <string name="audiofocus_check_1">AudioFocus check...</string>
     <string name="audiofocus_check_2">AudioFocus request granted.</string>
