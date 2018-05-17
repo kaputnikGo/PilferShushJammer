@@ -28,6 +28,7 @@ public class AudioSettings {
     public static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
 
     public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
+    public static final int DEFAULT_DRIFT_SPEED = 1000;
 
     public static final int JAMMER_TONE = 0;
     public static final int JAMMER_WHITE = 1;
@@ -140,11 +141,6 @@ public class AudioSettings {
                 + encoding + ", " + channelInConfig + ", " + audioSource);
     }
 
-    /********************************************************************/
-    /*
-     * Utilities, that may be useful...
-     *
-     */
     public static int getTestDrift() {
         return new Random().nextInt(MAXIMUM_TEST_FREQUENCY
                 - MINIMUM_TEST_FREQUENCY)
@@ -189,6 +185,11 @@ public class AudioSettings {
         else return MAXIMUM_NUHF_FREQUENCY;
     }
 
+    /********************************************************************/
+    /*
+     * Utilities, that may be useful...
+     *
+     */
     public int getBitDepth() {
         // encoding == int value of bit depth
         if (encoding == AudioFormat.ENCODING_PCM_8BIT) return 8;

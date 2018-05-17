@@ -12,7 +12,6 @@ public class ActiveJammer {
     private AudioSettings audioSettings;
 
     private double carrierFrequency;
-    private int volume;
     private float amplitude;
     private double maximumDeviceFrequency;
     private boolean maximumDeviceFrequencyOverride;
@@ -24,6 +23,7 @@ public class ActiveJammer {
     private int jammerTypeSwitch;
     private int userCarrier;
     private int userLimit;
+    private int driftSpeed;
 
     private Thread jammerThread;
 
@@ -32,15 +32,15 @@ public class ActiveJammer {
         this.audioSettings = audioSettings;
         audioSessionId = 0;
         // defaults
-        jammerTypeSwitch = 0;
+        jammerTypeSwitch = AudioSettings.JAMMER_TYPE_TEST;
         userCarrier = 21000;
         userLimit = 1000;
+        driftSpeed = AudioSettings.DEFAULT_DRIFT_SPEED;
 
         resetActiveJammer();
     }
 
     public void resetActiveJammer() {
-        volume = 100;
         amplitude = 1.0f;
         audioTrack = null;
         isPlaying = false;
@@ -72,14 +72,6 @@ public class ActiveJammer {
             return;
         }
         stopPlayer();
-    }
-
-    public void setVolume(int volume) {
-        // 0 - 100
-        this.volume = volume;
-    }
-    public int getVolume() {
-        return volume;
     }
 
     public void setAmplitude(float amplitude) {
@@ -135,6 +127,13 @@ public class ActiveJammer {
     }
     public int getUserLimit() {
         return userLimit;
+    }
+
+    public void setDriftSpeed(int driftSpeed) {
+        this.driftSpeed = driftSpeed;
+    }
+    public int getDriftSpeed() {
+        return driftSpeed;
     }
 
     /*
@@ -225,8 +224,9 @@ public class ActiveJammer {
         // driftFreq = (int)carrierFrequency; <- this too??
         int driftFreq = loadDriftTone();
         // every 1000th iteration get a new drift freq (48k rate / 1000ms)
+        // make it a user variable
         for (int i = 0; i < audioSettings.getSampleRate(); ++i) {
-            if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % 1000 == 0) {
+            if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
                 driftFreq = loadDriftTone();
             }
             sample[i] = Math.sin(
@@ -235,7 +235,7 @@ public class ActiveJammer {
 
         int idx = 0;
         for (final double dVal : sample) {
-            final short val = (short) ((dVal * 32767));
+            final short val = (short) ((dVal * 32767)); // max the amplitude
             // in 16 bit wav PCM, first byte is the low order byte
             soundData[idx++] = (byte) (val & 0x00ff);
             soundData[idx++] = (byte) ((val & 0xff00) >>> 8);

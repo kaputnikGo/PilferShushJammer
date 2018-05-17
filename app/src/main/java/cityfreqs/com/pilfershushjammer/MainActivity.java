@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
+        HAS_HEADSET = false;
         headsetReceiver = new HeadsetIntentReceiver();
 
         // permissions ask:
@@ -204,10 +205,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         registerReceiver(headsetReceiver, headsetFilter);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // refocus app
-        //toggleHeadset();
         int status = audioFocusCheck();
 
-        //TODO add ACTIVE_RUNNING
+        // do not resume active jammer from an IRQ
         if (IRQ_TELEPHONY && PASSIVE_RUNNING) {
             // return from background with state irq_telephony and passive_running
             // check audio focus status
@@ -234,6 +234,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         else {
             entryLogger(getResources().getString(R.string.app_status_2), true);
         }
+        if (ACTIVE_RUNNING) {
+            // return from background without irq_telephony
+            entryLogger(getResources().getString(R.string.app_status_3), true);
+        }
+        else {
+            entryLogger(getResources().getString(R.string.app_status_4), true);
+        }
     }
 
     @Override
@@ -253,6 +260,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (PASSIVE_RUNNING && IRQ_TELEPHONY) {
             // make UI conform to jammer override by system telephony
             stopPassive();
+        }
+        //TODO ACTIVE state stop and reset UI
+        if (ACTIVE_RUNNING && IRQ_TELEPHONY) {
+            // make UI conform
+            stopActive();
         }
     }
 
@@ -353,9 +365,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         headsetReceiver = new HeadsetIntentReceiver();
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
-        HAS_HEADSET = false;
-        //toggleHeadset();
-
         initAudioFocusListener();
 
         audioSettings = new AudioSettings();
@@ -389,6 +398,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.commit();
 
         createNotifications();
+
+        // inform current state of active jammer tone
+        populateMenuItems();
+        entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], true);
 
         return true;
     }
@@ -426,7 +439,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
             entryLogger(getResources().getString(R.string.main_scanner_5), false);
             activeJammer.play(activeTypeValue ? 1 : 0); // to change to proper int
-            //toggleHeadset();
         }
     }
 
@@ -506,24 +518,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void toggleHeadset() {
-        // TODO change based upon headset and jamming
         // do even need this?
-        if (HAS_HEADSET && ACTIVE_RUNNING) {
-            // volume to 100% for jamming
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                    AudioManager.FLAG_SHOW_UI);
-        }
-        else if (HAS_HEADSET) {
+        if (HAS_HEADSET) {
             // volume to 50%
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                     audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2,
                     AudioManager.FLAG_SHOW_UI);
         }
         else {
-            // volume to 0
+            // volume to 100%
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    0,
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
                     AudioManager.FLAG_SHOW_UI);
         }
     }
@@ -591,12 +596,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     case 0:
                         entryLogger(getResources().getString(R.string.headset_state_1), false);
                         HAS_HEADSET = false;
-                        //toggleHeadset();
+                        toggleHeadset();
                         break;
                     case 1:
                         entryLogger(getResources().getString(R.string.headset_state_2), false);
                         HAS_HEADSET = true;
-                        //toggleHeadset();
+                        toggleHeadset();
                         break;
                     default:
                         entryLogger(getResources().getString(R.string.headset_state_3), false);
@@ -639,7 +644,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private void jammerDialog() {
         //TODO options and brief description for the jammer types
-        populateMenuItems();
         dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setItems(jammerTypes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int which) {
