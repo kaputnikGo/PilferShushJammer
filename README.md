@@ -49,7 +49,7 @@ Added active jammer - tone and white noise versions.
 
 **App screenshots:**
 - Full app start up (Passive and Active version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer_active_startup.png" height="612px" />
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_jammer_active_startup.png" height="612px" />
 
 - Passive start up (Passive version)
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-start.png" height="612px" />
