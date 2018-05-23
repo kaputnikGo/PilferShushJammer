@@ -39,13 +39,13 @@ Added active jammer - tone and white noise versions.
  
 **Active Jammer frequency analysis:**
 - Active tone, full NUHF range with random scatter drift test
-<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-tone_full_nuhf_scatter_drift-test.JPG" height="182px" />
+<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-tone_full_nuhf_scatter_drift-test.jpg" height="182px" />
  
 - Active tone, slow speed, limited drift test
-<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-carrier_limit_drift_speed-test.JPG" height="168px" />
+<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-carrier_limit_drift_speed-test.jpg" height="168px" />
 
 - Active tone, carrier and drift limited, fast
-<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-carrier_limit_conform-test.JPG" height="164px" />
+<img src="https://github.com/kaputnikGo/PilferShushJammer/tree/master/images/PS_Jammer-carrier_limit_conform-test.jpg" height="164px" />
 
 **App screenshots:**
 
