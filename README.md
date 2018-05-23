@@ -48,6 +48,21 @@ Added active jammer - tone and white noise versions.
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-carrier_limit_conform-test.jpg" height="164px" />
 
 **App screenshots:**
+- Full app start up (Passive and Active version)
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer_active_start.png" height="612px" />
+
+- Passive start up (Passive version)
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-start.png" height="612px" />
+
+- About pop up (Passive version)
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-about.png" height="612px" />
+
+- Passive mode running (Passive version)
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-running.png" height="612px" />
+
+- App notification example (Passive version)
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer_notify.png" height="612px" />
+
 
 
 # 2018 Kaputnik Go
