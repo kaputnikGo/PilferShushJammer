@@ -34,6 +34,14 @@ Added active jammer - tone and white noise versions.
  TODO:
  - app behaviours with active/passive jammers running
  - full and proper testing ( incl. VOIP )
+ 
+ 
+ 
+Active Jammer frequency analysis:
+- Active tone, full NUHF range with random scatter drift
+<img src="/images/PS_Jammer-tone_full_nuhf_scatter_drift-test.JPG.jpg" height="182px" />
+ 
+App screenshots:
 
 # 2018 Kaputnik Go
 
