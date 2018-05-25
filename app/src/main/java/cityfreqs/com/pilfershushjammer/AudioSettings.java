@@ -9,7 +9,6 @@ import java.util.Random;
 public class AudioSettings {
     // helper vars and defaults
     // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-    //TODO how likely is it that android has diff settings for AudioRecord and AudioTrack ??
     public static final int[] SAMPLE_RATES = new int[]{
             48000, 44100, 22050, 16000, 11025, 8000};
 
@@ -22,7 +21,7 @@ public class AudioSettings {
     public static final int CARRIER_NUHF_FREQUENCY = 21000;
     public static final int MAXIMUM_NUHF_FREQUENCY = 24000;
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
-    // test tone carrier == 440hz
+
     private static final int CARRIER_TEST_FREQUENCY = 440;
     private static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
     private static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
@@ -102,6 +101,10 @@ public class AudioSettings {
 
     public int getChannelOutConfig() {
         return channelOutConfig;
+    }
+
+    public int getChannelInCount() {
+        return channelInCount;
     }
 
     public int getAudioSource() {

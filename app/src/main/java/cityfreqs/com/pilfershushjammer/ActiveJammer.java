@@ -205,19 +205,37 @@ public class ActiveJammer {
         double sample[] = new double[audioSettings.getSampleRate()];
         byte soundData[] = new byte[2 * audioSettings.getSampleRate()];
 
-        // driftFreq = (int)carrierFrequency; <- this too??
+        // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
+        // - AMPLITUDE RAMPS pre and post every loadDriftTone() etc - not practical
+        // - ZERO VALUE SAMPLES either side of loadDriftTone()
+        // - can still be useful jamming sound ;)
+
+        /*
+
+        int ramp = audioSettings.getSampleRate() / 20;
+        for (int i = 0; i < sampleRate; i++) [
+            if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {...}
+
+            if (i < ramp) sample[i] = 0;
+            else if (i > sampleRate - ramp) sample[i] = 0;
+            else {
+                // normal loop
+            }
+        }
+
+        */
+
         int driftFreq = loadDriftTone();
-        // every 1000th iteration get a new drift freq (48k rate / 1000ms)
-        // make it a user variable
+        // every nth iteration get a new drift freq (48k rate / driftSpeed )
         for (int i = 0; i < audioSettings.getSampleRate(); ++i) {
             if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
                 driftFreq = loadDriftTone();
             }
+            // ramp/zero-crossing check could go here
             sample[i] = Math.sin(
                     driftFreq * 2 * Math.PI * i / (audioSettings.getSampleRate()));
         }
 
-        // android audio artifacts - popping at tone start/end = need ramp up/dwn ?
         int idx = 0;
         for (final double dVal : sample) {
             final short val = (short) ((dVal * 32767)); // max the amplitude
@@ -229,9 +247,7 @@ public class ActiveJammer {
     }
 
     private synchronized void createWhiteNoise() {
-        //int soundBufferLength = 500;
-        int numSamples = 500 * (audioSettings.getSampleRate() / 1000);
-        byte soundData[] = new byte[2 * numSamples];
+        byte soundData[] = new byte[audioSettings.getSampleRate()];
         new Random().nextBytes(soundData);
 
         for (int i = 0; i < soundData.length; i++) {
