@@ -47,7 +47,7 @@ Added active jammer - tone and white noise versions, boost EQ for higher amplitu
 - Active tone, carrier and drift limited, fast
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-carrier_limit_conform-test.jpg" height="164px" />
 
-- Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus a slow, ramp-up audio beacon-like signal : scatter jamming demo
+- Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
 
 **App screenshots:**
