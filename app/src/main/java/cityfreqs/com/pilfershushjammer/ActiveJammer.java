@@ -79,7 +79,7 @@ public class ActiveJammer {
     }
 
     /*
-    public void setCarrierFrequency5(double carrierFrequency) {
+    public void setCarrierFrequency(double carrierFrequency) {
         // allow option/switch to override device reported maximum
         if (carrierFrequency > maximumDeviceFrequency && !maximumDeviceFrequencyOverride) {
             // note this, and restrict:
@@ -217,6 +217,7 @@ public class ActiveJammer {
                     driftFreq * 2 * Math.PI * i / (audioSettings.getSampleRate()));
         }
 
+        // android audio artifacts - popping at tone start/end = need ramp up/dwn ?
         int idx = 0;
         for (final double dVal : sample) {
             final short val = (short) ((dVal * 32767)); // max the amplitude
@@ -269,17 +270,14 @@ public class ActiveJammer {
             final short minEQ = equalizer.getBandLevelRange()[0];
             final short maxEQ = equalizer.getBandLevelRange()[1];
 
-            // attempt a HPF, to reduce (-15dB) all freqs in bands 0-3, leaving band 4 free...
-            // run twice
+            // attempt a HPF, to reduce (~15dB) all freqs in bands 0-3, boost band 4
             for (int i = 0; i < 2; i++) {
                 for (short j = 0; j < bands; j++) {
                     equalizer.setBandLevel(j, minEQ);
                 }
-                // boost band 4 twice?
-                //equalizer.setBandLevel((short)4, maxEQ);
+                // boost band 4 twice
+                equalizer.setBandLevel((short)4, maxEQ);
             }
-            // boost band 4 once only?
-            equalizer.setBandLevel((short)4, maxEQ);
         }
         catch (Exception ex) {
             MainActivity.entryLogger("onboardEQ Exception.", true);

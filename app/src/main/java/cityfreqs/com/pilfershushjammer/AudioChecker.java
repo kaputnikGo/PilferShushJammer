@@ -11,16 +11,7 @@ public class AudioChecker {
     private Context context;
     private AudioSettings audioSettings;
 
-    private int sampleRate;
-    private int bufferInSize;
-    private int bufferOutSize;
-    private int encoding;
-    private int channelInConfig;
-    private int channelOutConfig;
-    private int audioSource;
-    private Equalizer equalizer;
-
-    public AudioChecker(Context context, AudioSettings audioSettings) {
+    protected AudioChecker(Context context, AudioSettings audioSettings) {
         this.context = context;
         this.audioSettings = audioSettings;
     }
@@ -28,7 +19,9 @@ public class AudioChecker {
 
     protected boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-        int buffSize = 0;
+        int buffSize;
+        int audioSource = 0; // MediaRecorder.AudioSource.DEFAULT
+
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
                     AudioFormat.ENCODING_PCM_16BIT,
@@ -56,11 +49,7 @@ public class AudioChecker {
                                 MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
                                 // set found values
                                 // AudioRecord.getChannelCount() is number of input audio channels (1 is mono, 2 is stereo)
-                                sampleRate = rate;
-                                this.channelInConfig = channelInConfig;
-                                encoding = audioFormat;
-                                bufferInSize = buffSize;
-                                audioSettings.setBasicAudioInSettings(sampleRate, bufferInSize, encoding, this.channelInConfig, recorder.getChannelCount());
+                                audioSettings.setBasicAudioInSettings(rate, buffSize, audioFormat, channelInConfig, recorder.getChannelCount());
                                 audioSettings.setAudioSource(audioSource);
                                 recorder.release();
                                 return true;
@@ -79,7 +68,7 @@ public class AudioChecker {
 
     protected boolean determineOutputAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-        int buffSize = 0;
+        int buffSize;
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
                     AudioFormat.ENCODING_PCM_16BIT,
@@ -103,14 +92,14 @@ public class AudioChecker {
                                 buffSize,
                                 AudioTrack.MODE_STREAM);
 
-                        if (audioTrack != null) {
+                        //if (audioTrack != null) {
                             if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
 
                                 MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
                                 // set output values
                                 // buffOutSize may not be same as buffInSize conformed to powersOfTwo
-                                audioSettings.setChannelOutConfig(this.channelOutConfig = channelOutConfig);
-                                audioSettings.setBufferOutSize(bufferOutSize = buffSize);
+                                audioSettings.setChannelOutConfig(channelOutConfig);
+                                audioSettings.setBufferOutSize(buffSize);
 
                                 // test onboardEQ
                                 MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
@@ -127,7 +116,7 @@ public class AudioChecker {
                                 audioTrack.release();
                                 return true;
                             }
-                        }
+                        //}
                     }
                     catch (Exception e) {
                         MainActivity.entryLogger("Error, keep trying.", false);
@@ -143,7 +132,7 @@ public class AudioChecker {
     // idea is to make the whitenoise less annoying
     private boolean testOnboardEQ(int audioSessionId) {
         try {
-            equalizer = new Equalizer(0, audioSessionId);
+            Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
             audioSettings.setHasEQ(true);
             // get some info

@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,20 +41,14 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.06"; // active jammer version
-
+    public static final String VERSION = "2.0.07"; // active jammer version
     // note:: API 23+ AudioRecord READ_BLOCKING const
-
-    //TODO ugly notification 0xffffff icon
-    //TODO determine whether to rely only on audioFocus as auto-trigger for jammer
-    //TODO test for voip
-    //TODO check behaviours for ACTIVE and PASSIVE running same time
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
     private static final int NOTIFY_ACTIVE_ID = 113;
 
-    private static TextView debugText;
+    private static TextView debugText; // move to proper class
     private ToggleButton passiveJammerButton;
 
     private boolean activeTypeValue;
@@ -143,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // if API version < 23 (6.x) fallback is manifest.xml file permission declares
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-            List<String> permissionsNeeded = new ArrayList<String>();
-            final List<String> permissionsList = new ArrayList<String>();
+            List<String> permissionsNeeded = new ArrayList<>();
+            final List<String> permissionsList = new ArrayList<>();
 
             if (!addPermission(permissionsList, Manifest.permission.RECORD_AUDIO))
                 permissionsNeeded.add(getResources().getString(R.string.perms_state_1));
@@ -152,10 +147,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (permissionsList.size() > 0) {
                 if (permissionsNeeded.size() > 0) {
                     // Need Rationale
-                    String message = getResources().getString(R.string.perms_state_2) + permissionsNeeded.get(0);
+                    StringBuilder sb = new StringBuilder().append(getResources().getString(R.string.perms_state_2)).append(permissionsNeeded.get(0));
+                    //String message = getResources().getString(R.string.perms_state_2) + permissionsNeeded.get(0);
                     for (int i = 1; i < permissionsNeeded.size(); i++) {
-                        message = message + ", " + permissionsNeeded.get(i);
+                        sb.append(", ").append(permissionsNeeded.get(i));
                     }
+                    String message = sb.toString();
+
                     showPermissionsDialog(message,
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -170,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 ActivityCompat.requestPermissions(this,
                         permissionsList.toArray(new String[permissionsList.size()]),
                         REQUEST_AUDIO_PERMISSION);
-                return;
             }
             else {
                 // assume already runonce, has permissions
@@ -307,17 +304,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             permissionsList.add(permission);
             // Check for Rationale Option
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission))
-                return false;
+            return (ActivityCompat.shouldShowRequestPermissionRationale(this, permission));
         }
         return true;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_AUDIO_PERMISSION: {
-                Map<String, Integer> perms = new HashMap<String, Integer>();
+                Map<String, Integer> perms = new HashMap<>();
                 // Initial
                 perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
                 // Fill with results
@@ -590,6 +586,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private class HeadsetIntentReceiver extends BroadcastReceiver {
         @Override public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == null) {
+                return;
+            }
+
             if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
                 int state = intent.getIntExtra("state", -1);
                 switch (state) {
