@@ -41,16 +41,15 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.07"; // active jammer version
+    public static final String VERSION = "2.0.08";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
-    //TODO fix eqOn toggle for active button
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
     private static final int NOTIFY_ACTIVE_ID = 113;
 
-    private static TextView debugText; // move to proper class
+    private static TextView debugText;
     private ToggleButton passiveJammerButton;
 
     private boolean activeTypeValue;
@@ -148,9 +147,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             if (permissionsList.size() > 0) {
                 if (permissionsNeeded.size() > 0) {
-                    // Need Rationale
                     StringBuilder sb = new StringBuilder().append(getResources().getString(R.string.perms_state_2)).append(permissionsNeeded.get(0));
-                    //String message = getResources().getString(R.string.perms_state_2) + permissionsNeeded.get(0);
                     for (int i = 1; i < permissionsNeeded.size(); i++) {
                         sb.append(", ").append(permissionsNeeded.get(i));
                     }
@@ -187,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onResume() {
         super.onResume();
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
-        // work out if need to restart jamming
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
         IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
@@ -195,9 +191,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         IntentFilter headsetFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(headsetReceiver, headsetFilter);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        // refocus app
         int status = audioFocusCheck();
-
         // do not resume active jammer from an IRQ
         if (IRQ_TELEPHONY && PASSIVE_RUNNING) {
             // return from background with state irq_telephony and passive_running
@@ -246,13 +240,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         sharedPrefsEditor.apply();
-        // then work out if need to toggle jammer off (UI) due to irq_telephony
+        // check toggle jammer off (UI) due to irq_telephony
         if (PASSIVE_RUNNING && IRQ_TELEPHONY) {
-            // make UI conform to jammer override by system telephony
             stopPassive();
         }
         if (ACTIVE_RUNNING && IRQ_TELEPHONY) {
-            // make UI conform
             stopActive();
         }
     }
@@ -265,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -283,7 +274,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 speedDriftDialog();
                 return true;
             default:
-                // do not consume the action
                 return super.onOptionsItemSelected(item);
         }
     }

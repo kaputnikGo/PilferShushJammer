@@ -171,14 +171,16 @@ public class ActiveJammer {
                 MainActivity.entryLogger(context.getResources().getString(R.string.active_state_2), true);
             }
         }
-        try {
-            audioTrack.pause();
-            audioTrack.flush();
-            audioTrack.release();
-            audioTrack = null;
-        }
-        catch (IllegalStateException e) {
-            MainActivity.entryLogger(context.getResources().getString(R.string.active_state_3), true);
+        if (audioTrack != null) {
+            try {
+                audioTrack.pause();
+                audioTrack.flush();
+                audioTrack.release();
+                audioTrack = null;
+            }
+            catch (IllegalStateException e) {
+                MainActivity.entryLogger(context.getResources().getString(R.string.active_state_3), true);
+            }
         }
     }
 

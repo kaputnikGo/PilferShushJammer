@@ -9,7 +9,7 @@ Claims audio focus and should block user apps from gaining focus of microphone.
 
 System apps (telephony) should override and bump the Jammer from the microphone. 
 
-Adds a notification as a reminder for running while in background .
+Adds a notification as a reminder for running while in background.
 
 Responds (stop and restart jammer) to telephony audio focus LOSS_TRANSIENT and GAIN.
 
@@ -19,7 +19,7 @@ Tested and blocks Google Voice search (user) app.
 
 Added active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
-   vers. 2.0.07
+   vers. 2.0.08
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)

@@ -39,7 +39,7 @@ public class PassiveJammer {
                 try {
                     // Transport Control Method, Starts recording from the AudioRecord instance.
                     /*
-                    After it's created the track is not active. Call start() to make it active. <--
+                    After it's created the track is not active. Call start() to make it active.
                     AudioRecord.java
                     if (native_start(MediaSyncEvent.SYNC_EVENT_NONE, 0) == SUCCESS)
                     status_t start(int [AudioSystem::sync_event_t] event, int triggerSession)
@@ -84,14 +84,14 @@ public class PassiveJammer {
                           return read;
                     */
 
-                    // this line is here to demonstrate its typical use and its unavailability in this app.
-
+                    // the lines below demonstrate typical use of recording audio - not used in this app.
                     /*
                     short[] tempBuffer = new short[audioSettings.getBufferSize()];;
                     do {
                         audioRecord.read(tempBuffer, 0, audioSettings.getBufferSize());
                     } while (true);
                     */
+
                 } catch (IllegalStateException exState) {
                     exState.printStackTrace();
                     MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_7), true);
@@ -105,7 +105,6 @@ public class PassiveJammer {
     }
 
     protected void stopPassiveJammer() {
-        // get AudioRecord object, null it, clean up
         if (audioRecord != null) {
             audioRecord.stop();
             audioRecord.release();

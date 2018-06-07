@@ -39,7 +39,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="26dp"
             android:layout_marginStart="11dp"
-            android:text="Passive"
+            android:text="@string/main_scanner_2"
             android:textAllCaps="false"
             android:textOff="@string/main_scanner_2" />
 
@@ -51,7 +51,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="26dp"
             android:layout_marginStart="11dp"
-            android:text="Active"
+            android:text="@string/main_scanner_1"
             android:textAllCaps="false"
             android:textOff="@string/main_scanner_1" />
 
@@ -63,7 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="108dp"
             android:checked="false"
-            android:text="Noise" />
+            android:text="@string/button_noise" />
 
         <Switch
             android:id="@+id/eq_switch"
@@ -72,7 +72,7 @@
             android:layout_above="@+id/active_type_switch"
             android:layout_alignEnd="@+id/active_type_switch"
             android:checked="false"
-            android:text="EQ" />
+            android:text="@string/button_eq" />
 
     </RelativeLayout>
 

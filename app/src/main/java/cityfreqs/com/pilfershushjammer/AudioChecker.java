@@ -92,31 +92,29 @@ public class AudioChecker {
                                 buffSize,
                                 AudioTrack.MODE_STREAM);
 
-                        //if (audioTrack != null) {
-                            if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
 
-                                MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
-                                // set output values
-                                // buffOutSize may not be same as buffInSize conformed to powersOfTwo
-                                audioSettings.setChannelOutConfig(channelOutConfig);
-                                audioSettings.setBufferOutSize(buffSize);
+                        if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
+                            MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
+                            // set output values
+                            // buffOutSize may not be same as buffInSize conformed to powersOfTwo
+                            audioSettings.setChannelOutConfig(channelOutConfig);
+                            audioSettings.setBufferOutSize(buffSize);
 
-                                // test onboardEQ
-                                MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
-                                if (testOnboardEQ(audioTrack.getAudioSessionId())) {
-                                    MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
-                                    // set a thing somewhere so that active jammer can use it
-                                    // add settings to AudioSettings
-                                } else {
-                                    MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
-                                }
-
-                                audioTrack.pause();
-                                audioTrack.flush();
-                                audioTrack.release();
-                                return true;
+                            // test onboardEQ
+                            MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
+                            if (testOnboardEQ(audioTrack.getAudioSessionId())) {
+                                MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
+                                // set a thing somewhere so that active jammer can use it
+                                // add settings to AudioSettings
                             }
-                        //}
+                            else {
+                                MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
+                            }
+                            audioTrack.pause();
+                            audioTrack.flush();
+                            audioTrack.release();
+                            return true;
+                        }
                     }
                     catch (Exception e) {
                         MainActivity.entryLogger("Error, keep trying.", false);

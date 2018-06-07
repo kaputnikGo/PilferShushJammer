@@ -7,8 +7,6 @@ import java.nio.FloatBuffer;
 import java.util.Random;
 
 public class AudioSettings {
-    // helper vars and defaults
-    // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
     public static final int[] SAMPLE_RATES = new int[]{
             48000, 44100, 22050, 16000, 11025, 8000};
 
@@ -33,13 +31,11 @@ public class AudioSettings {
     public static final int JAMMER_TONE = 0;
     public static final int JAMMER_WHITE = 1;
 
-    public static final int JAMMER_TYPE_TEST = 0; // only test tone drift
+    public static final int JAMMER_TYPE_TEST = 0;
     public static final int JAMMER_TYPE_NUHF = 1;
     public static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
     public static final int JAMMER_TYPE_USER_RANGED = 3;
 
-
-    // vars for AudioRecord and AudioTrack creation and use
     private int sampleRate;
     private int bufferInSize; // in bytes
     private int bufferOutSize;
@@ -49,11 +45,6 @@ public class AudioSettings {
     private int channelInCount;
     private int audioSource;
     private boolean hasEQ;
-
-
-    public AudioSettings() {
-        //default
-    }
 
     public void setBasicAudioInSettings(int sampleRate, int bufferInSize, int encoding, int channelInConfig, int channelInCount) {
         this.sampleRate = sampleRate;

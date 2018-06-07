@@ -31,7 +31,6 @@
     <string name="drift_dialog_2">1</string>
     <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
 
-
     <string name="app_status_1">status: passive jammer running,</string>
     <string name="app_status_2">status: passive jammer not running,</string>
     <string name="app_status_3">active jammer running.</string>
@@ -51,8 +50,11 @@
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_okay">OK</string>
 
-    <string name="main_scanner_1">Active</string>
-    <string name="main_scanner_2">Passive</string>
+    <string name="button_noise" translatable="false">Noise</string>
+    <string name="button_eq" translatable="false">EQ</string>
+
+    <string name="main_scanner_1" translatable="false">Active</string>
+    <string name="main_scanner_2" translatable="false">Passive</string>
     <string name="main_scanner_3">Running passive jamming...</string>
     <string name="main_scanner_4">Stop passive jamming.</string>
     <string name="main_scanner_5">Running active jamming...</string>
