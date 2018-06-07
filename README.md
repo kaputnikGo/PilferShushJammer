@@ -25,11 +25,13 @@ Added active jammer - tone and white noise versions, boost EQ for higher amplitu
    - compiled API 26 (8.x)
 
    testing devices
-   - EMU : Galaxy Nexus API 18 (Android Studio AVD, no GApps)
-   - EMU : Nexus 5X API 24 (Android Studio AVD, GApps)
+   - EMU : Galaxy Nexus 4.3 (18) (Android Studio AVD, no GApps)
+   - EMU : Nexus 4 5.1 (22) (Android Studio AVD, no GApps)
+   - EMU : Nexus 5X 7.0 (24) (Android Studio AVD, GApps)
    - LOW : s4 I9195 (deprecated) 4.3.1 (18)(CyanogenMod 10.2, F-Droid)
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)
    - DEV : s5 G900I (tainted) 7.1.2 (25)(LineageOS 14.1, GApps)
+   - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  TODO:
  - app behaviours with active/passive jammers running

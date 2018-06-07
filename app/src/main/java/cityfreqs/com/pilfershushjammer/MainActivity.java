@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     //private static final String TAG = "PilferShush_Jammer";
     public static final String VERSION = "2.0.07"; // active jammer version
     // note:: API 23+ AudioRecord READ_BLOCKING const
+    // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
+    //TODO fix eqOn toggle for active button
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
