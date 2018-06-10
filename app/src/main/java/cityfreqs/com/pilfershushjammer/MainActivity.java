@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.08";
+    public static final String VERSION = "2.0.09";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private static TextView debugText;
     private ToggleButton passiveJammerButton;
+    private ToggleButton activeJammerButton;
 
     private boolean activeTypeValue;
     private String[] jammerTypes;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
-        ToggleButton activeJammerButton = findViewById(R.id.run_active_button);
+        activeJammerButton = findViewById(R.id.run_active_button);
         activeJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                if (isChecked) {
@@ -463,9 +464,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     */
     private void toggleEq(boolean eqOn) {
         if (activeJammer != null) {
+            if (ACTIVE_RUNNING) {
+                // need to stop so eq change can take effect
+                stopActive();
+                activeJammerButton.toggle();
+            }
             activeJammer.setEqOn(eqOn);
-            // need to stop so eq change can take effect
-            stopActive();
         }
         if (eqOn) entryLogger(getResources().getString(R.string.app_status_6), false);
         else entryLogger(getResources().getString(R.string.app_status_5), false);
@@ -682,7 +686,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         int userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         activeJammer.setUserCarrier(userInputCarrier);
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
-                        entryLogger("Jammer type changed to 1000Hz drift with carrier at " + userInputCarrier, false);
+                        entryLogger("Jammer type changed to 1000Hz drift with carrier at " + activeJammer.getUserConformedCarrier(), false);
                     }
                 })
                 .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
@@ -719,7 +723,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         activeJammer.setUserCarrier(userInputCarrier);
                         activeJammer.setUserLimit(userInputLimit);
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_USER_RANGED);
-                        entryLogger("Jammer type changed to " + userInputLimit + " Hz drift with carrier at " + userInputCarrier, false);
+                        entryLogger("Jammer type changed to " + userInputLimit
+                                + " Hz drift with carrier at " + activeJammer.getUserConformedCarrier(), false);
 
                     }
                 })
@@ -765,8 +770,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
-
-
     /*
 
 

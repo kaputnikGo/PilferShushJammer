@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.audiofx.Equalizer;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -11,11 +12,8 @@ public class ActiveJammer {
     private Context context;
     private AudioSettings audioSettings;
 
-    //private double carrierFrequency;
     private float amplitude;
-    //private double maximumDeviceFrequency;
-    //private boolean maximumDeviceFrequencyOverride;
-
+    private int deviceMaxFrequency;
     private AudioTrack audioTrack;
     private boolean isPlaying;
     private int jammerTypeSwitch;
@@ -33,8 +31,9 @@ public class ActiveJammer {
         // defaults
         jammerTypeSwitch = AudioSettings.JAMMER_TYPE_TEST;
         userCarrier = AudioSettings.CARRIER_NUHF_FREQUENCY;
-        userLimit = AudioSettings.DEFAULT_DRIFT_SPEED;
+        userLimit = AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
         driftSpeed = AudioSettings.DEFAULT_DRIFT_SPEED;
+        deviceMaxFrequency = AudioSettings.getDeviceMaxFrequency();
 
         resetActiveJammer();
     }
@@ -43,11 +42,6 @@ public class ActiveJammer {
         amplitude = 1.0f;
         audioTrack = null;
         isPlaying = false;
-
-        // device unique, override reported maximum frequency?
-        // ie. if sampleRate found is 22kHz, try run over it anyway
-        //maximumDeviceFrequency = audioSettings.getSampleRate() * 0.5;
-        //maximumDeviceFrequencyOverride = false;
     }
 
     /*
@@ -78,32 +72,15 @@ public class ActiveJammer {
         return jammerTypeSwitch;
     }
 
-    /*
-    public void setCarrierFrequency(double carrierFrequency) {
-        // allow option/switch to override device reported maximum
-        if (carrierFrequency > maximumDeviceFrequency && !maximumDeviceFrequencyOverride) {
-            // note this, and restrict:
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_5), false);
-            this.carrierFrequency = maximumDeviceFrequency;
-        }
-        else {
-            this.carrierFrequency = carrierFrequency;
-        }
-    }
-    public double getCarrierFrequency() {
-        return carrierFrequency;
-    }
-    public void setMaximumDeviceFrequencyOverride(boolean override) {
-        maximumDeviceFrequencyOverride = override;
-    }
-    public boolean getMaximumDeviceFrequencyOverride() {
-        return maximumDeviceFrequencyOverride;
-    }
-    */
-
     public void setUserCarrier(int userCarrier) {
+        userCarrier = checkCarrierFrequency(userCarrier);
         this.userCarrier = userCarrier;
     }
+    public int getUserConformedCarrier() {
+        // in setUserCarrier a check is performed, get this value
+        return userCarrier;
+    }
+
 
     public void setUserLimit(int userLimit) {
         this.userLimit = userLimit;
@@ -152,7 +129,8 @@ public class ActiveJammer {
                     }
                 }
                 catch (Exception ex) {
-                    MainActivity.entryLogger(context.getResources().getString(R.string.active_state_1), true);
+                    //MainActivity.entryLogger(context.getResources().getString(R.string.active_state_1), true);
+                    Log.d("PSJammer", context.getResources().getString(R.string.active_state_1));
                 }
             }
         };
@@ -277,8 +255,6 @@ public class ActiveJammer {
             MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_4), true);
         }
     }
-
-
     // this works reasonably well for the tone, but not whitenoise.
     private void onboardEQ(int audioSessionId) {
         try {
@@ -300,6 +276,22 @@ public class ActiveJammer {
         catch (Exception ex) {
             MainActivity.entryLogger("onboardEQ Exception.", true);
             ex.printStackTrace();
+        }
+    }
+
+    private int checkCarrierFrequency(int carrierFrequency) {
+        if (carrierFrequency > deviceMaxFrequency) {
+            // note this, and restrict:
+            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_5) + deviceMaxFrequency, false);
+            return deviceMaxFrequency;
+        }
+        else if (carrierFrequency < AudioSettings.MINIMUM_NUHF_FREQUENCY) {
+            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_6) + AudioSettings.MINIMUM_NUHF_FREQUENCY, false);
+            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
+        }
+        else {
+            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_7) + carrierFrequency, false);
+            return carrierFrequency;
         }
     }
 }

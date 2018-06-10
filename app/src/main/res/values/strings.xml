@@ -49,6 +49,8 @@
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_okay">OK</string>
+    <string name="dialog_button_yes">YES</string>
+    <string name="dialog_button_no">NO</string>
 
     <string name="button_noise" translatable="false">Noise</string>
     <string name="button_eq" translatable="false">EQ</string>
@@ -66,7 +68,9 @@
     <string name="audio_check_2">Unable to initiate audio output function, can still block microphone.</string>
     <string name="audio_check_3">Error: No audioSettings object found.</string>
     <string name="audio_check_4">Exception error initialising audioTrack.</string>
-    <string name="audio_check_5">Setting maximum frequency to device limit:\u0020</string>
+    <string name="audio_check_5">Setting frequency to within device limit:\u0020</string>
+    <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
+    <string name="audio_check_7">Setting frequency to:\u0020</string>
 
     <string name="perms_state_1">Record Audio</string>
     <string name="perms_state_2">Permissions request to access microphone:\u0020</string>

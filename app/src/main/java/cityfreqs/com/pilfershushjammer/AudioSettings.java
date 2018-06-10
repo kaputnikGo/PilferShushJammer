@@ -45,6 +45,7 @@ public class AudioSettings {
     private int channelInCount;
     private int audioSource;
     private boolean hasEQ;
+    private static int deviceMaxFrequency;
 
     public void setBasicAudioInSettings(int sampleRate, int bufferInSize, int encoding, int channelInConfig, int channelInCount) {
         this.sampleRate = sampleRate;
@@ -52,6 +53,7 @@ public class AudioSettings {
         this.encoding = encoding;
         this.channelInConfig = channelInConfig;
         this.channelInCount = channelInCount;
+        deviceMaxFrequency = sampleRate / 2;
     }
 
     public void setEncoding(int encoding) {
@@ -122,7 +124,7 @@ public class AudioSettings {
     }
 
     public static int getNuhfDrift() {
-        return new Random().nextInt(MAXIMUM_NUHF_FREQUENCY
+        return new Random().nextInt(getDeviceMaxFrequency()
                 - MINIMUM_NUHF_FREQUENCY)
                 + MINIMUM_NUHF_FREQUENCY;
     }
@@ -144,19 +146,26 @@ public class AudioSettings {
     }
 
     private static int conformCarrierFrequency(int carrier) {
-        if (carrier < MINIMUM_NUHF_FREQUENCY) carrier = MINIMUM_NUHF_FREQUENCY;
-        if (carrier > MAXIMUM_NUHF_FREQUENCY) carrier = MAXIMUM_NUHF_FREQUENCY;
+        if (carrier < MINIMUM_NUHF_FREQUENCY)
+            carrier = MINIMUM_NUHF_FREQUENCY;
+
+        if (carrier > getDeviceMaxFrequency())
+            carrier = getDeviceMaxFrequency();
         return carrier;
     }
 
     private static int conformMinimumRangedValue(int minValue) {
-        if (minValue >= MINIMUM_NUHF_FREQUENCY) return minValue;
-        else return MINIMUM_NUHF_FREQUENCY;
+        if (minValue >= MINIMUM_NUHF_FREQUENCY)
+            return minValue;
+        else
+            return MINIMUM_NUHF_FREQUENCY;
     }
 
     private static int conformMaximumRangedValue(int maxValue) {
-        if (maxValue <= MAXIMUM_NUHF_FREQUENCY) return maxValue;
-        else return MAXIMUM_NUHF_FREQUENCY;
+        if (maxValue <= getDeviceMaxFrequency())
+            return maxValue;
+        else
+            return getDeviceMaxFrequency();
     }
 
     public static int getClosestPowersHigh(int reported) {
@@ -169,6 +178,14 @@ public class AudioSettings {
         }
         // didn't find power, return reported
         return reported;
+    }
+
+    public static int getDeviceMaxFrequency() {
+        if (deviceMaxFrequency > MAXIMUM_NUHF_FREQUENCY)
+            return deviceMaxFrequency;
+        else
+            return MAXIMUM_NUHF_FREQUENCY;
+
     }
     /********************************************************************/
     /*
