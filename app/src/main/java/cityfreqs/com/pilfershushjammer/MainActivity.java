@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.10";
+    public static final String VERSION = "2.0.11";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private static TextView debugText;
     private ToggleButton passiveJammerButton;
     private ToggleButton activeJammerButton;
+    private Switch eqSwitch;
+    private AudioSettings audioSettings;
 
     private boolean activeTypeValue;
     private String[] jammerTypes;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
-        Switch eqSwitch = findViewById(R.id.eq_switch);
+        eqSwitch = findViewById(R.id.eq_switch);
         eqSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 toggleEq(isChecked);
@@ -349,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         initAudioFocusListener();
 
-        AudioSettings audioSettings = new AudioSettings();
+        audioSettings = new AudioSettings();
         AudioChecker audioChecker = new AudioChecker(this, audioSettings);
         entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
         if (!audioChecker.determineRecordAudioType()) {
@@ -378,8 +380,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.apply();
 
         createNotifications();
-
-        // inform current state of active jammer tone
         populateMenuItems();
         entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], true);
     }
@@ -463,6 +463,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     */
     private void toggleEq(boolean eqOn) {
+        if (!audioSettings.getHasEQ()) {
+            // failure when testing onboard audiofx/equalizer, device specific
+            entryLogger(getResources().getString(R.string.app_status_7), false);
+            if (eqOn) {
+                // if togglebutton pressed on, reset to off
+                eqSwitch.toggle();
+            }
+            return;
+        }
+
         if (activeJammer != null) {
             if (ACTIVE_RUNNING) {
                 // need to stop so eq change can take effect
@@ -471,8 +481,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
             activeJammer.setEqOn(eqOn);
         }
-        if (eqOn) entryLogger(getResources().getString(R.string.app_status_6), false);
-        else entryLogger(getResources().getString(R.string.app_status_5), false);
+        if (eqOn)
+            entryLogger(getResources().getString(R.string.app_status_6), false);
+        else
+            entryLogger(getResources().getString(R.string.app_status_5), false);
 
     }
 

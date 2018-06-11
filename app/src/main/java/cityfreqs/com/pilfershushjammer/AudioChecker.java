@@ -104,11 +104,11 @@ public class AudioChecker {
                             MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
                             if (testOnboardEQ(audioTrack.getAudioSessionId())) {
                                 MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
-                                // set a thing somewhere so that active jammer can use it
-                                // add settings to AudioSettings
+                                audioSettings.setHasEQ(true);
                             }
                             else {
                                 MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
+                                audioSettings.setHasEQ(false);
                             }
                             audioTrack.pause();
                             audioTrack.flush();
@@ -132,7 +132,6 @@ public class AudioChecker {
         try {
             Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
-            audioSettings.setHasEQ(true);
             // get some info
             short bands = equalizer.getNumberOfBands();
             final short minEQ = equalizer.getBandLevelRange()[0]; // returns milliBel
