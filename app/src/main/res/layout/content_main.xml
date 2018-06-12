@@ -33,7 +33,7 @@
 
         <ToggleButton
             android:id="@+id/run_passive_button"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/toggle_button_width"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
@@ -45,7 +45,7 @@
 
         <ToggleButton
             android:id="@+id/run_active_button"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/toggle_button_width"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
@@ -56,6 +56,15 @@
             android:textOff="@string/main_scanner_1" />
 
         <Switch
+            android:id="@+id/eq_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/active_type_switch"
+            android:layout_alignEnd="@+id/active_type_switch"
+            android:checked="false"
+            android:text="@string/button_eq" />
+
+        <Switch
             android:id="@+id/active_type_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,15 +73,6 @@
             android:layout_marginEnd="108dp"
             android:checked="false"
             android:text="@string/button_noise" />
-
-        <Switch
-            android:id="@+id/eq_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/active_type_switch"
-            android:layout_alignEnd="@+id/active_type_switch"
-            android:checked="false"
-            android:text="@string/button_eq" />
 
     </RelativeLayout>
 

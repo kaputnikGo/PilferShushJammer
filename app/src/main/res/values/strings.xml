@@ -46,6 +46,7 @@
     <string name="intro_5">Firstly, via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
     <string name="intro_6">This app does NOT listen to or record any of the audio from the microphone during this.</string>
     <string name="intro_7">Also an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
+    <string name="intro_8">Use option menu / active jammer settings to setup active NUHF jamming.</string>
 
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>

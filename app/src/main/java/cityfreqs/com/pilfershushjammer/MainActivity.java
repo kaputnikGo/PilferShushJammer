@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.11";
+    public static final String VERSION = "2.0.12";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -381,7 +381,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         createNotifications();
         populateMenuItems();
-        entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], true);
+        entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], false);
+        entryLogger(getResources().getString(R.string.intro_8) + "\n", true);
+
     }
 
     private void runPassive() {
