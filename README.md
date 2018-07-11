@@ -19,7 +19,7 @@ Tested and blocks Google Voice search (user) app.
 
 Added active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
-   vers. 2.0.12
+   vers. 2.0.13
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)
@@ -35,7 +35,7 @@ Added active jammer - tone and white noise versions, boost EQ for higher amplitu
  
  TODO:
  - app behaviours with active/passive jammers running
- - full and proper testing ( incl. VOIP )
+ - device testing for 5.1 (API 22)
  
  
  

@@ -10,6 +10,7 @@ import android.media.audiofx.Equalizer;
 public class AudioChecker {
     private Context context;
     private AudioSettings audioSettings;
+    private static final boolean DEBUG = false;
 
     protected AudioChecker(Context context, AudioSettings audioSettings) {
         this.context = context;
@@ -101,13 +102,12 @@ public class AudioChecker {
                             audioSettings.setBufferOutSize(buffSize);
 
                             // test onboardEQ
-                            MainActivity.entryLogger("\nTesting for device audiofx equalizer.", false);
                             if (testOnboardEQ(audioTrack.getAudioSessionId())) {
-                                MainActivity.entryLogger("Device audiofx equalizer test passed.\n", false);
+                                MainActivity.entryLogger(context.getString(R.string.eq_check_2)+ "\n", false);
                                 audioSettings.setHasEQ(true);
                             }
                             else {
-                                MainActivity.entryLogger("Device audiofx equalizer test failed.\n", true);
+                                MainActivity.entryLogger(context.getString(R.string.eq_check_3) + "\n", true);
                                 audioSettings.setHasEQ(false);
                             }
                             audioTrack.pause();
@@ -137,22 +137,25 @@ public class AudioChecker {
             final short minEQ = equalizer.getBandLevelRange()[0]; // returns milliBel
             final short maxEQ = equalizer.getBandLevelRange()[1];
 
-            MainActivity.entryLogger("Number EQ bands: " + bands, false);
-            MainActivity.entryLogger("EQ min mB: " + minEQ, false);
-            MainActivity.entryLogger("EQ max mB: " + maxEQ, false);
-
-            for (short band = 0; band < bands; band++) {
-                // divide by 1000 to get numbers into recognisable ranges
-                MainActivity.entryLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
-                MainActivity.entryLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
-                MainActivity.entryLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
-                // band 5 reports center freq: 14kHz, minrange: 7000 and maxrange: 0  <- is this infinity? uppermost limit?
-                // could be 21kHz if report standard of same min to max applies.
+            if (DEBUG) {
+                MainActivity.entryLogger("\n" + context.getString(R.string.eq_check_1), false);
+                MainActivity.entryLogger(context.getString(R.string.eq_check_4) + bands, false);
+                MainActivity.entryLogger(context.getString(R.string.eq_check_5) + minEQ, false);
+                MainActivity.entryLogger(context.getString(R.string.eq_check_6) + maxEQ, false);
             }
 
-
+            if (DEBUG) {
+                for (short band = 0; band < bands; band++) {
+                    // divide by 1000 to get numbers into recognisable ranges
+                    MainActivity.entryLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
+                    MainActivity.entryLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
+                    MainActivity.entryLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
+                    // band 5 reports center freq: 14kHz, minrange: 7000 and maxrange: 0  <- is this infinity? uppermost limit?
+                    // could be 21kHz if report standard of same min to max applies.
+                }
+            }
             // only active test is to squash all freqs in bands 0-3, leaving last band (4) free...
-            MainActivity.entryLogger("\nHPF test reduce EQ bands 2x loop by minEQ value: " + minEQ, false);
+            MainActivity.entryLogger("\n"+ context.getString(R.string.eq_check_7) + minEQ, false);
 
             for (int i = 0; i < 2; i++) {
                 for (short j = 0; j < bands; j++) {
@@ -166,7 +169,7 @@ public class AudioChecker {
             return true;
         }
         catch (Exception ex) {
-            MainActivity.entryLogger("testEQ Exception.", true);
+            MainActivity.entryLogger(context.getString(R.string.eq_check_8), true);
             ex.printStackTrace();
             return false;
         }

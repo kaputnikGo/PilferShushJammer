@@ -74,6 +74,15 @@
     <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
     <string name="audio_check_7">Setting frequency to:\u0020</string>
 
+    <string name="eq_check_1">Testing for device audiofx equalizer.</string>
+    <string name="eq_check_2">Device audiofx equalizer test passed.</string>
+    <string name="eq_check_3">Device audiofx equalizer test failed.</string>
+    <string name="eq_check_4">Number of EQ bands:\u0020</string>
+    <string name="eq_check_5">adjust EQ minimum milliBels:\u0020</string>
+    <string name="eq_check_6">adjust EQ maximum milliBels:\u0020</string>
+    <string name="eq_check_7">HPF test to reduce EQ twice by minEQ value:\u0020</string>
+    <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
+
     <string name="perms_state_1">Record Audio</string>
     <string name="perms_state_2">Permissions request to access microphone:\u0020</string>
     <string name="perms_state_3">Permissions denied, unable to use this app.</string>
