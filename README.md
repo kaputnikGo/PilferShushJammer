@@ -36,8 +36,13 @@ Added active jammer - tone and white noise versions, boost EQ for higher amplitu
  TODO:
  - app behaviours with active/passive jammers running
  - device testing for 5.1 (API 22)
- 
- 
+
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="90">](https://f-droid.org/packages/cityfreqs.com.pilfershushjammer/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+      alt="Get it on Google Play"
+      height="90">](https://play.google.com/store/apps/details?id=cityfreqs.com.pilfershushjammer)
  
 **Active Jammer frequency analysis:**
 - Active tone, full NUHF range with random scatter drift test
