@@ -20,6 +20,7 @@ Tested and blocks Google Voice search (user) app.
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
 **Changes:**
+
 Added user app summary - lists capabilities: record audio, boot, services, receivers and NUHF beacon SDK
 
 Added user app scanner - lists any receivers and services for a chosen user app
