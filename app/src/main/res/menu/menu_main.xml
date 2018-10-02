@@ -20,4 +20,16 @@
         android:title="@string/action_drift_speed"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_userapp_check"
+        android:orderInCategory="40"
+        android:title="@string/action_userapp_check"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_userapp_summary"
+        android:orderInCategory="50"
+        android:title="@string/action_userapp_summary"
+        app:showAsAction="never" />
+
 </menu>

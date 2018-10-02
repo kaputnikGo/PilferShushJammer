@@ -41,9 +41,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.0.13";
+    public static final String VERSION = "2.1.1";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
+    // adding background scanner - make unobtrusive in GUI
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private PassiveJammer passiveJammer;
     private ActiveJammer activeJammer;
+
+    private FileProcessor fileProcessor;
+    private BackgroundChecker backgroundChecker;
 
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
@@ -276,6 +280,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             case R.id.action_drift_speed:
                 speedDriftDialog();
                 return true;
+            case R.id.action_userapp_check:
+                userappCheckDialog();
+                return true;
+            case R.id.action_userapp_summary:
+                userappSummary();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -379,11 +390,38 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         sharedPrefsEditor.apply();
 
+        // background checker
+        fileProcessor = new FileProcessor(this);
+        backgroundChecker = new BackgroundChecker(fileProcessor);
+
         createNotifications();
         populateMenuItems();
         entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], false);
         entryLogger(getResources().getString(R.string.intro_8) + "\n", true);
 
+        //TODO
+        initBackgroundChecker();
+        // add call to displayBeaconSdkList() after init ?
+    }
+
+    private void initBackgroundChecker() {
+        if (runBackgroundChecks()) {
+            // report
+            int audioNum = backgroundChecker.getUserRecordNumApps();
+            if (audioNum > 0) {
+                entryLogger(getResources().getString(R.string.back_scanner_3) + audioNum, true);
+            }
+            else {
+                entryLogger(getResources().getString(R.string.back_scanner_4), false);
+            }
+            if (backgroundChecker.hasAudioBeaconApps()) {
+                entryLogger(backgroundChecker.getAudioBeaconAppNames().length
+                        + getResources().getString(R.string.back_scanner_5), true);
+            }
+            else {
+                entryLogger(getResources().getString(R.string.back_scanner_6), false);
+            }
+        }
     }
 
     private void runPassive() {
@@ -457,6 +495,87 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(false);
+    }
+
+    /*
+
+        BACKGROUND CHECKER FUNCTIONS
+
+    */
+    protected boolean runBackgroundChecks() {
+        if (backgroundChecker.initChecker(this.getPackageManager())) {
+            // is good
+            entryLogger(getResources().getString(R.string.background_scan_2) + "\n", false);
+            backgroundChecker.runChecker();
+
+            //entryLogger(getResources().getString(R.string.background_scan_3) + backgroundChecker.getUserRecordNumApps() + "\n", false);
+
+            backgroundChecker.checkAudioBeaconApps();
+            return true;
+        }
+        else {
+            // is bad
+            entryLogger(getResources().getString(R.string.background_scan_1), true);
+            return false;
+        }
+    }
+
+    private void userappCheckDialog() {
+        String[] appNames = backgroundChecker.getOverrideScanAppNames();
+
+        if (appNames != null && appNames.length > 0) {
+            dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setItems(appNames, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int which) {
+                    // index position of clicked app name
+                    listAppOverrideScanDetails(which);
+                }
+            });
+            dialogBuilder.setTitle(R.string.dialog_userapps);
+            alertDialog = dialogBuilder.create();
+            alertDialog.show();
+        }
+        else {
+            entryLogger(getResources().getString(R.string.user_apps_check_1), true);
+        }
+    }
+
+    private void userappSummary() {
+        entryLogger("\n--------------------------------------\n", false);
+        backgroundChecker.audioAppEntryLog();
+    }
+
+    protected void displayBeaconSdkList() {
+        entryLogger("\n" + getResources().getString(R.string.sdk_names_list) + "\n"
+                + backgroundChecker.displayAudioSdkNames(), false);
+        // add any user names
+        entryLogger(backgroundChecker.displayUserSdkNames() + "\n", false);
+    }
+
+    private void listAppOverrideScanDetails(int selectedIndex) {
+        // check for receivers too?
+        entryLogger("\n" + getResources().getString(R.string.background_scan_6)
+                + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getActivityName()
+                + ": " + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getServicesNum(), true);
+
+        if (backgroundChecker.getOverrideScanAppEntry(selectedIndex).getServicesNum() > 0) {
+            logAppEntryInfo(backgroundChecker.getOverrideScanAppEntry(selectedIndex).getServiceNames());
+        }
+
+        entryLogger(getResources().getString(R.string.background_scan_7)
+                + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getActivityName()
+                + ": " + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getReceiversNum(), true);
+
+        if (backgroundChecker.getOverrideScanAppEntry(selectedIndex).getReceiversNum() > 0) {
+            logAppEntryInfo(backgroundChecker.getOverrideScanAppEntry(selectedIndex).getReceiverNames());
+        }
+    }
+
+    private void logAppEntryInfo(String[] appEntryInfoList) {
+        entryLogger("\n" + getResources().getString(R.string.background_scan_8) + "\n", false);
+        for (int i = 0; i < appEntryInfoList.length; i++) {
+            entryLogger(appEntryInfoList[i] + "\n", false);
+        }
     }
 
     /*

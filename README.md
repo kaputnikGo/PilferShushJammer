@@ -17,9 +17,14 @@ Handle music player audio focus gain.
 
 Tested and blocks Google Voice search (user) app.
 
-Added active jammer - tone and white noise versions, boost EQ for higher amplitude.
+Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
-   vers. 2.0.13
+** Changes:**
+Added user app summary - lists capabilities: record audio, boot, services, receivers and NUHF beacon SDK
+
+Added user app scanner - lists any receivers and services for a chosen user app
+
+   vers. 2.1.1
    - min API 18 (4.3)
    - target API 23 (6.x)
    - compiled API 26 (8.x)
@@ -34,9 +39,8 @@ Added active jammer - tone and white noise versions, boost EQ for higher amplitu
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  TODO:
- - app behaviours with active/passive jammers running
- - device testing for 5.1 (API 22)
- 
+ - device testing for new minimum build 5.1 (API 22)
+ - check crashes on Android 7.x
  
  
 **Active Jammer frequency analysis:**

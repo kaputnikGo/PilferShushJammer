@@ -7,6 +7,8 @@
     <string name="action_about">About</string>
     <string name="action_jammer">Active Jammer Settings</string>
     <string name="action_drift_speed">Drift Speed Settings</string>
+    <string name="action_userapp_check">User Apps Scanner</string>
+    <string name="action_userapp_summary">User Apps Summary</string>
 
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
@@ -106,6 +108,28 @@
     <string name="audiofocus_6">Audio Focus Listener: GAIN_TRANSIENT.</string>
     <string name="audiofocus_7">Audio Focus Listener: GAIN_TRANSIENT_DUCK.</string>
     <string name="audiofocus_8">Audio Focus Listener: UNKNOWN STATE.</string>
+
+    <!--
+    background checker
+    -->
+    <string name="background_scan_1">Userapp Checker fail.</string>
+    <string name="background_scan_2">run user app checks...</string>
+    <string name="background_scan_3">User Apps with RECORD AUDIO:\u0020</string>
+
+    <string name="sdk_names_list">Default list of SDK names searched:\u0020</string>
+
+    <string name="dialog_userapps">Scan Apps List</string>
+    <string name="user_apps_check_1">NO USER APPS FOUND FOR CHECKER.</string>
+    <string name="background_scan_6">Found User App services for\u0020</string>
+    <string name="background_scan_7">Found User App receivers for\u0020</string>
+    <string name="background_scan_8">AppEntry list:\u0020</string>
+
+    <string name="back_scanner_3">Record audio apps found:\u0020</string>
+    <string name="back_scanner_4">No record audio apps found.</string>
+    <string name="back_scanner_5">\u0020Audio Beacon SDKs detected.</string>
+    <string name="back_scanner_6">No Audio Beacon SDKs detected.</string>
+
+
 
     <!--
     PassiveJammer.java
