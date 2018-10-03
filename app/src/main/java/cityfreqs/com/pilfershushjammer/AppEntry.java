@@ -14,18 +14,19 @@ public class AppEntry {
     private boolean bootCheck;
     private boolean receivers;
     private boolean services;
-    private boolean caution;
+    //private boolean caution;
     private boolean audioBeacon;
 
     private int servicesNum;
     private int receiversNum;
-    private int permissionsNum;
 
-    private String[] requestedPermissions;
+    //private int permissionsNum;
+    //private String[] requestedPermissions;
+
     private ServiceInfo[] serviceInfo;
     private ActivityInfo[] receiversInfo;
-    private String[] beaconServices;
-    private String[] beaconReceivers;
+    //private String[] beaconServices;
+    //private String[] beaconReceivers;
 
     public AppEntry(String packageName, String activityName) {
         this.packageName = packageName;
@@ -35,17 +36,19 @@ public class AppEntry {
         bootCheck = false;
         receivers = false;
         services = false;
-        caution = false;
+        //caution = false;
         audioBeacon = false;
         servicesNum = 0;
         receiversNum = 0;
-        permissionsNum = 0;
+        //permissionsNum = 0;
     }
 
     /********************************************************************/
     /*
      *
      */
+
+    /*
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -55,75 +58,87 @@ public class AppEntry {
     public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
-    public String getActivityName() {
+    */
+    protected String getActivityName() {
         return activityName;
     }
-    public void setIdNum(int idNum) {
+    protected void setIdNum(int idNum) {
         this.idNum = idNum;
     }
+    /*
     public int getIdNum() {
         return idNum;
     }
+    */
 
-    public int getServicesNum() {
+    protected int getServicesNum() {
         return servicesNum;
     }
-    public int getReceiversNum() {
+    protected int getReceiversNum() {
         return receiversNum;
     }
+    /*
     public int getPermissionsNum() {
         return permissionsNum;
     }
+    */
     /*
      *
      */
-    public void setRecordable(boolean recordable) {
+    protected void setRecordable(boolean recordable) {
         this.recordable = recordable;
     }
-    public boolean getRecordable() {
+    protected boolean getRecordable() {
         return recordable;
     }
 
-    public void setBootCheck(boolean bootCheck) {
+    protected void setBootCheck(boolean bootCheck) {
         this.bootCheck = bootCheck;
     }
+    /*
     public boolean getBootCheck() {
         return bootCheck;
     }
+    */
 
-    public void setReceivers(boolean receivers) {
+    protected void setReceivers(boolean receivers) {
         this.receivers = receivers;
     }
+    /*
     public boolean getReceivers() {
         return receivers;
     }
+    */
 
-    public void setServices(boolean services) {
+    protected void setServices(boolean services) {
         this.services = services;
     }
-    public boolean getServices() {
+    protected boolean getServices() {
         return services;
     }
 
-    public boolean checkForCaution() {
+    protected boolean checkForCaution() {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
-        return caution = ((recordable) && (bootCheck) && (receivers) && (services));
+        return (recordable && bootCheck && receivers && services);
     }
 
+    /*
     public boolean getCaution() {
         return caution;
     }
+    */
 
-    public void setAudioBeacon(boolean audioBeacon) {
+    protected void setAudioBeacon(boolean audioBeacon) {
         this.audioBeacon = audioBeacon;
     }
 
-    public boolean getAudioBeacon() {
+    protected boolean getAudioBeacon() {
         return audioBeacon;
     }
 
+    /*
     public boolean checkBeaconServiceNames() {
         return (beaconServices != null && beaconServices.length > 0);
     }
@@ -157,19 +172,22 @@ public class AppEntry {
     public String[] getBeaconReceiverNames() {
         return beaconReceivers;
     }
+    */
 
     /********************************************************************/
     /*
      *  arrays
      */
+    /*
     public void setRequestedPermissions(String[] requestedPermissions) {
         // manifest declared permissions list
         this.requestedPermissions = new String[requestedPermissions.length];
         this.requestedPermissions = Arrays.copyOf(requestedPermissions, requestedPermissions.length);
         permissionsNum = this.requestedPermissions.length;
     }
+    */
 
-    public void setServiceInfo(ServiceInfo[] serviceInfo) {
+    protected void setServiceInfo(ServiceInfo[] serviceInfo) {
         // any background recording service list
         this.serviceInfo = new ServiceInfo[serviceInfo.length];
         this.serviceInfo = Arrays.copyOf(serviceInfo, serviceInfo.length);
@@ -177,7 +195,7 @@ public class AppEntry {
         services = true;
     }
 
-    public void setActivityInfo(ActivityInfo[] receiversInfo) {
+    protected void setActivityInfo(ActivityInfo[] receiversInfo) {
         // receivers list derived from activityInfo
         this.receiversInfo = new ActivityInfo[receiversInfo.length];
         this.receiversInfo = Arrays.copyOf(receiversInfo, receiversInfo.length);
@@ -200,8 +218,8 @@ public class AppEntry {
     // .packageName
     // .processName
     // .permission
-    public String[] getServiceNames() {
-        beaconServices = new String[serviceInfo.length];
+    protected String[] getServiceNames() {
+        //String[] beaconServices = new String[serviceInfo.length];
         int i = 0;
 
         String[] names = new String[serviceInfo.length];
@@ -209,7 +227,7 @@ public class AppEntry {
             // get service name
             names[j] = serviceInfo[j].name;
             if (BackgroundChecker.isSdkName(names[j])) {
-                beaconServices[i] = names[j];
+                //beaconServices[i] = names[j];
                 i++;
             }
         }
@@ -221,8 +239,8 @@ public class AppEntry {
     // .applicationInfo;
     // .processName
     // .targetActivity
-    public String[] getReceiverNames() {
-        beaconReceivers = new String[receiversInfo.length];
+    protected String[] getReceiverNames() {
+        //String[] beaconReceivers = new String[receiversInfo.length];
         int i = 0;
 
         String[] names = new String[receiversInfo.length];
@@ -230,7 +248,7 @@ public class AppEntry {
             // get receiver name
             names[j] = receiversInfo[j].name;
             if (BackgroundChecker.isSdkName(names[j])) {
-                beaconReceivers[i] = names[j];
+                //beaconReceivers[i] = names[j];
                 i++;
             }
         }

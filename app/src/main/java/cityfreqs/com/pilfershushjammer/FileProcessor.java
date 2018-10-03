@@ -2,29 +2,23 @@ package cityfreqs.com.pilfershushjammer;
 
 
 import android.content.Context;
-import android.os.Environment;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class FileProcessor {
-    private Context context;
+    protected Context context;
     private String[] audioSdkArray;
-    private String[] userSdkArray;
+    //private String[] userSdkArray;
 
     //private static final String AUDIO_SDK_FILE_NAME = "audio_sdk_names.txt";
 
-    private static final String USER_SDK_FILE_NAME = "user_sdk_names.txt";
-    private static final String APP_DIRECTORY_NAME = "BackScan";
-    private File extDirectory;
-    private File userFile;
+    //private static final String USER_SDK_FILE_NAME = "user_sdk_names.txt";
+    //private static final String APP_DIRECTORY_NAME = "BackScan";
+    //private File extDirectory;
+    //private File userFile;
 
     protected FileProcessor(Context context) {
         this.context = context;
@@ -57,6 +51,7 @@ public class FileProcessor {
         }
     }
 
+    /*
     protected String[] getUserSdkArray() {
         // the user list may not exist
         // reset anyway
@@ -67,7 +62,9 @@ public class FileProcessor {
         // no finding and loading user sdk list
         return null;
     }
+    */
 
+    /*
     protected boolean addUserSdkName(String newName) {
         // editText class has android:digits that should sanity the input to [a-zA-Z0-9_]
         // check for empty
@@ -81,7 +78,9 @@ public class FileProcessor {
 
         return writeUserSdkName(newName);
     }
+    */
 
+    /*
     protected boolean checkUserSdkNameExists(String checkName) {
         // check file loaded first
         if (loadUserSdkList()) {
@@ -92,10 +91,13 @@ public class FileProcessor {
         }
         return false;
     }
+    */
 
+    /*
     protected boolean deleteUserSdkFile() {
         return deleteUserFile();
     }
+    */
 
 /*
 
@@ -131,6 +133,7 @@ public class FileProcessor {
         }
     }
 
+    /*
     private boolean loadUserSdkList() {
         // may consist of package names that aren't audio beacon types, ie trackers etc.
         // may also be empty, ie unused
@@ -173,7 +176,9 @@ public class FileProcessor {
             return false;
         }
     }
+    */
 
+    /*
     private boolean writeUserSdkName(String newName) {
         if (accessWriteDirectory()) {
             // grab the file.
@@ -212,7 +217,9 @@ public class FileProcessor {
             return false;
         }
     }
+    */
 
+    /*
     private boolean deleteUserFile() {
         if (accessWriteDirectory()) {
             // grab the file.
@@ -227,7 +234,9 @@ public class FileProcessor {
         }
         return false;
     }
+    */
 
+    /*
     private boolean accessWriteDirectory() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             extDirectory = new File(Environment.getExternalStoragePublicDirectory(
@@ -241,5 +250,6 @@ public class FileProcessor {
             return false;
         }
     }
+    */
 
 }

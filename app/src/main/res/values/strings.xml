@@ -110,26 +110,31 @@
     <string name="audiofocus_8">Audio Focus Listener: UNKNOWN STATE.</string>
 
     <!--
-    background checker
+    background userapp checker
     -->
-    <string name="background_scan_1">Userapp Checker fail.</string>
-    <string name="background_scan_2">run user app checks...</string>
-    <string name="background_scan_3">User Apps with RECORD AUDIO:\u0020</string>
-
     <string name="sdk_names_list">Default list of SDK names searched:\u0020</string>
-
     <string name="dialog_userapps">Scan Apps List</string>
-    <string name="user_apps_check_1">NO USER APPS FOUND FOR CHECKER.</string>
-    <string name="background_scan_6">Found User App services for\u0020</string>
-    <string name="background_scan_7">Found User App receivers for\u0020</string>
-    <string name="background_scan_8">AppEntry list:\u0020</string>
 
-    <string name="back_scanner_3">Record audio apps found:\u0020</string>
-    <string name="back_scanner_4">No record audio apps found.</string>
-    <string name="back_scanner_5">\u0020Audio Beacon SDKs detected.</string>
-    <string name="back_scanner_6">No Audio Beacon SDKs detected.</string>
+    <string name="userapp_scan_1">Userapp Checker fail.</string>
+    <string name="userapp_scan_2">run user app checks...</string>
+    <string name="userapp_scan_3">User Apps with RECORD AUDIO:\u0020</string>
 
+    <string name="userapp_scan_4">NO USER APPS FOUND FOR CHECKER.</string>
+    <string name="userapp_scan_5">Found User App services for\u0020</string>
+    <string name="userapp_scan_6">Found User App receivers for\u0020</string>
+    <string name="userapp_scan_7">AppEntry list:\u0020</string>
 
+    <string name="userapp_scan_8">Record audio apps found:\u0020</string>
+    <string name="userapp_scan_9">No record audio apps found.</string>
+    <string name="userapp_scan_10">\u0020Audio Beacon SDKs detected.</string>
+    <string name="userapp_scan_11">No Audio Beacon SDKs detected.</string>
+
+    <string name="userapp_scan_12">No user apps found.</string>
+
+    <!--
+    Fileprocessor.java
+    -->
+    <string name="file_process_1"></string>
 
     <!--
     PassiveJammer.java

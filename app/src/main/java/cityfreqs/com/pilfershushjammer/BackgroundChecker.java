@@ -5,11 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +34,8 @@ public class BackgroundChecker {
 
     private static final String RECORD_PERMISSION = "RECORD_AUDIO";
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
-
-    // TODO remove these, use fileProcessor versions?
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
-    private static String[] USER_SDK_NAMES; // this can be dynamic
+    //private static String[] USER_SDK_NAMES; // this can be dynamic
 
     public BackgroundChecker(FileProcessor fileProcessor) {
         this.fileProcessor = fileProcessor;
@@ -58,12 +52,14 @@ public class BackgroundChecker {
         return (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0);
     }
 
+    /*
     protected boolean loadUserSdkNames() {
         USER_SDK_NAMES = null;
 
         USER_SDK_NAMES = fileProcessor.getUserSdkArray();
         return (USER_SDK_NAMES != null && USER_SDK_NAMES.length > 0);
     }
+    */
 
     protected void destroy() {
         if (packageManager != null) packageManager = null;
@@ -76,7 +72,7 @@ public class BackgroundChecker {
     /*
      *
      */
-    public static boolean isSdkName(String nameQuery) {
+    protected static boolean isSdkName(String nameQuery) {
         // check file loaded first
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             for (String name : AUDIO_SDK_NAMES) {
@@ -86,10 +82,9 @@ public class BackgroundChecker {
         }
         return false;
     }
-    //TODO
+    /*
     public static boolean isUserSdkName(String nameQuery) {
         // check file loaded first
-
         if (USER_SDK_NAMES != null && USER_SDK_NAMES.length > 0) {
             for (String name : USER_SDK_NAMES) {
                 if (nameQuery.contains(name))
@@ -98,21 +93,26 @@ public class BackgroundChecker {
         }
         return false;
     }
+    */
 
     /********************************************************************/
 
+    /*
     protected String displayAudioSdkNames() {
         // return a string of names + \n
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < AUDIO_SDK_NAMES.length; i++) {
-                sb.append(AUDIO_SDK_NAMES[i] + "\n");
+            for (String name : AUDIO_SDK_NAMES) {
+                sb.append(name).append("\n");
             }
             return sb.toString();
         }
+        //MainActivity.entryLogger(fileProcessor.context.getResources().getString(R.string.passive_state_1), false);
         return "error: none found \n";
     }
+    */
 
+    /*
     protected String displayUserSdkNames() {
         if (loadUserSdkNames()) {
             StringBuilder sb = new StringBuilder();
@@ -123,6 +123,7 @@ public class BackgroundChecker {
         }
         return "no user SDK names found.";
     }
+    */
 
     protected int getUserRecordNumApps() {
         // count number with getRecordable == true
@@ -145,10 +146,11 @@ public class BackgroundChecker {
             }
         }
         else {
-            MainActivity.entryLogger("No user apps found.", false);
+            MainActivity.entryLogger(fileProcessor.context.getResources().getString(R.string.userapp_scan_12), false);
         }
     }
 
+    /*
     protected boolean checkCautionedApps() {
         int counter = 0;
         if (appEntries.size() > 0) {
@@ -180,12 +182,13 @@ public class BackgroundChecker {
         // base on name..
         return appEntries.get(appEntryIndex);
     }
+    */
 
     protected boolean hasAudioBeaconApps() {
         return audioBeaconCount > 0;
     }
 
-    protected boolean checkAudioBeaconApps() {
+    protected void checkAudioBeaconApps() {
         audioBeaconCount = 0;
         int indexCount = 0;
         if (appEntries.size() > 0) {
@@ -197,11 +200,13 @@ public class BackgroundChecker {
                         appEntries.get(indexCount).setAudioBeacon(true);
                         audioBeaconCount++;
                     }
+                    else {
+                        appEntries.get(indexCount).setAudioBeacon(false);
+                    }
                 }
                 indexCount++;
             }
         }
-        return audioBeaconCount > 0;
     }
 
     protected String[] getAudioBeaconAppNames() {
@@ -228,8 +233,8 @@ public class BackgroundChecker {
     private boolean checkForAudioBeaconService(String[] serviceNames) {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             for (String name : serviceNames) {
-                for (int i = 0; i < AUDIO_SDK_NAMES.length; i++) {
-                    if (name.contains(AUDIO_SDK_NAMES[i])) {
+                for (String SDKname : AUDIO_SDK_NAMES) {
+                    if (name.contains(SDKname)) {
                         return true;
                     }
                 }
@@ -280,36 +285,25 @@ public class BackgroundChecker {
                                 PackageManager.GET_RECEIVERS);
 
                 // check permissions and services
-
                 if (packageInfo.requestedPermissions != null && isUserApp(applicationInfo)) {
-                    //TODO
-                    // have user switch, or collect theses elsewhere in UI
-                    // do not include system apps
+                    // does not include system apps
                     AppEntry appEntry = new AppEntry(packageInfo.packageName,
                             (String) packageInfo.applicationInfo.loadLabel(packageManager));
                     // check for specific permissions
                     for (String permsString: packageInfo.requestedPermissions) {
-                        if (permsString.contains(BOOT_PERMISSION)) {
-                            appEntry.setBootCheck(true);
-                        }
-                        if (permsString.contains(RECORD_PERMISSION)) {
-                            appEntry.setRecordable(true);
-                        }
+                        appEntry.setBootCheck(permsString.contains(BOOT_PERMISSION));
+                        appEntry.setRecordable(permsString.contains(RECORD_PERMISSION));
                     }
 
                     // check for services and receivers
                     if (packageInfo.services != null) {
                         appEntry.setServiceInfo(packageInfo.services);
-                    }
-                    else {
-                        appEntry.setServices(false);
+                        appEntry.setServices(packageInfo.services != null);
                     }
 
                     if (packageInfo.receivers != null) {
                         appEntry.setActivityInfo(packageInfo.receivers);
-                    }
-                    else {
-                        appEntry.setReceivers(false);
+                        appEntry.setReceivers(packageInfo.receivers != null);
                     }
                     //add to list
                     appEntry.setIdNum(idCounter);
@@ -321,47 +315,5 @@ public class BackgroundChecker {
                 e.printStackTrace();
             }
         }
-    }
-
-    protected void auditLogAsync() {
-        //TODO
-        // this may not work -- ABANDON
-        // in JB (API 16) up can only access this activity's log entries... ??
-        // therefore, it can only find when we provoke the exception
-        // and even then its up to specific device implementations to allow logcat
-
-        new AsyncTask<Void, String, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    String seekerEx = "java.lang.IllegalStateException";
-                    String seekerType = "AudioRecord";
-
-
-                    Process process = Runtime.getRuntime().exec("logcat -v threadtime");
-                    BufferedReader bufferedReader = new BufferedReader(
-                            new InputStreamReader(process.getInputStream()));
-
-                    String line = "";
-                    while ((line = bufferedReader.readLine()) != null) {
-                        if (line.contains(seekerEx)) {
-                            if (line.contains(seekerType)) {
-                                publishProgress(line);
-                            }
-                        }
-                    }
-                }
-                catch (IOException e) {
-                    //
-                }
-                return null;
-            }
-
-            @Override
-            protected void onProgressUpdate(String... values) {
-                //MainActivity.entryLogger("logcat match:\n\n " + Arrays.toString(values) + "\n", false);
-            }
-        }.execute();
     }
 }

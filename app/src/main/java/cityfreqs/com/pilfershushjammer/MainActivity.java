@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.1.1";
+    public static final String VERSION = "2.1.1"; // dev build 2.1.1.2
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private PassiveJammer passiveJammer;
     private ActiveJammer activeJammer;
 
-    private FileProcessor fileProcessor;
     private BackgroundChecker backgroundChecker;
 
     private SharedPreferences sharedPrefs;
@@ -259,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        backgroundChecker.destroy();
     }
 
 
@@ -391,8 +391,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.apply();
 
         // background checker
-        fileProcessor = new FileProcessor(this);
-        backgroundChecker = new BackgroundChecker(fileProcessor);
+        //fileProcessor = new FileProcessor(this);
+        backgroundChecker = new BackgroundChecker(new FileProcessor(this));
 
         createNotifications();
         populateMenuItems();
@@ -409,17 +409,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // report
             int audioNum = backgroundChecker.getUserRecordNumApps();
             if (audioNum > 0) {
-                entryLogger(getResources().getString(R.string.back_scanner_3) + audioNum, true);
+                entryLogger(getResources().getString(R.string.userapp_scan_8) + audioNum, true);
             }
             else {
-                entryLogger(getResources().getString(R.string.back_scanner_4), false);
+                entryLogger(getResources().getString(R.string.userapp_scan_9), false);
             }
             if (backgroundChecker.hasAudioBeaconApps()) {
                 entryLogger(backgroundChecker.getAudioBeaconAppNames().length
-                        + getResources().getString(R.string.back_scanner_5), true);
+                        + getResources().getString(R.string.userapp_scan_10), true);
             }
             else {
-                entryLogger(getResources().getString(R.string.back_scanner_6), false);
+                entryLogger(getResources().getString(R.string.userapp_scan_11), false);
             }
         }
     }
@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected boolean runBackgroundChecks() {
         if (backgroundChecker.initChecker(this.getPackageManager())) {
             // is good
-            entryLogger(getResources().getString(R.string.background_scan_2) + "\n", false);
+            entryLogger(getResources().getString(R.string.userapp_scan_2) + "\n", false);
             backgroundChecker.runChecker();
 
             //entryLogger(getResources().getString(R.string.background_scan_3) + backgroundChecker.getUserRecordNumApps() + "\n", false);
@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         else {
             // is bad
-            entryLogger(getResources().getString(R.string.background_scan_1), true);
+            entryLogger(getResources().getString(R.string.userapp_scan_1), true);
             return false;
         }
     }
@@ -536,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             alertDialog.show();
         }
         else {
-            entryLogger(getResources().getString(R.string.user_apps_check_1), true);
+            entryLogger(getResources().getString(R.string.userapp_scan_4), true);
         }
     }
 
@@ -545,16 +545,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         backgroundChecker.audioAppEntryLog();
     }
 
+    /*
     protected void displayBeaconSdkList() {
         entryLogger("\n" + getResources().getString(R.string.sdk_names_list) + "\n"
                 + backgroundChecker.displayAudioSdkNames(), false);
         // add any user names
-        entryLogger(backgroundChecker.displayUserSdkNames() + "\n", false);
+        //entryLogger(backgroundChecker.displayUserSdkNames() + "\n", false);
     }
+    */
 
     private void listAppOverrideScanDetails(int selectedIndex) {
         // check for receivers too?
-        entryLogger("\n" + getResources().getString(R.string.background_scan_6)
+        entryLogger("\n" + getResources().getString(R.string.userapp_scan_5)
                 + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getActivityName()
                 + ": " + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getServicesNum(), true);
 
@@ -562,7 +564,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             logAppEntryInfo(backgroundChecker.getOverrideScanAppEntry(selectedIndex).getServiceNames());
         }
 
-        entryLogger(getResources().getString(R.string.background_scan_7)
+        entryLogger(getResources().getString(R.string.userapp_scan_6)
                 + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getActivityName()
                 + ": " + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getReceiversNum(), true);
 
@@ -572,9 +574,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void logAppEntryInfo(String[] appEntryInfoList) {
-        entryLogger("\n" + getResources().getString(R.string.background_scan_8) + "\n", false);
-        for (int i = 0; i < appEntryInfoList.length; i++) {
-            entryLogger(appEntryInfoList[i] + "\n", false);
+        entryLogger("\n" + getResources().getString(R.string.userapp_scan_7) + "\n", false);
+        for (String entryInfo : appEntryInfoList) {
+            entryLogger(entryInfo + "\n", false);
         }
     }
 

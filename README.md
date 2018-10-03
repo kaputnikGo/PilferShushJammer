@@ -27,7 +27,7 @@ Added user app scanner - lists any receivers and services for a chosen user app
 
    vers. 2.1.1
    - min API 18 (4.3)
-   - target API 23 (6.x)
+   - target API 26 (8.x)
    - compiled API 26 (8.x)
 
    testing devices
@@ -42,6 +42,7 @@ Added user app scanner - lists any receivers and services for a chosen user app
  TODO:
  - device testing for new minimum build 5.1 (API 22)
  - check crashes on Android 7.x
+ - Nov 1st target must be API 26 (Oreo)
  
  
 **Active Jammer frequency analysis:**
