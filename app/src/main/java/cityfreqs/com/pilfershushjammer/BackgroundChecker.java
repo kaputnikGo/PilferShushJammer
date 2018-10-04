@@ -28,14 +28,11 @@ public class BackgroundChecker {
     /*
     - search within a given service/receiver ?
     - apk search, tree structure etc, for package names (requires apktool or similar?)
-
-
      */
 
     private static final String RECORD_PERMISSION = "RECORD_AUDIO";
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
-    //private static String[] USER_SDK_NAMES; // this can be dynamic
 
     public BackgroundChecker(FileProcessor fileProcessor) {
         this.fileProcessor = fileProcessor;
@@ -52,15 +49,6 @@ public class BackgroundChecker {
         return (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0);
     }
 
-    /*
-    protected boolean loadUserSdkNames() {
-        USER_SDK_NAMES = null;
-
-        USER_SDK_NAMES = fileProcessor.getUserSdkArray();
-        return (USER_SDK_NAMES != null && USER_SDK_NAMES.length > 0);
-    }
-    */
-
     protected void destroy() {
         if (packageManager != null) packageManager = null;
         if (packages != null) packages = null;
@@ -69,61 +57,18 @@ public class BackgroundChecker {
     }
 
     /********************************************************************/
-    /*
-     *
-     */
-    protected static boolean isSdkName(String nameQuery) {
-        // check file loaded first
-        if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
-            for (String name : AUDIO_SDK_NAMES) {
-                if (nameQuery.contains(name))
-                    return true;
-            }
-        }
-        return false;
-    }
-    /*
-    public static boolean isUserSdkName(String nameQuery) {
-        // check file loaded first
-        if (USER_SDK_NAMES != null && USER_SDK_NAMES.length > 0) {
-            for (String name : USER_SDK_NAMES) {
-                if (nameQuery.contains(name))
-                    return true;
-            }
-        }
-        return false;
-    }
-    */
 
-    /********************************************************************/
-
-    /*
     protected String displayAudioSdkNames() {
         // return a string of names + \n
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             StringBuilder sb = new StringBuilder();
-            for (String name : AUDIO_SDK_NAMES) {
-                sb.append(name).append("\n");
+            for(int i = 0; i < AUDIO_SDK_NAMES.length; i++) {
+                sb.append(AUDIO_SDK_NAMES[i] + "\n");
             }
             return sb.toString();
         }
-        //MainActivity.entryLogger(fileProcessor.context.getResources().getString(R.string.passive_state_1), false);
         return "error: none found \n";
     }
-    */
-
-    /*
-    protected String displayUserSdkNames() {
-        if (loadUserSdkNames()) {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < USER_SDK_NAMES.length; i++) {
-                sb.append(USER_SDK_NAMES[i] + "\n");
-            }
-            return sb.toString();
-        }
-        return "no user SDK names found.";
-    }
-    */
 
     protected int getUserRecordNumApps() {
         // count number with getRecordable == true
@@ -149,40 +94,6 @@ public class BackgroundChecker {
             MainActivity.entryLogger(fileProcessor.context.getResources().getString(R.string.userapp_scan_12), false);
         }
     }
-
-    /*
-    protected boolean checkCautionedApps() {
-        int counter = 0;
-        if (appEntries.size() > 0) {
-            for (AppEntry appEntry : appEntries) {
-                if (appEntry.getCaution()) {
-                    counter++;
-                }
-            }
-        }
-        return (counter > 0);
-    }
-
-    protected String[] getCautionedAppNames() {
-        String[] appNames = new String[appEntries.size()];
-        int i = 0;
-        if (appEntries.size() > 0) {
-            for (AppEntry appEntry : appEntries) {
-                if (appEntry.getCaution()) {
-                    appNames[i] = appEntry.getActivityName();
-                    i++;
-                }
-            }
-        }
-        return appNames;
-    }
-
-    protected AppEntry getCautionedAppEntry(int appEntryIndex) {
-        //TODO
-        // base on name..
-        return appEntries.get(appEntryIndex);
-    }
-    */
 
     protected boolean hasAudioBeaconApps() {
         return audioBeaconCount > 0;
@@ -285,25 +196,38 @@ public class BackgroundChecker {
                                 PackageManager.GET_RECEIVERS);
 
                 // check permissions and services
+
                 if (packageInfo.requestedPermissions != null && isUserApp(applicationInfo)) {
-                    // does not include system apps
+                    //TODO
+                    // have user switch, or collect theses elsewhere in UI
+                    // do not include system apps
                     AppEntry appEntry = new AppEntry(packageInfo.packageName,
                             (String) packageInfo.applicationInfo.loadLabel(packageManager));
                     // check for specific permissions
                     for (String permsString: packageInfo.requestedPermissions) {
-                        appEntry.setBootCheck(permsString.contains(BOOT_PERMISSION));
-                        appEntry.setRecordable(permsString.contains(RECORD_PERMISSION));
+                        if (permsString.contains(BOOT_PERMISSION)) {
+                            appEntry.setBootCheck(true);
+                        }
+
+                        if (permsString.contains(RECORD_PERMISSION)) {
+                            appEntry.setRecordable(true);
+                        }
+
                     }
 
                     // check for services and receivers
                     if (packageInfo.services != null) {
                         appEntry.setServiceInfo(packageInfo.services);
-                        appEntry.setServices(packageInfo.services != null);
+                    }
+                    else {
+                        appEntry.setServices(false);
                     }
 
                     if (packageInfo.receivers != null) {
                         appEntry.setActivityInfo(packageInfo.receivers);
-                        appEntry.setReceivers(packageInfo.receivers != null);
+                    }
+                    else {
+                        appEntry.setReceivers(false);
                     }
                     //add to list
                     appEntry.setIdNum(idCounter);

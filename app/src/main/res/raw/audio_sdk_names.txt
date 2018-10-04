@@ -1,3 +1,4 @@
+copsonic
 fidzup
 lisnr
 shopkick

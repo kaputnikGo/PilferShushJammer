@@ -32,4 +32,10 @@
         android:title="@string/action_userapp_summary"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_nuhfsdk_list"
+        android:orderInCategory="50"
+        android:title="@string/action_nuhfsdk_list"
+        app:showAsAction="never" />
+
 </menu>

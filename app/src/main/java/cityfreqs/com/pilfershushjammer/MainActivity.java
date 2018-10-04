@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.1.1"; // dev build 2.1.1.2
+    public static final String VERSION = "2.1.1"; // dev build 2.1.1.3
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -286,6 +286,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             case R.id.action_userapp_summary:
                 userappSummary();
                 return true;
+            case R.id.action_nuhfsdk_list:
+                displayBeaconSdkList();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -348,10 +351,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         entryLogger(getResources().getString(R.string.intro_1) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_2) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_3) + "\n", false);
-        entryLogger(getResources().getString(R.string.intro_4) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_4) + "\n", true);
         entryLogger(getResources().getString(R.string.intro_5) + "\n", false);
-        entryLogger(getResources().getString(R.string.intro_6) + "\n", true);
-        entryLogger(getResources().getString(R.string.intro_7) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_6) + "\n", false);
     }
 
     private void initApplication() {
@@ -397,11 +399,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         createNotifications();
         populateMenuItems();
         entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], false);
-        entryLogger(getResources().getString(R.string.intro_8) + "\n", true);
+        entryLogger(getResources().getString(R.string.intro_7) + "\n", true);
 
-        //TODO
         initBackgroundChecker();
-        // add call to displayBeaconSdkList() after init ?
     }
 
     private void initBackgroundChecker() {
@@ -507,9 +507,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // is good
             entryLogger(getResources().getString(R.string.userapp_scan_2) + "\n", false);
             backgroundChecker.runChecker();
-
-            //entryLogger(getResources().getString(R.string.background_scan_3) + backgroundChecker.getUserRecordNumApps() + "\n", false);
-
             backgroundChecker.checkAudioBeaconApps();
             return true;
         }
@@ -545,14 +542,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         backgroundChecker.audioAppEntryLog();
     }
 
-    /*
     protected void displayBeaconSdkList() {
-        entryLogger("\n" + getResources().getString(R.string.sdk_names_list) + "\n"
+        // current list (in /raw) of NUHF beacon SDK package names
+        entryLogger("\n--------------------------------------\n", false);
+        entryLogger(getResources().getString(R.string.sdk_names_list) + "\n"
                 + backgroundChecker.displayAudioSdkNames(), false);
-        // add any user names
-        //entryLogger(backgroundChecker.displayUserSdkNames() + "\n", false);
     }
-    */
 
     private void listAppOverrideScanDetails(int selectedIndex) {
         // check for receivers too?

@@ -9,6 +9,7 @@
     <string name="action_drift_speed">Drift Speed Settings</string>
     <string name="action_userapp_check">User Apps Scanner</string>
     <string name="action_userapp_summary">User Apps Summary</string>
+    <string name="action_nuhfsdk_list">NUHF SDK List</string>
 
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
@@ -41,14 +42,14 @@
     <string name="app_status_6">EQ is turned on.</string>
     <string name="app_status_7">EQ is not available.</string>
 
-    <string name="intro_1">Android allows only one app to use the microphone at a time, however the system can override this.</string>
-    <string name="intro_2">For instance when a phone call is being made. Or, possibly, if a voice assistant is enabled.</string>
-    <string name="intro_3">Some apps use the microphone to listen to tracking signals that are inaudible to human hearing.</string>
-    <string name="intro_4">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
-    <string name="intro_5">Firstly, via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
-    <string name="intro_6">This app does NOT listen to or record any of the audio from the microphone during this.</string>
-    <string name="intro_7">Also an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
-    <string name="intro_8">Use option menu / active jammer settings to setup active NUHF jamming.</string>
+    <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
+    <string name="intro_2">Via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
+    <string name="intro_3">Or via an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
+    <string name="intro_4">This app does NOT listen to or record any of the audio from the microphone during this.</string>
+    <string name="intro_5">The User Apps Scanner prints the background services and receivers for a chosen app</string>
+    <string name="intro_6">The User Apps Summary prints basic information of interest about all user installed apps.</string>
+
+    <string name="intro_7">Use option menu to change active jamming settings or to check user apps.</string>
 
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -112,7 +113,7 @@
     <!--
     background userapp checker
     -->
-    <string name="sdk_names_list">Default list of SDK names searched:\u0020</string>
+    <string name="sdk_names_list">List of NUHF SDK names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
     <string name="userapp_scan_1">Userapp Checker fail.</string>
@@ -126,8 +127,8 @@
 
     <string name="userapp_scan_8">Record audio apps found:\u0020</string>
     <string name="userapp_scan_9">No record audio apps found.</string>
-    <string name="userapp_scan_10">\u0020Audio Beacon SDKs detected.</string>
-    <string name="userapp_scan_11">No Audio Beacon SDKs detected.</string>
+    <string name="userapp_scan_10">\u0020NUHF SDKs detected.</string>
+    <string name="userapp_scan_11">No NUHF SDKs detected.</string>
 
     <string name="userapp_scan_12">No user apps found.</string>
 
