@@ -25,7 +25,7 @@ Added user app summary - lists capabilities: record audio, boot, services, recei
 
 Added user app scanner - lists any receivers and services for a chosen user app
 
-   vers. 2.1.1
+   vers. 2.1.1.4
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 26 (8.x)
