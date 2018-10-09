@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.1.1"; // dev build 2.1.1.4
+    public static final String VERSION = "2.1.1"; // dev build 2.1.1.5
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -813,7 +813,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        int userInputCarrier = 19000;
+                        if (userCarrierInput.getText().length() != 0) {
+                            userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        }
                         activeJammer.setUserCarrier(userInputCarrier);
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
                         entryLogger("Jammer type changed to 1000Hz drift with carrier at " + activeJammer.getUserConformedCarrier(), false);
@@ -847,8 +850,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
-                        int userInputLimit = Integer.parseInt(userLimitInput.getText().toString());
+                        int userInputCarrier = 19000;
+                        if (userCarrierInput.getText().length() != 0) {
+                            userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        }
+                        int userInputLimit = 1000;
+                        if (userLimitInput.getText().length() != 0) {
+                            userInputLimit = Integer.parseInt(userCarrierInput.getText().toString());
+                        }
 
                         activeJammer.setUserCarrier(userInputCarrier);
                         activeJammer.setUserLimit(userInputLimit);
@@ -885,7 +894,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int userInputDrift = Integer.parseInt(userDriftInput.getText().toString());
+                        // set a default and check edit text field
+                        int userInputDrift = 1;
+                        if (userDriftInput.getText().length() != 0) {
+                            userInputDrift = Integer.parseInt(userDriftInput.getText().toString());
+                        }
                         activeJammer.setDriftSpeed(userInputDrift);
                         entryLogger("Jammer drift speed changed to " + userInputDrift, false);
                     }
