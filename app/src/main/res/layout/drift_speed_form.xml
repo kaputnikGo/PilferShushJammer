@@ -13,7 +13,6 @@
 
     <EditText
         android:id="@+id/drift_input"
-        android:layout_below="@id/drift_input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -28,7 +27,6 @@
 
     <TextView
         android:id="@+id/constrain_text"
-        android:layout_below="@id/drift_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

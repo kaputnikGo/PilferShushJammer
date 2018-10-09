@@ -25,7 +25,9 @@ Added user app summary - lists capabilities: record audio, boot, services, recei
 
 Added user app scanner - lists any receivers and services for a chosen user app
 
-   vers. 2.1.1.5
+Move EQ to on by default if EQ available, moved noise switch to options menu
+
+   vers. 2.1.1.6
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 26 (8.x)
@@ -40,6 +42,7 @@ Added user app scanner - lists any receivers and services for a chosen user app
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  TODO:
+ - remove EQ and noise switches, auto set EQ on if device able, move noise switch to menu
  - device testing for new minimum build 5.1 (API 22)
  - check crashes on Android 7.x
  - Nov 1st target must be API 26 (Oreo)

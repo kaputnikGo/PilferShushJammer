@@ -30,6 +30,13 @@
     <string name="jammer_dialog_10">1000</string>
     <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
 
+    <string name="jammer_dialog_12">White noise switch</string>
+
+    <string name="active_dialog_1">Active sound type</string>
+    <string name="active_dialog_2">Active jammer output sound type</string>
+    <string name="active_dialog_3">TONES</string>
+    <string name="active_dialog_4">NOISE</string>
+
     <string name="drift_dialog_1">Drift speed (1 to 10)</string>
     <string name="drift_dialog_2">1</string>
     <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
@@ -41,6 +48,8 @@
     <string name="app_status_5">EQ is turned off.</string>
     <string name="app_status_6">EQ is turned on.</string>
     <string name="app_status_7">EQ is not available.</string>
+    <string name="app_status_8">Active jammer switched to tones.</string>
+    <string name="app_status_9">Active jammer switched to whitenoise.</string>
 
     <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
     <string name="intro_2">Via a passive jamming technique that engages the microphone blocking other apps from using it.</string>

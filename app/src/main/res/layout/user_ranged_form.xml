@@ -13,7 +13,6 @@
 
     <EditText
         android:id="@+id/carrier_input"
-        android:layout_below="@id/carrier_input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -27,7 +26,6 @@
 
     <TextView
         android:id="@+id/limit_input_text"
-        android:layout_below="@id/carrier_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -35,7 +33,6 @@
 
     <EditText
         android:id="@+id/limit_input"
-        android:layout_below="@id/limit_input_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -48,7 +45,6 @@
 
     <TextView
         android:id="@+id/constrain_text"
-        android:layout_below="@id/limit_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

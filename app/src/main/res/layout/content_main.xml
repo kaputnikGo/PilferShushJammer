@@ -39,10 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="74dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_bottom_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_constraintTop_toBottomOf="@+id/view_layout"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,38 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/button_bottom_margin"
             android:layout_marginStart="11dp"
+            android:layout_marginBottom="@dimen/button_bottom_margin"
             android:text="@string/main_scanner_2"
             android:textAllCaps="false"
             android:textOff="@string/main_scanner_2" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintStart_toEndOf="@+id/run_passive_button"
-            app:layout_constraintEnd_toStartOf="@+id/run_active_button">
-
-            <Switch
-                android:id="@+id/eq_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/active_type_switch"
-                android:layout_alignEnd="@+id/active_type_switch"
-                android:checked="false"
-                android:text="@string/button_eq" />
-
-            <Switch
-                android:id="@+id/active_type_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:checked="false"
-                android:text="@string/button_noise" />
-
-        </RelativeLayout>
 
         <ToggleButton
             android:id="@+id/run_active_button"

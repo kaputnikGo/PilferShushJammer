@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -41,7 +40,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.1.1"; // dev build 2.1.1.5
+    public static final String VERSION = "2.1.1"; // dev build 2.1.1.6
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -53,10 +52,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private static TextView debugText;
     private ToggleButton passiveJammerButton;
     private ToggleButton activeJammerButton;
-    private Switch eqSwitch;
     private AudioSettings audioSettings;
 
-    private boolean activeTypeValue;
+    private boolean activeTypeNoise;
     private String[] jammerTypes;
 
     private AudioManager audioManager;
@@ -123,22 +121,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
            }
         });
 
-        Switch activeTypeSwitch = findViewById(R.id.active_type_switch);
-        activeTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                activeTypeValue = isChecked;
-            }
-        });
-
-        eqSwitch = findViewById(R.id.eq_switch);
-        eqSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleEq(isChecked);
-            }
-        });
-
         HAS_HEADSET = false;
         headsetReceiver = new HeadsetIntentReceiver();
+        activeTypeNoise = false;
 
         // permissions ask:
         // check API version, above 23 permissions are asked at runtime
@@ -401,6 +386,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], false);
         entryLogger(getResources().getString(R.string.intro_7) + "\n", true);
 
+        // if eq available then turn on by default
+        toggleEq();
+
         initBackgroundChecker();
     }
 
@@ -455,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             ACTIVE_RUNNING = true;
             notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
             entryLogger(getResources().getString(R.string.main_scanner_5), false);
-            activeJammer.play(activeTypeValue ? 1 : 0); // to change to proper int
+            activeJammer.play(activeTypeNoise ? 1 : 0);
         }
     }
 
@@ -504,14 +492,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     */
     protected boolean runBackgroundChecks() {
         if (backgroundChecker.initChecker(this.getPackageManager())) {
-            // is good
-            entryLogger(getResources().getString(R.string.userapp_scan_2) + "\n", false);
             backgroundChecker.runChecker();
             backgroundChecker.checkAudioBeaconApps();
             return true;
         }
         else {
-            // is bad
             entryLogger(getResources().getString(R.string.userapp_scan_1), true);
             return false;
         }
@@ -580,30 +565,22 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         UTILITY FUNCTIONS
 
     */
-    private void toggleEq(boolean eqOn) {
+    private void toggleEq() {
         if (!audioSettings.getHasEQ()) {
             // failure when testing onboard audiofx/equalizer, device specific
             entryLogger(getResources().getString(R.string.app_status_7), false);
-            if (eqOn) {
-                // if togglebutton pressed on, reset to off
-                eqSwitch.toggle();
-            }
             return;
         }
 
         if (activeJammer != null) {
             if (ACTIVE_RUNNING) {
-                // need to stop so eq change can take effect
+                // in case need to stop so eq change can take effect
                 stopActive();
                 activeJammerButton.toggle();
             }
-            activeJammer.setEqOn(eqOn);
-        }
-        if (eqOn)
+            activeJammer.setEqOn(true);
             entryLogger(getResources().getString(R.string.app_status_6), false);
-        else
-            entryLogger(getResources().getString(R.string.app_status_5), false);
-
+        }
     }
 
     private void interruptRequestAudio(int focusChange) {
@@ -760,11 +737,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void populateMenuItems() {
-        jammerTypes = new String[4];
+        jammerTypes = new String[5];
         jammerTypes[0] = getResources().getString(R.string.jammer_dialog_2);
         jammerTypes[1] = getResources().getString(R.string.jammer_dialog_3);
         jammerTypes[2] = getResources().getString(R.string.jammer_dialog_4);
         jammerTypes[3] = getResources().getString(R.string.jammer_dialog_5);
+        jammerTypes[4] = getResources().getString(R.string.jammer_dialog_12);
     }
 
     private void jammerDialog() {
@@ -787,6 +765,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         break;
                     case 3:
                         userRangedDialog();
+                        break;
+                    case 4:
+                        activeTypeDialog();
                         break;
                     default:
                         break;
@@ -913,6 +894,35 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
+
+    private void activeTypeDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.active_type_switcher, null);
+        dialogBuilder.setView(inputView);
+
+        dialogBuilder.setTitle(R.string.active_dialog_1);
+        dialogBuilder.setMessage("");
+        dialogBuilder
+                .setPositiveButton(R.string.active_dialog_3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        activeTypeNoise = false;
+                        entryLogger(getResources().getString(R.string.app_status_8), false);
+                    }
+                })
+                .setNegativeButton(R.string.active_dialog_4, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        activeTypeNoise = true;
+                        entryLogger(getResources().getString(R.string.app_status_9), false);
+                    }
+                });
+        alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
     /*
 
 
