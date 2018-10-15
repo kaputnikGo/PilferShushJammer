@@ -18,7 +18,6 @@ public class FileProcessor {
 
     protected String[] getAudioSdkArray() {
         // should always be an internal list of size > 1
-        //TODO fix the logic here
         if (audioSdkArray == null) {
             // maybe not created yet...
             if (loadAudioSdkList()) {

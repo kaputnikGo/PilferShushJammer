@@ -6,8 +6,8 @@ android {
         applicationId "cityfreqs.com.pilfershushjammer"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 6
-        versionName "2.1.1"
+        versionCode 7
+        versionName "2.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:26.1.0'

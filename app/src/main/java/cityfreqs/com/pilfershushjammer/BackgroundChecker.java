@@ -24,12 +24,6 @@ public class BackgroundChecker {
     // Manifest.permission can be requested at runtime
     //
 
-    //TODO
-    /*
-    - search within a given service/receiver ?
-    - apk search, tree structure etc, for package names (requires apktool or similar?)
-     */
-
     private static final String RECORD_PERMISSION = "RECORD_AUDIO";
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
@@ -62,8 +56,8 @@ public class BackgroundChecker {
         // return a string of names + \n
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < AUDIO_SDK_NAMES.length; i++) {
-                sb.append(AUDIO_SDK_NAMES[i] + "\n");
+            for (String name : AUDIO_SDK_NAMES) {
+                sb.append(name).append("\n");
             }
             return sb.toString();
         }
@@ -86,7 +80,6 @@ public class BackgroundChecker {
     protected void audioAppEntryLog() {
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
-                //TODO
                 MainActivity.entryLogger(appEntry.toString(), appEntry.checkForCaution());
             }
         }
@@ -140,7 +133,6 @@ public class BackgroundChecker {
 // loop though services/receivers lists and look for substrings of interest,
 // hardcoded for now, user added later?
 // if find one instance return true
-
     private boolean checkForAudioBeaconService(String[] serviceNames) {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             for (String name : serviceNames) {
@@ -180,8 +172,6 @@ public class BackgroundChecker {
 
     protected void runChecker() {
         // get list of apps
-        // only lists apps with declared AudioRecord/Mic permission...
-        // need to check for runonce...
         //TODO
         // PackageManager.getSystemAvailableFeatures() - list all features
         // PackageManager.hasSystemFeature(String name) - search for specific ie: "FEATURE_MICROPHONE"
@@ -196,11 +186,7 @@ public class BackgroundChecker {
                                 PackageManager.GET_RECEIVERS);
 
                 // check permissions and services
-
                 if (packageInfo.requestedPermissions != null && isUserApp(applicationInfo)) {
-                    //TODO
-                    // have user switch, or collect theses elsewhere in UI
-                    // do not include system apps
                     AppEntry appEntry = new AppEntry(packageInfo.packageName,
                             (String) packageInfo.applicationInfo.loadLabel(packageManager));
                     // check for specific permissions
