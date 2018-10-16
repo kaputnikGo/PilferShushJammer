@@ -2,7 +2,7 @@ package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -16,10 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
@@ -38,15 +34,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+
+// newer imports for API 28 builds
+
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.1.2";
+    public static final String VERSION = "2.2.1";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
+    private static final String CHANNEL_ID = "PS";
+    private static final String CHANNEL_NAME = "PilferShush";
     private static final int NOTIFY_ACTIVE_ID = 113;
 
     private static TextView debugText;
@@ -69,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
     private NotificationManager notifyManager;
-    private Notification.Builder notifyPassiveBuilder;
-    private Notification.Builder notifyActiveBuilder;
+    private NotificationCompat.Builder notifyPassiveBuilder;
+    private NotificationCompat.Builder notifyActiveBuilder;
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
     private boolean IRQ_TELEPHONY;
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -464,9 +471,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 0, notificationIntent,0);
 
         notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("PilferShush Jammer notifications");
+            notifyManager.createNotificationChannel(channel);
+        }
 
-        notifyPassiveBuilder = new Notification.Builder(this);
-        notifyActiveBuilder = new Notification.Builder(this);
+
+        notifyPassiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        notifyActiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))

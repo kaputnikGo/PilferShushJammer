@@ -23,12 +23,12 @@ Scan user installed apps for key features and services/receivers running.
 
 **Changes:**
 
-Bugfixes, code cleanup
+Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
-   vers. 2.1.2
+   vers. 2.2.1
    - min API 18 (4.3)
    - target API 26 (8.x)
-   - compiled API 26 (8.x)
+   - compiled API 28 (9.x)
 
    testing devices
    - EMU : Galaxy Nexus 4.3 (18) (Android Studio AVD, no GApps)
@@ -40,7 +40,7 @@ Bugfixes, code cleanup
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  TODO:
- - device testing for raising minimum build to 5.1 (API 22)
+ - device testing possible raising minimum to 5.1 (API 22)
  
  
 **Active Jammer frequency analysis:**
