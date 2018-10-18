@@ -44,7 +44,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.1";
+    public static final String VERSION = "2.2.2";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -198,14 +198,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 // reset booleans to init state
                 PASSIVE_RUNNING = false;
                 IRQ_TELEPHONY = false;
+                // cancel notification as part of reset
+                notifyManager.cancel(NOTIFY_PASSIVE_ID);
                 runPassive();
             }
+            // we could be checking against ourselves...
             else if (status == AudioManager.AUDIOFOCUS_LOSS) {
                 // possible music player etc that has speaker focus but no need of microphone,
                 // can end up fighting for focus with music player,
                 // reset booleans to init state
                 PASSIVE_RUNNING = false;
                 IRQ_TELEPHONY = false;
+                // cancel notification as part of reset
+                notifyManager.cancel(NOTIFY_PASSIVE_ID);
                 runPassive();
             }
         }
@@ -419,6 +424,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+    private void resetApplication() {
+        // from a background state, return app to nothing running
+        // reset booleans to init state
+        stopPassive();
+        stopActive();
+    }
+
     private void runPassive() {
         if (passiveJammer != null && !PASSIVE_RUNNING) {
             if (passiveJammer.startPassiveJammer()) {
@@ -604,6 +616,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // may want to handle focus change reason differently in future
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // total loss, focus abandoned
+            // reset here
+            resetApplication();
             return;
         }
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
@@ -648,6 +662,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     // currently, audioFocus listener is the only method of auto-triggering the jammer behaviour
+    // this can get false positives with returning non-jamming app from back button press
     private void initAudioFocusListener() {
         audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
