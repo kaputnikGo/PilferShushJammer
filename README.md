@@ -25,6 +25,8 @@ Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
 **Changes:**
 back button behaviour improvement: audiofocus loss false positive
+reload app icons for updated build paths
+change audio focus LOSS with jammers now ignoring request
 
    vers. 2.2.2
    - min API 18 (4.3)

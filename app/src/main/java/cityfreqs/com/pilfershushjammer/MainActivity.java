@@ -44,7 +44,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.2";
+    public static final String VERSION = "2.2.2.3";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         passiveJammerButton = findViewById(R.id.run_passive_button);
         passiveJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //passiveStateCheck(isChecked);
                 if (isChecked) {
                     runPassive();
                 }
@@ -179,8 +181,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
@@ -219,14 +227,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             entryLogger(getResources().getString(R.string.app_status_1), true);
         }
         else {
-            entryLogger(getResources().getString(R.string.app_status_2), true);
+            entryLogger(getResources().getString(R.string.app_status_2), false);
         }
         if (ACTIVE_RUNNING) {
             // return from background without irq_telephony
             entryLogger(getResources().getString(R.string.app_status_3), true);
         }
         else {
-            entryLogger(getResources().getString(R.string.app_status_4), true);
+            entryLogger(getResources().getString(R.string.app_status_4), false);
         }
     }
 
@@ -253,11 +261,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        // called from back button press
+        // save state
+        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        sharedPrefsEditor = sharedPrefs.edit();
+        sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
+        sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
+        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
+        sharedPrefsEditor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+
+        @Override
     protected void onDestroy() {
         super.onDestroy();
         backgroundChecker.destroy();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -376,11 +402,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         // after audio inits, can call the jammers
         passiveJammer = new PassiveJammer(this, audioSettings);
-        PASSIVE_RUNNING = false;
-        IRQ_TELEPHONY = false;
-
         activeJammer = new ActiveJammer(this, audioSettings);
+        PASSIVE_RUNNING = false;
         ACTIVE_RUNNING = false;
+        IRQ_TELEPHONY = false;
 
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
@@ -425,10 +450,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void resetApplication() {
-        // from a background state, return app to nothing running
-        // reset booleans to init state
-        stopPassive();
-        stopActive();
+        // from a background state IRQ LOSS,
+        if (passiveJammer != null && PASSIVE_RUNNING) {
+            entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
+        }
+        if (activeJammer != null && ACTIVE_RUNNING) {
+            entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
+        }
     }
 
     private void runPassive() {
@@ -440,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     stopPassive();
                 }
                 else {
-                    entryLogger(getResources().getString(R.string.main_scanner_3), false);
+                    entryLogger(getResources().getString(R.string.main_scanner_3), true);
                     PASSIVE_RUNNING = true;
                     notifyManager.notify(NOTIFY_PASSIVE_ID, notifyPassiveBuilder.build());
                 }
@@ -461,7 +489,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // run it
             ACTIVE_RUNNING = true;
             notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
-            entryLogger(getResources().getString(R.string.main_scanner_5), false);
+            entryLogger(getResources().getString(R.string.main_scanner_5), true);
             activeJammer.play(activeTypeNoise ? 1 : 0);
         }
     }
@@ -510,6 +538,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(false);
+
     }
 
     /*
@@ -614,9 +643,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // possible system app request audio focus
         entryLogger(getResources().getString(R.string.audiofocus_check_5), true);
         // may want to handle focus change reason differently in future
+        // loss from back button press
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-            // total loss, focus abandoned
-            // reset here
             resetApplication();
             return;
         }
@@ -628,6 +656,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private int audioFocusCheck() {
         entryLogger(getResources().getString(R.string.audiofocus_check_1), false);
+        // note: api 26+ use AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
         int result = audioManager.requestAudioFocus(audioFocusListener,
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
