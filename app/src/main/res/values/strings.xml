@@ -51,6 +51,10 @@
     <string name="app_status_8">Active jammer switched to tones.</string>
     <string name="app_status_9">Active jammer switched to whitenoise.</string>
 
+    <string name="app_status_10">Passive jammer running.</string>
+    <string name="app_status_11">Active jammer running.</string>
+    <string name="app_status_12">Tap to return to app.</string>
+
     <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
     <string name="intro_2">Via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
     <string name="intro_3">Or via an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>

@@ -44,7 +44,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.2.3";
+    public static final String VERSION = "2.2.2.4";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
     // adding background scanner - make unobtrusive in GUI
@@ -525,20 +525,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle("passive jammer running")
-                .setContentText("Tap to return to app")
+                .setContentTitle(getResources().getString(R.string.app_status_10))
+                .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
+                .setOngoing(true)
                 .setAutoCancel(false);
 
         notifyActiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle("active jammer running")
-                .setContentText("Tap to return to app")
+                .setContentTitle(getResources().getString(R.string.app_status_11))
+                .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
+                .setOngoing(true)
                 .setAutoCancel(false);
-
     }
 
     /*
