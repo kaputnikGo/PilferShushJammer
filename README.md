@@ -28,7 +28,7 @@ back button behaviour improvement: audiofocus loss false positive
 reload app icons for updated build paths
 change audio focus LOSS with jammers now ignoring request
 
-   vers. 2.2.2
+   vers. 2.2.2.3
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
