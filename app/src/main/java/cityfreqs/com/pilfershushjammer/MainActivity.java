@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public static final String VERSION = "2.2.2.4";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
-    // adding background scanner - make unobtrusive in GUI
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private static final int NOTIFY_PASSIVE_ID = 112;
