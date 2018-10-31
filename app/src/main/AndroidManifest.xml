@@ -3,6 +3,7 @@
     package="cityfreqs.com.pilfershushjammer">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".PassiveJammerService"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/service_name"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cityfreqs.com.pilfershushjammer.action.START" />
+                <action android:name="cityfreqs.com.pilfershushjammer.action.STOP" />
+            </intent-filter>
+        </service>
+
 
     </application>
 

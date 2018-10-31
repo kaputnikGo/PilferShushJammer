@@ -15,11 +15,11 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +45,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.2.5";
+    public static final String VERSION = "2.2.3";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -402,6 +402,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // after audio inits, can call the jammers
         passiveJammer = new PassiveJammer(this, audioSettings);
         activeJammer = new ActiveJammer(this, audioSettings);
+
         PASSIVE_RUNNING = false;
         ACTIVE_RUNNING = false;
         IRQ_TELEPHONY = false;
@@ -455,6 +456,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         if (activeJammer != null && ACTIVE_RUNNING) {
             entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
+        }
+    }
+
+    //todo
+    private void backgroundedApp() {
+        // in API 28+ run jammer as a service to try avoid system stopping it
+        Intent intent = new Intent(this, PassiveJammerService.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        }
+        else {
+            startService(intent);
         }
     }
 

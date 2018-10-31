@@ -24,12 +24,9 @@ Scan user installed apps for key features and services/receivers running.
 Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
 **Changes:**
-- back button behaviour improvement: audiofocus loss false positive
-- reload app icons for updated build paths
-- change audio focus LOSS with jammers now ignoring request
-- update notifications behaviour
+- API 28 notifications rewrite, jammer as service
 
-   vers. 2.2.2.4
+   vers. 2.2.3
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
@@ -42,10 +39,6 @@ Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)
    - DEV : s5 G900I (tainted) 7.1.2 (25)(LineageOS 14.1, GApps)
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
- 
- TODO:
- - device testing possible raising minimum to 5.1 (API 22)
- -
  
  
 **Active Jammer frequency analysis:**
