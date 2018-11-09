@@ -24,9 +24,10 @@ Scan user installed apps for key features and services/receivers running.
 Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
 **Changes:**
+- remove headset receiver as unnecessary.
 - API 28 notifications rewrite, jammer as service
 
-   vers. 2.2.3
+   vers. 2.2.4
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

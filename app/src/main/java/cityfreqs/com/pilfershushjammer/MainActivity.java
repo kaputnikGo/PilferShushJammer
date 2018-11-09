@@ -5,11 +5,9 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -45,7 +43,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.3";
+    public static final String VERSION = "2.2.4";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
-    private HeadsetIntentReceiver headsetReceiver;
 
     private PassiveJammer passiveJammer;
     private ActiveJammer activeJammer;
@@ -80,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
     private boolean IRQ_TELEPHONY;
-    private boolean HAS_HEADSET;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
@@ -129,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
            }
         });
 
-        HAS_HEADSET = false;
-        headsetReceiver = new HeadsetIntentReceiver();
         activeTypeNoise = false;
 
         // permissions ask:
@@ -193,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
         IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
 
-        IntentFilter headsetFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
-        registerReceiver(headsetReceiver, headsetFilter);
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int status = audioFocusCheck();
         // do not resume active jammer from an IRQ
@@ -240,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onPause() {
         super.onPause();
-        // backgrounded, possible audio_focus loss due to telephony...
-        unregisterReceiver(headsetReceiver);
 
         // save state first
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
@@ -381,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void initApplication() {
         introText();
 
-        headsetReceiver = new HeadsetIntentReceiver();
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
         initAudioFocusListener();
@@ -687,23 +676,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         return result;
     }
 
-    private void toggleHeadset() {
-        // do even need this?
-        if (HAS_HEADSET) {
-            // volume to 50%
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2,
-                    AudioManager.FLAG_SHOW_UI);
-            entryLogger(getResources().getString(R.string.headset_state_4), true);
-        }
-        else {
-            // volume to 100%
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                    AudioManager.FLAG_SHOW_UI);
-        }
-    }
-
     // currently, audioFocus listener is the only method of auto-triggering the jammer behaviour
     // this can get false positives with returning non-jamming app from back button press
     private void initAudioFocusListener() {
@@ -758,33 +730,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
             }
         };
-    }
-
-    private class HeadsetIntentReceiver extends BroadcastReceiver {
-        @Override public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() == null) {
-                return;
-            }
-
-            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
-                int state = intent.getIntExtra("state", -1);
-                switch (state) {
-                    case 0:
-                        entryLogger(getResources().getString(R.string.headset_state_1), false);
-                        HAS_HEADSET = false;
-                        toggleHeadset();
-                        break;
-                    case 1:
-                        entryLogger(getResources().getString(R.string.headset_state_2), false);
-                        HAS_HEADSET = true;
-                        toggleHeadset();
-                        break;
-                    default:
-                        entryLogger(getResources().getString(R.string.headset_state_3), false);
-                        HAS_HEADSET = false;
-                }
-            }
-        }
     }
 
     private void aboutDialog() {
