@@ -2,6 +2,7 @@ package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
@@ -43,7 +43,7 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.4";
+    public static final String VERSION = "2.2.5";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -448,19 +448,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-    //todo
-    private void backgroundedApp() {
-        // in API 28+ run jammer as a service to try avoid system stopping it
-        Intent intent = new Intent(this, PassiveJammerService.class);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        }
-        else {
-            startService(intent);
-        }
-    }
-
     private void runPassive() {
         if (passiveJammer != null && !PASSIVE_RUNNING) {
             if (passiveJammer.startPassiveJammer()) {
@@ -516,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription("PilferShush Jammer notifications");
             notifyManager.createNotificationChannel(channel);
         }
@@ -532,6 +519,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
+                .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(false);
 
         notifyActiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
@@ -541,6 +529,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setOngoing(true)
+                .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(false);
     }
 
