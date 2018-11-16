@@ -1,6 +1,7 @@
 alphonso
 copsonic
 fidzup
+intrasonics
 lisnr
 prontoly
 shopkick

@@ -505,6 +505,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription("PilferShush Jammer notifications");
+            channel.enableLights(false);
+            channel.enableVibration(false);
+            channel.setLockscreenVisibility( Notification.VISIBILITY_PUBLIC);
             notifyManager.createNotificationChannel(channel);
         }
 
