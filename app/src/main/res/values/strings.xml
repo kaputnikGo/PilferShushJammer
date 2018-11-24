@@ -10,13 +10,14 @@
     <string name="action_drift_speed">Drift Speed Settings</string>
     <string name="action_userapp_check">User Apps Scanner</string>
     <string name="action_userapp_summary">User Apps Summary</string>
-    <string name="action_nuhfsdk_list">NUHF SDK List</string>
+    <string name="action_nuhfsdk_list">NUHF/ACR SDK List</string>
 
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
     <string name="about_dialog_2">This is an experimental app designed to unobtrusively block unwanted, hidden use of the onboard microphone.</string>
-    <string name="about_dialog_3">It is open source, available at github, for viewing and raising issues.</string>
-    <string name="about_dialog_4">Part of ongoing Android audio counter-surveillance research.</string>
+    <string name="about_dialog_3">It has a scanner to find SDKs and services that use Near Ultra High Frequencies or Audio Content Recognition.</string>
+    <string name="about_dialog_4">It is open source, available at github, for viewing and raising issues.</string>
+    <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
 
     <string name="jammer_dialog_1">Change active jammer signal type.</string>
     <string name="jammer_dialog_2">Audible tone drift (~440Hz)</string>
@@ -129,7 +130,7 @@
     <!--
     background userapp checker
     -->
-    <string name="sdk_names_list">List of NUHF SDK names searched:\u0020</string>
+    <string name="sdk_names_list">List of NUHF/ACR SDK names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
     <string name="userapp_scan_1">Userapp Checker fail.</string>
@@ -143,15 +144,10 @@
 
     <string name="userapp_scan_8">Record audio apps found:\u0020</string>
     <string name="userapp_scan_9">No record audio apps found.</string>
-    <string name="userapp_scan_10">\u0020NUHF SDKs detected.</string>
-    <string name="userapp_scan_11">No NUHF SDKs detected.</string>
+    <string name="userapp_scan_10">\u0020NUHF/ACR SDKs detected.</string>
+    <string name="userapp_scan_11">No NUHF/ACR SDKs detected.</string>
 
     <string name="userapp_scan_12">No user apps found.</string>
-
-    <!--
-    Fileprocessor.java
-    -->
-    <string name="file_process_1"></string>
 
     <!--
     PassiveJammer.java

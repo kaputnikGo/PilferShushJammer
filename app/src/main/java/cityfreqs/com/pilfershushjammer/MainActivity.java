@@ -39,11 +39,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
-// newer imports for API 28 builds
-
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.5";
+    public static final String VERSION = "2.2.6";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
@@ -728,7 +726,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         String aboutString = (getResources().getString(R.string.about_version) + VERSION  + "\n\n")
             + (getResources().getString(R.string.about_dialog_2) + "\n\n")
             + (getResources().getString(R.string.about_dialog_3) + "\n\n")
-            + (getResources().getString(R.string.about_dialog_4));
+            + (getResources().getString(R.string.about_dialog_4) + "\n\n")
+            + (getResources().getString(R.string.about_dialog_5));
 
         dialogBuilder = new AlertDialog.Builder(this);
 

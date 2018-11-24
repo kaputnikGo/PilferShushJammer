@@ -1,12 +1,16 @@
 alphonso
 copsonic
+dv
 fidzup
+fluzo
 intrasonics
 lisnr
 prontoly
+redbricklane
 shopkick
 signal360
 silverpush
 sonarax
 soniccode
 sonicnotify
+zapr

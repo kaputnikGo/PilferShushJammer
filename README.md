@@ -24,10 +24,9 @@ Scan user installed apps for key features and services/receivers running.
 Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
 **Changes:**
-- remove headset receiver as unnecessary.
-- API 28 notifications rewrite, prep for possible passive service
+- include ACR package scan and information
 
-   vers. 2.2.5
+   vers. 2.2.6
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
