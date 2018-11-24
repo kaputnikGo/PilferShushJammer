@@ -3,6 +3,7 @@ copsonic
 dv
 fidzup
 fluzo
+hotstar
 intrasonics
 lisnr
 prontoly
