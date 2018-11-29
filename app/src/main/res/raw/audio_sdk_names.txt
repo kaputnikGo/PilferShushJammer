@@ -1,4 +1,5 @@
 alphonso
+bitsound
 copsonic
 cueaudio
 dv
