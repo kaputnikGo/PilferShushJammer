@@ -1,5 +1,6 @@
 ### 2.2.6 (unreleased)
 * add ACR package scan and information
+* update AndroidX libs
 
 ### 2.2.5 (2018-11-12)
 * Removed headset receiver as unnecessary for jammer app.
