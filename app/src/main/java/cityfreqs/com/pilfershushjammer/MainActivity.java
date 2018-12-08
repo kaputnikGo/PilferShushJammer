@@ -1,8 +1,8 @@
 package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +34,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
@@ -66,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
-    private NotificationManager notifyManager;
-    private NotificationCompat.Builder notifyActiveBuilder;
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
     private boolean IRQ_TELEPHONY;
@@ -181,6 +178,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
         IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
+
+        //TODO
+        // override check for return from system destroy
+        if (checkServiceRunning(PassiveJammerService.class)) {
+            // jammer is running
+            if (DEBUG) entryLogger("JAMMER SERVICE FOUND", false);
+        }
+        else {
+            if (DEBUG) entryLogger("JAMMER SERVICE NOT FOUND", false);
+            PASSIVE_RUNNING = false;
+            ACTIVE_RUNNING = false;
+        }
 
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int status = audioFocusCheck();
@@ -446,6 +455,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     //TODO
+    // As of Build.VERSION_CODES.O, this method is no longer available to third party applications.
+    // For backwards compatibility, it will still return the caller's own services.
+    private boolean checkServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //TODO
     private void runPassive() {
         if (PASSIVE_RUNNING) {
             if (DEBUG) entryLogger("runPassive() when PASSIVE_RUNNING", false);
@@ -474,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (activeJammer != null && !ACTIVE_RUNNING) {
             // run it
             ACTIVE_RUNNING = true;
-            notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
+            //notifyManager.notify(NOTIFY_ACTIVE_ID, notifyActiveBuilder.build());
             entryLogger(getResources().getString(R.string.main_scanner_5), true);
             activeJammer.play(activeTypeNoise ? 1 : 0);
         }
@@ -484,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (activeJammer != null && ACTIVE_RUNNING) {
             // stop it
             ACTIVE_RUNNING = false;
-            notifyManager.cancel(NOTIFY_ACTIVE_ID);
+            //notifyManager.cancel(NOTIFY_ACTIVE_ID);
             entryLogger(getResources().getString(R.string.main_scanner_6), false);
             activeJammer.stop();
         }
