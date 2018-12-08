@@ -42,17 +42,17 @@ public class AudioSettings {
     private int encoding;
     private int channelInConfig;
     private int channelOutConfig;
-    private int channelInCount;
     private int audioSource;
     private boolean hasEQ;
     private static int deviceMaxFrequency;
 
-    public void setBasicAudioInSettings(int sampleRate, int bufferInSize, int encoding, int channelInConfig, int channelInCount) {
+    // TODO
+    // spawn basic settings to a smaller file/bundle suitable for passing to service
+    public void setBasicAudioInSettings(int sampleRate, int bufferInSize, int encoding, int channelInConfig) {
         this.sampleRate = sampleRate;
         this.bufferInSize = bufferInSize;
         this.encoding = encoding;
         this.channelInConfig = channelInConfig;
-        this.channelInCount = channelInCount;
         deviceMaxFrequency = sampleRate / 2;
     }
 
@@ -94,10 +94,6 @@ public class AudioSettings {
 
     public int getChannelOutConfig() {
         return channelOutConfig;
-    }
-
-    public int getChannelInCount() {
-        return channelInCount;
     }
 
     public int getAudioSource() {

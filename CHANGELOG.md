@@ -1,6 +1,13 @@
+### 3.0.1
+* passive jammer as a service
+* move superfluous UI statements behind debug switch
+* Android build code: 14
+
 ### 2.2.6 (unreleased)
 * add ACR package scan and information
 * update AndroidX libs
+* notification state fix
+* Android build code: 13
 
 ### 2.2.5 (2018-11-12)
 * Removed headset receiver as unnecessary for jammer app.

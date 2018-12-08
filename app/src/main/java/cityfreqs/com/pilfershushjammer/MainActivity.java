@@ -2,22 +2,19 @@ package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,12 +38,13 @@ import androidx.core.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     //private static final String TAG = "PilferShush_Jammer";
-    public static final String VERSION = "2.2.6";
+    public static final String VERSION = "3.0.1";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
+    private static final boolean DEBUG = false;
+
     private static final int REQUEST_AUDIO_PERMISSION = 1;
-    private static final int NOTIFY_PASSIVE_ID = 112;
     private static final String CHANNEL_ID = "PS";
     private static final String CHANNEL_NAME = "PilferShush";
     private static final int NOTIFY_ACTIVE_ID = 113;
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
 
-    private PassiveJammer passiveJammer;
     private ActiveJammer activeJammer;
 
     private BackgroundChecker backgroundChecker;
@@ -70,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
     private NotificationManager notifyManager;
-    private NotificationCompat.Builder notifyPassiveBuilder;
     private NotificationCompat.Builder notifyActiveBuilder;
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
@@ -103,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         passiveJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    if (DEBUG) entryLogger("PASSIVE IS CHECKED", false);
                     runPassive();
                 }
                 else {
@@ -192,45 +189,55 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // return from background with state irq_telephony and passive_running
             // check audio focus status
             if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                //TODO
+                if (DEBUG) entryLogger("RESUME AUDIOFOCUS GRANT", false);
                 // reset booleans to init state
                 PASSIVE_RUNNING = false;
                 IRQ_TELEPHONY = false;
                 // cancel notification as part of reset
-                notifyManager.cancel(NOTIFY_PASSIVE_ID);
-                runPassive();
+                //runPassive();
             }
             // we could be checking against ourselves...
             else if (status == AudioManager.AUDIOFOCUS_LOSS) {
                 // possible music player etc that has speaker focus but no need of microphone,
-                // can end up fighting for focus with music player,
-                // reset booleans to init state
-                PASSIVE_RUNNING = false;
-                IRQ_TELEPHONY = false;
-                // cancel notification as part of reset
-                notifyManager.cancel(NOTIFY_PASSIVE_ID);
-                runPassive();
+
             }
         }
         else if (PASSIVE_RUNNING) {
             // return from background without irq_telephony
             entryLogger(getResources().getString(R.string.app_status_1), true);
+            // check button state on
+            if (!passiveJammerButton.isChecked()) {
+                passiveJammerButton.toggle();
+            }
         }
         else {
             entryLogger(getResources().getString(R.string.app_status_2), false);
+            // check button state off
+            if (passiveJammerButton.isChecked()) {
+                passiveJammerButton.toggle();
+            }
         }
         if (ACTIVE_RUNNING) {
             // return from background without irq_telephony
             entryLogger(getResources().getString(R.string.app_status_3), true);
+            // check button state on
+            if (!activeJammerButton.isChecked()) {
+                activeJammerButton.toggle();
+            }
         }
         else {
             entryLogger(getResources().getString(R.string.app_status_4), false);
+            // check button state off
+            if (activeJammerButton.isChecked()) {
+                activeJammerButton.toggle();
+            }
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         // save state first
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
@@ -250,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onStop() {
         super.onStop();
-        // called from back button press
+        Log.d("PSPS", "ON STOP");
         // save state
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
@@ -265,9 +272,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         moveTaskToBack(true);
     }
 
-
-        @Override
+    @Override
     protected void onDestroy() {
+        //TODO
+        Log.d("PSPS", "ON DESTROYER");
         super.onDestroy();
         backgroundChecker.destroy();
     }
@@ -378,36 +386,27 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
         if (!audioChecker.determineRecordAudioType()) {
             // have a setup error getting the audio for record
+            entryLogger(getResources().getString(R.string.audio_check_1), true);
             return;
         }
         entryLogger(getResources().getString(R.string.audio_check_pre_2), false);
         if (!audioChecker.determineOutputAudioType()) {
             // have a setup error getting the audio for output
+            entryLogger(getResources().getString(R.string.audio_check_2), true);
             return;
         }
 
         // after audio inits, can call the jammers
-        passiveJammer = new PassiveJammer(this, audioSettings);
         activeJammer = new ActiveJammer(this, audioSettings);
 
-        PASSIVE_RUNNING = false;
-        ACTIVE_RUNNING = false;
-        IRQ_TELEPHONY = false;
-
-        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
-        sharedPrefsEditor = sharedPrefs.edit();
-        sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
-        sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
-        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
-        sharedPrefsEditor.apply();
-
         // background checker
-        //fileProcessor = new FileProcessor(this);
         backgroundChecker = new BackgroundChecker(new FileProcessor(this));
 
-        createNotifications();
+        //createNotifications();
         populateMenuItems();
-        entryLogger("Active jammer set to: " + jammerTypes[activeJammer.getJammerTypeSwitch()], false);
+        entryLogger("\n"+ getResources().getString(R.string.intro_8) +
+                jammerTypes[activeJammer.getJammerTypeSwitch()], false);
+
         entryLogger(getResources().getString(R.string.intro_7) + "\n", true);
 
         // if eq available then turn on by default
@@ -428,47 +427,47 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
             if (backgroundChecker.hasAudioBeaconApps()) {
                 entryLogger(backgroundChecker.getAudioBeaconAppNames().length
-                        + getResources().getString(R.string.userapp_scan_10), true);
+                        + getResources().getString(R.string.userapp_scan_10) + "\n", true);
             }
             else {
-                entryLogger(getResources().getString(R.string.userapp_scan_11), false);
+                entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
             }
         }
     }
 
     private void resetApplication() {
         // from a background state IRQ LOSS,
-        if (passiveJammer != null && PASSIVE_RUNNING) {
-            entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
+        if (PASSIVE_RUNNING) {
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
         }
         if (activeJammer != null && ACTIVE_RUNNING) {
-            entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_6), false);
         }
     }
 
+    //TODO
     private void runPassive() {
-        if (passiveJammer != null && !PASSIVE_RUNNING) {
-            if (passiveJammer.startPassiveJammer()) {
-                PASSIVE_RUNNING = true;
-                if (!passiveJammer.runPassiveJammer()) {
-                    // has record state errors
-                    stopPassive();
-                    passiveJammerButton.toggle();
-                }
-                else {
-                    entryLogger(getResources().getString(R.string.main_scanner_3), true);
-                    notifyManager.notify(NOTIFY_PASSIVE_ID, notifyPassiveBuilder.build());
-                }
-            }
+        if (PASSIVE_RUNNING) {
+            if (DEBUG) entryLogger("runPassive() when PASSIVE_RUNNING", false);
+        }
+        else {
+            Intent startIntent = new Intent(MainActivity.this, PassiveJammerService.class);
+            startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
+            startIntent.putExtra("audioSource", audioSettings.getAudioSource());
+            startIntent.putExtra("sampleRate", audioSettings.getSampleRate());
+            startIntent.putExtra("channelConfig", audioSettings.getChannelInConfig());
+            startIntent.putExtra("encoding", audioSettings.getEncoding());
+            startIntent.putExtra("bufferSize", audioSettings.getBufferInSize());
+            startService(startIntent);
+            PASSIVE_RUNNING = true;
         }
     }
+
     private void stopPassive() {
-        if (passiveJammer != null && PASSIVE_RUNNING) {
-            passiveJammer.stopPassiveJammer();
-            PASSIVE_RUNNING = false;
-            entryLogger(getResources().getString(R.string.main_scanner_4), false);
-            notifyManager.cancel(NOTIFY_PASSIVE_ID);
-        }
+        Intent stopIntent = new Intent(MainActivity.this, PassiveJammerService.class);
+        stopIntent.setAction(PassiveJammerService.ACTION_STOP_PASSIVE);
+        startService(stopIntent);
+        PASSIVE_RUNNING = false;
     }
 
     private void runActive() {
@@ -491,6 +490,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+    /*
     private void createNotifications() {
         Intent notificationIntent = new Intent(this, MainActivity.class);
 
@@ -509,19 +509,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             notifyManager.createNotificationChannel(channel);
         }
 
-
-        notifyPassiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
         notifyActiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
-
-        notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle(getResources().getString(R.string.app_status_10))
-                .setContentText(getResources().getString(R.string.app_status_12))
-                .setContentIntent(pendingIntent)
-                .setWhen(System.currentTimeMillis())
-                .setOngoing(true)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setAutoCancel(false);
 
         notifyActiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
@@ -533,6 +521,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(false);
     }
+    */
 
     /*
 
@@ -577,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     protected void displayBeaconSdkList() {
-        // current list (in /raw) of NUHF beacon SDK package names
+        // current list (in /raw) of NUHF/ACR SDK package names
         entryLogger("\n--------------------------------------\n", false);
         entryLogger(getResources().getString(R.string.sdk_names_list) + "\n"
                 + backgroundChecker.displayAudioSdkNames(), false);
@@ -628,7 +617,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 activeJammerButton.toggle();
             }
             activeJammer.setEqOn(true);
-            entryLogger(getResources().getString(R.string.app_status_6), false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.app_status_6), false);
         }
     }
 
@@ -643,25 +632,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // system forced loss, assuming telephony
+            if (DEBUG) entryLogger("IRQ_TELEPHONY loss_transient", false);
             IRQ_TELEPHONY = true;
         }
     }
 
     private int audioFocusCheck() {
-        entryLogger(getResources().getString(R.string.audiofocus_check_1), false);
+        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_1), false);
         // note: api 26+ use AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
         int result = audioManager.requestAudioFocus(audioFocusListener,
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            entryLogger(getResources().getString(R.string.audiofocus_check_2), false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_2), false);
         }
         else if (result == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
-            entryLogger(getResources().getString(R.string.audiofocus_check_3), false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_3), false);
         }
         else {
-            entryLogger(getResources().getString(R.string.audiofocus_check_4), false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_4), false);
         }
         return result;
     }
@@ -676,47 +666,47 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     case AudioManager.AUDIOFOCUS_LOSS:
                         // -1
                         // loss for unknown duration
-                        entryLogger(getResources().getString(R.string.audiofocus_1), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_1), false);
                         audioManager.abandonAudioFocus(audioFocusListener);
                         interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         // -2
                         // temporary loss ? API docs says a "transient loss"!
-                        entryLogger(getResources().getString(R.string.audiofocus_2), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_2), false);
                         interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         // -3
                         // loss to other audio source, this can duck for the short duration if it wants
                         // can be system notification or ringtone sounds
-                        entryLogger(getResources().getString(R.string.audiofocus_3), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_3), false);
                         interruptRequestAudio(focusChange);
                         break;
                     case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
                         // 0
                         // failed focus change request
-                        entryLogger(getResources().getString(R.string.audiofocus_4), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_4), false);
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN:
                         //case AudioManager.AUDIOFOCUS_REQUEST_GRANTED: <- duplicate int value...
                         // 1
                         // has gain, or request for gain, of unknown duration
-                        entryLogger(getResources().getString(R.string.audiofocus_5), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_5), false);
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         // 2
                         // temporary gain or request for gain, for short duration (ie. notification)
-                        entryLogger(getResources().getString(R.string.audiofocus_6), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_6), false);
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
                         // 3
                         // as above but with other background audio ducked for duration
-                        entryLogger(getResources().getString(R.string.audiofocus_7), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_7), false);
                         break;
                     default:
                         //
-                        entryLogger(getResources().getString(R.string.audiofocus_8), false);
+                        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_8), false);
                 }
             }
         };
@@ -763,11 +753,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 switch(which) {
                     case 0:
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_TEST);
-                        entryLogger("Jammer type changed to " + jammerTypes[which], false);
+                        entryLogger(getResources().getString(R.string.jammer_dialog_13)
+                                + jammerTypes[which], false);
                         break;
                     case 1:
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_NUHF);
-                        entryLogger("Jammer type changed to " + jammerTypes[which], false);
+                        entryLogger(getResources().getString(R.string.jammer_dialog_13)
+                                + jammerTypes[which], false);
                         break;
                     case 2:
                         defaultRangedDialog();
@@ -809,7 +801,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         }
                         activeJammer.setUserCarrier(userInputCarrier);
                         activeJammer.setJammerTypeSwitch(AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
-                        entryLogger("Jammer type changed to 1000Hz drift with carrier at " + activeJammer.getUserConformedCarrier(), false);
+                        entryLogger(getResources().getString(R.string.jammer_dialog_14)
+                                + activeJammer.getUserConformedCarrier(), false);
                     }
                 })
                 .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {

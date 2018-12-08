@@ -33,6 +33,8 @@
     <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
 
     <string name="jammer_dialog_12">White noise switch</string>
+    <string name="jammer_dialog_13">Jammer type changed to\u0020</string>
+    <string name="jammer_dialog_14">Jammer type changed to 1000Hz drift with carrier at\u0020</string>
 
     <string name="active_dialog_1">Active sound type</string>
     <string name="active_dialog_2">Active jammer output sound type</string>
@@ -65,6 +67,7 @@
     <string name="intro_6">The User Apps Summary prints basic information of interest about all user installed apps.</string>
 
     <string name="intro_7">Use option menu to change active jamming settings or to check user apps.</string>
+    <string name="intro_8">Active jammer set to:\u0020</string>
 
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -85,7 +88,7 @@
     <string name="audio_check_pre_1">Checking for best audio record type.</string>
     <string name="audio_check_pre_2">\nChecking for best audio output type.</string>
     <string name="audio_check_1">Determine record audio type failure.</string>
-    <string name="audio_check_2">Unable to initiate audio output function, can still block microphone.</string>
+    <string name="audio_check_2">Unable to initiate audio output.</string>
     <string name="audio_check_3">Error: No audioSettings object found.</string>
     <string name="audio_check_4">Exception error initialising audioTrack.</string>
     <string name="audio_check_5">Setting frequency to within device limit:\u0020</string>

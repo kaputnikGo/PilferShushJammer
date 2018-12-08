@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -16,16 +17,15 @@ import androidx.core.app.NotificationCompat;
 
 public class PassiveJammerService extends Service {
 
-    // Intent actions to be handled here for control of mediaplayer
-    public static final String TAG = "Pilfershush_Passive_Service";
-    public static final String ACTION_START = "cityfreqs.com.pilfershushjammer.action.START";
-    public static final String ACTION_STOP = "cityfreqs.com.pilfershushjammer.action.STOP";
+    public static final String ACTION_START_PASSIVE = "cityfreqs.com.pilfershushjammer.action.START";
+    public static final String ACTION_STOP_PASSIVE = "cityfreqs.com.pilfershushjammer.action.STOP";
 
     private static final int NOTIFY_PASSIVE_SERVICE_ID = 110;
     private static final String CHANNEL_ID = "PS";
     private static final String CHANNEL_NAME = "PilferShush";
 
     private PassiveJammer passiveJammer;
+    private AudioSettings audioSettings;
 
     private NotificationCompat.Builder notifyPassiveBuilder;
 
@@ -33,16 +33,6 @@ public class PassiveJammerService extends Service {
     public PassiveJammerService() {
         //default, for the manifest
     }
-
-    public void loadPassiveService(PassiveJammer passiveJammer) {
-        this.passiveJammer = passiveJammer;
-    }
-
-    /*
-
-        MAIN SERVICE FUNCTIONS
-
-    */
 
     @Override
     public void onCreate() {
@@ -52,29 +42,32 @@ public class PassiveJammerService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
+        // called when app removed from running apps list
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        String action = intent.getAction();
-        if (action != null) {
-            if (action.equals(ACTION_START)) {
-                createNotification();
-                startForeground(NOTIFY_PASSIVE_SERVICE_ID, notifyPassiveBuilder.build());
-                startJammer();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                createAudioSettings(extras);
             }
-            else if (action.equals(ACTION_STOP)) {
-                stopJammer();
-                stopForeground(true);
-                stopSelf();
+
+            String action = intent.getAction();
+            if (action != null) {
+                if (action.equals(ACTION_START_PASSIVE)) {
+                    createNotification();
+                    startJammerService();
+                    Toast.makeText(getApplicationContext(), "Passive Jammer service started.",
+                            Toast.LENGTH_SHORT).show();
+                } else if (action.equals(ACTION_STOP_PASSIVE)) {
+                    stopJammerService();
+                    Toast.makeText(getApplicationContext(), "Passive Jammer service stopped.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }
-        // For each start request, send a message to start a job and deliver the
-        // start ID so we know which request we're stopping when we finish the job
-        // If we get killed, after returning from here, restart
-        return START_STICKY;
-
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
@@ -85,12 +78,21 @@ public class PassiveJammerService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "PS_Jammer service stopped", Toast.LENGTH_SHORT).show();
+        //
     }
 
+    private void createAudioSettings(Bundle extras) {
+        audioSettings = new AudioSettings();
+        audioSettings.setBasicAudioInSettings(
+                extras.getInt("sampleRate"),
+                extras.getInt("bufferSize"),
+                extras.getInt("encoding"),
+                extras.getInt("channelConfig")
+        );
+        audioSettings.setAudioSource(extras.getInt("audioSource"));
+    }
 
     private void createNotification() {
-        //todo make and use a notifier class
         Intent notificationIntent = new Intent(this, MainActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -113,35 +115,28 @@ public class PassiveJammerService extends Service {
                 .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
-                .setPriority(Notification.PRIORITY_MAX)
+                .setPriority(Notification.PRIORITY_LOW)
                 .setOngoing(true)
                 .setAutoCancel(false);
 
     }
 
-    //todo
-    private void startJammer() {
-        if (passiveJammer != null) {
-            if (passiveJammer.startPassiveJammer()) {
-                if (!passiveJammer.runPassiveJammer()) {
-                    // has record state errors
-                    stopJammer();
-                }
-                else {
-                    //entryLogger(getResources().getString(R.string.main_scanner_3), true);
-                    //notifyManager.notify(NOTIFY_PASSIVE_ID, notifyPassiveBuilder.build());
-                }
+
+    private void startJammerService() {
+        passiveJammer = new PassiveJammer(getApplicationContext(), audioSettings);
+        if (passiveJammer.startPassiveJammer()) {
+            if (!passiveJammer.runPassiveJammer()) {
+                // has record state errors
+                stopJammerService();
             }
         }
-
         //
         Notification notification = notifyPassiveBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         startForeground(1, notification);
     }
 
-    //todo
-    private void stopJammer() {
+    private void stopJammerService() {
         if (passiveJammer != null) {
             passiveJammer.stopPassiveJammer();
         }

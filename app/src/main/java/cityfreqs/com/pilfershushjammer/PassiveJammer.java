@@ -16,7 +16,8 @@ public class PassiveJammer {
     protected boolean startPassiveJammer() {
         if (audioRecord == null) {
             try {
-                audioRecord = new AudioRecord(audioSettings.getAudioSource(),
+                audioRecord = new AudioRecord(
+                        audioSettings.getAudioSource(),
                         audioSettings.getSampleRate(),
                         audioSettings.getChannelInConfig(),
                         audioSettings.getEncoding(),
@@ -45,7 +46,7 @@ public class PassiveJammer {
                     status_t start(int [AudioSystem::sync_event_t] event, int triggerSession)
                     */
                     audioRecord.startRecording();
-                    MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_3), false);
+                    MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_3) + "\n", true);
 
                     // check for initialising audioRecord
                     short buffer[] = new short[audioSettings.getBufferInSize()];
