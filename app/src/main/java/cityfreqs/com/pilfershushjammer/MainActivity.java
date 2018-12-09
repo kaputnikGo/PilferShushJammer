@@ -407,6 +407,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             return;
         }
 
+        // apply audio settings to bundle for services
+        createAudioBundle();
+
         // background checker
         backgroundChecker = new BackgroundChecker(new FileProcessor(this));
 
@@ -472,8 +475,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         audioBundle.putInt("encoding", audioSettings.getEncoding());
         audioBundle.putInt("bufferInSize", audioSettings.getBufferInSize());
         //active
-        audioBundle.putInt("channelConfig", audioSettings.getChannelOutConfig());
-        audioBundle.putInt("bufferSize", audioSettings.getBufferOutSize());
+        audioBundle.putInt("channelOutConfig", audioSettings.getChannelOutConfig());
+        audioBundle.putInt("bufferOutSize", audioSettings.getBufferOutSize());
         audioBundle.putBoolean("activeType", activeTypeNoise);
         audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_TEST);
         audioBundle.putInt("userCarrier", AudioSettings.CARRIER_TEST_FREQUENCY);
@@ -510,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);
             startIntent.putExtras(audioBundle);
             startService(startIntent);
-            PASSIVE_RUNNING = true;
+            ACTIVE_RUNNING = true;
         }
     }
 

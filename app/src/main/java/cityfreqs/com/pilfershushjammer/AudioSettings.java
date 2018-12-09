@@ -57,6 +57,8 @@ public class AudioSettings {
         deviceMaxFrequency = sampleRate / 2;
     }
 
+    public void setSampleRate(int sampleRate) { this.sampleRate = sampleRate; }
+
     public void setEncoding(int encoding) {
         this.encoding = encoding;
     }
@@ -188,7 +190,7 @@ public class AudioSettings {
 
     }
 
-    public int checkCarrierFrequency(int carrierFrequency) {
+    public static int checkCarrierFrequency(int carrierFrequency) {
         if (carrierFrequency > deviceMaxFrequency)
             return deviceMaxFrequency;
 
@@ -199,7 +201,7 @@ public class AudioSettings {
             return carrierFrequency;
     }
 
-    public int checkDriftLimit(int driftLimit) {
+    public static int checkDriftLimit(int driftLimit) {
         if (driftLimit > DEFAULT_RANGE_DRIFT_LIMIT)
             return DEFAULT_RANGE_DRIFT_LIMIT;
 

@@ -13,7 +13,6 @@ public class ActiveJammer {
     private AudioSettings audioSettings;
 
     private float amplitude;
-    private int deviceMaxFrequency;
     private AudioTrack audioTrack;
     private boolean isPlaying;
     private int jammerTypeSwitch;
@@ -33,7 +32,6 @@ public class ActiveJammer {
         userCarrier = AudioSettings.CARRIER_NUHF_FREQUENCY;
         userLimit = AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
         driftSpeed = AudioSettings.DEFAULT_DRIFT_SPEED;
-        deviceMaxFrequency = AudioSettings.getDeviceMaxFrequency();
 
         resetActiveJammer();
     }
@@ -68,19 +66,11 @@ public class ActiveJammer {
     public void setJammerTypeSwitch(int jammerTypeSwitch) {
         this.jammerTypeSwitch = jammerTypeSwitch;
     }
-    public int getJammerTypeSwitch() {
-        return jammerTypeSwitch;
-    }
 
     public void setUserCarrier(int userCarrier) {
-        userCarrier = audioSettings.checkCarrierFrequency(userCarrier);
+        userCarrier = AudioSettings.checkCarrierFrequency(userCarrier);
         this.userCarrier = userCarrier;
     }
-    public int getUserConformedCarrier() {
-        // in setUserCarrier a check is performed, get this value
-        return userCarrier;
-    }
-
 
     public void setUserLimit(int userLimit) {
         this.userLimit = userLimit;
@@ -97,7 +87,6 @@ public class ActiveJammer {
     public void setEqOn(boolean eqOn) {
         this.eqOn = eqOn;
     }
-
     /*
         AUDIO PLAY FUNCTIONS
      */

@@ -48,18 +48,18 @@ public class ActiveJammerService extends Service {
         if (intent != null) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
-                createAudioSettings(extras);
+                createActiveJammer(extras);
             }
             String action = intent.getAction();
             if (action != null) {
                 if (action.equals(ACTION_START_ACTIVE)) {
                     createNotification();
                     startActiveService();
-                    Toast.makeText(getApplicationContext(), "Passive Jammer service started.",
+                    Toast.makeText(getApplicationContext(), "Active Jammer service started.",
                             Toast.LENGTH_SHORT).show();
                 } else if (action.equals(ACTION_STOP_ACTIVE)) {
                     stopActiveService();
-                    Toast.makeText(getApplicationContext(), "Passive Jammer service stopped.",
+                    Toast.makeText(getApplicationContext(), "Active Jammer service stopped.",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -79,12 +79,21 @@ public class ActiveJammerService extends Service {
     }
 
     //TODO change to outputs etc
-    private void createAudioSettings(Bundle extras) {
+    private void createActiveJammer(Bundle extras) {
         audioSettings = new AudioSettings();
+        audioSettings.setSampleRate(extras.getInt("sampleRate"));
         audioSettings.setChannelOutConfig(extras.getInt("channelOutConfig"));
         audioSettings.setEncoding(extras.getInt("encoding"));
         audioSettings.setBufferOutSize(extras.getInt("bufferOutSize"));
         activeTypeNoise = (extras.getBoolean("activeType"));
+        //
+        activeJammer = new ActiveJammer(getApplicationContext(), audioSettings);
+        //
+        activeJammer.setJammerTypeSwitch(extras.getInt("jammerType"));
+        activeJammer.setUserCarrier(extras.getInt("userCarrier"));
+        activeJammer.setUserLimit(extras.getInt("userLimit"));
+        activeJammer.setDriftSpeed(extras.getInt("userSpeed"));
+
     }
 
     private void createNotification() {
@@ -117,7 +126,6 @@ public class ActiveJammerService extends Service {
     }
 
     private void startActiveService() {
-        activeJammer = new ActiveJammer(getApplicationContext(), audioSettings);
         activeJammer.play(activeTypeNoise ? 1 : 0);
         //
         Notification notification = notifyActiveBuilder.build();
