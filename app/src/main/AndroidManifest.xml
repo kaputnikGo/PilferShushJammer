@@ -31,8 +31,8 @@
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
-                <action android:name="cityfreqs.com.pilfershushjammer.action.START" />
-                <action android:name="cityfreqs.com.pilfershushjammer.action.STOP" />
+                <action android:name="cityfreqs.com.pilfershushjammer.action.START_PASSIVE" />
+                <action android:name="cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE" />
             </intent-filter>
         </service>
 

@@ -20,11 +20,12 @@ public class AudioSettings {
     public static final int MAXIMUM_NUHF_FREQUENCY = 24000;
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
 
-    private static final int CARRIER_TEST_FREQUENCY = 440;
+    public static final int CARRIER_TEST_FREQUENCY = 440;
     private static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
     private static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
 
     public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
+    public static final int MINIMUM_DRIFT_LIMIT = 10;
     public static final int DEFAULT_DRIFT_SPEED = 1000;
     public static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
@@ -107,6 +108,9 @@ public class AudioSettings {
         return hasEQ;
     }
 
+    // workaround for xfer parameters to active jammer service
+
+
     public String toString() {
         return ("audio record format: "
                 + sampleRate + ", " + bufferInSize + ", "
@@ -183,6 +187,39 @@ public class AudioSettings {
             return MAXIMUM_NUHF_FREQUENCY;
 
     }
+
+    public int checkCarrierFrequency(int carrierFrequency) {
+        if (carrierFrequency > deviceMaxFrequency)
+            return deviceMaxFrequency;
+
+        else if (carrierFrequency < AudioSettings.MINIMUM_NUHF_FREQUENCY)
+            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
+
+        else
+            return carrierFrequency;
+    }
+
+    public int checkDriftLimit(int driftLimit) {
+        if (driftLimit > DEFAULT_RANGE_DRIFT_LIMIT)
+            return DEFAULT_RANGE_DRIFT_LIMIT;
+
+        else if (driftLimit < MINIMUM_DRIFT_LIMIT)
+            return MINIMUM_DRIFT_LIMIT;
+
+        else
+            return driftLimit;
+    }
+
+    public int checkDriftSpeed(int driftSpeed) {
+        // is 1 - 10, then * 1000
+        if (driftSpeed < 1)
+            return 1;
+        else if (driftSpeed > 10)
+            return 10;
+        else
+            return driftSpeed;
+    }
+
     /********************************************************************/
     /*
      * Utilities, unused, but may be useful one day

@@ -1,5 +1,7 @@
 ### 3.0.1
 * passive jammer as a service
+* active jammer as a service
+* change AudioSettings data to Bundle
 * move superfluous UI statements behind debug switch
 * Android build code: 14
 

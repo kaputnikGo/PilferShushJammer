@@ -73,7 +73,7 @@ public class ActiveJammer {
     }
 
     public void setUserCarrier(int userCarrier) {
-        userCarrier = checkCarrierFrequency(userCarrier);
+        userCarrier = audioSettings.checkCarrierFrequency(userCarrier);
         this.userCarrier = userCarrier;
     }
     public int getUserConformedCarrier() {
@@ -182,6 +182,7 @@ public class ActiveJammer {
     }
 
     private synchronized void createTone() {
+        driftSpeed *= AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
         double sample[] = new double[audioSettings.getSampleRate()];
         byte soundData[] = new byte[2 * audioSettings.getSampleRate()];
 
@@ -276,22 +277,6 @@ public class ActiveJammer {
         catch (Exception ex) {
             MainActivity.entryLogger("onboardEQ Exception.", true);
             ex.printStackTrace();
-        }
-    }
-
-    private int checkCarrierFrequency(int carrierFrequency) {
-        if (carrierFrequency > deviceMaxFrequency) {
-            // note this, and restrict:
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_5) + deviceMaxFrequency, false);
-            return deviceMaxFrequency;
-        }
-        else if (carrierFrequency < AudioSettings.MINIMUM_NUHF_FREQUENCY) {
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_6) + AudioSettings.MINIMUM_NUHF_FREQUENCY, false);
-            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
-        }
-        else {
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_7) + carrierFrequency, false);
-            return carrierFrequency;
         }
     }
 }

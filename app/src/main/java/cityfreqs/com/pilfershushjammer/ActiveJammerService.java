@@ -15,21 +15,20 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-public class PassiveJammerService extends Service {
-
-    public static final String ACTION_START_PASSIVE = "cityfreqs.com.pilfershushjammer.action.START_PASSIVE";
-    public static final String ACTION_STOP_PASSIVE = "cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE";
+public class ActiveJammerService extends Service {
+    public static final String ACTION_START_ACTIVE = "cityfreqs.com.pilfershushjammer.action.START_ACTIVE";
+    public static final String ACTION_STOP_ACTIVE = "cityfreqs.com.pilfershushjammer.action.STOP_ACTIVE";
 
     private static final String CHANNEL_ID = "PilferShush";
-    private static final String CHANNEL_NAME = "Passive Jammer";
+    private static final String CHANNEL_NAME = "Active Jammer";
 
-    private PassiveJammer passiveJammer;
+    private ActiveJammer activeJammer;
     private AudioSettings audioSettings;
+    private boolean activeTypeNoise;
 
-    private NotificationCompat.Builder notifyPassiveBuilder;
+    private NotificationCompat.Builder notifyActiveBuilder;
 
-
-    public PassiveJammerService() {
+    public ActiveJammerService() {
         //default, for the manifest
     }
 
@@ -51,16 +50,15 @@ public class PassiveJammerService extends Service {
             if (extras != null) {
                 createAudioSettings(extras);
             }
-
             String action = intent.getAction();
             if (action != null) {
-                if (action.equals(ACTION_START_PASSIVE)) {
+                if (action.equals(ACTION_START_ACTIVE)) {
                     createNotification();
-                    startPassiveService();
+                    startActiveService();
                     Toast.makeText(getApplicationContext(), "Passive Jammer service started.",
                             Toast.LENGTH_SHORT).show();
-                } else if (action.equals(ACTION_STOP_PASSIVE)) {
-                    stopPassiveService();
+                } else if (action.equals(ACTION_STOP_ACTIVE)) {
+                    stopActiveService();
                     Toast.makeText(getApplicationContext(), "Passive Jammer service stopped.",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -80,15 +78,13 @@ public class PassiveJammerService extends Service {
         //
     }
 
+    //TODO change to outputs etc
     private void createAudioSettings(Bundle extras) {
         audioSettings = new AudioSettings();
-        audioSettings.setBasicAudioInSettings(
-                extras.getInt("sampleRate"),
-                extras.getInt("bufferInSize"),
-                extras.getInt("encoding"),
-                extras.getInt("channelInConfig")
-        );
-        audioSettings.setAudioSource(extras.getInt("audioSource"));
+        audioSettings.setChannelOutConfig(extras.getInt("channelOutConfig"));
+        audioSettings.setEncoding(extras.getInt("encoding"));
+        audioSettings.setBufferOutSize(extras.getInt("bufferOutSize"));
+        activeTypeNoise = (extras.getBoolean("activeType"));
     }
 
     private void createNotification() {
@@ -106,11 +102,11 @@ public class PassiveJammerService extends Service {
             notifyManager.createNotificationChannel(channel);
         }
 
-        notifyPassiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        notifyActiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
-        notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
+        notifyActiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
-                .setContentTitle(getResources().getString(R.string.app_status_10))
+                .setContentTitle(getResources().getString(R.string.app_status_11))
                 .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)
                 .setWhen(System.currentTimeMillis())
@@ -120,28 +116,21 @@ public class PassiveJammerService extends Service {
 
     }
 
-
-    private void startPassiveService() {
-        passiveJammer = new PassiveJammer(getApplicationContext(), audioSettings);
-        if (passiveJammer.startPassiveJammer()) {
-            if (!passiveJammer.runPassiveJammer()) {
-                // has record state errors
-                stopPassiveService();
-            }
-        }
+    private void startActiveService() {
+        activeJammer = new ActiveJammer(getApplicationContext(), audioSettings);
+        activeJammer.play(activeTypeNoise ? 1 : 0);
         //
-        Notification notification = notifyPassiveBuilder.build();
+        Notification notification = notifyActiveBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         startForeground(1, notification);
     }
 
-    private void stopPassiveService() {
-        if (passiveJammer != null) {
-            passiveJammer.stopPassiveJammer();
+    private void stopActiveService() {
+        if (activeJammer != null) {
+            activeJammer.stop();
         }
         //
         stopForeground(true);
         stopSelf();
     }
-
 }

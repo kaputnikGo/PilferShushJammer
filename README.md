@@ -29,6 +29,7 @@ Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 **Changes:**
 - include ACR package scan and information
 - passive jammer as a service
+- active jammer as a service
 
    vers. 3.0.1
    - min API 18 (4.3)
