@@ -175,4 +175,13 @@
     <string name="active_state_2">stopPlayer thread exception.</string>
     <string name="active_state_3">stopPlayer audioTrack exception.</string>
 
+    <!--
+    ~ JammerService.java
+    -->
+    <string name="service_state_1">PilferShush Jammer notifications</string>
+    <string name="service_state_2">Active Jammer service started.</string>
+    <string name="service_state_3">Active Jammer service stopped.</string>
+    <string name="service_state_4">Passive Jammer service started.</string>
+    <string name="service_state_5">Passive Jammer service stopped.</string>
+
 </resources>

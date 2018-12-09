@@ -820,11 +820,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int userInputCarrier = 19000;
+                        int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
                         if (userCarrierInput.getText().length() != 0) {
                             userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
-                        int userInputLimit = 1000;
+                        int userInputLimit = AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
                         if (userLimitInput.getText().length() != 0) {
                             userInputLimit = Integer.parseInt(userCarrierInput.getText().toString());
                         }
@@ -919,7 +919,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     /*
 
-
+        CONFORM CHECKS FOR USER INPUT
     */
     private int checkCarrierFrequency(int carrierFrequency) {
         if (carrierFrequency > audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]))

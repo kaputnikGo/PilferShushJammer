@@ -16,9 +16,8 @@ public class AudioSettings {
     private static final int[] POWERS_TWO_LOW = new int[]{
             2, 4, 8, 16, 32, 64, 128, 256};
 
-    public static final int CARRIER_NUHF_FREQUENCY = 21000;
-    public static final int MAXIMUM_NUHF_FREQUENCY = 24000;
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
+    public static final int DEFAULT_NUHF_FREQUENCY = 19000;
 
     public static final int CARRIER_TEST_FREQUENCY = 440;
     public static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
@@ -26,7 +25,6 @@ public class AudioSettings {
 
     public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
     public static final int MINIMUM_DRIFT_LIMIT = 10;
-    public static final int DEFAULT_DRIFT_SPEED = 1000;
     public static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
     public static final int JAMMER_TONE = 0;

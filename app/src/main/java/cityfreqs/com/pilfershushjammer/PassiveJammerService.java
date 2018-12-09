@@ -54,11 +54,11 @@ public class PassiveJammerService extends Service {
                 if (action.equals(ACTION_START_PASSIVE)) {
                     createNotification();
                     startPassiveService();
-                    Toast.makeText(getApplicationContext(), "Passive Jammer service started.",
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_4),
                             Toast.LENGTH_SHORT).show();
                 } else if (action.equals(ACTION_STOP_PASSIVE)) {
                     stopPassiveService();
-                    Toast.makeText(getApplicationContext(), "Passive Jammer service stopped.",
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_5),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -88,7 +88,7 @@ public class PassiveJammerService extends Service {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("PilferShush Jammer notifications");
+            channel.setDescription(getResources().getString(R.string.service_state_1));
             notifyManager.createNotificationChannel(channel);
         }
 
