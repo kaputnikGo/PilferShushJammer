@@ -23,8 +23,7 @@ public class ActiveJammerService extends Service {
     private static final String CHANNEL_NAME = "Active Jammer";
 
     private ActiveJammer activeJammer;
-    private AudioSettings audioSettings;
-    private boolean activeTypeNoise;
+    private Bundle audioBundle;
 
     private NotificationCompat.Builder notifyActiveBuilder;
 
@@ -45,11 +44,9 @@ public class ActiveJammerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        audioBundle = new Bundle();
         if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                createActiveJammer(extras);
-            }
+            audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
                 if (action.equals(ACTION_START_ACTIVE)) {
@@ -76,24 +73,6 @@ public class ActiveJammerService extends Service {
     @Override
     public void onDestroy() {
         //
-    }
-
-    //TODO change to outputs etc
-    private void createActiveJammer(Bundle extras) {
-        audioSettings = new AudioSettings();
-        audioSettings.setSampleRate(extras.getInt("sampleRate"));
-        audioSettings.setChannelOutConfig(extras.getInt("channelOutConfig"));
-        audioSettings.setEncoding(extras.getInt("encoding"));
-        audioSettings.setBufferOutSize(extras.getInt("bufferOutSize"));
-        activeTypeNoise = (extras.getBoolean("activeType"));
-        //
-        activeJammer = new ActiveJammer(getApplicationContext(), audioSettings);
-        //
-        activeJammer.setJammerTypeSwitch(extras.getInt("jammerType"));
-        activeJammer.setUserCarrier(extras.getInt("userCarrier"));
-        activeJammer.setUserLimit(extras.getInt("userLimit"));
-        activeJammer.setDriftSpeed(extras.getInt("userSpeed"));
-
     }
 
     private void createNotification() {
@@ -126,7 +105,8 @@ public class ActiveJammerService extends Service {
     }
 
     private void startActiveService() {
-        activeJammer.play(activeTypeNoise ? 1 : 0);
+        activeJammer = new ActiveJammer(getApplicationContext(), audioBundle);
+        activeJammer.play(audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7]) ? 1 : 0);
         //
         Notification notification = notifyActiveBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;

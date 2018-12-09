@@ -6,17 +6,33 @@ import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.audiofx.Equalizer;
+import android.os.Bundle;
 
 public class AudioChecker {
     private Context context;
-    private AudioSettings audioSettings;
+    private Bundle audioBundle;
     private static final boolean DEBUG = false;
 
-    protected AudioChecker(Context context, AudioSettings audioSettings) {
+    protected AudioChecker(Context context) {
         this.context = context;
-        this.audioSettings = audioSettings;
+        audioBundle = new Bundle();
     }
 
+    protected Bundle getAudioBundle() {
+        return audioBundle;
+    }
+
+    private int getClosestPowersHigh(int reported) {
+        // return the next highest power from the minimum reported
+        // 512, 1024, 2048, 4096, 8192, 16384
+        for (int power : AudioSettings.POWERS_TWO_HIGH) {
+            if (reported <= power) {
+                return power;
+            }
+        }
+        // didn't find power, return reported
+        return reported;
+    }
 
     protected boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
@@ -36,7 +52,7 @@ public class AudioChecker {
                         if (DEBUG) MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelInConfig: "+ channelInConfig, false);
                         buffSize = AudioRecord.getMinBufferSize(rate, channelInConfig, audioFormat);
                         // force buffSize to powersOfTwo if it isnt (ie.S5)
-                        buffSize = AudioSettings.getClosestPowersHigh(buffSize);
+                        buffSize = getClosestPowersHigh(buffSize);
 
                         if (buffSize != AudioRecord.ERROR_BAD_VALUE) {
                             AudioRecord recorder = new AudioRecord(
@@ -50,8 +66,12 @@ public class AudioChecker {
                                 // AudioRecord.getChannelCount() is number of input audio channels (1 is mono, 2 is stereo)
                                 if (DEBUG) MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
                                 // set found values
-                                audioSettings.setBasicAudioInSettings(rate, buffSize, audioFormat, channelInConfig);
-                                audioSettings.setAudioSource(audioSource);
+                                audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], audioSource);
+                                audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[1], rate);
+                                audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[2], channelInConfig);
+                                audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[3], audioFormat);
+                                audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[4], buffSize);
+
                                 recorder.release();
                                 return true;
                             }
@@ -97,17 +117,18 @@ public class AudioChecker {
                             if (DEBUG) MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
                             // set output values
                             // buffOutSize may not be same as buffInSize conformed to powersOfTwo
-                            audioSettings.setChannelOutConfig(channelOutConfig);
-                            audioSettings.setBufferOutSize(buffSize);
+                            audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[5], channelOutConfig);
+                            audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[6], buffSize);
+                            audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[13], (int)(rate * 0.5f));
 
                             // test onboardEQ
                             if (testOnboardEQ(audioTrack.getAudioSessionId())) {
                                 if (DEBUG) MainActivity.entryLogger(context.getString(R.string.eq_check_2)+ "\n", false);
-                                audioSettings.setHasEQ(true);
+                                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12], true);
                             }
                             else {
                                 if (DEBUG) MainActivity.entryLogger(context.getString(R.string.eq_check_3) + "\n", true);
-                                audioSettings.setHasEQ(false);
+                                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12], false);
                             }
                             audioTrack.pause();
                             audioTrack.flush();

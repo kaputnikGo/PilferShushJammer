@@ -2,26 +2,27 @@ package cityfreqs.com.pilfershushjammer;
 
 import android.content.Context;
 import android.media.AudioRecord;
+import android.os.Bundle;
 
 public class PassiveJammer {
     private Context context;
-    private AudioSettings audioSettings;
+    private Bundle audioBundle;
     private AudioRecord audioRecord;
 
-    public PassiveJammer(Context context, AudioSettings audioSettings) {
+    public PassiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
-        this.audioSettings = audioSettings;
+        this.audioBundle = audioBundle;
     }
 
     protected boolean startPassiveJammer() {
         if (audioRecord == null) {
             try {
                 audioRecord = new AudioRecord(
-                        audioSettings.getAudioSource(),
-                        audioSettings.getSampleRate(),
-                        audioSettings.getChannelInConfig(),
-                        audioSettings.getEncoding(),
-                        audioSettings.getBufferInSize());
+                        audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]),
+                        audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]),
+                        audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[2]),
+                        audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
+                        audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
 
                 MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_1), false);
                 return true;
@@ -49,10 +50,10 @@ public class PassiveJammer {
                     MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_3) + "\n", true);
 
                     // check for initialising audioRecord
-                    short buffer[] = new short[audioSettings.getBufferInSize()];
+                    short buffer[] = new short[ audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4])];
 
                     // returns either 0, number of shorts read, or an error code - not audio data
-                    int audioStatus = audioRecord.read(buffer, 0, audioSettings.getBufferInSize());
+                    int audioStatus = audioRecord.read(buffer, 0,  audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
                     // check for error on pre 6.x and 6.x API
                     if (audioStatus == AudioRecord.ERROR_INVALID_OPERATION) {
                         MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_4), true);

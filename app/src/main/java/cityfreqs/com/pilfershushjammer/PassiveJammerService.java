@@ -24,7 +24,7 @@ public class PassiveJammerService extends Service {
     private static final String CHANNEL_NAME = "Passive Jammer";
 
     private PassiveJammer passiveJammer;
-    private AudioSettings audioSettings;
+    private Bundle audioBundle;
 
     private NotificationCompat.Builder notifyPassiveBuilder;
 
@@ -46,12 +46,9 @@ public class PassiveJammerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        audioBundle = new Bundle();
         if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                createAudioSettings(extras);
-            }
-
+            audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
                 if (action.equals(ACTION_START_PASSIVE)) {
@@ -78,17 +75,6 @@ public class PassiveJammerService extends Service {
     @Override
     public void onDestroy() {
         //
-    }
-
-    private void createAudioSettings(Bundle extras) {
-        audioSettings = new AudioSettings();
-        audioSettings.setBasicAudioInSettings(
-                extras.getInt("sampleRate"),
-                extras.getInt("bufferInSize"),
-                extras.getInt("encoding"),
-                extras.getInt("channelInConfig")
-        );
-        audioSettings.setAudioSource(extras.getInt("audioSource"));
     }
 
     private void createNotification() {
@@ -122,7 +108,7 @@ public class PassiveJammerService extends Service {
 
 
     private void startPassiveService() {
-        passiveJammer = new PassiveJammer(getApplicationContext(), audioSettings);
+        passiveJammer = new PassiveJammer(getApplicationContext(), audioBundle);
         if (passiveJammer.startPassiveJammer()) {
             if (!passiveJammer.runPassiveJammer()) {
                 // has record state errors

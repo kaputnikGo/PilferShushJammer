@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private static TextView debugText;
     private ToggleButton passiveJammerButton;
     private ToggleButton activeJammerButton;
-    private AudioSettings audioSettings;
 
     private Bundle audioBundle;
 
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //
         debugText = findViewById(R.id.debug_text);
         debugText.setTextColor(Color.parseColor("#00ff00"));
         debugText.setMovementMethod(new ScrollingMovementMethod());
@@ -392,8 +390,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         initAudioFocusListener();
 
-        audioSettings = new AudioSettings();
-        AudioChecker audioChecker = new AudioChecker(this, audioSettings);
+        // apply audio checker settings to bundle for services
+        AudioChecker audioChecker = new AudioChecker(this);
+        audioBundle = audioChecker.getAudioBundle();
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7], activeTypeNoise);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[9], AudioSettings.CARRIER_TEST_FREQUENCY);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[10], AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
+
         entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
         if (!audioChecker.determineRecordAudioType()) {
             // have a setup error getting the audio for record
@@ -406,13 +411,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             entryLogger(getResources().getString(R.string.audio_check_2), true);
             return;
         }
-
-        // apply audio settings to bundle for services
-        createAudioBundle();
-
         // background checker
         backgroundChecker = new BackgroundChecker(new FileProcessor(this));
-
 
         populateMenuItems();
         entryLogger("\n"+ getResources().getString(R.string.intro_8) +
@@ -463,25 +463,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         }
         return false;
-    }
-
-    //TODO
-    private void createAudioBundle() {
-        audioBundle = new Bundle();
-        //passive
-        audioBundle.putInt("audioSource", audioSettings.getAudioSource());
-        audioBundle.putInt("sampleRate", audioSettings.getSampleRate());
-        audioBundle.putInt("channelInConfig", audioSettings.getChannelInConfig());
-        audioBundle.putInt("encoding", audioSettings.getEncoding());
-        audioBundle.putInt("bufferInSize", audioSettings.getBufferInSize());
-        //active
-        audioBundle.putInt("channelOutConfig", audioSettings.getChannelOutConfig());
-        audioBundle.putInt("bufferOutSize", audioSettings.getBufferOutSize());
-        audioBundle.putBoolean("activeType", activeTypeNoise);
-        audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_TEST);
-        audioBundle.putInt("userCarrier", AudioSettings.CARRIER_TEST_FREQUENCY);
-        audioBundle.putInt("userLimit", AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT);
-        audioBundle.putInt("userSpeed", AudioSettings.MINIMUM_DRIFT_LIMIT);
     }
 
     private void runPassive() {
@@ -790,7 +771,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         LayoutInflater inflater = this.getLayoutInflater();
         View inputView = inflater.inflate(R.layout.default_ranged_form, null);
         dialogBuilder.setView(inputView);
-        final EditText userCarrierInput = (EditText) inputView.findViewById(R.id.carrier_input);
+        final EditText userCarrierInput = inputView.findViewById(R.id.carrier_input);
 
         dialogBuilder.setTitle(R.string.jammer_dialog_4);
 
@@ -803,7 +784,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
 
-                        userInputCarrier = audioSettings.checkCarrierFrequency(userInputCarrier);
+                        userInputCarrier = checkCarrierFrequency(userInputCarrier);
                         audioBundle.putInt("userCarrier", userInputCarrier);
                         audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
 
@@ -830,8 +811,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         View inputView = inflater.inflate(R.layout.user_ranged_form, null);
         dialogBuilder.setView(inputView);
 
-        final EditText userCarrierInput = (EditText) inputView.findViewById(R.id.carrier_input);
-        final EditText userLimitInput = (EditText) inputView.findViewById(R.id.limit_input);
+        final EditText userCarrierInput = inputView.findViewById(R.id.carrier_input);
+        final EditText userLimitInput = inputView.findViewById(R.id.limit_input);
 
         dialogBuilder.setTitle(R.string.jammer_dialog_5);
 
@@ -848,8 +829,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             userInputLimit = Integer.parseInt(userCarrierInput.getText().toString());
                         }
 
-                        userInputCarrier = audioSettings.checkCarrierFrequency(userInputCarrier);
-                        userInputLimit = audioSettings.checkDriftLimit(userInputLimit);
+                        userInputCarrier = checkCarrierFrequency(userInputCarrier);
+                        userInputLimit = checkDriftLimit(userInputLimit);
                         audioBundle.putInt("userCarrier", userInputCarrier);
                         audioBundle.putInt("userLimit", userInputLimit);
                         audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_USER_RANGED);
@@ -878,7 +859,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         View inputView = inflater.inflate(R.layout.drift_speed_form, null);
         dialogBuilder.setView(inputView);
 
-        final EditText userDriftInput = (EditText) inputView.findViewById(R.id.drift_input);
+        final EditText userDriftInput = inputView.findViewById(R.id.drift_input);
 
         dialogBuilder.setTitle(R.string.drift_dialog_1);
         dialogBuilder.setMessage("");
@@ -892,7 +873,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             userInputSpeed = Integer.parseInt(userDriftInput.getText().toString());
                         }
 
-                        userInputSpeed = audioSettings.checkDriftSpeed(userInputSpeed);
+                        userInputSpeed = checkDriftSpeed(userInputSpeed);
                         audioBundle.putInt("userSpeed", userInputSpeed);
                         entryLogger("Jammer drift speed changed to " + userInputSpeed, false);
                     }
@@ -939,6 +920,42 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     /*
 
 
+    */
+    private int checkCarrierFrequency(int carrierFrequency) {
+        if (carrierFrequency > audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]))
+            return audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
+
+        else if (carrierFrequency < AudioSettings.MINIMUM_NUHF_FREQUENCY)
+            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
+
+        else
+            return carrierFrequency;
+    }
+
+    private int checkDriftLimit(int driftLimit) {
+        if (driftLimit > AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT)
+            return AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
+
+        else if (driftLimit < AudioSettings.MINIMUM_DRIFT_LIMIT)
+            return AudioSettings.MINIMUM_DRIFT_LIMIT;
+
+        else
+            return driftLimit;
+    }
+
+    private int checkDriftSpeed(int driftSpeed) {
+        // is 1 - 10, then * 1000
+        if (driftSpeed < 1)
+            return 1;
+        else if (driftSpeed > 10)
+            return 10;
+        else
+            return driftSpeed;
+    }
+
+    /*
+
+        UI OUTPUT TO DEBUG WINDOW
     */
     protected static void entryLogger(String entry, boolean caution) {
         int start = debugText.getText().length();
