@@ -9,7 +9,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BackgroundChecker {
+class BackgroundChecker {
     private FileProcessor fileProcessor;
     private PackageManager packageManager;
     private List<ApplicationInfo> packages;
@@ -28,13 +28,13 @@ public class BackgroundChecker {
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
 
-    public BackgroundChecker(FileProcessor fileProcessor) {
+    BackgroundChecker(FileProcessor fileProcessor) {
         this.fileProcessor = fileProcessor;
         appEntries = new ArrayList<>();
         audioBeaconCount = 0;
     }
 
-    protected boolean initChecker(PackageManager packageManager) {
+    boolean initChecker(PackageManager packageManager) {
         // need a user updatable SDK_NAMES list insert...
         this.packageManager = packageManager;
 
@@ -43,7 +43,7 @@ public class BackgroundChecker {
         return (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0);
     }
 
-    protected void destroy() {
+    void destroy() {
         if (packageManager != null) packageManager = null;
         if (packages != null) packages = null;
         if (packageInfo != null) packageInfo = null;
@@ -52,7 +52,7 @@ public class BackgroundChecker {
 
     /********************************************************************/
 
-    protected String displayAudioSdkNames() {
+    String displayAudioSdkNames() {
         // return a string of names + \n
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             StringBuilder sb = new StringBuilder();
@@ -64,7 +64,7 @@ public class BackgroundChecker {
         return "error: none found \n";
     }
 
-    protected int getUserRecordNumApps() {
+    int getUserRecordNumApps() {
         // count number with getRecordable == true
         int count = 0;
         if (appEntries != null) {
@@ -77,10 +77,10 @@ public class BackgroundChecker {
             return 0;
     }
 
-    protected void audioAppEntryLog() {
+    void audioAppEntryLog() {
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
-                MainActivity.entryLogger(appEntry.toString(), appEntry.checkForCaution());
+                MainActivity.entryLogger(appEntry.entryPrint(), appEntry.checkForCaution());
             }
         }
         else {
@@ -88,11 +88,11 @@ public class BackgroundChecker {
         }
     }
 
-    protected boolean hasAudioBeaconApps() {
+    boolean hasAudioBeaconApps() {
         return audioBeaconCount > 0;
     }
 
-    protected void checkAudioBeaconApps() {
+    void checkAudioBeaconApps() {
         audioBeaconCount = 0;
         int indexCount = 0;
         if (appEntries.size() > 0) {
@@ -113,7 +113,7 @@ public class BackgroundChecker {
         }
     }
 
-    protected String[] getAudioBeaconAppNames() {
+    String[] getAudioBeaconAppNames() {
         if (audioBeaconCount > 0) {
             String[] appNames = new String[audioBeaconCount];
             int i = 0;
@@ -146,7 +146,7 @@ public class BackgroundChecker {
         return false;
     }
 
-    protected String[] getOverrideScanAppNames() {
+    String[] getOverrideScanAppNames() {
         //
         String[] appNames = new String[appEntries.size()];
         int i = 0;
@@ -157,7 +157,7 @@ public class BackgroundChecker {
         return appNames;
     }
 
-    protected AppEntry getOverrideScanAppEntry(int appEntryIndex) {
+    AppEntry getOverrideScanAppEntry(int appEntryIndex) {
         return appEntries.get(appEntryIndex);
     }
 
@@ -170,9 +170,9 @@ public class BackgroundChecker {
         return (applicationInfo.flags & mask) == 0;
     }
 
-    protected void runChecker() {
+    void runChecker() {
         // get list of apps
-        //TODO
+        // also:
         // PackageManager.getSystemAvailableFeatures() - list all features
         // PackageManager.hasSystemFeature(String name) - search for specific ie: "FEATURE_MICROPHONE"
 

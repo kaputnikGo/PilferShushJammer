@@ -5,59 +5,50 @@ import android.media.AudioFormat;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-public class AudioSettings {
+class AudioSettings {
     // audio utility helper class
-    public static final int[] SAMPLE_RATES = new int[]{
+    static final int[] SAMPLE_RATES = new int[]{
             48000, 44100, 22050, 16000, 11025, 8000};
 
-    public static final int[] POWERS_TWO_HIGH = new int[]{
+    static final int[] POWERS_TWO_HIGH = new int[]{
             512, 1024, 2048, 4096, 8192, 16384};
 
     private static final int[] POWERS_TWO_LOW = new int[]{
             2, 4, 8, 16, 32, 64, 128, 256};
 
-    public static final int MINIMUM_NUHF_FREQUENCY = 18000;
-    public static final int DEFAULT_NUHF_FREQUENCY = 19000;
+    static final int MINIMUM_NUHF_FREQUENCY = 18000;
+    static final int DEFAULT_NUHF_FREQUENCY = 19000;
 
-    public static final int CARRIER_TEST_FREQUENCY = 440;
-    public static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
-    public static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
+    static final int CARRIER_TEST_FREQUENCY = 440;
+    static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
+    static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
 
-    public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
-    public static final int MINIMUM_DRIFT_LIMIT = 10;
-    public static final int DRIFT_SPEED_MULTIPLIER = 1000;
+    static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
+    static final int MINIMUM_DRIFT_LIMIT = 10;
+    static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
-    public static final int JAMMER_TONE = 0;
-    public static final int JAMMER_WHITE = 1;
+    static final int JAMMER_TONE = 0;
+    static final int JAMMER_WHITE = 1;
 
-    public static final int JAMMER_TYPE_TEST = 0;
-    public static final int JAMMER_TYPE_NUHF = 1;
-    public static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
-    public static final int JAMMER_TYPE_USER_RANGED = 3;
+    static final int JAMMER_TYPE_TEST = 0;
+    static final int JAMMER_TYPE_NUHF = 1;
+    static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
+    static final int JAMMER_TYPE_USER_RANGED = 3;
 
     // Bundle keys string names
-    public static final String[] AUDIO_BUNDLE_KEYS = new String[] {
+    static final String[] AUDIO_BUNDLE_KEYS = new String[] {
             "audioSource", "sampleRate", "channelInConfig", "encoding",
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
             "maxFreq"
     };
 
-    /*
-    public String toString() {
-        return ("audio record format: "
-                + sampleRate + ", " + bufferInSize + ", "
-                + encoding + ", " + channelInConfig + ", " + audioSource);
-    }
-    */
-
-
     /********************************************************************/
     /*
      * Utilities, unused, but may be useful one day
      *
      */
-    public static int getBitDepth(int encoding) {
+    static int getBitDepth(int encoding) {
         // encoding == int value of bit depth
         if (encoding == AudioFormat.ENCODING_PCM_8BIT) return 8;
         else if (encoding == AudioFormat.ENCODING_PCM_16BIT) return 16;
@@ -69,7 +60,7 @@ public class AudioSettings {
     }
 
 
-    public static int getClosestPowersLow(int reported) {
+    static int getClosestPowersLow(int reported) {
         // return the next highest power from the minimum reported
         // 2, 4, 8, 16, 32, 64, 128, 256
         for (int power : POWERS_TWO_LOW) {
@@ -81,19 +72,19 @@ public class AudioSettings {
         return reported;
     }
 
-    public static byte[] toBytes(short s) {
+    static byte[] toBytes(short s) {
         // convert shorts to bytes
         // Java short is a 16-bit type, and byte is an 8-bit type.
         return new byte[]{(byte) (s & 0x00FF), (byte) ((s & 0xFF00) >> 8)};
     }
 
-    public static byte[] shortToByte(short[] arr) {
+    static byte[] shortToByte(short[] arr) {
         ByteBuffer bb = ByteBuffer.allocate(arr.length * 2);
         bb.asShortBuffer().put(arr);
         return bb.array();
     }
 
-    public static double soundPressureLevel(final float[] buffer) {
+    static double soundPressureLevel(final float[] buffer) {
         double power = 0.0D;
         for (float element : buffer) {
             power += element * element;
@@ -102,7 +93,7 @@ public class AudioSettings {
         return 20.0 * Math.log10(value);
     }
 
-    public static byte[] floatArrayToByteArray(float floatArray[]) {
+    static byte[] floatArrayToByteArray(float floatArray[]) {
         byte byteArray[] = new byte[floatArray.length * 4];
         ByteBuffer byteBuf = ByteBuffer.wrap(byteArray);
         FloatBuffer floatBuf = byteBuf.asFloatBuffer();

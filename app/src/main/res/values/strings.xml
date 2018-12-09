@@ -21,7 +21,7 @@
     <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
 
     <string name="jammer_dialog_1">Change active jammer signal type.</string>
-    <string name="jammer_dialog_2">Audible tone drift (~440Hz)</string>
+    <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>
     <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>
     <string name="jammer_dialog_4">1000Hz NUHF drift with user carrier</string>
     <string name="jammer_dialog_5">User NUHF drift with user carrier</string>
@@ -33,11 +33,11 @@
     <string name="jammer_dialog_10">1000</string>
     <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
 
-    <string name="jammer_dialog_12">White noise switch</string>
+    <string name="jammer_dialog_12">Tone / Noise switch</string>
     <string name="jammer_dialog_13">Jammer type changed to\u0020</string>
     <string name="jammer_dialog_14">Jammer type changed to 1000Hz drift with carrier at\u0020</string>
 
-    <string name="active_dialog_1">Active sound type</string>
+    <string name="active_dialog_1">Select sound type</string>
     <string name="active_dialog_2">Active jammer output sound type</string>
     <string name="active_dialog_3">TONES</string>
     <string name="active_dialog_4">NOISE</string>
@@ -131,6 +131,15 @@
     <string name="audiofocus_7">Audio Focus Listener: GAIN_TRANSIENT_DUCK.</string>
     <string name="audiofocus_8">Audio Focus Listener: UNKNOWN STATE.</string>
 
+    <string name="resume_status_1">PASSIVE SERVICE FOUND</string>
+    <string name="resume_status_2">PASSIVE SERVICE NOT FOUND</string>
+    <string name="resume_status_3">ACTIVE SERVICE FOUND</string>
+    <string name="resume_status_4">ACTIVE SERVICE NOT FOUND</string>
+    <string name="resume_status_5">RESUME AUDIOFOCUS GRANT</string>
+    <string name="resume_status_6">RESUME AUDIOFOCUS LOSS</string>
+    <string name="resume_status_7">runPassive() when PASSIVE_RUNNING</string>
+    <string name="resume_status_8">runActive() when ACTIVE_RUNNING</string>
+
     <!--
     background userapp checker
     -->
@@ -138,7 +147,7 @@
     <string name="dialog_userapps">Scan Apps List</string>
 
     <string name="userapp_scan_1">Userapp Checker fail.</string>
-    <string name="userapp_scan_2">run user app checks...</string>
+    <string name="userapp_scan_2">run user app checks\u2026</string>
     <string name="userapp_scan_3">User Apps with RECORD AUDIO:\u0020</string>
 
     <string name="userapp_scan_4">NO USER APPS FOUND FOR CHECKER.</string>
@@ -183,5 +192,7 @@
     <string name="service_state_3">Active Jammer service stopped.</string>
     <string name="service_state_4">Passive Jammer service started.</string>
     <string name="service_state_5">Passive Jammer service stopped.</string>
+
+
 
 </resources>

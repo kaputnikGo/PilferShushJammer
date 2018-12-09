@@ -12,11 +12,11 @@ public class FileProcessor {
     protected Context context;
     private String[] audioSdkArray;
 
-    protected FileProcessor(Context context) {
+    FileProcessor(Context context) {
         this.context = context;
     }
 
-    protected String[] getAudioSdkArray() {
+    String[] getAudioSdkArray() {
         // should always be an internal list of size > 1
         if (audioSdkArray == null) {
             // maybe not created yet...
@@ -61,7 +61,7 @@ public class FileProcessor {
                 return false;
             }
             else {
-                audioSdkArray = audioSdkList.toArray(new String[audioSdkList.size()]);
+                audioSdkArray = audioSdkList.toArray(new String[0]); // audioSdkList.size()
                 return true;
             }
         }

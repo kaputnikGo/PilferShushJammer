@@ -32,7 +32,7 @@ public class ActiveJammer {
     /*
         PUBLIC CONTROLS
      */
-    public void play(int type) {
+    void play(int type) {
         // FFT to find key NUHF freq in the environment and tune jammer to it?
         if (isPlaying) {
             return;
@@ -42,7 +42,7 @@ public class ActiveJammer {
         threadPlay(type);
     }
 
-    public void stop() {
+    void stop() {
         isPlaying = false;
         if (audioTrack == null) {
             return;
@@ -135,9 +135,10 @@ public class ActiveJammer {
     }
 
     private synchronized void createTone() {
+        int sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
         int driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
-        double sample[] = new double[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
-        byte soundData[] = new byte[2 * audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
+        double sample[] = new double[sampleRate];
+        byte soundData[] = new byte[2 * sampleRate];
 
         // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
         // - AMPLITUDE RAMPS pre and post every loadDriftTone() etc - not practical
@@ -146,7 +147,7 @@ public class ActiveJammer {
 
         /*
 
-        int ramp = audioSettings.getSampleRate() / 20;
+        int ramp = sampleRate / 20;
         for (int i = 0; i < sampleRate; i++) [
             if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {...}
 
@@ -209,7 +210,7 @@ public class ActiveJammer {
             MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_4), true);
         }
     }
-    // this works reasonably well for the tone, but not whitenoise.
+
     private void onboardEQ(int audioSessionId) {
         try {
             Equalizer equalizer = new Equalizer(0, audioSessionId);

@@ -5,7 +5,7 @@ import android.content.pm.ServiceInfo;
 
 import java.util.Arrays;
 
-public class AppEntry {
+class AppEntry {
     private String activityName;
     private String packageName;
     private int idNum;
@@ -22,7 +22,7 @@ public class AppEntry {
     private ServiceInfo[] serviceInfo;
     private ActivityInfo[] receiversInfo;
 
-    public AppEntry(String packageName, String activityName) {
+    AppEntry(String packageName, String activityName) {
         this.packageName = packageName;
         this.activityName = activityName;
         // defaults
@@ -40,54 +40,54 @@ public class AppEntry {
      *
      */
 
-    protected String getActivityName() {
+    String getActivityName() {
         return activityName;
     }
-    protected void setIdNum(int idNum) {
+    void setIdNum(int idNum) {
         this.idNum = idNum;
     }
 
-    protected int getServicesNum() {
+    int getServicesNum() {
         return servicesNum;
     }
-    protected int getReceiversNum() {
+    int getReceiversNum() {
         return receiversNum;
     }
 
-    protected void setRecordable(boolean recordable) {
+    void setRecordable(boolean recordable) {
         this.recordable = recordable;
     }
-    protected boolean getRecordable() {
+    boolean getRecordable() {
         return recordable;
     }
 
-    protected void setBootCheck(boolean bootCheck) {
+    void setBootCheck(boolean bootCheck) {
         this.bootCheck = bootCheck;
     }
 
-    protected void setReceivers(boolean receivers) {
+    void setReceivers(boolean receivers) {
         this.receivers = receivers;
     }
 
-    protected void setServices(boolean services) {
+    void setServices(boolean services) {
         this.services = services;
     }
-    protected boolean getServices() {
+    boolean getServices() {
         return services;
     }
 
-    protected boolean checkForCaution() {
+    boolean checkForCaution() {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
         return (recordable && bootCheck && receivers && services);
     }
 
-    protected void setAudioBeacon(boolean audioBeacon) {
+    void setAudioBeacon(boolean audioBeacon) {
         this.audioBeacon = audioBeacon;
     }
 
-    protected boolean getAudioBeacon() {
+    boolean getAudioBeacon() {
         return audioBeacon;
     }
 
@@ -97,7 +97,7 @@ public class AppEntry {
      *  arrays
      */
 
-    protected void setServiceInfo(ServiceInfo[] serviceInfo) {
+    void setServiceInfo(ServiceInfo[] serviceInfo) {
         // any background recording service list
         this.serviceInfo = new ServiceInfo[serviceInfo.length];
         this.serviceInfo = Arrays.copyOf(serviceInfo, serviceInfo.length);
@@ -105,7 +105,7 @@ public class AppEntry {
         services = true;
     }
 
-    protected void setActivityInfo(ActivityInfo[] receiversInfo) {
+    void setActivityInfo(ActivityInfo[] receiversInfo) {
         // receivers list derived from activityInfo
         this.receiversInfo = new ActivityInfo[receiversInfo.length];
         this.receiversInfo = Arrays.copyOf(receiversInfo, receiversInfo.length);
@@ -117,7 +117,8 @@ public class AppEntry {
     /*
      * methods
      */
-    public String toString() {
+
+    String entryPrint() {
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
                 "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
                 "\nRECEIVERS: " + receivers + "\nNUHF SDK: " + audioBeacon +
@@ -128,7 +129,7 @@ public class AppEntry {
     // .packageName
     // .processName
     // .permission
-    protected String[] getServiceNames() {
+    String[] getServiceNames() {
         String[] names = new String[serviceInfo.length];
         for (int j = 0; j < serviceInfo.length; j++) {
             // get service name
@@ -142,7 +143,7 @@ public class AppEntry {
     // .applicationInfo;
     // .processName
     // .targetActivity
-    protected String[] getReceiverNames() {
+    String[] getReceiverNames() {
         String[] names = new String[receiversInfo.length];
         for (int j = 0; j < receiversInfo.length; j++) {
             // get receiver name

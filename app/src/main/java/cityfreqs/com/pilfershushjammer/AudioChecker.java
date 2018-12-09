@@ -8,17 +8,17 @@ import android.media.AudioTrack;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 
-public class AudioChecker {
+class AudioChecker {
     private Context context;
     private Bundle audioBundle;
     private static final boolean DEBUG = false;
 
-    protected AudioChecker(Context context) {
+    AudioChecker(Context context) {
         this.context = context;
         audioBundle = new Bundle();
     }
 
-    protected Bundle getAudioBundle() {
+    Bundle getAudioBundle() {
         return audioBundle;
     }
 
@@ -34,7 +34,7 @@ public class AudioChecker {
         return reported;
     }
 
-    protected boolean determineRecordAudioType() {
+    boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         int buffSize;
         int audioSource = 0; // MediaRecorder.AudioSource.DEFAULT
@@ -86,7 +86,7 @@ public class AudioChecker {
         return false;
     }
 
-    protected boolean determineOutputAudioType() {
+    boolean determineOutputAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         int buffSize;
         for (int rate : AudioSettings.SAMPLE_RATES) {
