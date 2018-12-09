@@ -1,4 +1,4 @@
-### 3.0.1
+### 3.0.1 (2018-12-09)
 * passive jammer as a service
 * active jammer as a service
 * change AudioSettings data to Bundle
