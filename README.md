@@ -4,34 +4,30 @@ Research and project page : https://www.cityfreqs.com.au/pilfer.php
 
 Android microphone checker and jamming application.  
 
-Test application for low battery requirement microphone passive jamming.
+Application for low battery requirement microphone passive jamming.
 
 Calls audioRecord.startRecording() but DOES NOT READ THE AUDIO BUFFER.
 
-Claims audio focus and should block user apps from gaining focus of microphone.
+Holds microphone access and should block user apps from gaining focus of microphone.
 
-System apps (telephony) should override and bump the Jammer from the microphone. 
+System telephone calls will override and bump the Jammer from the microphone. 
 
 Adds a notification as a reminder for running while in background.
-
-Responds (stop and restart jammer) to telephony audio focus LOSS_TRANSIENT and GAIN.
-
-Handle music player audio focus gain.
 
 Tested and blocks Google Voice search (user) app.
 
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
-Scan user installed apps for key features and services/receivers running.
+Scan user installed apps for key features, NUHF/ACR SDKS and services/receivers running.
+
+Jammers run as a foreground service
 
 Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
 **Changes:**
-- include ACR package scan and information
-- passive jammer as a service
-- active jammer as a service
+- cleanup and bugfix
 
-   vers. 3.0.1
+   vers. 3.0.2
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

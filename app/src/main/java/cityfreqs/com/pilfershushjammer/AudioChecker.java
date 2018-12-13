@@ -5,6 +5,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
+import android.media.MediaRecorder;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 
@@ -37,7 +38,32 @@ class AudioChecker {
     boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         int buffSize;
-        int audioSource = 0; // MediaRecorder.AudioSource.DEFAULT
+        /*
+        AudioRecord.cpp ::
+        if (inputSource == AUDIO_SOURCE_DEFAULT) {
+            inputSource = AUDIO_SOURCE_MIC;
+        }
+        */
+        int audioSource = MediaRecorder.AudioSource.DEFAULT; // 0
+
+        // note::
+        /*
+        media/libstagefright/AudioSource.cpp
+        typedef enum {
+                    AUDIO_SOURCE_DEFAULT             = 0,
+                    AUDIO_SOURCE_MIC                 = 1,
+                    AUDIO_SOURCE_VOICE_UPLINK        = 2,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+                    AUDIO_SOURCE_VOICE_DOWNLINK      = 3,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+                    AUDIO_SOURCE_VOICE_CALL          = 4,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+                    AUDIO_SOURCE_CAMCORDER           = 5,  // for video recording, same orientation as camera
+                    AUDIO_SOURCE_VOICE_RECOGNITION   = 6,  // tuned for voice recognition
+                    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,  // VoIP with echo cancel, auto gain ctrl if available
+                    AUDIO_SOURCE_CNT,
+                    AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
+        } audio_source_t;
+        */
+        // some pre-processing like echo cancellation, noise suppression is applied on the audio captured using VOICE_COMMUNICATION
+        // assumption is that # 6,7 add DSP to the DEFAULT/MIC input
 
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
@@ -102,7 +128,8 @@ class AudioChecker {
                         if (DEBUG) MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelOutConfig: "+ channelOutConfig, false);
 
                         buffSize = AudioTrack.getMinBufferSize(rate, channelOutConfig, audioFormat);
-                        // dont need to force buffSize to powersOfTwo if it isnt (ie.S5) as no FFT
+                        // test force buffSize to powersOfTwo
+                        buffSize = getClosestPowersHigh(buffSize);
 
                         AudioTrack audioTrack = new AudioTrack(
                                 AudioManager.STREAM_MUSIC,

@@ -141,42 +141,35 @@ public class ActiveJammer {
         byte soundData[] = new byte[2 * sampleRate];
 
         // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
-        // - AMPLITUDE RAMPS pre and post every loadDriftTone() etc - not practical
+
+        // The format specified in the AudioTrack constructor should be AudioFormat.ENCODING_PCM_8BIT
+        //  to correspond to the data in the array.
+        // yet: The format can be AudioFormat.ENCODING_PCM_16BIT, but this is deprecated.
+
+        // and: Audio data format: PCM 8 bit per sample. Not guaranteed to be supported by devices.
+
+
+
+        // - AMPLITUDE RAMPS pre and post every loadDriftTone()
         // - ZERO VALUE SAMPLES either side of loadDriftTone()
-        // - can still be useful jamming sound ;)
-
-        /*
-
-        int ramp = sampleRate / 20;
-        for (int i = 0; i < sampleRate; i++) [
-            if (jammerTypeSwitch != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {...}
-
-            if (i < ramp) sample[i] = 0;
-            else if (i > sampleRate - ramp) sample[i] = 0;
-            else {
-                // normal loop
-            }
-        }
-
-        */
 
         int driftFreq = loadDriftTone();
         // every nth iteration get a new drift freq (48k rate / driftSpeed )
-        for (int i = 0; i < audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]); ++i) {
+        for (int i = 0; i < sampleRate; ++i) {
             if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[8]) != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
                 driftFreq = loadDriftTone();
             }
-            // ramp/zero-crossing check could go here
-            sample[i] = Math.sin(
-                    driftFreq * 2 * Math.PI * i / (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])));
+            sample[i] = Math.sin(driftFreq * 2 * Math.PI * i / sampleRate);
         }
 
         int idx = 0;
         for (final double dVal : sample) {
             final short val = (short) ((dVal * 32767)); // max the amplitude
             // in 16 bit wav PCM, first byte is the low order byte
-            soundData[idx++] = (byte) (val & 0x00ff);
-            soundData[idx++] = (byte) ((val & 0xff00) >>> 8);
+            soundData[idx] = (byte) (val & 0x00ff);
+            idx++;
+            soundData[idx] = (byte) ((val & 0xff00) >>> 8);
+            idx++;
         }
         playSound(soundData);
     }

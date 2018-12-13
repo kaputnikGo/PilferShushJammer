@@ -1,10 +1,5 @@
 package cityfreqs.com.pilfershushjammer;
 
-import android.media.AudioFormat;
-
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-
 class AudioSettings {
     // audio utility helper class
     static final int[] SAMPLE_RATES = new int[]{
@@ -13,15 +8,17 @@ class AudioSettings {
     static final int[] POWERS_TWO_HIGH = new int[]{
             512, 1024, 2048, 4096, 8192, 16384};
 
+    /*
     private static final int[] POWERS_TWO_LOW = new int[]{
             2, 4, 8, 16, 32, 64, 128, 256};
+    */
 
     static final int MINIMUM_NUHF_FREQUENCY = 18000;
     static final int DEFAULT_NUHF_FREQUENCY = 19000;
 
     static final int CARRIER_TEST_FREQUENCY = 440;
-    static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int)(CARRIER_TEST_FREQUENCY * 0.5);
-    static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int)(CARRIER_TEST_FREQUENCY * 0.5);
+    static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int) (CARRIER_TEST_FREQUENCY * 0.5);
+    static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int) (CARRIER_TEST_FREQUENCY * 0.5);
 
     static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
     static final int MINIMUM_DRIFT_LIMIT = 10;
@@ -36,18 +33,21 @@ class AudioSettings {
     static final int JAMMER_TYPE_USER_RANGED = 3;
 
     // Bundle keys string names
-    static final String[] AUDIO_BUNDLE_KEYS = new String[] {
+    static final String[] AUDIO_BUNDLE_KEYS = new String[]{
             "audioSource", "sampleRate", "channelInConfig", "encoding",
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
             "maxFreq"
     };
+}
 
-    /********************************************************************/
+    /*
+    * *******************************************************************/
     /*
      * Utilities, unused, but may be useful one day
      *
      */
+    /*
     static int getBitDepth(int encoding) {
         // encoding == int value of bit depth
         if (encoding == AudioFormat.ENCODING_PCM_8BIT) return 8;
@@ -101,22 +101,15 @@ class AudioSettings {
         floatBuf.put(floatArray);
         return byteArray;
     }
-}
+    */
 
-    /********************************************************************/
+    /*
+    * *******************************************************************/
     /*
      * NOTES re. audio capabilities on android
      *
     /********************************************************************/
     /*
-    AudioRecord.cpp ::
-
-    if (inputSource == AUDIO_SOURCE_DEFAULT) {
-        inputSource = AUDIO_SOURCE_MIC;
-    }
-
-    */
-
 /*
  *      Find audio record format for device.
  *
@@ -152,18 +145,6 @@ class AudioSettings {
     AUDIO_DEVICE_IN_DEFAULT               = 0x80000000,
 }
 
-typedef enum {
-    AUDIO_SOURCE_DEFAULT             = 0,
-    AUDIO_SOURCE_MIC                 = 1,
-    AUDIO_SOURCE_VOICE_UPLINK        = 2,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-    AUDIO_SOURCE_VOICE_DOWNLINK      = 3,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-    AUDIO_SOURCE_VOICE_CALL          = 4,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-    AUDIO_SOURCE_CAMCORDER           = 5,  // for video recording, same orientation as camera
-    AUDIO_SOURCE_VOICE_RECOGNITION   = 6,  // tuned for voice recognition
-    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,  // VoIP with echo cancel, auto gain ctrl if available
-    AUDIO_SOURCE_CNT,
-    AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
-} audio_source_t;
 
 also -
 

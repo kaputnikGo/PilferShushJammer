@@ -35,9 +35,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.0.1";
+    public static final String VERSION = "3.0.2";
     // note:: API 23+ AudioRecord READ_BLOCKING const
-    // note:: MediaRecorder.AudioSource.VOICE_COMMUNICATION == VoIP
 
     private static final boolean DEBUG = false;
 
@@ -187,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_4), false);
             ACTIVE_RUNNING = false;
         }
-
 
         //TODO check service behaviours when IRQ_TELEPHONY triggered
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
@@ -759,7 +757,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int userInputCarrier = 19000;
+                        int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
                         if (userCarrierInput.getText().length() != 0) {
                             userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
