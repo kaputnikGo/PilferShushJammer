@@ -87,7 +87,7 @@ public class PassiveJammerService extends Service {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_HIGH);
+                    NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(getResources().getString(R.string.service_state_1));
             notifyManager.createNotificationChannel(channel);
         }
