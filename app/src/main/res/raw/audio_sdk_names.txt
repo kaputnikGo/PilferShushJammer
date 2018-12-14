@@ -1,5 +1,8 @@
+acrcloud
+actv8
 alphonso
 bitsound
+cifrasoft
 copsonic
 cueaudio
 dv
