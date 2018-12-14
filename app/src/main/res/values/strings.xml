@@ -106,8 +106,8 @@
     <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
 
     <string name="perms_state_1">Record Audio</string>
-    <string name="perms_state_2">Permissions request to access microphone:\u0020</string>
-    <string name="perms_state_3">Permissions denied, unable to use this app.</string>
+    <string name="perms_state_2">Permission request to access microphone:\u0020</string>
+    <string name="perms_state_3">Permission denied, please close this app, it will not work without RECORD AUDIO permission.</string>
 
     <string name="headset_state_1">No headset found</string>
     <string name="headset_state_2">Headset is plugged in.</string>

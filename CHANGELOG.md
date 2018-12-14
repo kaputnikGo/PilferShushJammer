@@ -1,5 +1,8 @@
 ### 3.0.2 (unreleased)
-* general clean up and bugfix
+* general clean up
+* bugfix for bad user input
+* add closeApp for no permissions
+* permission check fix
 
 ### 3.0.1 (2018-12-09)
 * passive jammer as a service

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,15 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     public static final String VERSION = "3.0.2";
@@ -114,34 +112,28 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // if API version < 23 (6.x) fallback is manifest.xml file permission declares
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-            List<String> permissionsNeeded = new ArrayList<>();
-            final List<String> permissionsList = new ArrayList<>();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECORD_AUDIO)) {
+                    String message = getResources().getString(R.string.perms_state_2);
+                    message += Manifest.permission.RECORD_AUDIO;
 
-            if (!addPermission(permissionsList, Manifest.permission.RECORD_AUDIO))
-                permissionsNeeded.add(getResources().getString(R.string.perms_state_1));
-
-            if (permissionsList.size() > 0) {
-                if (permissionsNeeded.size() > 0) {
-                    StringBuilder sb = new StringBuilder().append(getResources().getString(R.string.perms_state_2)).append(permissionsNeeded.get(0));
-                    for (int i = 1; i < permissionsNeeded.size(); i++) {
-                        sb.append(", ").append(permissionsNeeded.get(i));
-                    }
-                    String message = sb.toString();
-
-                    showPermissionsDialog(message,
-                            new DialogInterface.OnClickListener() {
+                    showPermissionsDialog(message, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     ActivityCompat.requestPermissions(MainActivity.this,
-                                            permissionsList.toArray(new String[0]),
+                                            new String[]{Manifest.permission.RECORD_AUDIO},
                                             REQUEST_AUDIO_PERMISSION);
                                 }
                             });
-                    return;
                 }
-                ActivityCompat.requestPermissions(this,
-                        permissionsList.toArray(new String[0]),
-                        REQUEST_AUDIO_PERMISSION);
+                else {
+                    // no reasoning, show perms request
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.RECORD_AUDIO},
+                            REQUEST_AUDIO_PERMISSION);
+                }
             }
             else {
                 // assume already runonce, has permissions
@@ -150,8 +142,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         }
         else {
-            // pre API 23
-            initApplication();
+            // pre API 23, check permissions anyway
+            if (PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_GRANTED) {
+                initApplication();
+            }
+            else {
+                closeApp();
+            }
         }
     }
 
@@ -280,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        backgroundChecker.destroy();
     }
 
     @Override
@@ -330,41 +326,31 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .show();
     }
 
-    private boolean addPermission(List<String> permissionsList, String permission) {
-        if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            permissionsList.add(permission);
-            // Check for Rationale Option
-            return (ActivityCompat.shouldShowRequestPermissionRationale(this, permission));
-        }
-        return true;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_AUDIO_PERMISSION: {
-                Map<String, Integer> perms = new HashMap<>();
-                // Initial
-                perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
-                // Fill with results
-                for (int i = 0; i < permissions.length; i++) {
-                    perms.put(permissions[i], grantResults[i]);
-                }
                 // Check for RECORD_AUDIO
-                if (perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
                     initApplication();
                 }
                 else {
                     // Permission Denied
-                    Toast.makeText(MainActivity.this, getResources().getString(R.string.perms_state_3), Toast.LENGTH_SHORT)
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.perms_state_3), Toast.LENGTH_LONG)
                             .show();
+                    closeApp();
                 }
             }
             break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private void closeApp() {
+        Log.d("PS_JAMMER", "closing app due to no RECORD_AUDIO permission granted.");
+        finishAffinity();
     }
 
     private void introText() {
@@ -758,11 +744,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
-                        if (userCarrierInput.getText().length() != 0) {
-                            userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
-                        }
+                        String regexStr = "^[0-9]*$";
 
+                        if (userCarrierInput.getText().length() != 0) {
+                            if(userCarrierInput.getText().toString().trim().matches(regexStr))
+                                userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                        }
                         userInputCarrier = checkCarrierFrequency(userInputCarrier);
+
                         audioBundle.putInt("userCarrier", userInputCarrier);
                         audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
 
@@ -799,16 +788,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
+                        String regexStr = "^[0-9]*$";
+
                         if (userCarrierInput.getText().length() != 0) {
-                            userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
+                            if(userCarrierInput.getText().toString().trim().matches(regexStr))
+                                userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
+                        userInputCarrier = checkCarrierFrequency(userInputCarrier);
+
                         int userInputLimit = AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
                         if (userLimitInput.getText().length() != 0) {
-                            userInputLimit = Integer.parseInt(userCarrierInput.getText().toString());
+                            if(userLimitInput.getText().toString().trim().matches(regexStr))
+                                userInputLimit = Integer.parseInt(userLimitInput.getText().toString());
                         }
-
-                        userInputCarrier = checkCarrierFrequency(userInputCarrier);
                         userInputLimit = checkDriftLimit(userInputLimit);
+
                         audioBundle.putInt("userCarrier", userInputCarrier);
                         audioBundle.putInt("userLimit", userInputLimit);
                         audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_USER_RANGED);
@@ -847,11 +841,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     public void onClick(DialogInterface dialog, int id) {
                         // set a default and check edit text field
                         int userInputSpeed = 1;
-                        if (userDriftInput.getText().length() != 0) {
-                            userInputSpeed = Integer.parseInt(userDriftInput.getText().toString());
-                        }
+                        String regexStr = "^[0-9]*$";
 
+                        if (userDriftInput.getText().length() != 0) {
+                            if(userDriftInput.getText().toString().trim().matches(regexStr))
+                                userInputSpeed = Integer.parseInt(userDriftInput.getText().toString());
+                        }
                         userInputSpeed = checkDriftSpeed(userInputSpeed);
+
                         audioBundle.putInt("userSpeed", userInputSpeed);
                         entryLogger("Jammer drift speed changed to " + userInputSpeed, false);
                     }
