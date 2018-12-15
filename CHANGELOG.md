@@ -1,4 +1,4 @@
-### 3.0.2 (unreleased)
+### 3.0.2 (2018-12-16)
 * general clean up
 * bugfix for bad user input
 * add closeApp for no permissions
