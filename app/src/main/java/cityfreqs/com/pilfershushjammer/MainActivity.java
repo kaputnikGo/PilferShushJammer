@@ -746,8 +746,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
                         String regexStr = "^[0-9]*$";
 
-                        if (userCarrierInput.getText().length() != 0) {
+                        //Integer.MAX_VALUE(2147483647) and Integer.MIN_VALUE(-2147483648)
+                        // simple check that string is length <= 5, max length of usable frequency
+                        if (userCarrierInput.getText().length() != 0 && userCarrierInput.getText().length() <= 5) {
                             if(userCarrierInput.getText().toString().trim().matches(regexStr))
+
                                 userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
                         userInputCarrier = checkCarrierFrequency(userInputCarrier);
@@ -790,14 +793,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         int userInputCarrier = AudioSettings.DEFAULT_NUHF_FREQUENCY;
                         String regexStr = "^[0-9]*$";
 
-                        if (userCarrierInput.getText().length() != 0) {
+                        // simple check that string is length < 5, max length of usable frequency
+                        if (userCarrierInput.getText().length() != 0 && userCarrierInput.getText().length() <= 5) {
                             if(userCarrierInput.getText().toString().trim().matches(regexStr))
                                 userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
                         userInputCarrier = checkCarrierFrequency(userInputCarrier);
 
+                        // simple check that string is length <= 4, max length of drift limit
                         int userInputLimit = AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
-                        if (userLimitInput.getText().length() != 0) {
+                        if (userLimitInput.getText().length() != 0 && userLimitInput.getText().length() <= 4) {
                             if(userLimitInput.getText().toString().trim().matches(regexStr))
                                 userInputLimit = Integer.parseInt(userLimitInput.getText().toString());
                         }
@@ -843,7 +848,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         int userInputSpeed = 1;
                         String regexStr = "^[0-9]*$";
 
-                        if (userDriftInput.getText().length() != 0) {
+                        // simple check that string is length <= 2, max length of drift speed
+                        if (userDriftInput.getText().length() != 0  && userDriftInput.getText().length() <= 2) {
                             if(userDriftInput.getText().toString().trim().matches(regexStr))
                                 userInputSpeed = Integer.parseInt(userDriftInput.getText().toString());
                         }

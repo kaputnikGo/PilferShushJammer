@@ -3,6 +3,7 @@
 * bugfix for bad user input
 * add closeApp for no permissions
 * permission check fix
+* added to SDK search list
 
 ### 3.0.1 (2018-12-09)
 * passive jammer as a service
