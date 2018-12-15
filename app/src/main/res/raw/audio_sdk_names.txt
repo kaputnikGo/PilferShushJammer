@@ -5,6 +5,7 @@ bitsound
 cifrasoft
 copsonic
 cueaudio
+digimarc
 dv
 fidzup
 fluzo
