@@ -12,7 +12,7 @@ import android.os.Bundle;
 class AudioChecker {
     private Context context;
     private Bundle audioBundle;
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = MainActivity.DEBUG;
 
     AudioChecker(Context context) {
         this.context = context;
@@ -37,7 +37,6 @@ class AudioChecker {
 
     boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-        int buffSize;
         /*
         AudioRecord.cpp ::
         if (inputSource == AUDIO_SOURCE_DEFAULT) {
@@ -76,7 +75,7 @@ class AudioChecker {
                         AudioFormat.CHANNEL_IN_STEREO }) {  // 12
                     try {
                         if (DEBUG) MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelInConfig: "+ channelInConfig, false);
-                        buffSize = AudioRecord.getMinBufferSize(rate, channelInConfig, audioFormat);
+                        int buffSize = AudioRecord.getMinBufferSize(rate, channelInConfig, audioFormat);
                         // force buffSize to powersOfTwo if it isnt (ie.S5)
                         buffSize = getClosestPowersHigh(buffSize);
 
@@ -114,7 +113,6 @@ class AudioChecker {
 
     boolean determineOutputAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
-        int buffSize;
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
                     AudioFormat.ENCODING_PCM_16BIT,
@@ -127,9 +125,9 @@ class AudioChecker {
                     try {
                         if (DEBUG) MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelOutConfig: "+ channelOutConfig, false);
 
-                        buffSize = AudioTrack.getMinBufferSize(rate, channelOutConfig, audioFormat);
-                        // test force buffSize to powersOfTwo
-                        buffSize = getClosestPowersHigh(buffSize);
+                        int buffSize = AudioTrack.getMinBufferSize(rate, channelOutConfig, audioFormat);
+                        if (DEBUG) MainActivity.entryLogger("reported minBufferSize: " + buffSize, false);
+                        // AudioTrack at create wants bufferSizeInBytes, the total size (in bytes)
 
                         AudioTrack audioTrack = new AudioTrack(
                                 AudioManager.STREAM_MUSIC,
@@ -160,6 +158,13 @@ class AudioChecker {
                             audioTrack.pause();
                             audioTrack.flush();
                             audioTrack.release();
+
+                            if (buffSize > AudioSettings.POWERS_TWO_HIGH[4]) {
+                                //TODO stop Active Jammer from ever running if this?
+                                // caution for potential laggy or breaking audiotrack buffer size of 8192
+                                if (DEBUG) MainActivity.entryLogger("Output buffer on this device may break active jammer.", true);
+                            }
+
                             return true;
                         }
                     }

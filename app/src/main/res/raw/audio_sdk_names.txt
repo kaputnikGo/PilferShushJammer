@@ -2,6 +2,7 @@ acrcloud
 actv8
 alphonso
 bitsound
+chirp
 cifrasoft
 copsonic
 cueaudio
@@ -9,6 +10,7 @@ digimarc
 dv
 fidzup
 fluzo
+gracenote
 hotstar
 intrasonics
 lisnr
@@ -20,5 +22,7 @@ silverpush
 sonarax
 soniccode
 sonicnotify
+soundpays
+tonetag
 trillbit
 zapr

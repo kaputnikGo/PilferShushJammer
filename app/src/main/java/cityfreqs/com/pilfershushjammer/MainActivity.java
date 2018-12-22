@@ -33,10 +33,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.0.2";
+    public static final String VERSION = "3.0.3";
     // note:: API 23+ AudioRecord READ_BLOCKING const
+    // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
+    // public void setCameraDisabled (ComponentName admin, boolean disabled)
+    // Currently, MediaRecorder does not work on the emulator.
 
-    private static final boolean DEBUG = false;
+    static final boolean DEBUG = true;
 
     private static final int REQUEST_AUDIO_PERMISSION = 1;
 
@@ -160,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onResume() {
         super.onResume();
+
+        //TODO fix resume for active, bools and audiofocus
 
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);

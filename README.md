@@ -24,10 +24,19 @@ Jammers run as a foreground service
 
 Build update: compile API 28 (Pie, 9.0), Android Studio 3.2.1 stable
 
+Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
+Therefore, your app should record audio only when it's in the foreground or 
+**when you include an instance of MediaRecorder in a foreground service.**
+
+**TODO:**
+- add setCameraDisabled(ComponentName admin, boolean disabled) in menu, run with passive
+- check audioFocus state
+- rebuild the active jammer
+
 **Changes:**
 - cleanup and bugfix
 
-   vers. 3.0.2
+   vers. 3.0.3
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

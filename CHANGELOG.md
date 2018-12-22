@@ -1,3 +1,6 @@
+### 3.0.3 (unreleased)
+* active jammer cleanup
+
 ### 3.0.2 (2018-12-16)
 * general clean up
 * bugfix for bad user input

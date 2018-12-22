@@ -70,6 +70,9 @@ public class ActiveJammer {
                     if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12])) {
                         onboardEQ(audioTrack.getAudioSessionId());
                     }
+                    // AudioTrack doesn't like an empty buffer, add an empty one until proper jammer tones
+                    // but: AudioTrack will wait until it has enough data before starting.
+                    audioTrack.play();
 
                     while (isPlaying) {
                         if (type == AudioSettings.JAMMER_TONE) {
@@ -192,7 +195,7 @@ public class ActiveJammer {
 
         try {
             if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
-                audioTrack.play();
+                //audioTrack.play();
                 audioTrack.write(soundData, 0, soundData.length);
             }
             else {
