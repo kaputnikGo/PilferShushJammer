@@ -1,6 +1,7 @@
 package cityfreqs.com.pilfershushjammer;
 
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -28,8 +29,8 @@ class BackgroundChecker {
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
 
-    BackgroundChecker(FileProcessor fileProcessor) {
-        this.fileProcessor = fileProcessor;
+    BackgroundChecker(Context context) {
+        fileProcessor = new FileProcessor(context);
         appEntries = new ArrayList<>();
         audioBeaconCount = 0;
     }

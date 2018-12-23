@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             return;
         }
         // background checker
-        backgroundChecker = new BackgroundChecker(new FileProcessor(MainActivity.this));
+        backgroundChecker = new BackgroundChecker(MainActivity.this);
 
         populateMenuItems();
         entryLogger("\n"+ getResources().getString(R.string.intro_8) +
@@ -410,22 +410,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void initBackgroundChecker() {
-        if (runBackgroundChecks()) {
-            // report
-            int audioNum = backgroundChecker.getUserRecordNumApps();
-            if (audioNum > 0) {
-                entryLogger(getResources().getString(R.string.userapp_scan_8) + audioNum, true);
+        if (backgroundChecker != null) {
+            if (runBackgroundChecks()) {
+                // report
+                int audioNum = backgroundChecker.getUserRecordNumApps();
+                if (audioNum > 0) {
+                    entryLogger(getResources().getString(R.string.userapp_scan_8) + audioNum, true);
+                } else {
+                    entryLogger(getResources().getString(R.string.userapp_scan_9), false);
+                }
+                if (backgroundChecker.hasAudioBeaconApps()) {
+                    entryLogger(backgroundChecker.getAudioBeaconAppNames().length
+                            + getResources().getString(R.string.userapp_scan_10) + "\n", true);
+                } else {
+                    entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
+                }
             }
-            else {
-                entryLogger(getResources().getString(R.string.userapp_scan_9), false);
-            }
-            if (backgroundChecker.hasAudioBeaconApps()) {
-                entryLogger(backgroundChecker.getAudioBeaconAppNames().length
-                        + getResources().getString(R.string.userapp_scan_10) + "\n", true);
-            }
-            else {
-                entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
-            }
+        }
+        else {
+            if (DEBUG) Log.d("PS_JAMMER", "backgroundChecker is NULL at init.");
+            entryLogger("Background Checker not initialised.", true);
         }
     }
 
@@ -501,6 +505,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     */
     protected boolean runBackgroundChecks() {
+        // already checked for null at initBackground
         if (backgroundChecker.initChecker(MainActivity.this.getPackageManager())) {
             backgroundChecker.runChecker();
             backgroundChecker.checkAudioBeaconApps();
@@ -513,29 +518,40 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void userappCheckDialog() {
-        String[] appNames = backgroundChecker.getOverrideScanAppNames();
+        if (backgroundChecker != null) {
+            String[] appNames = backgroundChecker.getOverrideScanAppNames();
 
-        if (appNames != null && appNames.length > 0) {
-            dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-            dialogBuilder.setItems(appNames, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogInterface, int which) {
-                    // index position of clicked app name
-                    listAppOverrideScanDetails(which);
-                }
-            });
-            dialogBuilder.setTitle(R.string.dialog_userapps);
-            alertDialog = dialogBuilder.create();
-            if(!isFinishing())
-                alertDialog.show();
+            if (appNames != null && appNames.length > 0) {
+                dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                dialogBuilder.setItems(appNames, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // index position of clicked app name
+                        listAppOverrideScanDetails(which);
+                    }
+                });
+                dialogBuilder.setTitle(R.string.dialog_userapps);
+                alertDialog = dialogBuilder.create();
+                if (!isFinishing())
+                    alertDialog.show();
+            } else {
+                entryLogger(getResources().getString(R.string.userapp_scan_4), true);
+            }
         }
         else {
-            entryLogger(getResources().getString(R.string.userapp_scan_4), true);
+            if (DEBUG) Log.d("PS_JAMMER", "backgroundChecker is NULL at userApp check.");
+            entryLogger("Background Checker not initialised.", true);
         }
     }
 
     private void userappSummary() {
-        entryLogger("\n--------------------------------------\n", false);
-        backgroundChecker.audioAppEntryLog();
+        if (backgroundChecker != null) {
+            entryLogger("\n--------------------------------------\n", false);
+            backgroundChecker.audioAppEntryLog();
+        }
+        else {
+            if (DEBUG) Log.d("PS_JAMMER", "backgroundChecker is NULL at userApp summary.");
+            entryLogger("Background Checker not initialised.", true);
+        }
     }
 
     protected void displayBeaconSdkList() {
@@ -552,6 +568,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void listAppOverrideScanDetails(int selectedIndex) {
+        // already checked for null
         // check for receivers too?
         entryLogger("\n" + getResources().getString(R.string.userapp_scan_5)
                 + backgroundChecker.getOverrideScanAppEntry(selectedIndex).getActivityName()
