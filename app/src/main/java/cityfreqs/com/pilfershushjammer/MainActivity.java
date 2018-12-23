@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // if API version < 23 (6.x) fallback is manifest.xml file permission declares
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                         Manifest.permission.RECORD_AUDIO)) {
                     String message = getResources().getString(R.string.perms_state_2);
                     message += Manifest.permission.RECORD_AUDIO;
@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         else {
             // pre API 23, check permissions anyway
-            if (PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_GRANTED) {
+            if (PermissionChecker.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_GRANTED) {
                 initApplication();
             }
             else {
@@ -376,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         initAudioFocusListener();
 
         // apply audio checker settings to bundle for services
-        AudioChecker audioChecker = new AudioChecker(this);
+        AudioChecker audioChecker = new AudioChecker(MainActivity.this);
         audioBundle = audioChecker.getAudioBundle();
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7], false);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
@@ -397,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             return;
         }
         // background checker
-        backgroundChecker = new BackgroundChecker(new FileProcessor(this));
+        backgroundChecker = new BackgroundChecker(new FileProcessor(MainActivity.this));
 
         populateMenuItems();
         entryLogger("\n"+ getResources().getString(R.string.intro_8) +
@@ -500,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     */
     protected boolean runBackgroundChecks() {
-        if (backgroundChecker.initChecker(this.getPackageManager())) {
+        if (backgroundChecker.initChecker(MainActivity.this.getPackageManager())) {
             backgroundChecker.runChecker();
             backgroundChecker.checkAudioBeaconApps();
             return true;
@@ -515,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         String[] appNames = backgroundChecker.getOverrideScanAppNames();
 
         if (appNames != null && appNames.length > 0) {
-            dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder = new AlertDialog.Builder(MainActivity.this);
             dialogBuilder.setItems(appNames, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int which) {
                     // index position of clicked app name
@@ -524,7 +525,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             });
             dialogBuilder.setTitle(R.string.dialog_userapps);
             alertDialog = dialogBuilder.create();
-            alertDialog.show();
+            if(!isFinishing())
+                alertDialog.show();
         }
         else {
             entryLogger(getResources().getString(R.string.userapp_scan_4), true);
@@ -538,9 +540,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     protected void displayBeaconSdkList() {
         // current list (in /raw) of NUHF/ACR SDK package names
-        entryLogger("\n--------------------------------------\n", false);
-        entryLogger(getResources().getString(R.string.sdk_names_list) + "\n"
-                + backgroundChecker.displayAudioSdkNames(), false);
+        if (backgroundChecker != null) {
+            entryLogger("\n--------------------------------------\n", false);
+            entryLogger(getResources().getString(R.string.sdk_names_list) + "\n"
+                    + backgroundChecker.displayAudioSdkNames(), false);
+        }
+        else {
+            if (DEBUG) Log.d("PS_JAMMER", "backgroundChecker is NULL.");
+            entryLogger("Background Checker not initialised.", true);
+        }
     }
 
     private void listAppOverrideScanDetails(int selectedIndex) {
@@ -672,7 +680,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             + (getResources().getString(R.string.about_dialog_4) + "\n\n")
             + (getResources().getString(R.string.about_dialog_5));
 
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
         dialogBuilder.setTitle(R.string.about_dialog_1);
         dialogBuilder.setMessage(aboutString);
@@ -685,7 +693,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         });
 
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     private void populateMenuItems() {
@@ -698,7 +707,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void jammerDialog() {
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
         dialogBuilder.setItems(jammerTypes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int which) {
                 // types listing as above
@@ -731,13 +740,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         });
         dialogBuilder.setTitle(R.string.jammer_dialog_1);
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
     private void defaultRangedDialog() {
         // open dialog with field for carrierfrequency
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View inputView = inflater.inflate(R.layout.default_ranged_form, null);
         dialogBuilder.setView(inputView);
         final EditText userCarrierInput = inputView.findViewById(R.id.carrier_input);
@@ -776,13 +786,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 });
 
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
     private void userRangedDialog() {
         // open dialog with 2 fields - carrier and limit
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View inputView = inflater.inflate(R.layout.user_ranged_form, null);
         dialogBuilder.setView(inputView);
 
@@ -831,13 +842,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 });
 
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     private void speedDriftDialog() {
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View inputView = inflater.inflate(R.layout.drift_speed_form, null);
         dialogBuilder.setView(inputView);
 
@@ -872,13 +884,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     }
                 });
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     private void activeTypeDialog() {
-        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View inputView = inflater.inflate(R.layout.active_type_switcher, null);
         dialogBuilder.setView(inputView);
 
@@ -900,7 +913,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     }
                 });
         alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     /*
