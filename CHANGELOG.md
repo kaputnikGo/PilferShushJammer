@@ -1,5 +1,6 @@
-### 3.0.3 (unreleased)
+### 3.0.3 (2018-1-29)
 * active jammer cleanup
+* background checker bugfix
 
 ### 3.0.2 (2018-12-16)
 * general clean up
