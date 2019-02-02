@@ -108,7 +108,9 @@ public class PassiveJammer {
 
     void stopPassiveJammer() {
         if (audioRecord != null) {
-            audioRecord.stop();
+            if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+                audioRecord.stop();
+            }
             audioRecord.release();
             audioRecord = null;
             MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_9), false);

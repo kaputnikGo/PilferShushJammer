@@ -1,3 +1,7 @@
+### 3.0.4 (unreleased)
+* audioRecord null bug
+* add metadata folder for FDroid
+
 ### 3.0.3 (2018-1-29)
 * active jammer cleanup
 * background checker bugfix

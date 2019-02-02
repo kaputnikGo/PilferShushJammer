@@ -29,15 +29,14 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
+- consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
-- check audioFocus state
-- move dialogs to dialogFragments class
 - rebuild the active jammer
 
 **Changes:**
 - cleanup and bugfix
 
-   vers. 3.0.3
+   vers. 3.0.4
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
