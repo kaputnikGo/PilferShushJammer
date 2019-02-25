@@ -1,4 +1,6 @@
 ### 3.0.4 (unreleased)
+* add option switches (debug, buffer read) to About dialog
+* add audioRecord.read(buffer,...) boolean switch
 * audioRecord null bug
 * add metadata folder for FDroid
 

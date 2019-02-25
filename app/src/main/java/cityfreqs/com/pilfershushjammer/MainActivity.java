@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private Bundle audioBundle;
 
     private String[] jammerTypes;
+    private String[] aboutOptions;
 
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
@@ -690,6 +691,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         };
     }
 
+    private void populateMenuItems() {
+        jammerTypes = new String[5];
+        jammerTypes[0] = getResources().getString(R.string.jammer_dialog_2);
+        jammerTypes[1] = getResources().getString(R.string.jammer_dialog_3);
+        jammerTypes[2] = getResources().getString(R.string.jammer_dialog_4);
+        jammerTypes[3] = getResources().getString(R.string.jammer_dialog_5);
+        jammerTypes[4] = getResources().getString(R.string.jammer_dialog_12);
+
+        aboutOptions = new String[2];
+        aboutOptions[0] = "Debug messages";
+        aboutOptions[1] = "Buffer read";
+    }
+
+    //TODO new codes
     private void aboutDialog() {
         String aboutString = (getResources().getString(R.string.about_version) + VERSION  + "\n\n")
             + (getResources().getString(R.string.about_dialog_2) + "\n\n")
@@ -698,6 +713,23 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             + (getResources().getString(R.string.about_dialog_5));
 
         dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+        dialogBuilder.setItems(aboutOptions, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int which) {
+                switch(which) {
+                    case 0:
+                        // print debug level messages to screen
+                        debugOptionDialog();
+                        break;
+                    case 1:
+                        // bufferRead switch for possibly more CPU intensive
+                        bufferReadOptionDialog();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         dialogBuilder.setTitle(R.string.about_dialog_1);
         dialogBuilder.setMessage(aboutString);
@@ -714,13 +746,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             alertDialog.show();
     }
 
-    private void populateMenuItems() {
-        jammerTypes = new String[5];
-        jammerTypes[0] = getResources().getString(R.string.jammer_dialog_2);
-        jammerTypes[1] = getResources().getString(R.string.jammer_dialog_3);
-        jammerTypes[2] = getResources().getString(R.string.jammer_dialog_4);
-        jammerTypes[3] = getResources().getString(R.string.jammer_dialog_5);
-        jammerTypes[4] = getResources().getString(R.string.jammer_dialog_12);
+    private void debugOptionDialog() {
+        // pop dialog with explanation and switch DEBUG
+    }
+
+    private void bufferReadOptionDialog() {
+        // pop dialog with explanation and switch BUFFER_READ in passiveJammer
     }
 
     private void jammerDialog() {
