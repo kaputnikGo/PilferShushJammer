@@ -8,12 +8,10 @@ public class PassiveJammer {
     private Context context;
     private Bundle audioBundle;
     private AudioRecord audioRecord;
-    private boolean READ_BUFFER;
 
     public PassiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
         this.audioBundle = audioBundle;
-        READ_BUFFER = false;
     }
 
     boolean startPassiveJammer() {
@@ -53,7 +51,8 @@ public class PassiveJammer {
 
                     // optional switch for accessing the hardware buffers via audioRecord.read()
                     // reason: possible battery use at hardware level
-                    if (READ_BUFFER) {
+                    if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14])) {
+                        MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_11), true);
                         // check for initialising audioRecord
                         short buffer[] = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4])];
 

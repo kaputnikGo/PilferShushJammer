@@ -29,15 +29,15 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
-- does int audioStatus audioRecord.read(buffer, ...) use CPU at android.media.AudioRecord ?
+- does int audioStatus audioRecord.read(buffer, ...) use CPU at android.media.AudioRecord ? testing.
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
 - rebuild the active jammer
 
 **Changes:**
-- boolean on audioRecord.read(buffer, ...) for no hardware read
+- boolean on audioRecord.read(buffer, ...) for no hardware read. Buffer read lock option in About dialog, defaults to off. Calls audioRecord.read(buffer, ...) for a status report, not audio data.
 
-   vers. 3.0.4
+   vers. 3.1.0
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
@@ -83,7 +83,7 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 
-# 2018 Kaputnik Go
+# 2019 Kaputnik Go
 
 
 Licensed under the Apache License, Version 2.0 (the "License");

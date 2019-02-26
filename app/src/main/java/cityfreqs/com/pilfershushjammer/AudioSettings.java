@@ -32,12 +32,12 @@ class AudioSettings {
     static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
     static final int JAMMER_TYPE_USER_RANGED = 3;
 
-    // Bundle keys string names
+    // Bundle keys string names: number = 15
     static final String[] AUDIO_BUNDLE_KEYS = new String[]{
             "audioSource", "sampleRate", "channelInConfig", "encoding",
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
-            "maxFreq", "bufferRead"
+            "maxFreq", "bufferRead", "debug"
     };
 }
 

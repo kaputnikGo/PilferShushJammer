@@ -33,14 +33,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.0.4";
+    public static final String VERSION = "3.1.0";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
     // public void setCameraDisabled (ComponentName admin, boolean disabled)
     // Currently, MediaRecorder does not work on the emulator.
-
-    static final boolean DEBUG = false;
-
     private static final int REQUEST_AUDIO_PERMISSION = 1;
 
     private static TextView debugText;
@@ -50,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private Bundle audioBundle;
 
     private String[] jammerTypes;
-    private String[] aboutOptions;
 
     private AudioManager audioManager;
     private AudioManager.OnAudioFocusChangeListener audioFocusListener;
@@ -62,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
     private boolean IRQ_TELEPHONY;
+    private boolean DEBUG;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
@@ -172,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
         IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
+        DEBUG = sharedPrefs.getBoolean("debug", false);
 
         // override check for return from system destroy
         if (checkServiceRunning(PassiveJammerService.class)) {
@@ -254,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
+        sharedPrefsEditor.putBoolean("debug", DEBUG);
         sharedPrefsEditor.apply();
         // check toggle jammer off (UI) due to irq_telephony
         if (PASSIVE_RUNNING && IRQ_TELEPHONY) {
@@ -273,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
+        sharedPrefsEditor.putBoolean("debug", DEBUG);
         sharedPrefsEditor.apply();
     }
 
@@ -385,6 +385,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[9], AudioSettings.CARRIER_TEST_FREQUENCY);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[10], AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
 
         entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
         if (!audioChecker.determineRecordAudioType()) {
@@ -698,60 +700,106 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         jammerTypes[2] = getResources().getString(R.string.jammer_dialog_4);
         jammerTypes[3] = getResources().getString(R.string.jammer_dialog_5);
         jammerTypes[4] = getResources().getString(R.string.jammer_dialog_12);
-
-        aboutOptions = new String[2];
-        aboutOptions[0] = "Debug messages";
-        aboutOptions[1] = "Buffer read";
     }
 
     //TODO new codes
     private void aboutDialog() {
-        String aboutString = (getResources().getString(R.string.about_version) + VERSION  + "\n\n")
-            + (getResources().getString(R.string.about_dialog_2) + "\n\n")
+        String aboutString =
+                (getResources().getString(R.string.about_dialog_2) + "\n\n")
             + (getResources().getString(R.string.about_dialog_3) + "\n\n")
             + (getResources().getString(R.string.about_dialog_4) + "\n\n")
-            + (getResources().getString(R.string.about_dialog_5));
+            + (getResources().getString(R.string.about_dialog_5) + "\n\n")
+            + (getResources().getString(R.string.about_dialog_6));
 
         dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-
-        dialogBuilder.setItems(aboutOptions, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int which) {
-                switch(which) {
-                    case 0:
-                        // print debug level messages to screen
-                        debugOptionDialog();
-                        break;
-                    case 1:
-                        // bufferRead switch for possibly more CPU intensive
-                        bufferReadOptionDialog();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-        dialogBuilder.setTitle(R.string.about_dialog_1);
+        dialogBuilder.setTitle(getResources().getString(R.string.about_version) + VERSION);
         dialogBuilder.setMessage(aboutString);
-        dialogBuilder.setCancelable(false);
-        dialogBuilder.setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                alertDialog.cancel();
-            }
-        });
+        dialogBuilder.setCancelable(true);
+        dialogBuilder
+                .setPositiveButton(R.string.options_dialog_1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        bufferReadOptionDialog();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_dismiss, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
+
 
         alertDialog = dialogBuilder.create();
         if(!isFinishing())
             alertDialog.show();
     }
 
+    /*
     private void debugOptionDialog() {
         // pop dialog with explanation and switch DEBUG
+        //entryLogger(getResources().getString(R.string.options_dialog_5), true);
+
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.debug_print_switcher, null);
+        dialogBuilder.setView(inputView);
+
+        dialogBuilder.setTitle(R.string.options_dialog_0);
+        dialogBuilder.setMessage("");
+        dialogBuilder
+                .setPositiveButton(R.string.options_dialog_3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], true);
+                        entryLogger(getResources().getString(R.string.app_status_15), false);
+                    }
+                })
+                .setNegativeButton(R.string.options_dialog_4, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+                        entryLogger(getResources().getString(R.string.app_status_16), false);
+                    }
+                });
+        alertDialog = dialogBuilder.create();
+        if(!isFinishing())
+            alertDialog.show();
+
     }
+    */
 
     private void bufferReadOptionDialog() {
         // pop dialog with explanation and switch BUFFER_READ in passiveJammer
+        // will need to restart service if running
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+        View inputView = inflater.inflate(R.layout.buffer_read_switcher, null);
+        dialogBuilder.setView(inputView);
+
+        dialogBuilder.setTitle(R.string.options_dialog_1);
+        dialogBuilder.setMessage("");
+        dialogBuilder
+                .setPositiveButton(R.string.options_dialog_3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], true);
+                        entryLogger(getResources().getString(R.string.app_status_13), false);
+                    }
+                })
+                .setNegativeButton(R.string.options_dialog_4, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
+                        entryLogger(getResources().getString(R.string.app_status_14), false);
+                    }
+                });
+        alertDialog = dialogBuilder.create();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     private void jammerDialog() {

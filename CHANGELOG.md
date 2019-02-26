@@ -1,6 +1,9 @@
+### 3.1.0 (unreleased)
+* add buffer read lock option to About dialog, defaults to off. Calls audioRecord.read(buffer, ...) for a status report, not audio data.
+
 ### 3.0.4 (unreleased)
-* add option switches (debug, buffer read) to About dialog
 * add audioRecord.read(buffer,...) boolean switch
+* test debug messages option
 * audioRecord null bug
 * add metadata folder for FDroid
 
