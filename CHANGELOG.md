@@ -1,5 +1,6 @@
-### 3.1.0 (unreleased)
+### 3.1.0 (2019-2-27)
 * add buffer read lock option to About dialog, defaults to off. Calls audioRecord.read(buffer, ...) for a status report, not audio data.
+* Android build code: 17
 
 ### 3.0.4 (unreleased)
 * add audioRecord.read(buffer,...) boolean switch
@@ -7,7 +8,7 @@
 * audioRecord null bug
 * add metadata folder for FDroid
 
-### 3.0.3 (2018-1-29)
+### 3.0.3 (2019-1-29)
 * active jammer cleanup
 * background checker bugfix
 
