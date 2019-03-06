@@ -35,9 +35,9 @@ Therefore, your app should record audio only when it's in the foreground or
 - rebuild the active jammer
 
 **Changes:**
-- boolean on audioRecord.read(buffer, ...) for no hardware read. Buffer read lock option in About dialog, defaults to off. Calls audioRecord.read(buffer, ...) for a status report, not audio data.
+- bugfix for permissions deny, rationale
 
-   vers. 3.1.0
+   vers. 3.1.1
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

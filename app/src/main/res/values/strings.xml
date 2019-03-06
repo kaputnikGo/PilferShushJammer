@@ -90,6 +90,7 @@
     <string name="dialog_button_yes">YES</string>
     <string name="dialog_button_no">NO</string>
     <string name="dialog_button_dismiss">Dismiss</string>
+    <string name="dialog_button_continue">Continue</string>
 
     <string name="button_noise" translatable="false">Noise</string>
     <string name="button_eq" translatable="false">EQ</string>
@@ -121,7 +122,8 @@
     <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
 
     <string name="perms_state_1">Record Audio</string>
-    <string name="perms_state_2">Permission request to access microphone:\u0020</string>
+    <string name="perms_state_2_1">PilferShush Jammer needs to make a permission request to access and enable jamming of the microphone, otherwise this app will not work.</string>
+    <string name="perms_state_2_2">This app does not listen to any audio, does not record any audio and does not connect to the internet.</string>
     <string name="perms_state_3">Permission denied, please close this app, it will not work without RECORD AUDIO permission.</string>
 
     <string name="headset_state_1">No headset found</string>

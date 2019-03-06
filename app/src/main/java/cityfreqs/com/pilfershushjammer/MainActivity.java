@@ -33,7 +33,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.1.0";
+    public static final String VERSION = "3.1.1";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
     // public void setCameraDisabled (ComponentName admin, boolean disabled)
@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                         Manifest.permission.RECORD_AUDIO)) {
-                    String message = getResources().getString(R.string.perms_state_2);
+                    String message = getResources().getString(R.string.perms_state_2_1) + "\n\n";
+                    message += getResources().getString(R.string.perms_state_2_2) + "\n\n";
                     message += Manifest.permission.RECORD_AUDIO;
 
                     showPermissionsDialog(message, new DialogInterface.OnClickListener() {
@@ -162,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onResume() {
         super.onResume();
-
-        //TODO fix resume for active, bools and audiofocus
 
         sharedPrefs = getPreferences(Context.MODE_PRIVATE);
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
@@ -327,8 +326,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void showPermissionsDialog(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(MainActivity.this)
                 .setMessage(message)
-                .setPositiveButton(getResources().getString(R.string.dialog_button_okay), okListener)
-                .setNegativeButton(getResources().getString(R.string.dialog_button_cancel), null)
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.dialog_button_continue), okListener)
                 .create()
                 .show();
     }
@@ -702,7 +701,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         jammerTypes[4] = getResources().getString(R.string.jammer_dialog_12);
     }
 
-    //TODO new codes
     private void aboutDialog() {
         String aboutString =
                 (getResources().getString(R.string.about_dialog_2) + "\n\n")

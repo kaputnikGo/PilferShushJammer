@@ -1,3 +1,7 @@
+### 3.1.1 (unreleased)
+* bugfix for AUDIO_RECORD permission deny handling
+* clarity of rationale for permission request
+
 ### 3.1.0 (2019-2-27)
 * add buffer read lock option to About dialog, defaults to off. Calls audioRecord.read(buffer, ...) for a status report, not audio data.
 * Android build code: 17
