@@ -1,4 +1,4 @@
-### 3.1.1 (unreleased)
+### 3.1.1 (2019-3-07)
 * bugfix for AUDIO_RECORD permission deny handling
 * clarity of rationale for permission request
 

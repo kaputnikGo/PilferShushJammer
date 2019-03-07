@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 // assume already runonce, has permissions
                 initApplication();
             }
-
         }
         else {
             // pre API 23, check permissions anyway
