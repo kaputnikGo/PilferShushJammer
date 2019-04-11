@@ -29,15 +29,15 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
-- does int audioStatus audioRecord.read(buffer, ...) use CPU at android.media.AudioRecord ? testing.
+- Voice Interactive Adverts additions
+- rebuild the active jammer
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
-- rebuild the active jammer
 
 **Changes:**
 - bugfix for permissions deny, rationale
 
-   vers. 3.1.1
+   vers. 3.1.2
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

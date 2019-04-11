@@ -12,6 +12,8 @@ fidzup
 fluzo
 gracenote
 hotstar
+inscape
+instreamatic
 intrasonics
 lisnr
 prontoly
