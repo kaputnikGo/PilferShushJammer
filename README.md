@@ -29,7 +29,9 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
+- change wording for caveats, false positives - "possible indication of NUHF/ACR"
 - Voice Interactive Adverts additions
+- check errors from BackgroundChecker.java:192 (input dispatching timed out)
 - rebuild the active jammer
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive

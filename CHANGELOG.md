@@ -1,4 +1,5 @@
 ### 3.1.2 (unreleased)
+* add UI wording for false positives, caveats etc
 * VIA adds
 * active jammer ...
 
