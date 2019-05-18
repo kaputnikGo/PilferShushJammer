@@ -81,7 +81,7 @@
     <string name="intro_5">The User Apps Scanner shows the background services and receivers listed for a chosen app</string>
     <string name="intro_6">The User Apps Summary shows basic information of interest about all user installed apps.</string>
 
-    <string name="intro_7">Use option menu to change active jamming settings or to check user apps.</string>
+    <string name="intro_7">Use option menu to change active jamming settings, check user apps or read the About dialog.</string>
     <string name="intro_8">Active jammer set to:\u0020</string>
 
     <string name="dialog_button_save">Save</string>
