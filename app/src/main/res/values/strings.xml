@@ -16,7 +16,7 @@
     <string name="about_version">version\u0020</string>
     <string name="about_dialog_1">About PilferShush Jammer</string>
     <string name="about_dialog_2">This is an experimental research app designed to unobtrusively block unwanted, hidden use of the onboard microphone.</string>
-    <string name="about_dialog_3">It has a scanner to find possible matches to known SDK package names that use Near Ultra High Frequencies or Audio Content Recognition.</string>
+    <string name="about_dialog_3">It has a scanner to find possible matches to known SDK package names that use Near Ultra High Frequencies or Audio Content Recognition. The search method may result in false positives .</string>
     <string name="about_dialog_4">It is open source, available at github, for viewing and raising issues.</string>
     <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
     <string name="about_dialog_6">Option below to switch audio record buffer read lock.</string>
@@ -79,7 +79,7 @@
     <string name="intro_3">Or via an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
     <string name="intro_4">This app does NOT listen to or record any of the audio from the microphone during this.</string>
     <string name="intro_5">The User Apps Scanner shows the background services and receivers listed for a chosen app</string>
-    <string name="intro_6">The User Apps Summary shows basic information of interest about all user installed apps.</string>
+    <string name="intro_6">The User Apps Summary shows basic information relevant to PilferShush Jammer about all user installed apps.</string>
 
     <string name="intro_7">Use option menu to change active jamming settings, check user apps or read the About dialog.</string>
     <string name="intro_8">Active jammer set to:\u0020</string>
@@ -160,7 +160,7 @@
     <!--
     background userapp checker
     -->
-    <string name="sdk_names_list">List of NUHF/ACR SDK names searched:\u0020</string>
+    <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
     <string name="userapp_scan_1">Userapp Checker fail.</string>
@@ -174,7 +174,7 @@
 
     <string name="userapp_scan_8">Record audio apps found:\u0020</string>
     <string name="userapp_scan_9">No record audio apps found.</string>
-    <string name="userapp_scan_10">\u0020possible NUHF/ACR SDK names detected.</string>
+    <string name="userapp_scan_10">\u0020possible NUHF/ACR SDK names detected. Check the User Apps Summary for more information.</string>
     <string name="userapp_scan_11">No NUHF/ACR SDK names detected.</string>
 
     <string name="userapp_scan_12">No user apps found.</string>

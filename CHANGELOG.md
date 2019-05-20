@@ -1,7 +1,6 @@
-### 3.1.2 (unreleased)
+### 3.1.2 (2019-5-21)
 * add UI wording for false positives, caveats etc
 * VIA adds
-* active jammer ...
 
 ### 3.1.1 (2019-3-07)
 * bugfix for AUDIO_RECORD permission deny handling

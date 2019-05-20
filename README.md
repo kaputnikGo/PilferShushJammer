@@ -18,7 +18,7 @@ Tested and blocks Google Voice search (user) app.
 
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
-Scan user installed apps for key features, NUHF/ACR SDKS and services/receivers running.
+Scan user installed apps for key features, possible NUHF/ACR SDK package name matches and services/receivers running.
 
 Jammers run as a foreground service
 
@@ -29,15 +29,16 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
-- change wording for caveats, false positives - "possible indication of NUHF/ACR"
-- Voice Interactive Adverts additions
+- rebuild the active jammer (testing with Oboe)
+- icon graphic changes for Android
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
-- rebuild the active jammer
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
 
 **Changes:**
-- bugfix for permissions deny, rationale
+- change wording for caveats, false positives - "possible indication of NUHF/ACR"
+- Voice Interactive Adverts additions
+
 
    vers. 3.1.2
    - min API 18 (4.3)
