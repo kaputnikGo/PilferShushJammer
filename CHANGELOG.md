@@ -1,6 +1,7 @@
-### 3.1.2 (2019-5-21)
+### 3.1.2 (2019-5-22)
 * add UI wording for false positives, caveats etc
-* VIA adds
+* Voice Interactive Advert addition to SDK list
+* new icons to adhere to Google Play spec changes
 
 ### 3.1.1 (2019-3-07)
 * bugfix for AUDIO_RECORD permission deny handling

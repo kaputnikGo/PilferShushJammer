@@ -175,7 +175,7 @@
     <string name="userapp_scan_8">Record audio apps found:\u0020</string>
     <string name="userapp_scan_9">No record audio apps found.</string>
     <string name="userapp_scan_10">\u0020possible NUHF/ACR SDK names detected. Check the User Apps Summary for more information.</string>
-    <string name="userapp_scan_11">No NUHF/ACR SDK names detected.</string>
+    <string name="userapp_scan_11">No NUHF/ACR SDK package names detected.</string>
 
     <string name="userapp_scan_12">No user apps found.</string>
 

@@ -30,14 +30,15 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
-- icon graphic changes for Android
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
+- consider user app summary include package name of NUHF/ACR if found
 
 **Changes:**
 - change wording for caveats, false positives - "possible indication of NUHF/ACR"
 - Voice Interactive Adverts additions
+- icon changes for google play spec change
 
 
    vers. 3.1.2
