@@ -402,10 +402,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         backgroundChecker = new BackgroundChecker(MainActivity.this);
 
         populateMenuItems();
-        entryLogger("\n"+ getResources().getString(R.string.intro_8) +
+        entryLogger("\n" + getResources().getString(R.string.intro_8) +
                 jammerTypes[AudioSettings.JAMMER_TYPE_TEST], false);
 
-        entryLogger(getResources().getString(R.string.intro_7) + "\n", true);
+        entryLogger("\n" + getResources().getString(R.string.intro_7) + "\n", true);
 
         initBackgroundChecker();
     }

@@ -2,7 +2,7 @@
 
 Research and project page : https://www.cityfreqs.com.au/pilfer.php
 
-Android microphone checker and jamming application.  
+Android microphone checker and jamming application built for AOSP LineageOS.  
 
 Application for low battery requirement microphone passive jamming.
 
@@ -33,7 +33,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
-- consider user app summary include package name of NUHF/ACR if found
+- consider user app summary include and print package name of NUHF/ACR if found
 
 **Changes:**
 - change wording for caveats, false positives - "possible indication of NUHF/ACR"
