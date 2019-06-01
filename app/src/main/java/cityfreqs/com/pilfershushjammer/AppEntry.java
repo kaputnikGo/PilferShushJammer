@@ -121,7 +121,7 @@ class AppEntry {
     String entryPrint() {
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
                 "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
-                "\nRECEIVERS: " + receivers + "\nNUHF SDK: " + audioBeacon +
+                "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioBeacon +
                 "\n--------------------------------------\n";
     }
 
