@@ -49,15 +49,18 @@ public class ActiveJammerService extends Service {
             audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
+                Toast toast;
                 if (action.equals(ACTION_START_ACTIVE)) {
                     createNotification();
                     startActiveService();
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_2),
-                            Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_2),
+                            Toast.LENGTH_SHORT);
+                    toast.show();
                 } else if (action.equals(ACTION_STOP_ACTIVE)) {
                     stopActiveService();
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_3),
-                            Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_3),
+                            Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         }

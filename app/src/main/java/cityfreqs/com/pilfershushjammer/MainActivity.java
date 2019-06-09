@@ -342,8 +342,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
                 else {
                     // Permission Denied
-                    Toast.makeText(MainActivity.this, getResources().getString(R.string.perms_state_3), Toast.LENGTH_LONG)
-                            .show();
+                    Toast toast;
+                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.perms_state_3), Toast.LENGTH_LONG);
+                    toast.show();
                     closeApp();
                 }
             }
@@ -365,7 +366,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         entryLogger(getResources().getString(R.string.intro_3) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_4) + "\n", true);
         entryLogger(getResources().getString(R.string.intro_5) + "\n", false);
-        entryLogger(getResources().getString(R.string.intro_6) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_6_1) + "\n", false);
+        entryLogger(getResources().getString(R.string.intro_6_2) + "\n", false);
     }
 
     private void initApplication() {
@@ -547,6 +549,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void userappSummary() {
         if (backgroundChecker != null) {
             entryLogger("\n--------------------------------------\n", false);
+            entryLogger(getResources().getString(R.string.userapp_scan_13), true);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_1), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_2) + "\n", false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_3), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_4), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_5), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_6), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_7), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_8), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_9) + "\n", false);
             backgroundChecker.audioAppEntryLog();
         }
         else {

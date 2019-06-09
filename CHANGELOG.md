@@ -1,3 +1,8 @@
+### 3.1.3 (unreleased)
+* fix toast token exception
+* add receivers list to SDK name check routine
+* more info about App Summary checks for ui
+
 ### 3.1.2 (2019-5-22)
 * add UI wording for false positives, caveats etc
 * Voice Interactive Advert addition to SDK list

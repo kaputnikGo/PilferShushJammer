@@ -68,6 +68,7 @@ class AppEntry {
     void setReceivers(boolean receivers) {
         this.receivers = receivers;
     }
+    boolean getReceivers() { return receivers; }
 
     void setServices(boolean services) {
         this.services = services;

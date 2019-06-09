@@ -96,20 +96,28 @@ class BackgroundChecker {
     void checkAudioBeaconApps() {
         audioBeaconCount = 0;
         int indexCount = 0;
+        boolean audioBeaconFound = false;
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
                 if (appEntry.getServices()) {
                     // have services, check for audioBeacon names
                     if (checkForAudioBeaconService(appEntry.getServiceNames())) {
                         // have a substring match, set original
-                        appEntries.get(indexCount).setAudioBeacon(true);
-                        audioBeaconCount++;
-                    }
-                    else {
-                        appEntries.get(indexCount).setAudioBeacon(false);
+                        audioBeaconFound = true;
                     }
                 }
+                if (appEntry.getReceivers()) {
+                    // have services, check for audioBeacon names
+                    if (checkForAudioBeaconReceivers(appEntry.getReceiverNames())) {
+                        // have a substring match, set original
+                        audioBeaconFound = true;
+                    }
+                }
+                if (audioBeaconFound) audioBeaconCount++;
+                appEntries.get(indexCount).setAudioBeacon(audioBeaconFound);
                 indexCount++;
+                // reset
+                audioBeaconFound = false;
             }
         }
     }
@@ -137,6 +145,19 @@ class BackgroundChecker {
     private boolean checkForAudioBeaconService(String[] serviceNames) {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             for (String name : serviceNames) {
+                for (String SDKname : AUDIO_SDK_NAMES) {
+                    if (name.contains(SDKname)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkForAudioBeaconReceivers(String[] receiverNames) {
+        if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
+            for (String name : receiverNames) {
                 for (String SDKname : AUDIO_SDK_NAMES) {
                     if (name.contains(SDKname)) {
                         return true;

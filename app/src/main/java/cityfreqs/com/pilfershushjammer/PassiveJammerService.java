@@ -51,15 +51,18 @@ public class PassiveJammerService extends Service {
             audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
+                Toast toast;
                 if (action.equals(ACTION_START_PASSIVE)) {
                     createNotification();
                     startPassiveService();
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_4),
-                            Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_4),
+                            Toast.LENGTH_SHORT);
+                    toast.show();
                 } else if (action.equals(ACTION_STOP_PASSIVE)) {
                     stopPassiveService();
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_5),
-                            Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_5),
+                            Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         }

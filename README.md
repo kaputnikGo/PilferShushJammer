@@ -30,22 +30,23 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
-- add definitions of user app summary info at print start
+- add definitions at start of print for user app summary listings
 - user app summary is services only, incl receivers?
 - consider user app summary include and print package name of NUHF/ACR if found
 
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
+- optional jammer state persistence over boot
 
 
 **Changes:**
-- change wording for caveats, false positives - "possible indication of NUHF/ACR"
-- Voice Interactive Adverts additions
-- icon changes for google play spec change
+- toast pop-up fix for exception
+- add receivers list to SDK name check routine
+- more info about App Summary checks for ui
 
 
-   vers. 3.1.2
+   vers. 3.1.3
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

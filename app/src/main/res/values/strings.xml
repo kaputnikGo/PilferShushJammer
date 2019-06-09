@@ -79,7 +79,8 @@
     <string name="intro_3">Or via an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
     <string name="intro_4">This app does NOT listen to or record any of the audio from the microphone during this.</string>
     <string name="intro_5">The User Apps Scanner shows the background services and receivers listed for a chosen app</string>
-    <string name="intro_6">The User Apps Summary shows basic information relevant to PilferShush Jammer about all user installed apps.</string>
+    <string name="intro_6_1">The User Apps Summary shows basic information relevant to PilferShush Jammer about all user installed apps.</string>
+    <string name="intro_6_2">Apps can consist of multiple packages with different names.</string>
 
     <string name="intro_7">Use option menu to change active jamming settings, check user apps or read the About dialog.</string>
     <string name="intro_8">Active jammer set to:\u0020</string>
@@ -178,6 +179,17 @@
     <string name="userapp_scan_11">No NUHF/ACR SDK package names detected.</string>
 
     <string name="userapp_scan_12">No user apps found.</string>
+
+    <string name="userapp_scan_13">USER APP SUMMARY.</string>
+    <string name="userapp_scan_intro_1">Audio tracker SDKs typically have TRUE in all five categories.</string>
+    <string name="userapp_scan_intro_2">This is not a proof of audio tracker behaviour or presence.</string>
+    <string name="userapp_scan_intro_3">User App Name</string>
+    <string name="userapp_scan_intro_4">User App package name</string>
+    <string name="userapp_scan_intro_5">RECORD - use the microphone</string>
+    <string name="userapp_scan_intro_6">BOOT - app can auto restart after the device is rebooted</string>
+    <string name="userapp_scan_intro_7">SERVICE - long-running background operation</string>
+    <string name="userapp_scan_intro_8">RECEIVER -  send or receive messages from the system or other apps</string>
+    <string name="userapp_scan_intro_9">NUHF/ACR SDK - package name match found from current SDK list</string>
 
     <!--
     PassiveJammer.java
