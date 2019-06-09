@@ -33,7 +33,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.1.2";
+    public static final String VERSION = "3.1.3";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
     // public void setCameraDisabled (ComponentName admin, boolean disabled)
