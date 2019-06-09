@@ -30,8 +30,6 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
-- add definitions at start of print for user app summary listings
-- user app summary is services only, incl receivers?
 - consider user app summary include and print package name of NUHF/ACR if found
 
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
