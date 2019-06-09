@@ -19,7 +19,7 @@
     <string name="about_dialog_3">It has a scanner to find possible matches to known SDK package names that use Near Ultra High Frequencies or Audio Content Recognition. The search method may result in false positives .</string>
     <string name="about_dialog_4">It is open source, available at github, for viewing and raising issues.</string>
     <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
-    <string name="about_dialog_6">Option below to switch audio record buffer read lock.</string>
+    <string name="about_dialog_6">Option below to enable audio record buffer read lock (possible slight increase in CPU overhead).</string>
 
     <string name="jammer_dialog_1">Change active jammer signal type.</string>
     <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>

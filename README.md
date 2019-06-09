@@ -35,7 +35,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - check errors from BackgroundChecker.java:192 (input dispatching timed out)
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
-- optional jammer state persistence over boot
+- consider optional jammer state persistence over boot
 
 
 **Changes:**
