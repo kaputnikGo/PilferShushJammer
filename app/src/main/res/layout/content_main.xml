@@ -17,7 +17,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="74dp"
+        android:paddingBottom="@dimen/button_view_margin"
         app:layout_constraintBottom_toTopOf="@+id/button_layout"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,11 +25,11 @@
             android:id="@+id/debug_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:background="#000000"
             android:gravity="bottom"
-            android:padding="8dp"
+            android:padding="@dimen/activity_horizontal_margin"
             android:scrollbars="vertical" />
 
     </RelativeLayout>
@@ -37,9 +37,9 @@
     <RelativeLayout
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="@dimen/button_view_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_gravity="bottom"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_bottom_margin"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="11dp"
+            android:layout_marginStart="@dimen/button_start_margin"
             android:layout_marginBottom="@dimen/button_bottom_margin"
             android:text="@string/main_scanner_2"
             android:textAllCaps="false"
@@ -67,7 +67,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="@dimen/button_bottom_margin"
-            android:layout_marginEnd="11dp"
+            android:layout_marginEnd="@dimen/button_start_margin"
             android:text="@string/main_scanner_1"
             android:textAllCaps="false"
             android:textOff="@string/main_scanner_1" />

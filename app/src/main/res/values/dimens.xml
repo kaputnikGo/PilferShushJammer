@@ -5,4 +5,6 @@
     <dimen name="activity_bottom_margin">4dp</dimen>
     <dimen name="button_bottom_margin">16dp</dimen>
     <dimen name="toggle_button_width">100dp</dimen>
+    <dimen name="button_start_margin">11dp</dimen>
+    <dimen name="button_view_margin">74dp</dimen>
 </resources>

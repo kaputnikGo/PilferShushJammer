@@ -30,9 +30,8 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
-- consider user app summary include and print package name of NUHF/ACR if found
 
-- check errors from BackgroundChecker.java:192 (input dispatching timed out)
+- consider user app summary include and print package name of NUHF/ACR if found
 - consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
 - consider optional jammer state persistence over boot
@@ -42,6 +41,8 @@ Therefore, your app should record audio only when it's in the foreground or
 - toast pop-up fix for exception
 - add receivers list to SDK name check routine
 - more info about App Summary checks for ui
+- remove protected modifier as appears to cause crashes in some handsets
+- activity scope bugfix
 
 
    vers. 3.1.3

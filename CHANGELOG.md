@@ -2,6 +2,8 @@
 * fix toast token exception
 * add receivers list to SDK name check routine
 * more info about App Summary checks for ui
+* remove protected modifier as appears to cause crashes in some handsets
+* activity scope bugfix
 
 ### 3.1.2 (2019-5-22)
 * add UI wording for false positives, caveats etc

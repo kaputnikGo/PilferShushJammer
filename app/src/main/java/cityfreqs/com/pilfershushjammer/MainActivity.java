@@ -76,10 +76,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         debugText = findViewById(R.id.debug_text);
         debugText.setTextColor(Color.parseColor("#00ff00"));
         debugText.setMovementMethod(new ScrollingMovementMethod());
+        debugText.setSoundEffectsEnabled(false); // no further click sounds
         debugText.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                debugText.setSoundEffectsEnabled(false); // no further click sounds
+                // nothing
             }
         });
 
@@ -463,7 +464,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_7), false);
         }
         else {
-            Intent startIntent = new Intent(MainActivity.this, PassiveJammerService.class);
+            Intent startIntent = new Intent(this, PassiveJammerService.class);
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
             startService(startIntent);
@@ -473,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void stopPassive() {
-        Intent stopIntent = new Intent(MainActivity.this, PassiveJammerService.class);
+        Intent stopIntent = new Intent(this, PassiveJammerService.class);
         stopIntent.setAction(PassiveJammerService.ACTION_STOP_PASSIVE);
         startService(stopIntent);
         PASSIVE_RUNNING = false;
@@ -485,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_8), false);
         }
         else {
-            Intent startIntent = new Intent(MainActivity.this, ActiveJammerService.class);
+            Intent startIntent = new Intent(this, ActiveJammerService.class);
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);
             startIntent.putExtras(audioBundle);
             startService(startIntent);
@@ -495,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void stopActive() {
-        Intent stopIntent = new Intent(MainActivity.this, ActiveJammerService.class);
+        Intent stopIntent = new Intent(this, ActiveJammerService.class);
         stopIntent.setAction(ActiveJammerService.ACTION_STOP_ACTIVE);
         startService(stopIntent);
         ACTIVE_RUNNING = false;
@@ -507,7 +508,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         BACKGROUND CHECKER FUNCTIONS
 
     */
-    protected boolean runBackgroundChecks() {
+    boolean runBackgroundChecks() {
         // already checked for null at initBackground
         if (backgroundChecker.initChecker(MainActivity.this.getPackageManager())) {
             backgroundChecker.runChecker();
@@ -567,7 +568,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-    protected void displayBeaconSdkList() {
+    void displayBeaconSdkList() {
         // current list (in /raw) of NUHF/ACR SDK package names
         if (backgroundChecker != null) {
             entryLogger("\n--------------------------------------\n", false);
@@ -1062,7 +1063,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         UI OUTPUT TO DEBUG WINDOW
     */
-    protected static void entryLogger(String entry, boolean caution) {
+    static void entryLogger(String entry, boolean caution) {
         int start = debugText.getText().length();
         debugText.append("\n" + entry);
         int end = debugText.getText().length();

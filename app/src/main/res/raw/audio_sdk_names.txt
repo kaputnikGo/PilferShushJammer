@@ -1,6 +1,7 @@
 acrcloud
 actv8
 alphonso
+beatgridmedia
 bitsound
 chirp
 cifrasoft
