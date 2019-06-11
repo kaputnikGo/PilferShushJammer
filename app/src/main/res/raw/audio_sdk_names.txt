@@ -1,6 +1,7 @@
 acrcloud
 actv8
 alphonso
+axwave
 beatgridmedia
 bitsound
 chirp
@@ -17,6 +18,7 @@ inscape
 instreamatic
 intrasonics
 lisnr
+mufin
 prontoly
 redbricklane
 shopkick

@@ -43,6 +43,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - more info about App Summary checks for ui
 - remove protected modifier as appears to cause crashes in some handsets
 - activity scope bugfix
+- add new SDK names
 
 
    vers. 3.1.3

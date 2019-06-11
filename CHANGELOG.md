@@ -4,6 +4,7 @@
 * more info about App Summary checks for ui
 * remove protected modifier as appears to cause crashes in some handsets
 * activity scope bugfix
+* add new SDK names
 
 ### 3.1.2 (2019-5-22)
 * add UI wording for false positives, caveats etc
