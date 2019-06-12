@@ -18,6 +18,7 @@ inscape
 instreamatic
 intrasonics
 lisnr
+moodmedia
 mufin
 prontoly
 redbricklane
