@@ -10,7 +10,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
@@ -411,6 +415,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         entryLogger("\n" + getResources().getString(R.string.intro_7) + "\n", true);
 
         initBackgroundChecker();
+        // API 23+
+        checkForDoze();
     }
 
     private void initBackgroundChecker() {
@@ -434,6 +440,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         else {
             if (DEBUG) Log.d("PS_JAMMER", "backgroundChecker is NULL at init.");
             entryLogger("Background Checker not initialised.", true);
+        }
+    }
+
+    private void checkForDoze() {
+        // API 23, Marshmallow
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+                // user has not set PS to ignore batt savings, ask first!
+                // TODO use a dialog
+                startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS,
+                        Uri.parse("package:" + getPackageName())));
+            }
         }
     }
 

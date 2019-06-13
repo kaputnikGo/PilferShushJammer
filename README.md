@@ -30,6 +30,7 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
+- checkForDoze dialog
 
 - consider user app summary include and print package name of NUHF/ACR if found
 - consider add DEBUG switch in About dialog
