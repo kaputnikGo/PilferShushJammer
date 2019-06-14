@@ -1,4 +1,4 @@
-### 3.2.0 (unreleased)
+### 3.2.0 (2019-6-14)
 * add ignore doze function
 * fix toast token exception
 * add receivers list to SDK name check routine
