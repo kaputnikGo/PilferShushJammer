@@ -795,7 +795,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
     */
-//TODO
     private void checkDozeDialog() {
         String aboutString =
                 (getResources().getString(R.string.doze_dialog_1) + "\n\n")
