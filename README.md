@@ -30,7 +30,6 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **TODO:**
 - rebuild the active jammer (testing with Oboe)
-- checkForDoze dialog
 
 - consider user app summary include and print package name of NUHF/ACR if found
 - consider add DEBUG switch in About dialog
@@ -39,6 +38,7 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
+- add ignore doze function
 - toast pop-up fix for exception
 - add receivers list to SDK name check routine
 - more info about App Summary checks for ui
@@ -47,7 +47,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - add new SDK names
 
 
-   vers. 3.1.3
+   vers. 3.2.0
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

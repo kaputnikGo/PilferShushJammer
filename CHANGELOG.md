@@ -1,4 +1,5 @@
-### 3.1.3 (unreleased)
+### 3.2.0 (unreleased)
+* add ignore doze function
 * fix toast token exception
 * add receivers list to SDK name check routine
 * more info about App Summary checks for ui

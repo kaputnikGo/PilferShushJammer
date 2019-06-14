@@ -21,6 +21,13 @@
     <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
     <string name="about_dialog_6">Option below to enable audio record buffer read lock (possible slight increase in CPU overhead).</string>
 
+    <string name="doze_dialog_title">Change Settings</string>
+    <string name="doze_dialog_1">PilferShush Jammer requests to be on the Android system Battery Optimizations exceptions whitelist.</string>
+    <string name="doze_dialog_2">From Android 6.0 (API 23) Marshmallow onwards a new Doze battery conservation function was introduced by Android that defers background CPU activity for periods of time.</string>
+    <string name="doze_dialog_3">While this app uses very low to negligible resources, the microphone Passive Jammer requires a background service to be running for it to work.</string>
+    <string name="doze_dialog_4">For long term reliable use of the Jammer any battery optimisers or managers need to be set to allow PilferShush to continue running unimpeded.</string>
+    <string name="doze_dialog_5">To add PilferShush to the system whitelist press "continue" to proceed to the Android Settings page, then select "All Apps" from drop down menu, search for PilferShush and select it.</string>
+
     <string name="jammer_dialog_1">Change active jammer signal type.</string>
     <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>
     <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>

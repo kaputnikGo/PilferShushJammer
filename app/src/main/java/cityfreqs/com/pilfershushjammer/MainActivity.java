@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -37,7 +36,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "3.1.3";
+    public static final String VERSION = "3.2.0";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
     // public void setCameraDisabled (ComponentName admin, boolean disabled)
@@ -192,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             ACTIVE_RUNNING = false;
         }
 
-        //TODO check service behaviours when IRQ_TELEPHONY triggered
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int status = audioFocusCheck();
 
@@ -448,10 +446,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
-                // user has not set PS to ignore batt savings, ask first!
-                // TODO use a dialog
-                startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS,
-                        Uri.parse("package:" + getPackageName())));
+                // user has not set PS to ignore batt savings, pop dialog
+                checkDozeDialog();
             }
         }
     }
@@ -799,6 +795,41 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
     */
+//TODO
+    private void checkDozeDialog() {
+        String aboutString =
+                (getResources().getString(R.string.doze_dialog_1) + "\n\n")
+                        + (getResources().getString(R.string.doze_dialog_2) + "\n\n")
+                        + (getResources().getString(R.string.doze_dialog_3) + "\n\n")
+                        + (getResources().getString(R.string.doze_dialog_4) + "\n\n")
+                        + (getResources().getString(R.string.doze_dialog_5));
+
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        dialogBuilder.setTitle(getResources().getString(R.string.doze_dialog_title));
+        dialogBuilder.setMessage(aboutString);
+        dialogBuilder.setCancelable(true);
+        dialogBuilder
+                .setPositiveButton(R.string.dialog_button_continue, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        MainActivity.this.startActivity(intent);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_dismiss, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
+
+
+        alertDialog = dialogBuilder.create();
+        if(!isFinishing())
+            alertDialog.show();
+    }
 
     private void bufferReadOptionDialog() {
         // pop dialog with explanation and switch BUFFER_READ in passiveJammer
