@@ -1,5 +1,6 @@
 acrcloud
 actv8
+alexa
 alphonso
 axwave
 beatgridmedia
@@ -17,14 +18,18 @@ hotstar
 inscape
 instreamatic
 intrasonics
+kitt
 lisnr
 moodmedia
 mufin
+olami
 prontoly
 redbricklane
+sensory
 shopkick
 signal360
 silverpush
+snowboy
 sonarax
 soniccode
 sonicnotify

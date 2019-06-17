@@ -29,6 +29,7 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
+- adding voice recognition/hotword SDKs
 - rebuild the active jammer (testing with Oboe)
 
 - consider user app summary include and print package name of NUHF/ACR if found
