@@ -1,4 +1,5 @@
 ### 4.0.0 (unreleased)
+* update buildtools
 * redesign UI
 * basic/expert info layout
 
