@@ -15,6 +15,7 @@ fidzup
 fluzo
 gracenote
 hotstar
+hound
 inscape
 instreamatic
 intrasonics
@@ -23,6 +24,7 @@ lisnr
 moodmedia
 mufin
 olami
+opentok
 prontoly
 redbricklane
 sensory

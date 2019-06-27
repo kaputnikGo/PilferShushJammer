@@ -1,3 +1,7 @@
+### 4.0.0 (unreleased)
+* redesign UI
+* basic/expert info layout
+
 ### 3.2.0 (2019-6-14)
 * add ignore doze function
 * fix toast token exception
