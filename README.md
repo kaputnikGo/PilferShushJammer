@@ -41,6 +41,7 @@ Therefore, your app should record audio only when it's in the foreground or
 **Changes:**
 - update buildtools
 - redesign UI
+- new icons
 
 
    vers. 4.0.0

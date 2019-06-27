@@ -7,4 +7,5 @@
     <dimen name="toggle_button_width">100dp</dimen>
     <dimen name="button_start_margin">11dp</dimen>
     <dimen name="button_view_margin">74dp</dimen>
+    <dimen name="button_gap_margin">60dp</dimen>
 </resources>

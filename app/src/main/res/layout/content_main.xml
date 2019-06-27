@@ -8,71 +8,77 @@
     tools:context="cityfreqs.com.pilfershushjammer.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
     <RelativeLayout
-        android:id="@+id/view_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/button_view_margin"
-        app:layout_constraintBottom_toTopOf="@+id/button_layout"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/layout_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <TextView
-            android:id="@+id/debug_text"
+        <RelativeLayout
+            android:id="@+id/button_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/button_view_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:background="#000000"
-            android:gravity="bottom"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:scrollbars="vertical" />
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_bottom_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ToggleButton
+                android:id="@+id/run_passive_button"
+                android:layout_width="@dimen/toggle_button_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/button_start_margin"
+                android:layout_marginBottom="@dimen/button_bottom_margin"
+                android:text="@string/main_scanner_2"
+                android:textAllCaps="false"
+                android:textOff="@string/main_scanner_2" />
+
+            <ToggleButton
+                android:id="@+id/run_active_button"
+                android:layout_width="@dimen/toggle_button_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/button_bottom_margin"
+                android:layout_marginEnd="@dimen/button_start_margin"
+                android:text="@string/main_scanner_1"
+                android:textAllCaps="false"
+                android:textOff="@string/main_scanner_1" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            app:layout_constraintStart_toStartOf="@+id/button_layout"
+            app:layout_constraintTop_toBottomOf="@+id/button_layout">
+
+            <TextView
+                android:id="@+id/debug_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/button_gap_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:background="#000000"
+                android:gravity="bottom"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:scrollbars="vertical" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_view_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_bottom_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@+id/view_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
-
-        <ToggleButton
-            android:id="@+id/run_passive_button"
-            android:layout_width="@dimen/toggle_button_width"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/button_start_margin"
-            android:layout_marginBottom="@dimen/button_bottom_margin"
-            android:text="@string/main_scanner_2"
-            android:textAllCaps="false"
-            android:textOff="@string/main_scanner_2" />
-
-        <ToggleButton
-            android:id="@+id/run_active_button"
-            android:layout_width="@dimen/toggle_button_width"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/button_bottom_margin"
-            android:layout_marginEnd="@dimen/button_start_margin"
-            android:text="@string/main_scanner_1"
-            android:textAllCaps="false"
-            android:textOff="@string/main_scanner_1" />
-
-
-    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
