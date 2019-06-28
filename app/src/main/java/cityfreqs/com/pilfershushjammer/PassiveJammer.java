@@ -54,7 +54,7 @@ public class PassiveJammer {
                     if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14])) {
                         MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_11), true);
                         // check for initialising audioRecord
-                        short buffer[] = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4])];
+                        short[] buffer = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4])];
 
                         // returns either 0, number of shorts read, or an error code - not audio data
                         int audioStatus = audioRecord.read(buffer, 0, audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));

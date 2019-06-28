@@ -140,8 +140,8 @@ public class ActiveJammer {
     private synchronized void createTone() {
         int sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
         int driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
-        double sample[] = new double[sampleRate];
-        byte soundData[] = new byte[2 * sampleRate];
+        double[] sample = new double[sampleRate];
+        byte[] soundData = new byte[2 * sampleRate];
 
         // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
 
@@ -178,7 +178,7 @@ public class ActiveJammer {
     }
 
     private synchronized void createWhiteNoise() {
-        byte soundData[] = new byte[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
+        byte[] soundData = new byte[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
         new Random().nextBytes(soundData);
 
         for (int i = 0; i < soundData.length; i++) {

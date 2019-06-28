@@ -1,7 +1,8 @@
-### 4.0.0 (unreleased)
+### 3.3.0 (unreleased)
 * update buildtools
-* redesign UI
+* new colour UI
 * new icons
+* prep for ver 4.0
 
 ### 3.2.0 (2019-6-14)
 * add ignore doze function

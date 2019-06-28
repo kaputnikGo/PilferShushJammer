@@ -13,8 +13,6 @@ import java.util.List;
 class BackgroundChecker {
     private FileProcessor fileProcessor;
     private PackageManager packageManager;
-    private List<ApplicationInfo> packages;
-    private PackageInfo packageInfo;
     private ArrayList<AppEntry> appEntries;
     private int audioBeaconCount;
 
@@ -42,13 +40,6 @@ class BackgroundChecker {
         // populate audio_sdk_names
         AUDIO_SDK_NAMES = fileProcessor.getAudioSdkArray();
         return (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0);
-    }
-
-    void destroy() {
-        if (packageManager != null) packageManager = null;
-        if (packages != null) packages = null;
-        if (packageInfo != null) packageInfo = null;
-        if (appEntries != null) appEntries = null;
     }
 
     /********************************************************************/
@@ -198,6 +189,8 @@ class BackgroundChecker {
         // PackageManager.getSystemAvailableFeatures() - list all features
         // PackageManager.hasSystemFeature(String name) - search for specific ie: "FEATURE_MICROPHONE"
 
+        PackageInfo packageInfo;
+        List<ApplicationInfo> packages;
         packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         int idCounter = 0;
         for (ApplicationInfo applicationInfo : packages) {

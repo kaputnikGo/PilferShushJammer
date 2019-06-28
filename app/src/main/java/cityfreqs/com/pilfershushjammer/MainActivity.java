@@ -1,6 +1,7 @@
 package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,7 +37,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String VERSION = "4.0.0";
+    public static final String VERSION = "3.3.0";
     // note:: API 23+ AudioRecord READ_BLOCKING const
     // https://developer.android.com/reference/android/app/admin/DevicePolicyManager
     // public void setCameraDisabled (ComponentName admin, boolean disabled)
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +75,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        debugText = findViewById(R.id.debug_text);
-        debugText.setTextColor(Color.parseColor("#00ff00"));
-        debugText.setMovementMethod(new ScrollingMovementMethod());
-        debugText.setSoundEffectsEnabled(false); // no further click sounds
-        debugText.setOnClickListener(new TextView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // nothing
-            }
-        });
 
         passiveJammerButton = findViewById(R.id.run_passive_button);
         passiveJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,6 +99,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                    stopActive();
                }
            }
+        });
+
+        debugText = findViewById(R.id.debug_text);
+        debugText.setTextColor(Color.parseColor("#00ff00"));
+        debugText.setMovementMethod(new ScrollingMovementMethod());
+        debugText.setSoundEffectsEnabled(false); // no further click sounds
+        debugText.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // nothing
+            }
         });
 
         // permissions ask:
@@ -335,9 +335,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_AUDIO_PERMISSION: {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_AUDIO_PERMISSION) {
                 // Check for RECORD_AUDIO
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
@@ -351,8 +350,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     closeApp();
                 }
             }
-            break;
-            default:
+            else {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -795,6 +793,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
     */
+    @TargetApi(23)
     private void checkDozeDialog() {
         String aboutString =
                 (getResources().getString(R.string.doze_dialog_1) + "\n\n")
