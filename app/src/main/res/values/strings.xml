@@ -146,6 +146,7 @@
     <string name="audiofocus_check_5">AudioFocus interrupt request.</string>
     <string name="audiofocus_check_6">AudioFocus interrupt request ignored.</string>
     <string name="audiofocus_check_7">AudioFocus interrupt request granted.</string>
+    <string name="audiofocus_check_8">IRQ_TELEPHONY loss_transient.</string>
 
     <string name="audiofocus_1">Audio Focus Listener: LOSS.</string>
     <string name="audiofocus_2">Audio Focus Listener: LOSS_TRANSIENT.</string>

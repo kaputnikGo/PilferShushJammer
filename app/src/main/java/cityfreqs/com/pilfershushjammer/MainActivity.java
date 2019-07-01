@@ -637,7 +637,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // system forced loss, assuming telephony
-            if (DEBUG) entryLogger("IRQ_TELEPHONY loss_transient", false);
+            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_8), false);
             IRQ_TELEPHONY = true;
         }
     }
