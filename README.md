@@ -61,7 +61,7 @@ Therefore, your app should record audio only when it's in the foreground or
  
 **App screenshots:**
 - Home fragment
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_jammer-v4_home.jpg" height="612px" />
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_home.jpg" height="612px" />
 
 - Inspector fragment
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_inspector.jpg" height="612px" />
