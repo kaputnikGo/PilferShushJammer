@@ -29,11 +29,8 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
-- simplify UI with basic/expert info
 - rebuild the active jammer (testing with Oboe)
-
 - consider user app summary include and print package name of NUHF/ACR if found
-- consider add DEBUG switch in About dialog
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
 - consider optional jammer state persistence over boot
 

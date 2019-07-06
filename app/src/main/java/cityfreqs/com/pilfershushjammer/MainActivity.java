@@ -868,12 +868,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 // other user input needed for the below options
                 switch(which) {
                     case 0:
-                        audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_TEST);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
                         entryLogger(getResources().getString(R.string.jammer_dialog_13)
                                 + jammerTypes[which], false);
                         break;
                     case 1:
-                        audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_NUHF);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_NUHF);
                         entryLogger(getResources().getString(R.string.jammer_dialog_13)
                                 + jammerTypes[which], false);
                         break;
@@ -925,7 +925,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         userInputCarrier = checkCarrierFrequency(userInputCarrier);
 
                         audioBundle.putInt("userCarrier", userInputCarrier);
-                        audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_DEFAULT_RANGED);
 
                         entryLogger(getResources().getString(R.string.jammer_dialog_14)
                                 + userInputCarrier, false);
@@ -980,7 +980,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
                         audioBundle.putInt("userCarrier", userInputCarrier);
                         audioBundle.putInt("userLimit", userInputLimit);
-                        audioBundle.putInt("jammerType", AudioSettings.JAMMER_TYPE_USER_RANGED);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_USER_RANGED);
 
                         entryLogger("Jammer type changed to " + userInputLimit
                                 + " Hz drift with carrier at " + userInputCarrier, false);
