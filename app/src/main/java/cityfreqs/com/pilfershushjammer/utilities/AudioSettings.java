@@ -1,11 +1,11 @@
-package cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer.utilities;
 
-class AudioSettings {
+public class AudioSettings {
     // audio utility helper class
-    static final int[] SAMPLE_RATES = new int[]{
+    public static final int[] SAMPLE_RATES = new int[]{
             48000, 44100, 22050, 16000, 11025, 8000};
 
-    static final int[] POWERS_TWO_HIGH = new int[]{
+    public static final int[] POWERS_TWO_HIGH = new int[]{
             512, 1024, 2048, 4096, 8192, 16384};
 
     /*
@@ -13,27 +13,34 @@ class AudioSettings {
             2, 4, 8, 16, 32, 64, 128, 256};
     */
 
-    static final int MINIMUM_NUHF_FREQUENCY = 18000;
-    static final int DEFAULT_NUHF_FREQUENCY = 19000;
+    public static final int MINIMUM_NUHF_FREQUENCY = 18000;
+    public static final int DEFAULT_NUHF_FREQUENCY = 19000;
 
-    static final int CARRIER_TEST_FREQUENCY = 440;
-    static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int) (CARRIER_TEST_FREQUENCY * 0.5);
-    static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int) (CARRIER_TEST_FREQUENCY * 0.5);
+    public static final int CARRIER_TEST_FREQUENCY = 440;
+    public static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int) (CARRIER_TEST_FREQUENCY * 0.5);
+    public static final int MINIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY - (int) (CARRIER_TEST_FREQUENCY * 0.5);
 
-    static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
-    static final int MINIMUM_DRIFT_LIMIT = 10;
-    static final int DRIFT_SPEED_MULTIPLIER = 1000;
+    public static final int DEFAULT_RANGE_DRIFT_LIMIT = 1000;
+    public static final int MINIMUM_DRIFT_LIMIT = 10;
+    public static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
-    static final int JAMMER_TONE = 0;
-    static final int JAMMER_WHITE = 1;
+    public static final int JAMMER_WHITE = 0;
+    public static final int JAMMER_TONE = 1;
 
-    static final int JAMMER_TYPE_TEST = 0;
-    static final int JAMMER_TYPE_NUHF = 1;
-    static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
-    static final int JAMMER_TYPE_USER_RANGED = 3;
+    public static final int JAMMER_TYPE_TEST = 0;
+    public static final int JAMMER_TYPE_NUHF = 1;
+    public static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
+    public static final int JAMMER_TYPE_USER_RANGED = 3;
+
+    public static final String[] JAMMER_TYPES = new String[]{
+            "Slow audible test tone drift (~440Hz)",
+            "Full NUHF drift (18kHz-24kHz)",
+            "1000Hz NUHF drift with user carrier",
+            "User NUHF drift with user carrier"
+    };
 
     // Bundle keys string names: number = 15
-    static final String[] AUDIO_BUNDLE_KEYS = new String[]{
+    public static final String[] AUDIO_BUNDLE_KEYS = new String[]{
             "audioSource", "sampleRate", "channelInConfig", "encoding",
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
@@ -41,12 +48,12 @@ class AudioSettings {
     };
 }
 
-    /*
-    * *******************************************************************/
-    /*
-     * Utilities, unused, but may be useful one day
-     *
-     */
+/*
+ * *******************************************************************/
+/*
+ * Utilities, unused, but may be useful one day
+ *
+ */
     /*
     static int getBitDepth(int encoding) {
         // encoding == int value of bit depth
@@ -103,8 +110,8 @@ class AudioSettings {
     }
     */
 
-    /*
-    * *******************************************************************/
+/*
+ * *******************************************************************/
     /*
      * NOTES re. audio capabilities on android
      *
@@ -165,5 +172,3 @@ public static final int HOTWORD = 1999; //  always-on software hotword detection
 
  *
  */
-
-

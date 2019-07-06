@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SettingsFragment">
+
+    <LinearLayout
+        android:id="@+id/settings_container"
+        android:layout_width="@dimen/zero_margin"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/main_margin"
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginEnd="@dimen/main_margin"
+        android:background="@color/colorLogger"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/active_layout"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin"
+            android:layout_marginTop="@dimen/half_margin"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:background="@color/colorLogger"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/settings_layout">
+
+            <TextView
+                android:id="@+id/settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/zero_margin"
+                android:text="@string/settings_label_1"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/settings_layout"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/drift_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_button_height"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:background="@drawable/text_button_border"
+                android:gravity="center"
+                android:padding="@dimen/mini_margin"
+                android:text="@string/drift_dialog_1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/carrier_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_button_height"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:background="@drawable/text_button_border"
+                android:gravity="center"
+                android:padding="@dimen/mini_margin"
+                android:text="@string/jammer_dialog_6"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/limit_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_button_height"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:background="@drawable/text_button_border"
+                android:gravity="center"
+                android:padding="@dimen/mini_margin"
+                android:text="@string/jammer_dialog_9"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/active_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/zero_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:layout_marginEnd="@dimen/zero_margin"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/test_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@+id/active_type_switch"
+                    android:text="@string/active_dialog_5"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <Switch
+                    android:id="@+id/active_type_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:checked="false"
+                    app:layout_constraintLeft_toRightOf="@+id/test_radio" />
+
+                <TextView
+                    android:id="@+id/nuhf_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/active_type_switch"
+                    android:text="@string/active_dialog_6"
+                    app:layout_constraintLeft_toRightOf="@+id/active_type_switch"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/active_sound_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/zero_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:layout_marginEnd="@dimen/zero_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/noise_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@+id/active_sound_switch"
+                    android:text="@string/active_dialog_4"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <Switch
+                    android:id="@+id/active_sound_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:checked="true"
+                    app:layout_constraintLeft_toRightOf="@+id/noise_radio" />
+
+                <TextView
+                    android:id="@+id/tone_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/active_sound_switch"
+                    android:text="@string/active_dialog_3"
+                    app:layout_constraintLeft_toRightOf="@+id/active_sound_switch"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/passive_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extra_margin"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:background="@color/colorLogger"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/active_layout">
+
+            <TextView
+                android:id="@+id/passive_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginTop="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_marginBottom="@dimen/zero_margin"
+                android:text="@string/settings_label_2"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/buffer_text_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/main_margin"
+                android:gravity="center"
+                android:text="@string/buffer_info_text_1" />
+
+            <RelativeLayout
+                android:id="@+id/buffer_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:layout_marginEnd="@dimen/half_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/buffer_disable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:layout_toStartOf="@+id/buffer_type_switch"
+                    android:text="@string/buffer_label_2"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <Switch
+                    android:id="@+id/buffer_type_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:checked="false"
+                    app:layout_constraintLeft_toRightOf="@+id/buffer_disable" />
+
+                <TextView
+                    android:id="@+id/buffer_enable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/half_margin"
+                    android:layout_toEndOf="@+id/buffer_type_switch"
+                    android:text="@string/buffer_label_1"
+                    app:layout_constraintLeft_toRightOf="@+id/buffer_type_switch"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/mini_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/settings_layout"
+            app:layout_constraintTop_toBottomOf="@+id/passive_layout"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="@dimen/zero_margin">
+
+            <TextView
+                android:id="@+id/settings_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:background="@color/colorLogger"
+                android:gravity="bottom"
+                android:padding="@dimen/main_margin"
+                android:scrollbars="vertical"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-35dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,16 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="activity_horizontal_margin">8dp</dimen>
-    <dimen name="activity_vertical_margin">8dp</dimen>
-    <dimen name="activity_bottom_margin">4dp</dimen>
-    <dimen name="button_bottom_margin">16dp</dimen>
+    <dimen name="zero_margin">0dp</dimen>
+    <dimen name="micro_margin">2dp</dimen>
+    <dimen name="mini_margin">4dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="main_margin">16dp</dimen>
+    <dimen name="extra_margin">24dp</dimen>
+
+    <dimen name="scan_text_extra_margin">60dp</dimen>
+    <dimen name="button_view_margin">74dp</dimen>
     <dimen name="toggle_button_width">100dp</dimen>
     <dimen name="button_start_margin">11dp</dimen>
-    <dimen name="button_view_margin">74dp</dimen>
-    <dimen name="button_gap_margin">60dp</dimen>
+    <dimen name="button_bottom_margin">8dp</dimen>
+    <dimen name="settings_input_width">60dp</dimen>
+    <dimen name="text_button_height">44dp</dimen>
 </resources>

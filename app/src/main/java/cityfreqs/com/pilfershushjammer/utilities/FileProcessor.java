@@ -1,5 +1,4 @@
-package cityfreqs.com.pilfershushjammer;
-
+package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.Context;
 
@@ -7,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import cityfreqs.com.pilfershushjammer.R;
 
 public class FileProcessor {
     protected Context context;

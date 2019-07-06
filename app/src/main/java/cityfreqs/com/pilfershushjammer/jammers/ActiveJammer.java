@@ -1,4 +1,4 @@
-package cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -9,17 +9,24 @@ import android.util.Log;
 
 import java.util.Random;
 
+import cityfreqs.com.pilfershushjammer.R;
+import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
+
+
 public class ActiveJammer {
+    private static final String TAG = "PilferShush_ACTIVE";
     private Context context;
     private Bundle audioBundle;
     private float amplitude;
     private AudioTrack audioTrack;
     private boolean isPlaying;
     private Thread jammerThread;
+    private boolean DEBUG;
 
     public ActiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
         this.audioBundle = audioBundle;
+        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
         resetActiveJammer();
     }
 
@@ -100,7 +107,7 @@ public class ActiveJammer {
                 jammerThread = null;
             }
             catch (Exception ex) {
-                MainActivity.entryLogger(context.getResources().getString(R.string.active_state_2), true);
+                debugLogger(context.getResources().getString(R.string.active_state_2), true);
             }
         }
         if (audioTrack != null) {
@@ -111,7 +118,7 @@ public class ActiveJammer {
                 audioTrack = null;
             }
             catch (IllegalStateException e) {
-                MainActivity.entryLogger(context.getResources().getString(R.string.active_state_3), true);
+                debugLogger(context.getResources().getString(R.string.active_state_3), true);
             }
         }
     }
@@ -189,7 +196,7 @@ public class ActiveJammer {
 
     private synchronized void playSound(byte[] soundData) {
         if (audioBundle == null) {
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_3), true);
+            debugLogger(context.getResources().getString(R.string.audio_check_3), true);
             return;
         }
 
@@ -199,11 +206,11 @@ public class ActiveJammer {
                 audioTrack.write(soundData, 0, soundData.length);
             }
             else {
-                MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_3), true);
+                debugLogger(context.getResources().getString(R.string.audio_check_3), false);
             }
         }
         catch (Exception e) {
-            MainActivity.entryLogger(context.getResources().getString(R.string.audio_check_4), true);
+            debugLogger(context.getResources().getString(R.string.audio_check_4), true);
         }
     }
 
@@ -225,7 +232,7 @@ public class ActiveJammer {
             }
         }
         catch (Exception ex) {
-            MainActivity.entryLogger("onboardEQ Exception.", true);
+            debugLogger("onboardEQ Exception.", true);
             ex.printStackTrace();
         }
     }
@@ -285,4 +292,16 @@ public class ActiveJammer {
             return audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
     }
 
+    private void debugLogger(String message, boolean caution) {
+        // for the times that fragments arent attached etc, print to adb
+        if (caution && DEBUG) {
+            Log.e(TAG, message);
+        }
+        else if ((!caution) && DEBUG) {
+            Log.d(TAG, message);
+        }
+        else {
+            Log.i(TAG, message);
+        }
+    }
 }

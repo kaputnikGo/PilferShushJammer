@@ -36,13 +36,15 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
+- version 4.x
 - update buildtools
 - redesign UI
+- implement fragments
+- restructure code
 - new icons
-- prep for ver 4.0
 
 
-   vers. 3.3.0
+   vers. 4.0.0
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)
@@ -57,6 +59,16 @@ Therefore, your app should record audio only when it's in the foreground or
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  
+**App screenshots:**
+- Home fragment
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_jammer-v4_home.jpg" height="612px" />
+
+- Inspector fragment
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_inspector.jpg" height="612px" />
+
+- Settings fragment
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_settings.jpg" height="612px" />
+ 
 **Active Jammer frequency analysis:**
 - Active tone, full NUHF range with random scatter drift test
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-tone_full_nuhf_scatter_drift-test.jpg" height="182px" />
@@ -69,24 +81,6 @@ Therefore, your app should record audio only when it's in the foreground or
 
 - Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
-
-**App screenshots:**
-- Full app start up (Passive and Active version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_jammer_active_startup.png" height="612px" />
-
-- Passive start up (Passive version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-start.png" height="612px" />
-
-- About pop up (Passive version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-about.png" height="612px" />
-
-- Passive mode running (Passive version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-running.png" height="612px" />
-
-- App notification example (Passive version)
-<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer_notify.png" height="612px" />
-
-
 
 # 2019 Kaputnik Go
 

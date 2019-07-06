@@ -1,17 +1,25 @@
-package cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
 import android.media.AudioRecord;
 import android.os.Bundle;
+import android.util.Log;
+
+import cityfreqs.com.pilfershushjammer.R;
+import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
+
 
 public class PassiveJammer {
+    private static final String TAG = "PilferShush_PASSIVE";
     private Context context;
     private Bundle audioBundle;
     private AudioRecord audioRecord;
+    private boolean DEBUG;
 
     public PassiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
         this.audioBundle = audioBundle;
+        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
     }
 
     boolean startPassiveJammer() {
@@ -24,12 +32,12 @@ public class PassiveJammer {
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
 
-                MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_1), false);
+                debugLogger(context.getResources().getString(R.string.passive_state_1), false);
                 return true;
             }
             catch (Exception ex) {
                 ex.printStackTrace();
-                MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_2), true);
+                debugLogger(context.getResources().getString(R.string.passive_state_2), true);
             }
         }
         return false;
@@ -47,12 +55,12 @@ public class PassiveJammer {
                     status_t start(int [AudioSystem::sync_event_t] event, int triggerSession)
                     */
                     audioRecord.startRecording();
-                    MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_3) + "\n", true);
+                    debugLogger(context.getResources().getString(R.string.passive_state_3) + "\n", true);
 
                     // optional switch for accessing the hardware buffers via audioRecord.read()
                     // reason: possible battery use at hardware level
                     if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14])) {
-                        MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_11), true);
+                        debugLogger(context.getResources().getString(R.string.passive_state_11), true);
                         // check for initialising audioRecord
                         short[] buffer = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4])];
 
@@ -60,12 +68,13 @@ public class PassiveJammer {
                         int audioStatus = audioRecord.read(buffer, 0, audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
                         // check for error on pre 6.x and 6.x API
                         if (audioStatus == AudioRecord.ERROR_INVALID_OPERATION) {
-                            MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_4), true);
+                            debugLogger(context.getResources().getString(R.string.passive_state_4), true);
                             // error from improper use of method
                             return false;
-                        } else if (audioStatus == AudioRecord.STATE_UNINITIALIZED) {
-                            MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_5_1), true);
-                            MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_5_2), true);
+                        }
+                        else if (audioStatus == AudioRecord.STATE_UNINITIALIZED) {
+                            debugLogger(context.getResources().getString(R.string.passive_state_5_1), true);
+                            debugLogger(context.getResources().getString(R.string.passive_state_5_2), true);
                             // adb:  status code -38
                             return false;
                         }
@@ -74,8 +83,9 @@ public class PassiveJammer {
                     // check for running audioRecord
                     if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                         return true;
-                    } else {
-                        MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_6), true);
+                    }
+                    else {
+                        debugLogger(context.getResources().getString(R.string.passive_state_6), true);
                         return false;
                     }
 
@@ -101,13 +111,13 @@ public class PassiveJammer {
 
                 } catch (IllegalStateException exState) {
                     exState.printStackTrace();
-                    MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_7), true);
+                    debugLogger(context.getResources().getString(R.string.passive_state_7), true);
                     return false;
                 }
             }
         }
         // uninitialised state
-        MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_8), true);
+        debugLogger(context.getResources().getString(R.string.passive_state_8), true);
         return false;
     }
 
@@ -118,11 +128,23 @@ public class PassiveJammer {
             }
             audioRecord.release();
             audioRecord = null;
-            MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_9), false);
+            debugLogger(context.getResources().getString(R.string.passive_state_9), false);
         }
         else {
-            MainActivity.entryLogger(context.getResources().getString(R.string.passive_state_10), false);
+            debugLogger(context.getResources().getString(R.string.passive_state_10), false);
+        }
+    }
+
+    private void debugLogger(String message, boolean caution) {
+        // for the times that fragments arent attached etc, print to adb
+        if (caution && DEBUG) {
+            Log.e(TAG, message);
+        }
+        else if ((!caution) && DEBUG) {
+            Log.d(TAG, message);
+        }
+        else {
+            Log.i(TAG, message);
         }
     }
 }
-

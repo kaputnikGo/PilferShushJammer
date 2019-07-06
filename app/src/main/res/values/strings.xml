@@ -1,25 +1,35 @@
 <resources>
-    <!--
-    MainActivity.java
-    -->
     <string name="app_name">PilferShush Jammer</string>
     <string name="passive_service_name">PilferShush Passive</string>
     <string name="active_service_name">PilferShush Active</string>
-    <string name="debug_text">app status\u2026</string>
     <string name="action_about">About</string>
-    <string name="action_jammer">Active Jammer Settings</string>
-    <string name="action_drift_speed">Drift Speed Settings</string>
-    <string name="action_userapp_check">User Apps Scanner</string>
-    <string name="action_userapp_summary">User Apps Summary</string>
-    <string name="action_nuhfsdk_list">NUHF/ACR SDK List</string>
+    <string name="action_power">Power</string>
+    <string name="action_debug">Debug</string>
 
-    <string name="about_version">version\u0020</string>
-    <string name="about_dialog_1">About PilferShush Jammer</string>
-    <string name="about_dialog_2">This is an experimental research app designed to unobtrusively block unwanted, hidden use of the onboard microphone.</string>
-    <string name="about_dialog_3">It has a scanner to find possible matches to known SDK package names that use Near Ultra High Frequencies or Audio Content Recognition. The search method may result in false positives .</string>
-    <string name="about_dialog_4">It is open source, available at github, for viewing and raising issues.</string>
-    <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
-    <string name="about_dialog_6">Option below to enable audio record buffer read lock (possible slight increase in CPU overhead).</string>
+    <string name="action_power_state">Available for Android 6.0 (API 23) Marshmallow and upwards only.</string>
+
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Inspector</string>
+    <string name="tab_text_3">Settings</string>
+
+    <string name="perms_state_1">Record Audio</string>
+    <string name="perms_state_2_1">PilferShush Jammer needs to make a permission request to access and enable jamming of the microphone, otherwise this app will not work.</string>
+    <string name="perms_state_2_2">This app does not listen to any audio, does not record any audio and does not connect to the internet.</string>
+    <string name="perms_state_3">Permission denied, please close this app, it will not work without RECORD AUDIO permission.</string>
+    <string name="perms_state_4">Closing app due to no RECORD_AUDIO permission granted.</string>
+
+    <string name="dialog_button_save">Save</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_okay">OK</string>
+    <string name="dialog_button_yes">YES</string>
+    <string name="dialog_button_no">NO</string>
+    <string name="dialog_button_off">OFF</string>
+    <string name="dialog_button_on">ON</string>
+    <string name="dialog_button_dismiss">Dismiss</string>
+    <string name="dialog_button_continue">Continue</string>
+    <string name="dialog_button_source">GITHUB</string>
+
+    <string name="options_dialog_1">Buffer read lock</string>
 
     <string name="doze_dialog_title">Change Settings</string>
     <string name="doze_dialog_1">PilferShush Jammer requests to be on the Android system Battery Optimizations exceptions whitelist.</string>
@@ -27,117 +37,6 @@
     <string name="doze_dialog_3">While this app uses very low to negligible resources, the microphone Passive Jammer requires a background service to be running for it to work.</string>
     <string name="doze_dialog_4">For long term reliable use of the Jammer any battery optimisers or managers need to be set to allow PilferShush to continue running unimpeded.</string>
     <string name="doze_dialog_5">To add PilferShush to the system whitelist press "continue" to proceed to the Android Settings page, then select "All Apps" from drop down menu, search for PilferShush and select it.</string>
-
-    <string name="jammer_dialog_1">Change active jammer signal type.</string>
-    <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>
-    <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>
-    <string name="jammer_dialog_4">1000Hz NUHF drift with user carrier</string>
-    <string name="jammer_dialog_5">User NUHF drift with user carrier</string>
-
-    <string name="jammer_dialog_6">Carrier frequency (18kHz - 24kHz):</string>
-    <string name="jammer_dialog_7">Jammer output within 1000 Hz either side of carrier.</string>
-    <string name="jammer_dialog_8">19000</string>
-    <string name="jammer_dialog_9">Range limit (Hz) either side of the carrier.</string>
-    <string name="jammer_dialog_10">1000</string>
-    <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
-
-    <string name="jammer_dialog_12">Tone / Noise switch</string>
-    <string name="jammer_dialog_13">Jammer type changed to\u0020</string>
-    <string name="jammer_dialog_14">Jammer type changed to 1000Hz drift with carrier at\u0020</string>
-
-    <string name="active_dialog_1">Select sound type</string>
-    <string name="active_dialog_2">Active jammer output sound type</string>
-    <string name="active_dialog_3">TONES</string>
-    <string name="active_dialog_4">NOISE</string>
-
-    <string name="options_dialog_0">Debug messages</string>
-    <string name="options_dialog_1">Buffer read lock</string>
-    <string name="options_dialog_2">Enable audioRecord buffer read lock that may increase CPU and battery use (requires Jammer restart to take effect)</string>
-    <string name="options_dialog_3">ENABLE</string>
-    <string name="options_dialog_4">DISABLE</string>
-    <string name="options_dialog_5">Debug messages not implemented yet.</string>
-    <string name="options_dialog_6">Enable extra debug messages (requires App restart to take effect)</string>
-
-    <string name="drift_dialog_1">Drift speed (1 to 10)</string>
-    <string name="drift_dialog_2">1</string>
-    <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
-
-    <string name="app_status_1">passive jammer running,</string>
-    <string name="app_status_2">passive jammer not running,</string>
-    <string name="app_status_3">active jammer running.</string>
-    <string name="app_status_4">active jammer not running.</string>
-    <string name="app_status_5">EQ is turned off.</string>
-    <string name="app_status_6">EQ is turned on.</string>
-    <string name="app_status_7">EQ is not available.</string>
-    <string name="app_status_8">Active jammer switched to tones.</string>
-    <string name="app_status_9">Active jammer switched to whitenoise.</string>
-
-    <string name="app_status_10">Passive jammer running.</string>
-    <string name="app_status_11">Active jammer running.</string>
-    <string name="app_status_12">Tap to return to app.</string>
-
-    <string name="app_status_13">Passive jammer buffer read lock enabled. REQUIRES PASSIVE JAMMER RESTART.</string>
-    <string name="app_status_14">Passive jammer buffer read lock disabled. REQUIRES PASSIVE JAMMER RESTART.</string>
-    <string name="app_status_15">Print extra debug messages enabled.</string>
-    <string name="app_status_16">Print extra debug messages disabled.</string>
-
-    <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
-    <string name="intro_2">Via a passive jamming technique that engages the microphone blocking other apps from using it.</string>
-    <string name="intro_3">Or via an active jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
-    <string name="intro_4">This app does NOT listen to or record any of the audio from the microphone during this.</string>
-    <string name="intro_5">The User Apps Scanner shows the background services and receivers listed for a chosen app</string>
-    <string name="intro_6_1">The User Apps Summary shows basic information relevant to PilferShush Jammer about all user installed apps.</string>
-    <string name="intro_6_2">Apps can consist of multiple packages with different names.</string>
-
-    <string name="intro_7">Use option menu to change active jamming settings, check user apps or read the About dialog.</string>
-    <string name="intro_8">Active jammer set to:\u0020</string>
-
-    <string name="dialog_button_save">Save</string>
-    <string name="dialog_button_cancel">Cancel</string>
-    <string name="dialog_button_okay">OK</string>
-    <string name="dialog_button_yes">YES</string>
-    <string name="dialog_button_no">NO</string>
-    <string name="dialog_button_dismiss">Dismiss</string>
-    <string name="dialog_button_continue">Continue</string>
-
-    <string name="button_noise" translatable="false">Noise</string>
-    <string name="button_eq" translatable="false">EQ</string>
-
-    <string name="main_scanner_1" translatable="false">Active</string>
-    <string name="main_scanner_2" translatable="false">Passive</string>
-    <string name="main_scanner_3">Running passive jamming\u2026</string>
-    <string name="main_scanner_4">Stop passive jamming.</string>
-    <string name="main_scanner_5">Running active jamming\u2026</string>
-    <string name="main_scanner_6">Stop active jamming.</string>
-
-    <string name="audio_check_pre_1">Checking for best audio record type.</string>
-    <string name="audio_check_pre_2">\nChecking for best audio output type.</string>
-    <string name="audio_check_1">Determine record audio type failure.</string>
-    <string name="audio_check_2">Unable to initiate audio output.</string>
-    <string name="audio_check_3">Error: No audioSettings object found.</string>
-    <string name="audio_check_4">Exception error initialising audioTrack.</string>
-    <string name="audio_check_5">Setting frequency to within device limit:\u0020</string>
-    <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
-    <string name="audio_check_7">Setting frequency to:\u0020</string>
-
-    <string name="eq_check_1">Testing for device audiofx equalizer.</string>
-    <string name="eq_check_2">Device audiofx equalizer test passed.</string>
-    <string name="eq_check_3">Device audiofx equalizer test failed.</string>
-    <string name="eq_check_4">Number of EQ bands:\u0020</string>
-    <string name="eq_check_5">adjust EQ minimum milliBels:\u0020</string>
-    <string name="eq_check_6">adjust EQ maximum milliBels:\u0020</string>
-    <string name="eq_check_7">HPF test to reduce EQ twice by minEQ value:\u0020</string>
-    <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
-
-    <string name="perms_state_1">Record Audio</string>
-    <string name="perms_state_2_1">PilferShush Jammer needs to make a permission request to access and enable jamming of the microphone, otherwise this app will not work.</string>
-    <string name="perms_state_2_2">This app does not listen to any audio, does not record any audio and does not connect to the internet.</string>
-    <string name="perms_state_3">Permission denied, please close this app, it will not work without RECORD AUDIO permission.</string>
-
-    <string name="headset_state_1">No headset found</string>
-    <string name="headset_state_2">Headset is plugged in.</string>
-    <string name="headset_state_3">Headset state unknown</string>
-    <string name="headset_state_4">Connected headset means the active jammer cannot output to speakers and jam microphone.</string>
 
     <string name="audiofocus_check_1">AudioFocus check\u2026</string>
     <string name="audiofocus_check_2">AudioFocus request granted.</string>
@@ -148,15 +47,6 @@
     <string name="audiofocus_check_7">AudioFocus interrupt request granted.</string>
     <string name="audiofocus_check_8">IRQ_TELEPHONY loss_transient.</string>
 
-    <string name="audiofocus_1">Audio Focus Listener: LOSS.</string>
-    <string name="audiofocus_2">Audio Focus Listener: LOSS_TRANSIENT.</string>
-    <string name="audiofocus_3">Audio Focus Listener: LOSS_TRANSIENT_DUCK.</string>
-    <string name="audiofocus_4">Audio Focus Listener: REQUEST_FAIL.</string>
-    <string name="audiofocus_5">Audio Focus Listener: GAIN.</string>
-    <string name="audiofocus_6">Audio Focus Listener: GAIN_TRANSIENT.</string>
-    <string name="audiofocus_7">Audio Focus Listener: GAIN_TRANSIENT_DUCK.</string>
-    <string name="audiofocus_8">Audio Focus Listener: UNKNOWN STATE.</string>
-
     <string name="resume_status_1">PASSIVE SERVICE FOUND</string>
     <string name="resume_status_2">PASSIVE SERVICE NOT FOUND</string>
     <string name="resume_status_3">ACTIVE SERVICE FOUND</string>
@@ -166,9 +56,140 @@
     <string name="resume_status_7">runPassive() when PASSIVE_RUNNING</string>
     <string name="resume_status_8">runActive() when ACTIVE_RUNNING</string>
 
-    <!--
-    background userapp checker
-    -->
+    <string name="main_scanner_1" translatable="false">Active</string>
+    <string name="main_scanner_2" translatable="false">Passive</string>
+    <string name="main_scanner_3">Running passive jamming\u2026</string>
+    <string name="main_scanner_4">Stop passive jamming.</string>
+    <string name="main_scanner_5">Running active jamming\u2026</string>
+    <string name="main_scanner_6">Stop active jamming.</string>
+
+    <string name="main_inspector_1" translatable="false">Summary</string>
+    <string name="main_inspector_2" translatable="false">Inspect</string>
+    <string name="main_inspector_3" translatable="false">SDK list</string>
+
+    <string name="app_status_1">passive jammer running,</string>
+    <string name="app_status_2">passive jammer not running,</string>
+    <string name="app_status_3">active jammer running.</string>
+    <string name="app_status_4">active jammer not running.</string>
+    <string name="app_status_5">EQ is turned off.</string>
+    <string name="app_status_6">EQ is turned on.</string>
+    <string name="app_status_7">EQ is not available.</string>
+    <string name="app_status_8">Active jammer switched to tones.</string>
+    <string name="app_status_9">Active jammer switched to whitenoise.</string>
+    <string name="app_status_10">Passive jammer running.</string>
+    <string name="app_status_11">Active jammer running.</string>
+    <string name="app_status_12">Tap to return to app.</string>
+    <string name="app_status_13">Passive jammer buffer read lock enabled. REQUIRES PASSIVE JAMMER RESTART.</string>
+    <string name="app_status_14">Passive jammer buffer read lock disabled. REQUIRES PASSIVE JAMMER RESTART.</string>
+
+    <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
+    <string name="intro_2">Via a PASSIVE jamming technique that engages the microphone blocking other apps from using it.</string>
+    <string name="intro_3">Or via an ACTIVE jammer that emits either tones or white noise covering 18kHz to 24kHz.</string>
+    <string name="intro_4">This app does NOT listen to or record any of the audio from the microphone during this.</string>
+    <string name="intro_5">Info summary shows relevant, basic information about all user installed apps.</string>
+    <string name="intro_6_1">Search shows the background services and receivers listed for a specific app chosen from a popup list.</string>
+    <string name="intro_6_2">List SDK shows the names of NUHF/ACR packages searched.</string>
+    <string name="intro_6_3">Apps can contain multiple packages each with different names.</string>
+    <string name="intro_7">Use Settings to change the active jamming settings.</string>
+    <string name="intro_8">Active jammer set to:\u0020</string>
+
+    <string name="about_version">version\u0020</string>
+    <string name="about_dialog_1">About PilferShush Jammer</string>
+    <string name="about_dialog_2">This is an experimental research app designed to unobtrusively block unwanted, hidden use of the onboard microphone.</string>
+    <string name="about_dialog_3">It has an Inspector to find possible matches to known SDK package names that use Near Ultra High Frequencies or Audio Content Recognition. The search method may result in false positives .</string>
+    <string name="about_dialog_4">It is open source, available at github, for viewing and raising issues.</string>
+    <string name="about_dialog_5">Part of ongoing Android audio counter-surveillance research.</string>
+    <string name="about_dialog_6">Option below to enable audio record buffer read lock (possible slight increase in CPU overhead).</string>
+
+    <string name="debug_dialog_1">Debug mode</string>
+    <string name="debug_dialog_2">This mode will print some extra messages to the app views as well as some Log messages to any attached ADB</string>
+
+    <string name="settings_label_1">Active Jammer Settings</string>
+    <string name="settings_label_2">Passive Jammer Settings</string>
+
+    <string name="buffer_info_text_1">Enable audioRecord buffer read lock (more CPU)</string>
+    <string name="buffer_label_1">ENABLE</string>
+    <string name="buffer_label_2">DISABLE</string>
+
+    <string name="drift_dialog_1">Set drift speed</string>
+    <string name="drift_dialog_2">10</string>
+    <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
+
+    <string name="jammer_dialog_1">Change active jammer signal type.</string>
+    <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>
+    <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>
+    <string name="jammer_dialog_4">User set NUHF carrier</string>
+    <string name="jammer_dialog_5">User set NUHF drift</string>
+    <string name="jammer_dialog_6">Set carrier frequency</string>
+    <string name="jammer_dialog_8">19000</string>
+    <string name="jammer_dialog_9">Set drift limit</string>
+    <string name="jammer_dialog_10">1000</string>
+    <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
+
+    <string name="jammer_dialog_13">Jammer type changed to\u0020</string>
+    <string name="jammer_dialog_14">Jammer type changed to 1000Hz drift with carrier at\u0020</string>
+
+    <string name="active_dialog_1">Select sound type</string>
+    <string name="active_dialog_2">Active jammer output sound type</string>
+    <string name="active_dialog_3">TONES</string>
+    <string name="active_dialog_4">NOISE</string>
+    <string name="active_dialog_5">TEST</string>
+    <string name="active_dialog_6">NUHF</string>
+
+    <string name="eq_check_1">Testing for device audiofx equalizer.</string>
+    <string name="eq_check_2">Device audiofx equalizer test passed.</string>
+    <string name="eq_check_3">Device audiofx equalizer test failed.</string>
+    <string name="eq_check_4">Number of EQ bands:\u0020</string>
+    <string name="eq_check_5">adjust EQ minimum milliBels:\u0020</string>
+    <string name="eq_check_6">adjust EQ maximum milliBels:\u0020</string>
+    <string name="eq_check_7">HPF test to reduce EQ twice by minEQ value:\u0020</string>
+    <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
+
+    <string name="audio_check_pre_1">Checking for best audio record type.</string>
+    <string name="audio_check_pre_2">Checking for best audio output type.</string>
+    <string name="audio_check_1">Determine record audio type failure.</string>
+    <string name="audio_check_2">Unable to initiate audio output.</string>
+    <string name="audio_check_3">Error: No audioSettings object found.</string>
+    <string name="audio_check_4">Exception error initialising audioTrack.</string>
+    <string name="audio_check_5">Setting frequency to within device limit:\u0020</string>
+    <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
+    <string name="audio_check_7">Setting frequency to:\u0020</string>
+
+        <!--
+        PassiveJammer.java
+        -->
+    <string name="passive_state_1">Passive Jammer init.</string>
+    <string name="passive_state_2">Passive Jammer failed to init.</string>
+    <string name="passive_state_3">Passive Jammer start.</string>
+    <string name="passive_state_4">Passive Jammer audio status error: invalid operation.</string>
+    <string name="passive_state_5_1">Passive Jammer audio status error: uninitialized.</string>
+    <string name="passive_state_5_2">Possible cause: microphone already in use.</string>
+    <string name="passive_state_6">Passive Jammer get recording state = false.</string>
+    <string name="passive_state_7">Passive Jammer exception, failed to run.</string>
+    <string name="passive_state_8">Passive Jammer audio record failed to init.</string>
+    <string name="passive_state_9">Passive Jammer stop and release.</string>
+    <string name="passive_state_10">Passive Jammer not running.</string>
+    <string name="passive_state_11">Passive Jammer buffer read lock.</string>
+
+        <!--
+        ActiveJammer.java
+        -->
+    <string name="active_state_1">threadPlay run exception.</string>
+    <string name="active_state_2">stopPlayer thread exception.</string>
+    <string name="active_state_3">stopPlayer audioTrack exception.</string>
+
+        <!--
+        ~ JammerService.java
+        -->
+    <string name="service_state_1">PilferShush Jammer notifications</string>
+    <string name="service_state_2">Active Jammer service started.</string>
+    <string name="service_state_3">Active Jammer service stopped.</string>
+    <string name="service_state_4">Passive Jammer service started.</string>
+    <string name="service_state_5">Passive Jammer service stopped.</string>
+
+        <!--
+        background userapp checker
+        -->
     <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
@@ -185,10 +206,10 @@
     <string name="userapp_scan_9">No record audio apps found.</string>
     <string name="userapp_scan_10">\u0020possible NUHF/ACR SDK names detected. Check the User Apps Summary for more information.</string>
     <string name="userapp_scan_11">No NUHF/ACR SDK package names detected.</string>
-
     <string name="userapp_scan_12">No user apps found.</string>
-
     <string name="userapp_scan_13">USER APP SUMMARY.</string>
+    <string name="userapp_scan_14">Error in background app checker.</string>
+
     <string name="userapp_scan_intro_1">Audio tracker SDKs typically have TRUE in all five categories.</string>
     <string name="userapp_scan_intro_2">This is not a proof of audio tracker behaviour or presence.</string>
     <string name="userapp_scan_intro_3">User App Name</string>
@@ -198,39 +219,4 @@
     <string name="userapp_scan_intro_7">SERVICE - long-running background operation</string>
     <string name="userapp_scan_intro_8">RECEIVER -  send or receive messages from the system or other apps</string>
     <string name="userapp_scan_intro_9">NUHF/ACR SDK - package name match found from current SDK list</string>
-
-    <!--
-    PassiveJammer.java
-    -->
-    <string name="passive_state_1">Passive Jammer init.</string>
-    <string name="passive_state_2">Passive Jammer failed to init.</string>
-    <string name="passive_state_3">Passive Jammer start.</string>
-    <string name="passive_state_4">Passive Jammer audio status error: invalid operation.</string>
-    <string name="passive_state_5_1">Passive Jammer audio status error: uninitialized.</string>
-    <string name="passive_state_5_2">Possible cause: microphone already in use.</string>
-    <string name="passive_state_6">Passive Jammer get recording state = false.</string>
-    <string name="passive_state_7">Passive Jammer exception, failed to run.</string>
-    <string name="passive_state_8">Passive Jammer audio record failed to init.</string>
-    <string name="passive_state_9">Passive Jammer stop and release.</string>
-    <string name="passive_state_10">Passive Jammer not running.</string>
-    <string name="passive_state_11">Passive Jammer buffer read lock.</string>
-
-    <!--
-    ActiveJammer.java
-    -->
-    <string name="active_state_1">threadPlay run exception.</string>
-    <string name="active_state_2">stopPlayer thread exception.</string>
-    <string name="active_state_3">stopPlayer audioTrack exception.</string>
-
-    <!--
-    ~ JammerService.java
-    -->
-    <string name="service_state_1">PilferShush Jammer notifications</string>
-    <string name="service_state_2">Active Jammer service started.</string>
-    <string name="service_state_3">Active Jammer service stopped.</string>
-    <string name="service_state_4">Passive Jammer service started.</string>
-    <string name="service_state_5">Passive Jammer service stopped.</string>
-
-
-
 </resources>

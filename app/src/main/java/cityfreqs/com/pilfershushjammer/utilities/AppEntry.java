@@ -1,11 +1,11 @@
-package cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.ServiceInfo;
 
 import java.util.Arrays;
 
-class AppEntry {
+public class AppEntry {
     private String activityName;
     private String packageName;
     private int idNum;
@@ -14,7 +14,7 @@ class AppEntry {
     private boolean bootCheck;
     private boolean receivers;
     private boolean services;
-    private boolean audioBeacon;
+    private boolean audioSdk;
 
     private int servicesNum;
     private int receiversNum;
@@ -30,7 +30,7 @@ class AppEntry {
         bootCheck = false;
         receivers = false;
         services = false;
-        audioBeacon = false;
+        audioSdk = false;
         servicesNum = 0;
         receiversNum = 0;
     }
@@ -40,17 +40,17 @@ class AppEntry {
      *
      */
 
-    String getActivityName() {
+    public String getActivityName() {
         return activityName;
     }
     void setIdNum(int idNum) {
         this.idNum = idNum;
     }
 
-    int getServicesNum() {
+    public int getServicesNum() {
         return servicesNum;
     }
-    int getReceiversNum() {
+    public int getReceiversNum() {
         return receiversNum;
     }
 
@@ -77,20 +77,22 @@ class AppEntry {
         return services;
     }
 
-    boolean checkForCaution() {
+    public boolean checkForCaution() {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
-        return (recordable && bootCheck && receivers && services);
+        return (recordable && bootCheck && receivers && services && audioSdk);
     }
 
-    void setAudioBeacon(boolean audioBeacon) {
-        this.audioBeacon = audioBeacon;
+    void setAudioSdk(boolean audioSdk) {
+        this.audioSdk = audioSdk;
     }
 
-    boolean getAudioBeacon() {
-        return audioBeacon;
+
+    boolean getAudioSdk() {
+        return audioSdk;
     }
+
 
 
     /********************************************************************/
@@ -119,10 +121,10 @@ class AppEntry {
      * methods
      */
 
-    String entryPrint() {
+    public String entryPrint() {
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
                 "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
-                "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioBeacon +
+                "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioSdk +
                 "\n--------------------------------------\n";
     }
 
@@ -130,7 +132,7 @@ class AppEntry {
     // .packageName
     // .processName
     // .permission
-    String[] getServiceNames() {
+    public String[] getServiceNames() {
         String[] names = new String[serviceInfo.length];
         for (int j = 0; j < serviceInfo.length; j++) {
             // get service name
@@ -144,7 +146,7 @@ class AppEntry {
     // .applicationInfo;
     // .processName
     // .targetActivity
-    String[] getReceiverNames() {
+    public String[] getReceiverNames() {
         String[] names = new String[receiversInfo.length];
         for (int j = 0; j < receiversInfo.length; j++) {
             // get receiver name

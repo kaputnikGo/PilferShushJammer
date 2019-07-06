@@ -23,8 +23,11 @@ As this app seeks to block microphone use it is important to NOT dismiss or hide
 
 Also includes a scanner to check user installed apps for NUHF and Audio Content Recognition (ACR) SDKs as well as any services or receivers.
 
+'''Version 4.0 Redesign'''
+Major overhaul of the design to make information clearer and to simplify typical uses of the app
+
 Notes:
-The next release will investigate removing the audible artifacts (popping and clicking) present during the active jamming tones.
+Conuing to look into better Active jammer audio output code.
 
 White noise output may not be very effective at blocking and is a somewhat annoying sound.
 

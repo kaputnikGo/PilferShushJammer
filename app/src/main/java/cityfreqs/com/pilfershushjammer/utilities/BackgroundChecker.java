@@ -1,20 +1,22 @@
-package cityfreqs.com.pilfershushjammer;
-
+package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class BackgroundChecker {
+
+public class BackgroundChecker {
+    private static final String TAG = "PilferShush_BACKCHK";
     private FileProcessor fileProcessor;
     private PackageManager packageManager;
     private ArrayList<AppEntry> appEntries;
     private int audioBeaconCount;
+    private boolean DEBUG;
 
     // needs to check for :
     // " android.Manifest.permission.* "
@@ -27,13 +29,14 @@ class BackgroundChecker {
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
 
-    BackgroundChecker(Context context) {
+    public BackgroundChecker(Context context, boolean debug) {
         fileProcessor = new FileProcessor(context);
         appEntries = new ArrayList<>();
         audioBeaconCount = 0;
+        DEBUG = debug;
     }
 
-    boolean initChecker(PackageManager packageManager) {
+    public boolean initChecker(PackageManager packageManager) {
         // need a user updatable SDK_NAMES list insert...
         this.packageManager = packageManager;
 
@@ -44,7 +47,7 @@ class BackgroundChecker {
 
     /********************************************************************/
 
-    String displayAudioSdkNames() {
+    public String displayAudioSdkNames() {
         // return a string of names + \n
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             StringBuilder sb = new StringBuilder();
@@ -56,7 +59,7 @@ class BackgroundChecker {
         return "error: none found \n";
     }
 
-    int getUserRecordNumApps() {
+    public int getUserRecordNumApps() {
         // count number with getRecordable == true
         int count = 0;
         if (appEntries != null) {
@@ -69,22 +72,25 @@ class BackgroundChecker {
             return 0;
     }
 
-    void audioAppEntryLog() {
+    /*
+    // a debug method
+    public void audioAppEntryLog6() {
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
-                MainActivity.entryLogger(appEntry.entryPrint(), appEntry.checkForCaution());
+                debugLogger(appEntry.entryPrint(), appEntry.checkForCaution());
             }
         }
         else {
-            MainActivity.entryLogger(fileProcessor.context.getResources().getString(R.string.userapp_scan_12), false);
+            debugLogger(fileProcessor.context.getResources().getString(R.string.userapp_scan_12), false);
         }
     }
+    */
 
-    boolean hasAudioBeaconApps() {
+    public boolean hasAudioBeaconApps() {
         return audioBeaconCount > 0;
     }
 
-    void checkAudioBeaconApps() {
+    public void checkAudioBeaconApps() {
         audioBeaconCount = 0;
         int indexCount = 0;
         boolean audioBeaconFound = false;
@@ -105,7 +111,7 @@ class BackgroundChecker {
                     }
                 }
                 if (audioBeaconFound) audioBeaconCount++;
-                appEntries.get(indexCount).setAudioBeacon(audioBeaconFound);
+                appEntries.get(indexCount).setAudioSdk(audioBeaconFound);
                 indexCount++;
                 // reset
                 audioBeaconFound = false;
@@ -113,12 +119,12 @@ class BackgroundChecker {
         }
     }
 
-    String[] getAudioBeaconAppNames() {
+    public String[] getAudioBeaconAppNames() {
         if (audioBeaconCount > 0) {
             String[] appNames = new String[audioBeaconCount];
             int i = 0;
             for (AppEntry appEntry : appEntries) {
-                if (appEntry.getAudioBeacon()) {
+                if (appEntry.getAudioSdk()) {
                     appNames[i] = appEntry.getActivityName();
                     i++;
                 }
@@ -130,7 +136,7 @@ class BackgroundChecker {
     }
 
 
-// loop though services/receivers lists and look for substrings of interest,
+    // loop though services/receivers lists and look for substrings of interest,
 // hardcoded for now, user added later?
 // if find one instance return true
     private boolean checkForAudioBeaconService(String[] serviceNames) {
@@ -159,7 +165,7 @@ class BackgroundChecker {
         return false;
     }
 
-    String[] getOverrideScanAppNames() {
+    public String[] getOverrideScanAppNames() {
         //
         String[] appNames = new String[appEntries.size()];
         int i = 0;
@@ -170,8 +176,12 @@ class BackgroundChecker {
         return appNames;
     }
 
-    AppEntry getOverrideScanAppEntry(int appEntryIndex) {
+    public AppEntry getOverrideScanAppEntry(int appEntryIndex) {
         return appEntries.get(appEntryIndex);
+    }
+
+    public ArrayList<AppEntry> getAppEntries() {
+        return appEntries;
     }
 
     /********************************************************************/
@@ -183,7 +193,7 @@ class BackgroundChecker {
         return (applicationInfo.flags & mask) == 0;
     }
 
-    void runChecker() {
+    public void runChecker() {
         // get list of apps
         // also:
         // PackageManager.getSystemAvailableFeatures() - list all features
@@ -206,39 +216,43 @@ class BackgroundChecker {
                             (String) packageInfo.applicationInfo.loadLabel(packageManager));
                     // check for specific permissions
                     for (String permsString: packageInfo.requestedPermissions) {
-                        if (permsString.contains(BOOT_PERMISSION)) {
-                            appEntry.setBootCheck(true);
-                        }
-
-                        if (permsString.contains(RECORD_PERMISSION)) {
-                            appEntry.setRecordable(true);
-                        }
-
+                        appEntry.setBootCheck(permsString.contains(BOOT_PERMISSION));
+                        appEntry.setRecordable(permsString.contains(RECORD_PERMISSION));
                     }
 
                     // check for services and receivers
+                    appEntry.setServices(packageInfo.services != null);
                     if (packageInfo.services != null) {
                         appEntry.setServiceInfo(packageInfo.services);
                     }
-                    else {
-                        appEntry.setServices(false);
-                    }
 
+                    appEntry.setReceivers(packageInfo.receivers != null);
                     if (packageInfo.receivers != null) {
                         appEntry.setActivityInfo(packageInfo.receivers);
                     }
-                    else {
-                        appEntry.setReceivers(false);
-                    }
+
                     //add to list
                     appEntry.setIdNum(idCounter);
                     appEntries.add(appEntry);
                     idCounter++;
                 }
             }
-            catch (NameNotFoundException e) {
+            catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void debugLogger(String message, boolean caution) {
+        // for the times that fragments arent attached etc, print to adb
+        if (caution && DEBUG) {
+            Log.e(TAG, message);
+        }
+        else if ((!caution) && DEBUG) {
+            Log.d(TAG, message);
+        }
+        else {
+            Log.i(TAG, message);
         }
     }
 }

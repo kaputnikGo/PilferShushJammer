@@ -1,4 +1,4 @@
-package cityfreqs.com.pilfershushjammer;
+package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -8,18 +8,20 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
+import android.util.Log;
 
-class AudioChecker {
+import cityfreqs.com.pilfershushjammer.R;
+
+public class AudioChecker {
+    private static final String TAG = "PilferShush_AUDIO";
     private Context context;
     private Bundle audioBundle;
+    private boolean DEBUG;
 
-    AudioChecker(Context context) {
+    public AudioChecker(Context context, Bundle audioBundle) {
         this.context = context;
-        audioBundle = new Bundle();
-    }
-
-    Bundle getAudioBundle() {
-        return audioBundle;
+        this.audioBundle = audioBundle;
+        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
     }
 
     private int getClosestPowersHigh(int reported) {
@@ -34,7 +36,7 @@ class AudioChecker {
         return reported;
     }
 
-    boolean determineRecordAudioType() {
+    public boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         /*
         AudioRecord.cpp ::
@@ -74,7 +76,7 @@ class AudioChecker {
                         AudioFormat.CHANNEL_IN_STEREO }) {  // 12
                     try {
                         if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                            MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelInConfig: " + channelInConfig, false);
+                            debugLogger("Try AudioRecord rate " + rate + "Hz, bits: " + audioFormat + ", channelInConfig: " + channelInConfig, false);
                         }
                         int buffSize = AudioRecord.getMinBufferSize(rate, channelInConfig, audioFormat);
                         // force buffSize to powersOfTwo if it isnt (ie.S5)
@@ -91,7 +93,7 @@ class AudioChecker {
                             if (recorder.getState() == AudioRecord.STATE_INITIALIZED) {
                                 // AudioRecord.getChannelCount() is number of input audio channels (1 is mono, 2 is stereo)
                                 if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                                    MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
+                                    debugLogger("AudioRecord found: " + rate + ", buffer: " + buffSize + ", channel count: " + recorder.getChannelCount(), true);
                                 }
                                 // set found values
                                 audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], audioSource);
@@ -107,7 +109,7 @@ class AudioChecker {
                     }
                     catch (Exception e) {
                         if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                            MainActivity.entryLogger("Error, keep trying.", false);
+                            debugLogger("Error, keep trying.", false);
                         }
                     }
                 }
@@ -116,7 +118,7 @@ class AudioChecker {
         return false;
     }
 
-    boolean determineOutputAudioType() {
+    public boolean determineOutputAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
@@ -129,12 +131,12 @@ class AudioChecker {
                         AudioFormat.CHANNEL_OUT_STEREO }) {  // 12
                     try {
                         if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                            MainActivity.entryLogger("Try rate " + rate + "Hz, bits: " + audioFormat + ", channelOutConfig: " + channelOutConfig, false);
+                            debugLogger("Try Output rate " + rate + "Hz, bits: " + audioFormat + ", channelOutConfig: " + channelOutConfig, false);
                         }
 
                         int buffSize = AudioTrack.getMinBufferSize(rate, channelOutConfig, audioFormat);
                         if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                            MainActivity.entryLogger("reported minBufferSize: " + buffSize, false);
+                            debugLogger("reported minBufferSize: " + buffSize, false);
                         }
                         // AudioTrack at create wants bufferSizeInBytes, the total size (in bytes)
 
@@ -149,7 +151,7 @@ class AudioChecker {
 
                         if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
                             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                                MainActivity.entryLogger("found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
+                                debugLogger("Output found: " + rate + ", buffer: " + buffSize + ", channelOutConfig: " + channelOutConfig, true);
                             }
                             // set output values
                             // buffOutSize may not be same as buffInSize conformed to powersOfTwo
@@ -160,13 +162,13 @@ class AudioChecker {
                             // test onboardEQ
                             if (testOnboardEQ(audioTrack.getAudioSessionId())) {
                                 if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                                    MainActivity.entryLogger(context.getString(R.string.eq_check_2) + "\n", false);
+                                    debugLogger(context.getString(R.string.eq_check_2) + "\n", false);
                                 }
                                 audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12], true);
                             }
                             else {
                                 if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                                    MainActivity.entryLogger(context.getString(R.string.eq_check_3) + "\n", true);
+                                    debugLogger(context.getString(R.string.eq_check_3) + "\n", true);
                                 }
                                 audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12], false);
                             }
@@ -175,10 +177,10 @@ class AudioChecker {
                             audioTrack.release();
 
                             if (buffSize > AudioSettings.POWERS_TWO_HIGH[4]) {
-                                //TODO stop Active Jammer from ever running if this?
+                                // stop Active Jammer from ever running if this?
                                 // caution for potential laggy or breaking audiotrack buffer size of 8192
                                 if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]))
-                                    MainActivity.entryLogger("Output buffer on this device may break active jammer.", true);
+                                    debugLogger("Output buffer on this device may break active jammer.", true);
                             }
 
                             return true;
@@ -186,7 +188,7 @@ class AudioChecker {
                     }
                     catch (Exception e) {
                         if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]))
-                            MainActivity.entryLogger("Error, keep trying.", false);
+                            debugLogger("Error, keep trying.", false);
                     }
                 }
             }
@@ -206,25 +208,25 @@ class AudioChecker {
             final short maxEQ = equalizer.getBandLevelRange()[1];
 
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                MainActivity.entryLogger("\n" + context.getString(R.string.eq_check_1), false);
-                MainActivity.entryLogger(context.getString(R.string.eq_check_4) + bands, false);
-                MainActivity.entryLogger(context.getString(R.string.eq_check_5) + minEQ, false);
-                MainActivity.entryLogger(context.getString(R.string.eq_check_6) + maxEQ, false);
+                debugLogger("\n" + context.getString(R.string.eq_check_1), false);
+                debugLogger(context.getString(R.string.eq_check_4) + bands, false);
+                debugLogger(context.getString(R.string.eq_check_5) + minEQ, false);
+                debugLogger(context.getString(R.string.eq_check_6) + maxEQ, false);
             }
 
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
                 for (short band = 0; band < bands; band++) {
                     // divide by 1000 to get numbers into recognisable ranges
-                    MainActivity.entryLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
-                    MainActivity.entryLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
-                    MainActivity.entryLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
+                    debugLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
+                    debugLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
+                    debugLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
                     // band 5 reports center freq: 14kHz, minrange: 7000 and maxrange: 0  <- is this infinity? uppermost limit?
                     // could be 21kHz if report standard of same min to max applies.
                 }
             }
             // only active test is to squash all freqs in bands 0-3, leaving last band (4) free...
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                MainActivity.entryLogger("\n" + context.getString(R.string.eq_check_7) + minEQ, false);
+                debugLogger("\n" + context.getString(R.string.eq_check_7) + minEQ, false);
             }
 
             for (int i = 0; i < 2; i++) {
@@ -239,9 +241,22 @@ class AudioChecker {
             return true;
         }
         catch (Exception ex) {
-            MainActivity.entryLogger(context.getString(R.string.eq_check_8), true);
+            debugLogger(context.getString(R.string.eq_check_8), true);
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    private void debugLogger(String message, boolean caution) {
+        // for the times that fragments arent attached etc, print to adb
+        if (caution && DEBUG) {
+            Log.e(TAG, message);
+        }
+        else if ((!caution) && DEBUG) {
+            Log.d(TAG, message);
+        }
+        else {
+            Log.i(TAG, message);
         }
     }
 }
@@ -285,3 +300,4 @@ notes: media/libeffects/lvm/lib/Eq/lib/LVEQNB.h
     // --> THERE'S A Q ?
 
 */
+
