@@ -1,4 +1,4 @@
-### 4.0.0 (unreleased)
+### 4.0.0 (2019-7-06)
 * update buildtools
 * redesign UI
 * implement fragments
