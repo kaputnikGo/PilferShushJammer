@@ -10,10 +10,12 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import cityfreqs.com.pilfershushjammer.MainActivity;
 import cityfreqs.com.pilfershushjammer.R;
@@ -113,6 +115,7 @@ public class PassiveJammerService extends Service {
                 stopPassiveService();
                 return;
             }
+            notifyFragment("true");
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.service_state_4),
                     Toast.LENGTH_SHORT).show();
@@ -131,7 +134,16 @@ public class PassiveJammerService extends Service {
                     Toast.LENGTH_SHORT).show();
         }
         //
+        notifyFragment("false");
         stopForeground(true);
         stopSelf();
+    }
+
+    private void notifyFragment(String running) {
+        Log.d("PSJAM_PASSIVE", "jammer running: " + running);
+        Intent intent = new Intent("passive_running");
+        // You can also include some extra data.
+        intent.putExtra("message", running);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

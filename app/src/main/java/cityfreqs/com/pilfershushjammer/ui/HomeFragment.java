@@ -1,8 +1,10 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -22,6 +24,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.jammers.ActiveJammerService;
@@ -92,6 +95,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // called when fragment's activity method has returned
         debugLogger("OnActivityCreated called.", false);
+
         initApplication();
     }
 
@@ -107,6 +111,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(passiveReceiver,
+                new IntentFilter("passive_running"));
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
@@ -202,6 +209,7 @@ public class HomeFragment extends Fragment {
         if (ACTIVE_RUNNING && IRQ_TELEPHONY) {
             stopActive();
         }
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(passiveReceiver);
     }
 
     @Override
@@ -216,6 +224,11 @@ public class HomeFragment extends Fragment {
         sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
         //sharedPrefsEditor.putBoolean("debug", DEBUG);
         sharedPrefsEditor.apply();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     /**********************************************************************************************/
@@ -277,7 +290,7 @@ public class HomeFragment extends Fragment {
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
             context.startService(startIntent);
-            //TODO 2 sec timer, replace with broadcast?
+            // 2 sec check for passive running
             serviceHandler.postDelayed(new Runnable() {
                 public void run() {
                     checkPassiveRunning();
@@ -287,12 +300,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void checkPassiveRunning() {
-        if (checkServiceRunning(PassiveJammerService.class)) {
-            PASSIVE_RUNNING = true;
+        if (PASSIVE_RUNNING) {
             entryLogger(getResources().getString(R.string.main_scanner_3), true);
         }
         else {
             entryLogger("Passive jammer failed to start.", true);
+            // account for timeout
             // check button state is set to off
             if (passiveJammerButton.isChecked()) {
                 passiveJammerButton.toggle();
@@ -494,6 +507,16 @@ public class HomeFragment extends Fragment {
         }
         return false;
     }
+
+    private BroadcastReceiver passiveReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("message");
+            PASSIVE_RUNNING = (message.equals("true"));
+            debugLogger("Receive message Jammer Service running: " + message, false);
+        }
+    };
 
     /**********************************************************************************************/
 
