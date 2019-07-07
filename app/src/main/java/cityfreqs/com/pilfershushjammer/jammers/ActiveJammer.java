@@ -12,6 +12,7 @@ import java.util.Random;
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 
+//TODO check getResource calls in debugLogger
 
 public class ActiveJammer {
     private static final String TAG = "PilferShush_ACTIVE";
@@ -91,7 +92,7 @@ public class ActiveJammer {
                     }
                 }
                 catch (Exception ex) {
-                    Log.d("PSJammer", context.getResources().getString(R.string.active_state_1));
+                    debugLogger(context.getResources().getString(R.string.active_state_1), true);
                 }
             }
         };

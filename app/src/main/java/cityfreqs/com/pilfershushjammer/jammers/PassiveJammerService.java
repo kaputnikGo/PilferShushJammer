@@ -53,18 +53,12 @@ public class PassiveJammerService extends Service {
             audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
-                Toast toast;
                 if (action.equals(ACTION_START_PASSIVE)) {
                     createNotification();
                     startPassiveService();
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_4),
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                } else if (action.equals(ACTION_STOP_PASSIVE)) {
+                }
+                else if (action.equals(ACTION_STOP_PASSIVE)) {
                     stopPassiveService();
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.service_state_5),
-                            Toast.LENGTH_SHORT);
-                    toast.show();
                 }
             }
         }
@@ -117,17 +111,24 @@ public class PassiveJammerService extends Service {
             if (!passiveJammer.runPassiveJammer()) {
                 // has record state errors
                 stopPassiveService();
+                return;
             }
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.service_state_4),
+                    Toast.LENGTH_SHORT).show();
+
+            Notification notification = notifyPassiveBuilder.build();
+            notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+            startForeground(1, notification);
         }
-        //
-        Notification notification = notifyPassiveBuilder.build();
-        notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        startForeground(1, notification);
     }
 
     private void stopPassiveService() {
         if (passiveJammer != null) {
             passiveJammer.stopPassiveJammer();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.service_state_5),
+                    Toast.LENGTH_SHORT).show();
         }
         //
         stopForeground(true);

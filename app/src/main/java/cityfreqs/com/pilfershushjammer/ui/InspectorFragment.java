@@ -69,7 +69,6 @@ public class InspectorFragment extends Fragment {
         return view;
     }
 
-
     /**********************************************************************************************/
 
     private void populateElements() {

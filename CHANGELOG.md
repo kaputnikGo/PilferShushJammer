@@ -1,3 +1,7 @@
+### 4.0.1 (unreleased)
+* bugfix for audioFocus
+* passive jammer mic state notify
+
 ### 4.0.0 (2019-7-06)
 * update buildtools
 * redesign UI

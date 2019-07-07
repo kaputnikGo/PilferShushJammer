@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.method.ScrollingMovementMethod;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment {
         audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
         audioChecker = new AudioChecker(context, audioBundle);
         DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
-        Log.d(TAG, "ON-ATTACH");
+        debugLogger("ON-ATTACH", false);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // called when fragment's activity method has returned
-        Log.d(TAG, "OnActivityCreated called.");
+        debugLogger("OnActivityCreated called.", false);
         initApplication();
     }
 
@@ -98,10 +99,8 @@ public class HomeFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (getView() != null) {
-            Log.d(TAG, "Home view visible");
-        }
-        else {
-            Log.d(TAG, "Home view null");
+            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            debugLogger("Home view visible", false);
         }
     }
 
@@ -208,7 +207,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "ONSTOP CALLED.");
+        debugLogger("ONSTOP CALLED.", false);
         // save state
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPrefsEditor = sharedPrefs.edit();
@@ -267,6 +266,7 @@ public class HomeFragment extends Fragment {
 
     /**********************************************************************************************/
 
+    private Handler serviceHandler = new Handler();
 
     private void runPassive() {
         if (PASSIVE_RUNNING) {
@@ -277,8 +277,26 @@ public class HomeFragment extends Fragment {
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
             context.startService(startIntent);
+            //TODO 2 sec timer, replace with broadcast?
+            serviceHandler.postDelayed(new Runnable() {
+                public void run() {
+                    checkPassiveRunning();
+                }
+            }, 2000);
+        }
+    }
+
+    private void checkPassiveRunning() {
+        if (checkServiceRunning(PassiveJammerService.class)) {
             PASSIVE_RUNNING = true;
             entryLogger(getResources().getString(R.string.main_scanner_3), true);
+        }
+        else {
+            entryLogger("Passive jammer failed to start.", true);
+            // check button state is set to off
+            if (passiveJammerButton.isChecked()) {
+                passiveJammerButton.toggle();
+            }
         }
     }
 
@@ -315,7 +333,7 @@ public class HomeFragment extends Fragment {
     /**********************************************************************************************/
 
     private void initApplication() {
-        Log.d(TAG, "INIT_APPLICATION");
+        debugLogger("INIT_APPLICATION", false);
         // apply audio checker settings to bundle for services
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7], true);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
@@ -368,7 +386,7 @@ public class HomeFragment extends Fragment {
             }
         }
         else {
-            if (DEBUG) Log.d(TAG, "backgroundChecker is NULL at init.");
+            debugLogger("backgroundChecker is NULL at init.", false);
             entryLogger("Background Checker not initialised.", true);
         }
     }
@@ -500,7 +518,7 @@ public class HomeFragment extends Fragment {
         else if ((!caution) && DEBUG) {
             Log.d(TAG, message);
         }
-        else {
+        else if (DEBUG) {
             Log.i(TAG, message);
         }
     }

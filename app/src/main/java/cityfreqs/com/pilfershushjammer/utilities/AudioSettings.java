@@ -2,10 +2,10 @@ package cityfreqs.com.pilfershushjammer.utilities;
 
 public class AudioSettings {
     // audio utility helper class
-    public static final int[] SAMPLE_RATES = new int[]{
+    static final int[] SAMPLE_RATES = new int[]{
             48000, 44100, 22050, 16000, 11025, 8000};
 
-    public static final int[] POWERS_TWO_HIGH = new int[]{
+    static final int[] POWERS_TWO_HIGH = new int[]{
             512, 1024, 2048, 4096, 8192, 16384};
 
     /*

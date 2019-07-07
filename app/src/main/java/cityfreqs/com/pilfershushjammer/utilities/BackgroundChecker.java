@@ -74,7 +74,7 @@ public class BackgroundChecker {
 
     /*
     // a debug method
-    public void audioAppEntryLog6() {
+    public void audioAppEntryLog() {
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
                 debugLogger(appEntry.entryPrint(), appEntry.checkForCaution());
