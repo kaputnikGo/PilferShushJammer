@@ -1,4 +1,4 @@
-### 4.0.1 (unreleased)
+### 4.0.1 (2019-7-09)
 * bugfix for audioFocus
 * passive jammer mic state notify
 * static fragment instantiation
