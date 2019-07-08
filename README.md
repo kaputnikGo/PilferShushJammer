@@ -38,6 +38,7 @@ Therefore, your app should record audio only when it's in the foreground or
 **Changes:**
 - audioFocus bugfix
 - passive jammer mic state notify
+- static fragment instantiation
 - update buildtools
 - redesign UI
 - implement fragments
