@@ -40,13 +40,30 @@ public class InspectorFragment extends Fragment {
     private ImageButton appInspectButton;
     private ImageButton sdkListButton;
 
-    InspectorFragment(Bundle audioBundle) {
+    private InspectorFragment() {
+        // no-args constructor
+    }
+
+    private InspectorFragment(Bundle audioBundle) {
         this.audioBundle = audioBundle;
+    }
+
+    static InspectorFragment newInstance(Bundle audioBundle) {
+        InspectorFragment inspectorFragment = new InspectorFragment(audioBundle);
+
+        Bundle args = new Bundle();
+        args.putBundle("audioBundle", audioBundle);
+        inspectorFragment.setArguments(args);
+
+        return inspectorFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            audioBundle = getArguments().getBundle("audioBundle");
+        }
     }
 
     @Override

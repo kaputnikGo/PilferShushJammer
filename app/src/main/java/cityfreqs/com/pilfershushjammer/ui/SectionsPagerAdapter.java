@@ -19,19 +19,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{
             R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context context;
-    private HomeFragment homeFragment;
-    private InspectorFragment inspectorFragment;
-    private SettingsFragment settingsFragment;
-    private Bundle audioBundle;
 
+    private Bundle audioBundle;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
         audioBundle = new Bundle();
-        homeFragment = new HomeFragment(audioBundle);
-        inspectorFragment = new InspectorFragment(audioBundle);
-        settingsFragment = new SettingsFragment(audioBundle);
     }
 
     @Override
@@ -39,11 +33,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment.
         switch (position) {
             case 0:
-                return homeFragment;
+                return HomeFragment.newInstance(audioBundle);
             case 1:
-                return inspectorFragment;
+                return InspectorFragment.newInstance(audioBundle);
             case 2:
-                return settingsFragment;
+                return SettingsFragment.newInstance(audioBundle);
             default:
                 return null;
         }

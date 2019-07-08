@@ -59,8 +59,23 @@ public class HomeFragment extends Fragment {
     private AudioManager audioManager;
     private BackgroundChecker backgroundChecker;
 
-    HomeFragment(Bundle audioBundle) {
+
+    private HomeFragment() {
+        // no-args constructor
+    }
+
+    private HomeFragment(Bundle audioBundle) {
         this.audioBundle = audioBundle;
+    }
+
+    static HomeFragment newInstance(Bundle audioBundle) {
+        HomeFragment homeFragment = new HomeFragment(audioBundle);
+
+        Bundle args = new Bundle();
+        args.putBundle("audioBundle", audioBundle);
+        homeFragment.setArguments(args);
+
+        return homeFragment;
     }
 
     @Override
@@ -76,6 +91,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            audioBundle = getArguments().getBundle("audioBundle");
+        }
     }
 
     @Override
@@ -425,7 +443,7 @@ public class HomeFragment extends Fragment {
     }
 
     private int audioFocusCheck() {
-        if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_1), false);
+        if (DEBUG) entryLogger("AudioFocus check", false);
         // note: api 26+ use AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
 
         // NOTE: no resource context available in onAudioFocusChange
@@ -444,7 +462,7 @@ public class HomeFragment extends Fragment {
                         // temporary loss ? API docs says a "transient loss"!
                         debugLogger("Audio Focus Listener: LOSS_TRANSIENT.", false);
                         // system forced loss, assuming telephony
-                        debugLogger(getResources().getString(R.string.audiofocus_check_8), false);
+                        debugLogger("IRQ_TELEPHONY loss_transient.", false);
                         IRQ_TELEPHONY = true;
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:

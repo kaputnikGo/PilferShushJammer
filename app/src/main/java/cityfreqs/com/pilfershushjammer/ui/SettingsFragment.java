@@ -32,13 +32,30 @@ public class SettingsFragment extends Fragment {
     private TextView settingsText;
     private Bundle audioBundle;
 
-    SettingsFragment(Bundle audioBundle) {
+    private SettingsFragment() {
+        // no-args constructor
+    }
+
+    private SettingsFragment(Bundle audioBundle) {
         this.audioBundle = audioBundle;
+    }
+
+    static SettingsFragment newInstance(Bundle audioBundle) {
+        SettingsFragment settingsFragment = new SettingsFragment(audioBundle);
+
+        Bundle args = new Bundle();
+        args.putBundle("audioBundle", audioBundle);
+        settingsFragment.setArguments(args);
+
+        return settingsFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            audioBundle = getArguments().getBundle("audioBundle");
+        }
     }
 
     @Override
