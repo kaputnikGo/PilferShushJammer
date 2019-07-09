@@ -1,4 +1,4 @@
-### 4.0.1 (unreleased)
+### 4.0.2 (2019-7-10)
 * fix to sensorPortrait
 
 ### 4.0.1 (2019-7-09)
