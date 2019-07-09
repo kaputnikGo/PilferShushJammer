@@ -130,8 +130,10 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(passiveReceiver,
-                new IntentFilter("passive_running"));
+        if (getActivity() != null) {
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(passiveReceiver,
+                    new IntentFilter("passive_running"));
+        }
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);

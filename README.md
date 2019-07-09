@@ -47,7 +47,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - new icons
 
 
-   vers. 4.0.2
+   vers. 4.0.3
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

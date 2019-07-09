@@ -31,6 +31,7 @@ public class SettingsFragment extends Fragment {
     private Context context;
     private TextView settingsText;
     private Bundle audioBundle;
+    private ViewGroup settingsContainer;
 
     private SettingsFragment() {
         // no-args constructor
@@ -163,6 +164,8 @@ public class SettingsFragment extends Fragment {
                 // nothing
             }
         });
+
+        settingsContainer = container;
         return view;
     }
 
@@ -171,9 +174,10 @@ public class SettingsFragment extends Fragment {
     private void driftSpeedDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(context);
         // still get that view root null...
-        View inputView = inflater.inflate(R.layout.drift_speed_form, null);
+
+        View inputView = inflater.inflate(R.layout.drift_speed_form, settingsContainer, false);
         dialogBuilder.setView(inputView);
 
         final AlertDialog alertDialog;
@@ -214,8 +218,8 @@ public class SettingsFragment extends Fragment {
         // open dialog with field for carrierfrequency
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View inputView = inflater.inflate(R.layout.carrier_input_form, null);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View inputView = inflater.inflate(R.layout.carrier_input_form, settingsContainer, false);
         dialogBuilder.setView(inputView);
 
         final EditText userCarrierInput = inputView.findViewById(R.id.carrier_input);
@@ -260,8 +264,8 @@ public class SettingsFragment extends Fragment {
         // open dialog with 2 fields - carrier and limit
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View inputView = inflater.inflate(R.layout.drift_limit_form, null);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View inputView = inflater.inflate(R.layout.drift_limit_form, settingsContainer, false);
         dialogBuilder.setView(inputView);
 
         final EditText userLimitInput = inputView.findViewById(R.id.limit_input);

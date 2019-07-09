@@ -1,3 +1,7 @@
+### 4.0.3 (unreleased)
+* code cleanup
+* dialog view clean
+
 ### 4.0.2 (2019-7-10)
 * fix to sensorPortrait
 
