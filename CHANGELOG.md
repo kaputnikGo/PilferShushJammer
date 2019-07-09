@@ -1,3 +1,6 @@
+### 4.0.1 (unreleased)
+* fix to sensorPortrait
+
 ### 4.0.1 (2019-7-09)
 * bugfix for audioFocus
 * passive jammer mic state notify
