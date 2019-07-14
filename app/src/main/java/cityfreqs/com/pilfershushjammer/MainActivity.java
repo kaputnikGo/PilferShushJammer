@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO exceptions possibly at permissions ask at install and fragments
-        // error when first run after perms check, audioChecker not set correct audio params in audioBundle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
