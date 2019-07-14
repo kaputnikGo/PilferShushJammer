@@ -1,4 +1,6 @@
 ### 4.0.3 (unreleased)
+* permissions bugfix
+* audio type check
 * code cleanup
 * dialog view clean
 

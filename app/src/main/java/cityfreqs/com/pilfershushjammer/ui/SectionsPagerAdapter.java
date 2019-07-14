@@ -26,6 +26,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context = context;
         audioBundle = new Bundle();
+        //permissions check boolean
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16], false);
     }
 
     @Override
@@ -58,5 +60,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public void setDebugBoolean(boolean setBoolean) {
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], setBoolean);
+    }
+
+    public void permissionCheckPassed(boolean permissionCheck) {
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16], permissionCheck);
     }
 }

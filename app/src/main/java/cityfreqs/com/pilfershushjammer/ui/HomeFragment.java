@@ -306,6 +306,12 @@ public class HomeFragment extends Fragment {
             if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_7), false);
         }
         else {
+            // check audio type
+            if (!checkAudio()) {
+                //error in audio type getting
+                debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
+            }
+
             Intent startIntent = new Intent(getActivity(), PassiveJammerService.class);
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
@@ -346,6 +352,11 @@ public class HomeFragment extends Fragment {
             if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_8), false);
         }
         else {
+            // check audio type
+            if (!checkAudio()) {
+                //error in audio type getting
+                debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
+            }
             Intent startIntent = new Intent(getActivity(), ActiveJammerService.class);
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);
             startIntent.putExtras(audioBundle);
@@ -376,19 +387,7 @@ public class HomeFragment extends Fragment {
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
 
         //audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], MainActivity.DEBUG);
-
-        entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
-        if (!audioChecker.determineRecordAudioType()) {
-            // have a setup error getting the audio for record
-            entryLogger(getResources().getString(R.string.audio_check_1), true);
-            return;
-        }
-        entryLogger(getResources().getString(R.string.audio_check_pre_2), false);
-        if (!audioChecker.determineOutputAudioType()) {
-            // have a setup error getting the audio for output
-            entryLogger(getResources().getString(R.string.audio_check_2), true);
-            return;
-        }
+        checkAudio();
         // background checker
         backgroundChecker = new BackgroundChecker(context, audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]));
 
@@ -398,6 +397,38 @@ public class HomeFragment extends Fragment {
 
         debugLogger("Debug mode set: " + audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]), true);
         initBackgroundChecker();
+    }
+
+    private boolean checkAudio() {
+        if (!audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16])) {
+            // permidssions not granted, possible UI delay
+            debugLogger("INIT audiocheck has perms FALSE.", true);
+            return false;
+        }
+        else {
+            if (!determineAudio()) {
+                //
+                debugLogger("INIT determineAudio failed.", true);
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private boolean determineAudio() {
+        entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
+        if (!audioChecker.determineRecordAudioType()) {
+            // have a setup error getting the audio for record
+            entryLogger(getResources().getString(R.string.audio_check_1), true);
+            return false;
+        }
+        entryLogger(getResources().getString(R.string.audio_check_pre_2), false);
+        if (!audioChecker.determineOutputAudioType()) {
+            // have a setup error getting the audio for output
+            entryLogger(getResources().getString(R.string.audio_check_2), true);
+            return false;
+        }
+        return true;
     }
 
     private void initBackgroundChecker() {

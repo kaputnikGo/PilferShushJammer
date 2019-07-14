@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //TODO exceptions possibly at permissions ask at install and fragments
+        // error when first run after perms check, audioChecker not set correct audio params in audioBundle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -84,12 +86,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             REQUEST_AUDIO_PERMISSION);
                 }
             }
+            else {
+                //initApp
+                sectionsPagerAdapter.permissionCheckPassed(true);
+            }
         }
         else {
             // pre API 23, check permissions anyway
             if (!(PermissionChecker.checkSelfPermission(MainActivity.this,
                     Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_GRANTED)) {
                 closeApp();
+            }
+            else {
+                //initApp
+                sectionsPagerAdapter.permissionCheckPassed(true);
             }
         }
     }
@@ -266,6 +276,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.perms_state_3), Toast.LENGTH_LONG);
                 toast.show();
                 closeApp();
+            }
+            else {
+                //initApp
+                sectionsPagerAdapter.permissionCheckPassed(true);
             }
         }
         else {

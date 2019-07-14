@@ -44,7 +44,7 @@ public class AudioSettings {
             "audioSource", "sampleRate", "channelInConfig", "encoding",
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
-            "maxFreq", "bufferRead", "debug"
+            "maxFreq", "bufferRead", "debug", "permissions"
     };
 }
 

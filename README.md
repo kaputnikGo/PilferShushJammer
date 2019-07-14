@@ -36,6 +36,8 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
+- permissions bugfix
+- audio type check
 - set sensorPortrait orientation
 - audioFocus bugfix
 - passive jammer mic state notify
