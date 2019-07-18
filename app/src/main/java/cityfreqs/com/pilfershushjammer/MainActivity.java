@@ -31,10 +31,11 @@ import cityfreqs.com.pilfershushjammer.ui.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer-ACT";
-    public static final String VERSION = "4.0.3";
+    public static final String VERSION = "4.0.4";
     //public static final boolean DEBUG = true;
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private AlertDialog alertDialog;
+
     SectionsPagerAdapter sectionsPagerAdapter;
     ViewPager viewPager;
 
@@ -109,8 +110,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -119,7 +125,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
-    protected void onDestroy() {
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 

@@ -28,6 +28,7 @@ public class PassiveJammerService extends Service {
 
     private static final String CHANNEL_ID = "PilferShush";
     private static final String CHANNEL_NAME = "Passive Jammer";
+    private static final int NOTIFY_ID = 11;
 
     private PassiveJammer passiveJammer;
     private Bundle audioBundle;
@@ -122,7 +123,7 @@ public class PassiveJammerService extends Service {
 
             Notification notification = notifyPassiveBuilder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-            startForeground(1, notification);
+            startForeground(NOTIFY_ID, notification);
         }
     }
 

@@ -37,12 +37,8 @@ public class SettingsFragment extends Fragment {
         // no-args constructor
     }
 
-    private SettingsFragment(Bundle audioBundle) {
-        this.audioBundle = audioBundle;
-    }
-
     static SettingsFragment newInstance(Bundle audioBundle) {
-        SettingsFragment settingsFragment = new SettingsFragment(audioBundle);
+        SettingsFragment settingsFragment = new SettingsFragment();
 
         Bundle args = new Bundle();
         args.putBundle("audioBundle", audioBundle);
@@ -52,18 +48,22 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
         if (getArguments() != null) {
             audioBundle = getArguments().getBundle("audioBundle");
+            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+        }
+        else {
+            // catch for no args bundle.
+            entryLogger("Failed to load audio settings.", true);
         }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

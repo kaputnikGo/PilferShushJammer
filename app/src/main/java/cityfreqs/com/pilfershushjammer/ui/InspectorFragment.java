@@ -44,12 +44,8 @@ public class InspectorFragment extends Fragment {
         // no-args constructor
     }
 
-    private InspectorFragment(Bundle audioBundle) {
-        this.audioBundle = audioBundle;
-    }
-
     static InspectorFragment newInstance(Bundle audioBundle) {
-        InspectorFragment inspectorFragment = new InspectorFragment(audioBundle);
+        InspectorFragment inspectorFragment = new InspectorFragment();
 
         Bundle args = new Bundle();
         args.putBundle("audioBundle", audioBundle);
@@ -59,19 +55,23 @@ public class InspectorFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            audioBundle = getArguments().getBundle("audioBundle");
-        }
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+        if (getArguments() != null) {
+            audioBundle = getArguments().getBundle("audioBundle");
+            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+        }
+        else {
+            // catch for no args bundle.
+            entryLogger("Failed to load audio settings.", true);
+        }
         backgroundChecker = new BackgroundChecker(context, DEBUG);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

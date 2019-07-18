@@ -1,4 +1,9 @@
-### 4.0.3 (unreleased)
+### 4.0.4 (2019-7-18)
+* no args construct
+* unique notification IDs
+
+
+### 4.0.3 (2019-7-14)
 * permissions bugfix
 * audio type check
 * code cleanup

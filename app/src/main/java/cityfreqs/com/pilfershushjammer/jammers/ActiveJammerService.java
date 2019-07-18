@@ -26,6 +26,7 @@ public class ActiveJammerService extends Service {
 
     private static final String CHANNEL_ID = "PilferShush";
     private static final String CHANNEL_NAME = "Active Jammer";
+    private static final int NOTIFY_ID = 12;
 
     private ActiveJammer activeJammer;
     private Bundle audioBundle;
@@ -117,7 +118,7 @@ public class ActiveJammerService extends Service {
         //
         Notification notification = notifyActiveBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        startForeground(1, notification);
+        startForeground(NOTIFY_ID, notification);
     }
 
     private void stopActiveService() {

@@ -64,17 +64,12 @@ public class HomeFragment extends Fragment {
         // no-args constructor
     }
 
-    private HomeFragment(Bundle audioBundle) {
-        this.audioBundle = audioBundle;
-    }
-
     static HomeFragment newInstance(Bundle audioBundle) {
-        HomeFragment homeFragment = new HomeFragment(audioBundle);
+        HomeFragment homeFragment = new HomeFragment();
 
         Bundle args = new Bundle();
         args.putBundle("audioBundle", audioBundle);
         homeFragment.setArguments(args);
-
         return homeFragment;
     }
 
@@ -82,18 +77,22 @@ public class HomeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+        if (getArguments() != null) {
+            audioBundle = getArguments().getBundle("audioBundle");
+            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+        }
+        else {
+            // catch for no args bundle, will need to create new audioBundle with perms var...
+            entryLogger("Failed to load audio settings.", true);
+        }
         audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
         audioChecker = new AudioChecker(context, audioBundle);
-        DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
         debugLogger("ON-ATTACH", false);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            audioBundle = getArguments().getBundle("audioBundle");
-        }
     }
 
     @Override
