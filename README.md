@@ -36,11 +36,10 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
-- no args constructors
-- unique notification IDs
+- changed audio focus loss handling to system (automatic)
 
 
-   vers. 4.0.4
+   vers. 4.0.5
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

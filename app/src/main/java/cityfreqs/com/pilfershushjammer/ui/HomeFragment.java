@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
 
     private boolean PASSIVE_RUNNING;
     private boolean ACTIVE_RUNNING;
-    private boolean IRQ_TELEPHONY;
     private boolean DEBUG;
 
     private TextView homeText;
@@ -133,11 +132,9 @@ public class HomeFragment extends Fragment {
             LocalBroadcastManager.getInstance(getActivity()).registerReceiver(passiveReceiver,
                     new IntentFilter("passive_running"));
         }
-
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
-        IRQ_TELEPHONY = sharedPrefs.getBoolean("irq_telephony", false);
         //DEBUG = sharedPrefs.getBoolean("debug", false);
 
         // override check for return from system destroy
@@ -160,26 +157,15 @@ public class HomeFragment extends Fragment {
 
         int status = audioFocusCheck();
 
-        if (IRQ_TELEPHONY && PASSIVE_RUNNING) {
-            // return from background with state irq_telephony and passive_running
-            // check audio focus status
+        if (PASSIVE_RUNNING) {
+            // return from background
             if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-
                 if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_5), false);
-                // reset booleans to init state
-                PASSIVE_RUNNING = false;
-                IRQ_TELEPHONY = false;
-                // cancel notification as part of reset
-                //runPassive();
             }
-            // we could be checking against ourselves...
             else if (status == AudioManager.AUDIOFOCUS_LOSS) {
                 // possible music player etc that has speaker focus but no need of microphone,
                 if (DEBUG) entryLogger(getResources().getString(R.string.resume_status_6), false);
             }
-        }
-        else if (PASSIVE_RUNNING) {
-            // return from background without irq_telephony
             entryLogger(getResources().getString(R.string.app_status_1), true);
             // check button state on
             if (!passiveJammerButton.isChecked()) {
@@ -218,16 +204,7 @@ public class HomeFragment extends Fragment {
         sharedPrefsEditor = sharedPrefs.edit();
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
-        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
-        //sharedPrefsEditor.putBoolean("debug", DEBUG);
         sharedPrefsEditor.apply();
-        // check toggle jammer off (UI) due to irq_telephony
-        if (PASSIVE_RUNNING && IRQ_TELEPHONY) {
-            stopPassive();
-        }
-        if (ACTIVE_RUNNING && IRQ_TELEPHONY) {
-            stopActive();
-        }
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(passiveReceiver);
     }
 
@@ -240,8 +217,6 @@ public class HomeFragment extends Fragment {
         sharedPrefsEditor = sharedPrefs.edit();
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
-        sharedPrefsEditor.putBoolean("irq_telephony", IRQ_TELEPHONY);
-        //sharedPrefsEditor.putBoolean("debug", DEBUG);
         sharedPrefsEditor.apply();
     }
 
@@ -310,7 +285,6 @@ public class HomeFragment extends Fragment {
                 //error in audio type getting
                 debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
             }
-
             Intent startIntent = new Intent(getActivity(), PassiveJammerService.class);
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
@@ -385,7 +359,6 @@ public class HomeFragment extends Fragment {
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
 
-        //audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], MainActivity.DEBUG);
         checkAudio();
         // background checker
         backgroundChecker = new BackgroundChecker(context, audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]));
@@ -400,7 +373,7 @@ public class HomeFragment extends Fragment {
 
     private boolean checkAudio() {
         if (!audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16])) {
-            // permidssions not granted, possible UI delay
+            // permissions not granted, possible UI delay
             debugLogger("INIT audiocheck has perms FALSE.", true);
             return false;
         }
@@ -477,7 +450,6 @@ public class HomeFragment extends Fragment {
     private int audioFocusCheck() {
         if (DEBUG) entryLogger("AudioFocus check", false);
         // note: api 26+ use AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-
         // NOTE: no resource context available in onAudioFocusChange
         final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -494,8 +466,6 @@ public class HomeFragment extends Fragment {
                         // temporary loss ? API docs says a "transient loss"!
                         debugLogger("Audio Focus Listener: LOSS_TRANSIENT.", false);
                         // system forced loss, assuming telephony
-                        debugLogger("IRQ_TELEPHONY loss_transient.", false);
-                        IRQ_TELEPHONY = true;
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         // -3

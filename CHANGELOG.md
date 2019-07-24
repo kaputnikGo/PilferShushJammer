@@ -1,3 +1,6 @@
+### 4.0.5 (2019-7-24)
+* changed audio focus loss handling to system
+
 ### 4.0.4 (2019-7-18)
 * no args construct
 * unique notification IDs
