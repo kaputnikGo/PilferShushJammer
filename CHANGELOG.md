@@ -1,3 +1,7 @@
+### 4.0.6 (unreleased)
+* bugfix checkOnboardEQ
+* split determineAudio function
+
 ### 4.0.5 (2019-7-24)
 * changed audio focus loss handling to system
 
