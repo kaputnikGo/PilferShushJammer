@@ -39,11 +39,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     SectionsPagerAdapter sectionsPagerAdapter;
     ViewPager viewPager;
 
-    //TODO
-    // change behaviour for AudioChecker/testOnboardEQ() to EQ settings only on active jammer run
-    // HomeFragment/runPassive() -> checkAudio() -> determineAudio() add switch for passive call to only audioChecker.determineRecordAudioType()
-    //  and active call can only check for audioChecker.determineOutputAudioType()
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

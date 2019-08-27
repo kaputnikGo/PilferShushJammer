@@ -39,6 +39,11 @@ import static android.content.Context.AUDIO_SERVICE;
 public class HomeFragment extends Fragment {
     private static final String TAG = "PilferShush_Jammer-HOME";
 
+    // separate determineAudio() requests to originator specific
+    private static final int INIT_REQ = 0;
+    private static final int PASS_REQ = 1;
+    private static final int ACTV_REQ = 2;
+
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
 
@@ -281,7 +286,7 @@ public class HomeFragment extends Fragment {
         }
         else {
             // check audio type
-            if (!checkAudio()) {
+            if (!checkAudio(PASS_REQ)) {
                 //error in audio type getting
                 debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
             }
@@ -326,7 +331,7 @@ public class HomeFragment extends Fragment {
         }
         else {
             // check audio type
-            if (!checkAudio()) {
+            if (!checkAudio(ACTV_REQ)) {
                 //error in audio type getting
                 debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
             }
@@ -359,7 +364,7 @@ public class HomeFragment extends Fragment {
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
 
-        checkAudio();
+        checkAudio(INIT_REQ);
         // background checker
         backgroundChecker = new BackgroundChecker(context, audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]));
 
@@ -371,14 +376,14 @@ public class HomeFragment extends Fragment {
         initBackgroundChecker();
     }
 
-    private boolean checkAudio() {
+    private boolean checkAudio(int requester) {
         if (!audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16])) {
             // permissions not granted, possible UI delay
             debugLogger("INIT audiocheck has perms FALSE.", true);
             return false;
         }
         else {
-            if (!determineAudio()) {
+            if (!determineAudio(requester)) {
                 //
                 debugLogger("INIT determineAudio failed.", true);
                 return false;
@@ -387,18 +392,24 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private boolean determineAudio() {
-        entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
-        if (!audioChecker.determineRecordAudioType()) {
-            // have a setup error getting the audio for record
-            entryLogger(getResources().getString(R.string.audio_check_1), true);
-            return false;
+    private boolean determineAudio(int requester) {
+        // due to conflicts with AudioFocus, init calls only check for audio record.
+        // if the active jammer is engaged it will check for output as per usual.
+        if (requester == PASS_REQ || requester == INIT_REQ) {
+            entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
+            if (!audioChecker.determineRecordAudioType()) {
+                // have a setup error getting the audio for record
+                entryLogger(getResources().getString(R.string.audio_check_1), true);
+                return false;
+            }
         }
-        entryLogger(getResources().getString(R.string.audio_check_pre_2), false);
-        if (!audioChecker.determineOutputAudioType()) {
-            // have a setup error getting the audio for output
-            entryLogger(getResources().getString(R.string.audio_check_2), true);
-            return false;
+        if (requester == ACTV_REQ) {
+            entryLogger(getResources().getString(R.string.audio_check_pre_2), false);
+            if (!audioChecker.determineOutputAudioType()) {
+                // have a setup error getting the audio for output
+                entryLogger(getResources().getString(R.string.audio_check_2), true);
+                return false;
+            }
         }
         return true;
     }

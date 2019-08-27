@@ -198,6 +198,7 @@ public class AudioChecker {
 
     // testing android/media/audiofx/Equalizer
     // idea is to make the whitenoise less annoying
+    // vers 4.0.6 - rem'ing the EQ changes, is now merely a report function
     private boolean testOnboardEQ(int audioSessionId) {
         try {
             Equalizer equalizer = new Equalizer(0, audioSessionId);
@@ -224,7 +225,12 @@ public class AudioChecker {
                     // could be 21kHz if report standard of same min to max applies.
                 }
             }
+
+            // vers 4.0.6 - Equalizer appears to be NOT application specific, and is applied across device:
+            // Removing the EQ changes as the Active jammer is currently not optimal.
+
             // only active test is to squash all freqs in bands 0-3, leaving last band (4) free...
+            /*
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
                 debugLogger("\n" + context.getString(R.string.eq_check_7) + minEQ, false);
             }
@@ -234,6 +240,7 @@ public class AudioChecker {
                     equalizer.setBandLevel(j, minEQ);
                 }
             }
+            */
             // not a filter... reduced amplitude seems the best description when using eq.
             // repeat calls to -15 dB improves sound reduction
             // band4 to maxEQ will prob not do anything useful?

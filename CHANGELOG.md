@@ -1,6 +1,6 @@
-### 4.0.6 (unreleased)
-* bugfix checkOnboardEQ
-* split determineAudio function
+### 4.0.6 (2019-8-27)
+* remove EQ set in checkOnboardEQ as not application specific
+* split determineAudio function to only check output if active jammer engaged
 
 ### 4.0.5 (2019-7-24)
 * changed audio focus loss handling to system
@@ -8,7 +8,6 @@
 ### 4.0.4 (2019-7-18)
 * no args construct
 * unique notification IDs
-
 
 ### 4.0.3 (2019-7-14)
 * permissions bugfix
