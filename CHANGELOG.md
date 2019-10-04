@@ -1,4 +1,4 @@
-### 4.1.0 (unreleased)
+### 4.1.0 (2019-10-05)
 * add notifications toggle for passive jammer off
 
 ### 4.0.6 (2019-8-27)
