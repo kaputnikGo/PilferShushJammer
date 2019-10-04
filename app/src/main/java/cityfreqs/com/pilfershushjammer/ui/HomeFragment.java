@@ -35,6 +35,7 @@ import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.Context.AUDIO_SERVICE;
+import static cityfreqs.com.pilfershushjammer.jammers.PassiveJammerService.ACTION_STOP_PASSIVE;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "PilferShush_Jammer-HOME";
@@ -319,7 +320,7 @@ public class HomeFragment extends Fragment {
 
     private void stopPassive() {
         Intent stopIntent = new Intent(getActivity(), PassiveJammerService.class);
-        stopIntent.setAction(PassiveJammerService.ACTION_STOP_PASSIVE);
+        stopIntent.setAction(ACTION_STOP_PASSIVE);
         context.startService(stopIntent);
         PASSIVE_RUNNING = false;
         entryLogger(getResources().getString(R.string.main_scanner_4), true);
@@ -333,7 +334,7 @@ public class HomeFragment extends Fragment {
             // check audio type
             if (!checkAudio(ACTV_REQ)) {
                 //error in audio type getting
-                debugLogger("Tried to start Passive Jammer without microphone permissions.", true);
+                debugLogger("Failed to start Active Jammer at checkAudio().", true);
             }
             Intent startIntent = new Intent(getActivity(), ActiveJammerService.class);
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);

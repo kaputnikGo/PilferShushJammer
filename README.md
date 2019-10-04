@@ -29,6 +29,7 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
+- Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
 - rebuild the active jammer (testing with Oboe)
 - consider user app summary include and print package name of NUHF/ACR if found
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
@@ -36,11 +37,10 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
-- removed onboardEQ settings of EQ as changes are not application specific
-- split determineAudio function to only check output if active jammer is engaged: due to AudioFocus loss conflicts
+- add notifications toggle for passive jammer off
 
 
-   vers. 4.0.6
+   vers. 4.1.0
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

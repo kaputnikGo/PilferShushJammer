@@ -1,3 +1,6 @@
+### 4.1.0 (unreleased)
+* add notifications toggle for passive jammer off
+
 ### 4.0.6 (2019-8-27)
 * remove EQ set in checkOnboardEQ as not application specific
 * split determineAudio function to only check output if active jammer engaged

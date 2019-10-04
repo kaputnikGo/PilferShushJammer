@@ -5,8 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -51,6 +53,7 @@ public class PassiveJammerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        registerReceiver(notifyStopReceiver, new IntentFilter("notifyStopPassive"));
         audioBundle = new Bundle();
         if (intent != null) {
             audioBundle = intent.getExtras();
@@ -85,6 +88,10 @@ public class PassiveJammerService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent,0);
 
+        Intent notifyStopIntent = new Intent("notifyStopPassive");
+        PendingIntent notifyStopPendingIntent = PendingIntent.getBroadcast(this,
+                0, notifyStopIntent, 0);
+
         NotificationManager notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
@@ -101,6 +108,7 @@ public class PassiveJammerService extends Service {
                 .setContentTitle(getResources().getString(R.string.app_status_10))
                 .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)
+                .addAction(R.mipmap.ic_stat_logo_notify_jammer, getString(R.string.notify_stop_button), notifyStopPendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setPriority(Notification.PRIORITY_LOW)
                 .setOngoing(true)
@@ -138,6 +146,7 @@ public class PassiveJammerService extends Service {
         notifyFragment("false");
         stopForeground(true);
         stopSelf();
+        unregisterReceiver(notifyStopReceiver);
     }
 
     private void notifyFragment(String running) {
@@ -147,4 +156,16 @@ public class PassiveJammerService extends Service {
         intent.putExtra("message", running);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
+
+    private final BroadcastReceiver notifyStopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action != null) {
+                if (action.equals("notifyStopPassive")) {
+                    stopPassiveService();
+                }
+            }
+        }
+    };
 }

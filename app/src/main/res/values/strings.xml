@@ -28,6 +28,7 @@
     <string name="dialog_button_dismiss">Dismiss</string>
     <string name="dialog_button_continue">Continue</string>
     <string name="dialog_button_source">GITHUB</string>
+    <string name="notify_stop_button">STOP PASSIVE</string>
 
     <string name="options_dialog_1">Buffer read lock</string>
 
