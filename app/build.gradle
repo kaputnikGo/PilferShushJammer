@@ -6,7 +6,7 @@ android {
         applicationId "cityfreqs.com.pilfershushjammer"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 29
+        versionCode 30
         versionName "4.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
