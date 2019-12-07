@@ -39,6 +39,7 @@ Therefore, your app should record audio only when it's in the foreground or
 **Changes:**
 - add scrollview to settings fragment for small screens
 - add to SDK names
+- rem AndroidStudio erroneous code help
 
 
    vers. 4.1.1

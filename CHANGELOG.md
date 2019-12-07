@@ -1,6 +1,7 @@
 ### 4.1.1 (unreleased)
 * add scrollview to settings fragment for small screens
 * add to SDK names
+* remove codehelp for perms checker
 
 ### 4.1.0 (2019-10-05)
 * add notifications toggle for passive jammer off

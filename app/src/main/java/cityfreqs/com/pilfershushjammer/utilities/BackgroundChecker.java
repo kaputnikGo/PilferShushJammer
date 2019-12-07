@@ -216,8 +216,12 @@ public class BackgroundChecker {
                             (String) packageInfo.applicationInfo.loadLabel(packageManager));
                     // check for specific permissions
                     for (String permsString: packageInfo.requestedPermissions) {
-                        appEntry.setBootCheck(permsString.contains(BOOT_PERMISSION));
-                        appEntry.setRecordable(permsString.contains(RECORD_PERMISSION));
+                        if (permsString.contains(BOOT_PERMISSION)) {
+                            appEntry.setBootCheck(true);
+                        }
+                        if (permsString.contains(RECORD_PERMISSION)) {
+                            appEntry.setRecordable(true);
+                        }
                     }
 
                     // check for services and receivers
