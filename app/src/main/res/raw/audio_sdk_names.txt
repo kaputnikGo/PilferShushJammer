@@ -19,6 +19,7 @@ hound
 inscape
 instreamatic
 intrasonics
+kantar
 kitt
 lisnr
 moodmedia
