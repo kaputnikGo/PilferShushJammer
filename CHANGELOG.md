@@ -1,4 +1,4 @@
-### 4.1.2 (unreleased)
+### 4.1.2 (2020-2-03)
 * version bump for F-Droid skip
 * new SDK name
 * update buildtools and AndroidStudio 3.5.3
