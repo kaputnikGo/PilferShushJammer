@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 28 (Pie, 9.0), Android Studio 3.4.2 stable
+Build update: compile API 28 (Pie, 9.0), Android Studio 3.5.3 stable
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -37,12 +37,11 @@ Therefore, your app should record audio only when it's in the foreground or
 
 
 **Changes:**
-- add scrollview to settings fragment for small screens
-- add to SDK names
-- rem AndroidStudio erroneous code help
+- update build tools
+- new SDK name
 
 
-   vers. 4.1.1
+   vers. 4.1.2
    - min API 18 (4.3)
    - target API 26 (8.x)
    - compiled API 28 (9.x)

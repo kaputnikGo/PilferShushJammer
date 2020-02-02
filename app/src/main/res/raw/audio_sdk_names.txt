@@ -11,6 +11,7 @@ copsonic
 cueaudio
 digimarc
 dv
+fanpictor
 fidzup
 fluzo
 gracenote

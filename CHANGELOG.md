@@ -1,3 +1,8 @@
+### 4.1.2 (unreleased)
+* version bump for F-Droid skip
+* new SDK name
+* update buildtools and AndroidStudio 3.5.3
+
 ### 4.1.1 (2019-12-08)
 * add scrollview to settings fragment for small screens
 * add to SDK names
