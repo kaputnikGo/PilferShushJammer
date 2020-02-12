@@ -1,5 +1,5 @@
 ### 4.1.3 (unreleased)
-* new SDK name
+* new SDK names
 
 ### 4.1.2 (2020-2-03)
 * version bump for F-Droid skip
