@@ -2,8 +2,11 @@ package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
 import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.io.IOException;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
@@ -14,6 +17,10 @@ public class PassiveJammer {
     private Context context;
     private Bundle audioBundle;
     private AudioRecord audioRecord;
+    // MediaRecorder versions
+    private MediaRecorder recorder;
+    private static String mediaRecorderFileName;
+
     private boolean DEBUG;
 
     public PassiveJammer(Context context, Bundle audioBundle) {
@@ -119,6 +126,35 @@ public class PassiveJammer {
         // uninitialised state
         debugLogger(context.getResources().getString(R.string.passive_state_8), true);
         return false;
+    }
+
+    //TODO
+    boolean runMediaRecorderJammer() {
+        // need a stopMediaEncoderJammer()
+        recorder = new MediaRecorder();
+        // hopefully defaults are enough,
+        // if not then need an AudioChecker to >=API9 method to populate AudioBundle with new keys
+        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        // audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0])
+
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        recorder.setOutputFile(mediaRecorderFileName);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+
+        try {
+            // prepare call may lock up mic, check
+            // EXception if it is called after start() or before setOutputFormat().
+            // MediaRecorder.java source has it only checking file exists not mic hardware
+            recorder.prepare();
+        }
+        catch (IOException e) {
+            debugLogger("EncoderJammer prepare() failed", true);
+            return false;
+        }
+        // need this?
+        recorder.start();
+        // is a null file workable?
+        return true;
     }
 
     void stopPassiveJammer() {

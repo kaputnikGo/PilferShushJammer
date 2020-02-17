@@ -21,6 +21,7 @@ inscape
 instreamatic
 intrasonics
 kantar
+kantarmedia
 kitt
 lisnr
 moodmedia
