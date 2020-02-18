@@ -27,10 +27,10 @@ public class PassiveJammer {
         this.context = context;
         this.audioBundle = audioBundle;
         DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
-        // Record to the external cache directory for visibility
+        // reserve a file handle in the application specific cache directory in the filesystem
         placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
         placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
-
+        // it is never written to.
     }
 
     boolean startPassiveJammer() {
@@ -95,10 +95,10 @@ public class PassiveJammer {
                     if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                         // testing
                         if (runMediaRecorderPlacebo()) {
-                            debugLogger("MediaRecorderPlacebo running.", true);
+                            debugLogger(context.getResources().getString(R.string.passive_state_12), true);
                         }
                         else {
-                            debugLogger("MediaRecorderPlacebo not running", true);
+                            debugLogger(context.getResources().getString(R.string.passive_state_13), true);
                         }
                         //
                         return true;
@@ -153,7 +153,7 @@ public class PassiveJammer {
             placeboRecorder.prepare();
         }
         catch (IOException e) {
-            debugLogger("MediaRecorderPlacebo prepare() failed", true);
+            debugLogger(context.getResources().getString(R.string.passive_state_14), true);
             return false;
         }
         // do not need to start() as we just want MediaRecorder in a service
@@ -166,10 +166,12 @@ public class PassiveJammer {
     }
 
     private void stopMediaRecorderPlacebo() {
-        //recorder.stop(); // <- has not started so no need to stop.
-        placeboRecorder.release();
-        placeboRecorder = null;
-        debugLogger("MediaRecorderPlacebo stop and null", true);
+        if (placeboRecorder != null) {
+            //placeboRecorder.stop(); // <- has not started so no need to stop.
+            placeboRecorder.release();
+            placeboRecorder = null;
+        }
+        debugLogger(context.getResources().getString(R.string.passive_state_15), true);
     }
 
     void stopPassiveJammer() {

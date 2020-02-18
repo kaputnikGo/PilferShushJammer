@@ -171,6 +171,10 @@
     <string name="passive_state_9">Passive Jammer stop and release.</string>
     <string name="passive_state_10">Passive Jammer not running.</string>
     <string name="passive_state_11">Passive Jammer buffer read lock.</string>
+    <string name="passive_state_12">MediaRecorderPlacebo running.</string>
+    <string name="passive_state_13">MediaRecorderPlacebo not running.</string>
+    <string name="passive_state_14">MediaRecorderPlacebo prepare() failed.</string>
+    <string name="passive_state_15">MediaRecorderPlacebo release and null.</string>
 
         <!--
         ActiveJammer.java
