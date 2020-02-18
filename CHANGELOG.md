@@ -1,5 +1,7 @@
-### 4.1.3 (unreleased)
+### 4.2.0 (unreleased)
 * new SDK names
+* MediaRecorder placebo in passive jammer service
+* remove deprecated LocalBroadcastManager
 
 ### 4.1.2 (2020-2-03)
 * version bump for F-Droid skip

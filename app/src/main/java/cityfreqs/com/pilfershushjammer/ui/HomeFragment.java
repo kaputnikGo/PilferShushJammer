@@ -24,7 +24,6 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.jammers.ActiveJammerService;
@@ -63,7 +62,6 @@ public class HomeFragment extends Fragment {
 
     private AudioManager audioManager;
     private BackgroundChecker backgroundChecker;
-
 
     private HomeFragment() {
         // no-args constructor
@@ -117,7 +115,6 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // called when fragment's activity method has returned
         debugLogger("OnActivityCreated called.", false);
-
         initApplication();
     }
 
@@ -135,9 +132,10 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         if (getActivity() != null) {
-            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(passiveReceiver,
+            getActivity().registerReceiver(passiveReceiver,
                     new IntentFilter("passive_running"));
         }
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         PASSIVE_RUNNING = sharedPrefs.getBoolean("passive_running", false);
         ACTIVE_RUNNING = sharedPrefs.getBoolean("active_running", false);
@@ -211,7 +209,10 @@ public class HomeFragment extends Fragment {
         sharedPrefsEditor.putBoolean("passive_running", PASSIVE_RUNNING);
         sharedPrefsEditor.putBoolean("active_running", ACTIVE_RUNNING);
         sharedPrefsEditor.apply();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(passiveReceiver);
+
+        if (getActivity() != null) {
+            getActivity().unregisterReceiver(passiveReceiver);
+        }
     }
 
     @Override
@@ -540,6 +541,8 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
+    //TODO
+    // replace with jammerModel livedata
     private BroadcastReceiver passiveReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

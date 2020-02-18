@@ -18,8 +18,8 @@ public class PassiveJammer {
     private Bundle audioBundle;
     private AudioRecord audioRecord;
     // MediaRecorder versions
-    private MediaRecorder recorder;
-    private static String mediaRecorderFileName;
+    private MediaRecorder placeboRecorder;
+    private static String placeboMediaRecorderFileName;
 
     private boolean DEBUG;
 
@@ -27,6 +27,10 @@ public class PassiveJammer {
         this.context = context;
         this.audioBundle = audioBundle;
         DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+        // Record to the external cache directory for visibility
+        placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
+        placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
+
     }
 
     boolean startPassiveJammer() {
@@ -89,6 +93,14 @@ public class PassiveJammer {
 
                     // check for running audioRecord
                     if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+                        // testing
+                        if (runMediaRecorderPlacebo()) {
+                            debugLogger("MediaRecorderPlacebo running.", true);
+                        }
+                        else {
+                            debugLogger("MediaRecorderPlacebo not running", true);
+                        }
+                        //
                         return true;
                     }
                     else {
@@ -129,32 +141,35 @@ public class PassiveJammer {
     }
 
     //TODO
-    boolean runMediaRecorderJammer() {
-        // need a stopMediaEncoderJammer()
-        recorder = new MediaRecorder();
-        // hopefully defaults are enough,
-        // if not then need an AudioChecker to >=API9 method to populate AudioBundle with new keys
-        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-        // audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0])
-
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        recorder.setOutputFile(mediaRecorderFileName);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+    private boolean runMediaRecorderPlacebo() {
+        placeboRecorder = new MediaRecorder();
+        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
+        placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
 
         try {
-            // prepare call may lock up mic, check
-            // EXception if it is called after start() or before setOutputFormat().
-            // MediaRecorder.java source has it only checking file exists not mic hardware
-            recorder.prepare();
+            // MediaRecorder.java only checks for file exists, not mic hardware
+            placeboRecorder.prepare();
         }
         catch (IOException e) {
-            debugLogger("EncoderJammer prepare() failed", true);
+            debugLogger("MediaRecorderPlacebo prepare() failed", true);
             return false;
         }
-        // need this?
-        recorder.start();
-        // is a null file workable?
+        // do not need to start() as we just want MediaRecorder in a service
+        // so just prep up to using a new MediaRecorder() object that sits in service
+        // while AudioRecord does the actual mic blocking
+
+        // recorder.start();
+
         return true;
+    }
+
+    private void stopMediaRecorderPlacebo() {
+        //recorder.stop(); // <- has not started so no need to stop.
+        placeboRecorder.release();
+        placeboRecorder = null;
+        debugLogger("MediaRecorderPlacebo stop and null", true);
     }
 
     void stopPassiveJammer() {
@@ -164,6 +179,9 @@ public class PassiveJammer {
             }
             audioRecord.release();
             audioRecord = null;
+            // testing
+            stopMediaRecorderPlacebo();
+            //
             debugLogger(context.getResources().getString(R.string.passive_state_9), false);
         }
         else {

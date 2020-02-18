@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import cityfreqs.com.pilfershushjammer.MainActivity;
 import cityfreqs.com.pilfershushjammer.R;
@@ -154,7 +153,8 @@ public class PassiveJammerService extends Service {
         Intent intent = new Intent("passive_running");
         // You can also include some extra data.
         intent.putExtra("message", running);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        sendBroadcast(intent);
+        //
     }
 
     private final BroadcastReceiver notifyStopReceiver = new BroadcastReceiver() {

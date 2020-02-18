@@ -31,7 +31,7 @@ import cityfreqs.com.pilfershushjammer.ui.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer-ACT";
-    public static final String VERSION = "4.1.3";
+    public static final String VERSION = "4.2.0";
     //public static final boolean DEBUG = true;
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private AlertDialog alertDialog;
