@@ -83,7 +83,7 @@ Therefore, your app should record audio only when it's in the foreground or
 - Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
 
-# 2019 Kaputnik Go
+# 2020 Kaputnik Go
 
 
 Licensed under the Apache License, Version 2.0 (the "License");
