@@ -93,14 +93,13 @@ public class PassiveJammer {
 
                     // check for running audioRecord
                     if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
-                        // testing
+                        // check MediaRecord placebo function running
                         if (runMediaRecorderPlacebo()) {
                             debugLogger(context.getResources().getString(R.string.passive_state_12), true);
                         }
                         else {
                             debugLogger(context.getResources().getString(R.string.passive_state_13), true);
                         }
-                        //
                         return true;
                     }
                     else {
@@ -142,6 +141,8 @@ public class PassiveJammer {
 
     //TODO
     private boolean runMediaRecorderPlacebo() {
+        // as per changes to API28+ background mic use now only available to
+        // foreground services using the MediaRecorder instance
         placeboRecorder = new MediaRecorder();
         placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
@@ -156,10 +157,9 @@ public class PassiveJammer {
             debugLogger(context.getResources().getString(R.string.passive_state_14), true);
             return false;
         }
-        // do not need to start() as we just want MediaRecorder in a service
-        // so just prep up to using a new MediaRecorder() object that sits in service
-        // while AudioRecord does the actual mic blocking
-
+        // need to prepare() the MediaRecorder() object only
+        // AudioRecord does the actual mic blocking
+        // will not use start() method as that writes audio data to file
         // recorder.start();
 
         return true;

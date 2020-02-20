@@ -2,6 +2,7 @@
 * new SDK names
 * MediaRecorder placebo in passive jammer service
 * remove deprecated LocalBroadcastManager
+* updated dev device to Android 9
 
 ### 4.1.2 (2020-2-03)
 * version bump for F-Droid skip
