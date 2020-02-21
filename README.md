@@ -29,8 +29,6 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
-- testing: Android 9 passive to use MediaRecorder placebo in foreground service
-
 - Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
@@ -40,7 +38,7 @@ Therefore, your app should record audio only when it's in the foreground or
 
 **Changes:**
 - new SDK names
-- MediaRecorder placebo function for passive jammer as service
+- MediaRecorder placebo function for passive jammer as service API28+
 - remove deprecated LocalBroadcastManager
 - update dev device to Android 9
 

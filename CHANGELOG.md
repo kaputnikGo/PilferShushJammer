@@ -1,6 +1,6 @@
-### 4.2.0 (unreleased)
+### 4.2.0 (2020-2-21)
 * new SDK names
-* MediaRecorder placebo in passive jammer service
+* MediaRecorder placebo in passive jammer service for API28+
 * remove deprecated LocalBroadcastManager
 * updated dev device to Android 9
 
