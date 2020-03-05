@@ -541,8 +541,6 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
-    //TODO
-    // replace with jammerModel livedata
     private BroadcastReceiver passiveReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

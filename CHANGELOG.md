@@ -1,3 +1,6 @@
+### 4.3.0 (unreleased)
+*added headset receiver to passive service to autoswitch inputs
+
 ### 4.2.0 (2020-2-21)
 * new SDK names
 * MediaRecorder placebo in passive jammer service for API28+

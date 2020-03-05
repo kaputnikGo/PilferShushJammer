@@ -22,28 +22,26 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 28 (Pie, 9.0), Android Studio 3.5.3 stable
+Build update: compile API 28 (Pie, 9.0), Android Studio 3.6.1 stable
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
 **when you include an instance of MediaRecorder in a foreground service.**
 
 **TODO:**
+- consider optional jammer state persistence over boot
+- consider min API bump to 23 (6.x)
 - Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
 - consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
-- consider optional jammer state persistence over boot
 
 
 **Changes:**
-- new SDK names
-- MediaRecorder placebo function for passive jammer as service API28+
-- remove deprecated LocalBroadcastManager
-- update dev device to Android 9
+- hotplug headset input source switch when passive is running
 
 
-   vers. 4.2.0
+   vers. 4.3.0
    - min API 18 (4.3)
    - target API 28 (9.x)
    - compiled API 28 (9.x)

@@ -53,6 +53,8 @@ public class PassiveJammerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         registerReceiver(notifyStopReceiver, new IntentFilter("notifyStopPassive"));
+        registerReceiver(headsetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+
         audioBundle = new Bundle();
         if (intent != null) {
             audioBundle = intent.getExtras();
@@ -142,10 +144,26 @@ public class PassiveJammerService extends Service {
                     Toast.LENGTH_SHORT).show();
         }
         //
+        unregisterReceiver(headsetReceiver);
         notifyFragment("false");
         stopForeground(true);
         stopSelf();
         unregisterReceiver(notifyStopReceiver);
+    }
+
+    private void toggleHeadset() {
+        // catch any hotplug change in mic hardware
+        // stop currently running passive
+        if (passiveJammer != null) {
+            passiveJammer.stopPassiveJammer();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.service_state_5),
+                    Toast.LENGTH_SHORT).show();
+        }
+        notifyFragment("false");
+        stopForeground(true);
+        // then restart
+        startPassiveService();
     }
 
     private void notifyFragment(String running) {
@@ -164,6 +182,31 @@ public class PassiveJammerService extends Service {
             if (action != null) {
                 if (action.equals("notifyStopPassive")) {
                     stopPassiveService();
+                }
+            }
+        }
+    };
+
+    private final BroadcastReceiver headsetReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == null) {
+                return;
+            }
+
+            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+                int state = intent.getIntExtra("state", -1);
+                switch (state) {
+                    case 0:
+                        Log.d("PSJAM_PASSIVE", "Headset not present.");
+                        toggleHeadset();
+                        break;
+                    case 1:
+                        Log.d("PSJAM_PASSIVE", "Headset present.");
+                        toggleHeadset();
+                        break;
+                    default:
+                        Log.d("PSJAM_PASSIVE", "Headset state unknown.");
                 }
             }
         }
