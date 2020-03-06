@@ -28,13 +28,15 @@ Note: On devices running Android 9 (API level 28) or higher, apps running in the
 Therefore, your app should record audio only when it's in the foreground or 
 **when you include an instance of MediaRecorder in a foreground service.**
 
+Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is deprecated in Android 9 and will stop working with a Security Ex error in Android 10
+
 **TODO:**
+- Android 10 concurrent audio capture policy
+- Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
-- Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
-- consider setCameraDisabled(ComponentName admin, boolean disabled) in menu, to run with passive
 
 
 **Changes:**
