@@ -31,7 +31,6 @@ public class InspectorFragment extends Fragment {
     private boolean DEBUG;
 
     private Context context;
-    private Bundle audioBundle;
 
     private BackgroundChecker backgroundChecker;
     private TextView scannerText;
@@ -40,7 +39,7 @@ public class InspectorFragment extends Fragment {
     private ImageButton appInspectButton;
     private ImageButton sdkListButton;
 
-    private InspectorFragment() {
+    public InspectorFragment() {
         // no-args constructor
     }
 
@@ -55,12 +54,14 @@ public class InspectorFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
         if (getArguments() != null) {
-            audioBundle = getArguments().getBundle("audioBundle");
-            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            Bundle audioBundle = getArguments().getBundle("audioBundle");
+            if (audioBundle != null) {
+                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            }
         }
         else {
             // catch for no args bundle.

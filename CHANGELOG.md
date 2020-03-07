@@ -1,5 +1,6 @@
 ### 4.3.0 (unreleased)
-*added headset receiver to passive service to autoswitch inputs
+* added headset receiver to passive service to autoswitch inputs
+* code clean up
 
 ### 4.2.0 (2020-2-21)
 * new SDK names

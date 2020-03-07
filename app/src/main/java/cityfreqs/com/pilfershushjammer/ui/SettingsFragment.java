@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
     private Bundle audioBundle;
     private ViewGroup settingsContainer;
 
-    private SettingsFragment() {
+    public SettingsFragment() {
         // no-args constructor
     }
 
@@ -48,12 +48,14 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
         if (getArguments() != null) {
             audioBundle = getArguments().getBundle("audioBundle");
-            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            if (audioBundle != null) {
+                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            }
         }
         else {
             // catch for no args bundle.
@@ -66,6 +68,7 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    // deprecated method
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -317,32 +320,24 @@ public class SettingsFragment extends Fragment {
         if (carrierFrequency > audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]))
             return audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
 
-        else if (carrierFrequency < AudioSettings.MINIMUM_NUHF_FREQUENCY)
-            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
-
         else
-            return carrierFrequency;
+            return Math.max(carrierFrequency, AudioSettings.MINIMUM_NUHF_FREQUENCY);
     }
 
     private int checkDriftLimit(int driftLimit) {
         if (driftLimit > AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT)
             return AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT;
 
-        else if (driftLimit < AudioSettings.MINIMUM_DRIFT_LIMIT)
-            return AudioSettings.MINIMUM_DRIFT_LIMIT;
-
         else
-            return driftLimit;
+            return Math.max(driftLimit, AudioSettings.MINIMUM_DRIFT_LIMIT);
     }
 
     private int checkDriftSpeed(int driftSpeed) {
         // is 1 - 10, then * 1000
         if (driftSpeed < 1)
             return 1;
-        else if (driftSpeed > 10)
-            return 10;
         else
-            return driftSpeed;
+            return Math.min(driftSpeed, 10);
     }
 
     /**********************************************************************************************/

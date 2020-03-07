@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_source, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kaputnikGo/PilferShushJammer"));
                         startActivity(browserIntent);
                     }
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         alertDialog.cancel();
                     }
                 });
-
 
         alertDialog = dialogBuilder.create();
         if(!isFinishing())

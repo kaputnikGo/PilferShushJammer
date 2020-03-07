@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
     private AudioManager audioManager;
     private BackgroundChecker backgroundChecker;
 
-    private HomeFragment() {
+    public HomeFragment() {
         // no-args constructor
     }
 
@@ -77,12 +77,14 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
         if (getArguments() != null) {
             audioBundle = getArguments().getBundle("audioBundle");
-            DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            if (audioBundle != null) {
+                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+            }
         }
         else {
             // catch for no args bundle, will need to create new audioBundle with perms var...
@@ -118,6 +120,7 @@ public class HomeFragment extends Fragment {
         initApplication();
     }
 
+    // deprecated method
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
