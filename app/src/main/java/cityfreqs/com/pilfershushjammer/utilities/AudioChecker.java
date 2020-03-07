@@ -39,7 +39,7 @@ public class AudioChecker {
     public boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
         /*
-        AudioRecord.cpp ::
+        AudioRecord.cpp (samsung fork?)::
         if (inputSource == AUDIO_SOURCE_DEFAULT) {
             inputSource = AUDIO_SOURCE_MIC;
         }

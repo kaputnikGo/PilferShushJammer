@@ -28,11 +28,12 @@ Note: On devices running Android 9 (API level 28) or higher, apps running in the
 Therefore, your app should record audio only when it's in the foreground or 
 **when you include an instance of MediaRecorder in a foreground service.**
 
-Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is deprecated in Android 9 and will stop working with a Security Ex error in Android 10
+Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Android 9 and will **stop working** with a Security Ex error in Android 10
 
 **TODO:**
-- Android 10 concurrent audio capture policy
-- Android 10 (Q) AudioManager.setAllowedCapturePolicy(ALLOW_CAPTURE_BY_NONE)
+- test AudioSource.DEFAULT (0) vs AudioSource.MIC (1) with headset
+- test placebo AUDIO_SOURCE_CAMCORDER (5) for priority boost Android 10 
+- Android 10 concurrent audio capture policy, see AudioManager.AudioRecordingCallback (API 24, 29)
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
@@ -40,7 +41,7 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is deprecated in Android 9
 
 
 **Changes:**
-- hotplug headset input source switch when passive is running
+- hotplug headset input source switch receiver when passive is running
 
 
    vers. 4.3.0
