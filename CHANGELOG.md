@@ -1,6 +1,8 @@
-### 4.3.0 (unreleased)
-* added headset receiver to passive service to autoswitch inputs
+### 4.3.0 (2020-6-13)
+* added headset receiver to passive service for autoswitch inputs
 * code clean up
+* update AndroidStudio 4.0, Gradle
+* new SDK name
 
 ### 4.2.0 (2020-2-21)
 * new SDK names

@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 28 (Pie, 9.0), Android Studio 3.6.1 stable
+Build update: compile API 28 (Pie, 9.0), Android Studio 4.0 stable
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -42,6 +42,9 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 
 **Changes:**
 - hotplug headset input source switch receiver when passive is running
+- fragmentPager bugfix
+- update build env
+- add SDK names
 
 
    vers. 4.3.0
