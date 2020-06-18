@@ -1,3 +1,6 @@
+### 4.3.1 (unreleased)
+* bugfix - add context for entryLogger
+
 ### 4.3.0 (2020-6-13)
 * added headset receiver to passive service for autoswitch inputs
 * code clean up

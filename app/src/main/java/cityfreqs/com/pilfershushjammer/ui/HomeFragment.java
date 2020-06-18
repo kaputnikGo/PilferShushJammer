@@ -310,7 +310,7 @@ public class HomeFragment extends Fragment {
 
     private void checkPassiveRunning() {
         if (PASSIVE_RUNNING) {
-            entryLogger(getResources().getString(R.string.main_scanner_3), true);
+            entryLogger(context.getResources().getString(R.string.main_scanner_3), true);
         }
         else {
             entryLogger("Passive jammer failed to start.", true);

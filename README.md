@@ -41,13 +41,10 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 
 
 **Changes:**
-- hotplug headset input source switch receiver when passive is running
-- fragmentPager bugfix
-- update build env
-- add SDK names
+- bugfix : add context for entryLogger
 
 
-   vers. 4.3.0
+   vers. 4.3.1
    - min API 18 (4.3)
    - target API 28 (9.x)
    - compiled API 28 (9.x)
