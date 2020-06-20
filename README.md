@@ -42,6 +42,8 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 
 **Changes:**
 - bugfix : add context for entryLogger
+- language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
+- Spanish language translation via https://github.com/sguinetti
 
 
    vers. 4.3.1

@@ -33,11 +33,11 @@
     <string name="options_dialog_1">Bloqueo de lectura del buffer</string>
 
     <string name="doze_dialog_title">Cambiar Configuración</string>
-    <string name="doze_dialog_1">PilferShush Jammer necesita estar en la lista blanca de excepciones de Optimización de Batería del sistema Android.</string>
+    <string name="doze_dialog_1">PilferShush Jammer necesita estar en la lista de excepciones de Optimización de Batería del sistema Android.</string>
     <string name="doze_dialog_2">Desde Android 6.0 Marshmallow (API 23) en adelante la nueva función de ahorro de energía Doze fue introducida por Android para aplazar actividad de segundo plano por períodos de tiempo.</string>
     <string name="doze_dialog_3">Aunque esta aplicación utiliza recursos muy bajos o insignificantes, el micrófono Passive Jammer requiere un servicio de fondo para que funcione.</string>
     <string name="doze_dialog_4">Para un uso fiable a largo plazo del Bloqueador es necesario configurar cualquier optimizador o gestor de energía para permitir que PilferShush siga funcionando sin interrupciones.</string>
-    <string name="doze_dialog_5">Para añadir PilferShush a la lista blanca del sistema, pulse "continuar" para ir a la página de configuración de Android, luego seleccione "All Apps" del menú desplegable, busque PilferShush y selecciónelo.</string>
+    <string name="doze_dialog_5">Para añadir PilferShush a la lista de excepciones del sistema, pulse "continuar" para ir a la página de configuración de Android, luego seleccione "All Apps" del menú desplegable, busque PilferShush y selecciónelo.</string>
 
     <string name="audiofocus_check_1">Comprobando foco de audio\u2026</string>
     <string name="audiofocus_check_2">Solicitud de foco de audio concedida.</string>
