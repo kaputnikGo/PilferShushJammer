@@ -34,6 +34,8 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 - test AudioSource.DEFAULT (0) vs AudioSource.MIC (1) with headset
 - test placebo AUDIO_SOURCE_CAMCORDER (5) for priority boost Android 10 
 - Android 10 concurrent audio capture policy, see AudioManager.AudioRecordingCallback (API 24, 29)
+- API 29 AudioManager.setAllowedCapturePolicy: AudioAttributes.ALLOW_CAPTURE_BY_NONE can block? default is ALLOW_CAPTURE_BY_ALL.
+- see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
@@ -44,6 +46,7 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 - bugfix : add context for entryLogger
 - language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
 - Spanish language translation via https://github.com/sguinetti
+- add README dialog to app for more detailed info and link to project page
 
 
    vers. 4.3.1

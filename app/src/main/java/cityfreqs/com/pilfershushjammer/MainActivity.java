@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             case R.id.action_about:
                 aboutDialog();
                 return true;
+            case R.id.action_readme:
+                readmeDialog();
+                return true;
             case R.id.action_power:
                 powerDialog();
                 return true;
@@ -154,6 +157,41 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void readmeDialog() {
+        String readmeString =
+                (getResources().getString(R.string.readme_dialog_2) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_3) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_4) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_5) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_6) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_7) + "\n\n")
+                        + (getResources().getString(R.string.readme_dialog_8));
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        dialogBuilder.setTitle(getResources().getString(R.string.readme_dialog_1));
+        dialogBuilder.setMessage(readmeString);
+        dialogBuilder.setCancelable(true);
+        dialogBuilder
+                .setPositiveButton(R.string.dialog_button_moreinfo, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.cityfreqs.com.au/pilfer.php"));
+                        startActivity(browserIntent);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_button_dismiss, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismissed
+                        alertDialog.cancel();
+                    }
+                });
+
+        alertDialog = dialogBuilder.create();
+        if(!isFinishing())
+            alertDialog.show();
     }
 
     private void aboutDialog() {
