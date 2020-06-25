@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -92,6 +94,11 @@ public class HomeFragment extends Fragment {
         }
         audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
         audioChecker = new AudioChecker(context, audioBundle);
+
+        // test for Android 10 concurrent audio blocking for source VOICE_COMMS
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            audioManager.setAllowedCapturePolicy(AudioAttributes.ALLOW_CAPTURE_BY_NONE);
+        }
         debugLogger("ON-ATTACH", false);
     }
 

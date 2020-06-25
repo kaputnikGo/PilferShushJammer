@@ -1,8 +1,11 @@
-### 4.3.1 (unreleased)
+### 4.4.0 (unreleased)
 * bugfix - add context for entryLogger
 * language clarity
 * Spanish translation
 * add README dialog to app for detailed more info and link to project page
+* test Android 10 https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
+* audio source set to VOICE_COMMUNICATION (5.4.5 [C-1-3] silence other app while VOICE_COMM)
+* for API >= 29 setAllowedCapturePolicy to ALLOW_CAPTURE_BY_NONE (for VoIP vs VoIP)
 
 ### 4.3.0 (2020-6-13)
 * added headset receiver to passive service for autoswitch inputs

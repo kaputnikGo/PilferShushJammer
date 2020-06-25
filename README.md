@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 28 (Pie, 9.0), Android Studio 4.0 stable
+Build update: compile API 29 (Q, 10.0), Android Studio 4.0 stable
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -31,11 +31,13 @@ Therefore, your app should record audio only when it's in the foreground or
 Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Android 9 and will **stop working** with a Security Ex error in Android 10
 
 **TODO:**
-- test AudioSource.DEFAULT (0) vs AudioSource.MIC (1) with headset
-- test placebo AUDIO_SOURCE_CAMCORDER (5) for priority boost Android 10 
+- URGRENT Android 10 concurrent audio test and fix
+- check buffer size reported as being 2048 instead of device actual 8192, overriden with device actual
 - Android 10 concurrent audio capture policy, see AudioManager.AudioRecordingCallback (API 24, 29)
-- API 29 AudioManager.setAllowedCapturePolicy: AudioAttributes.ALLOW_CAPTURE_BY_NONE can block? default is ALLOW_CAPTURE_BY_ALL.
 - see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
+--
+--
+- test AudioSource.DEFAULT (0) vs AudioSource.MIC (1) with headset
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
@@ -47,12 +49,15 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 - language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
 - Spanish language translation via https://github.com/sguinetti
 - add README dialog to app for more detailed info and link to project page
+- test Android 10 https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
+- audio source set to VOICE_COMMUNICATION (5.4.5 [C-1-3] silence other app while VOICE_COMM)
+- for API >= 29 setAllowedCapturePolicy to ALLOW_CAPTURE_BY_NONE (for VoIP vs VoIP)
 
 
-   vers. 4.3.1
+   vers. 4.4.0
    - min API 18 (4.3)
    - target API 28 (9.x)
-   - compiled API 28 (9.x)
+   - compiled API 29 (10.x)
 
    testing devices
    - EMU : Galaxy Nexus 4.3 (18) (Android Studio AVD, no GApps)
@@ -61,7 +66,7 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
    - EMU : Pixel 3a 10.0 (29) (Android Studio AVD, GApps)
    - LOW : s4 I9195 (deprecated) 4.3.1 (18)(CyanogenMod 10.2, F-Droid)
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)
-   - DEV : s5 G900I (tainted) 9.0 (28)(LineageOS 16.0, GApps)
+   - DEV : s5 G900I (tainted) 10.0 (29)(LineageOS 17.1, GApps)
    - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  

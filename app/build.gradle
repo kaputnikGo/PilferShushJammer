@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "cityfreqs.com.pilfershushjammer"
         minSdkVersion 18
         targetSdkVersion 28
         versionCode 34
-        versionName "4.3.1"
+        versionName "4.4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

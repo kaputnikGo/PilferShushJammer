@@ -44,7 +44,9 @@ public class AudioChecker {
             inputSource = AUDIO_SOURCE_MIC;
         }
         */
-        int audioSource = MediaRecorder.AudioSource.DEFAULT; // 0
+        // test change to audio source:: AUDIO_SOURCE_VOICE_COMMUNICATION (7)
+        // FOR PRIORITY BUMP IN ANDROID 10 (API29)
+        int audioSource = MediaRecorder.AudioSource.VOICE_COMMUNICATION;// 7 //.DEFAULT; // 0
 
         // note::
         /*
@@ -57,7 +59,7 @@ public class AudioChecker {
                     AUDIO_SOURCE_VOICE_CALL          = 4,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
                     AUDIO_SOURCE_CAMCORDER           = 5,  // for video recording, same orientation as camera
                     AUDIO_SOURCE_VOICE_RECOGNITION   = 6,  // tuned for voice recognition
-                    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,  // VoIP with echo cancel, auto gain ctrl if available
+                    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,  // tuned for VoIP with echo cancel, auto gain ctrl if available
                     AUDIO_SOURCE_CNT,
                     AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
         } audio_source_t;
