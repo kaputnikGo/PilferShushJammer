@@ -2,14 +2,19 @@ package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
 import android.media.AudioRecord;
+import android.media.AudioRecordingConfiguration;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
+import cityfreqs.com.pilfershushjammer.utilities.RecordingCallback;
 
 
 public class PassiveJammer {
@@ -17,9 +22,10 @@ public class PassiveJammer {
     private Context context;
     private Bundle audioBundle;
     private AudioRecord audioRecord;
-    // MediaRecorder versions
     private MediaRecorder placeboRecorder;
     private static String placeboMediaRecorderFileName;
+    private RecordingCallback recordCallback;
+    private AudioRecordingConfiguration recordConfig;
 
     private boolean DEBUG;
 
@@ -31,6 +37,10 @@ public class PassiveJammer {
         placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
         placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
         // it is never written to.
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            recordCallback = new RecordingCallback(context);
+        }
     }
 
     boolean startPassiveJammer() {
@@ -42,6 +52,10 @@ public class PassiveJammer {
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[2]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    registerCallback();
+                }
 
                 debugLogger(context.getResources().getString(R.string.passive_state_1), false);
                 return true;
@@ -67,6 +81,11 @@ public class PassiveJammer {
                     */
                     audioRecord.startRecording();
                     debugLogger(context.getResources().getString(R.string.passive_state_3) + "\n", true);
+
+                    // get PSJammer audio config
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        getAudioConfig();
+                    }
 
                     // optional switch for accessing the hardware buffers via audioRecord.read()
                     // reason: possible battery use at hardware level
@@ -126,7 +145,6 @@ public class PassiveJammer {
                         audioRecord.read(tempBuffer, 0, audioSettings.getBufferSize());
                     } while (true);
                     */
-
                 } catch (IllegalStateException exState) {
                     exState.printStackTrace();
                     debugLogger(context.getResources().getString(R.string.passive_state_7), true);
@@ -137,6 +155,31 @@ public class PassiveJammer {
         // uninitialised state
         debugLogger(context.getResources().getString(R.string.passive_state_8), true);
         return false;
+    }
+
+// Android 10 (Q) API 29 additions for concurrent audio mitigation
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void registerCallback() {
+        // android 10 concurrent audio callback register, dont use main thread Looper? dead on exit?
+        // "The callback is executed only when the app is receiving audio and a change occurs."
+        audioRecord.registerAudioRecordingCallback(context.getMainExecutor(), recordCallback);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void unregisterCallback() {
+        audioRecord.unregisterAudioRecordingCallback(recordCallback);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void getAudioConfig() {
+        recordConfig = audioRecord.getActiveRecordingConfiguration();
+        if (recordConfig != null) {
+            Log.d(TAG, "registerCallback config, silenced: " + recordConfig.isClientSilenced());
+        }
+        else {
+            Log.d(TAG, "registerCallback config null");
+        }
     }
 
     //TODO
@@ -178,6 +221,9 @@ public class PassiveJammer {
         if (audioRecord != null) {
             if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                 audioRecord.stop();
+            }
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                unregisterCallback();
             }
             audioRecord.release();
             audioRecord = null;

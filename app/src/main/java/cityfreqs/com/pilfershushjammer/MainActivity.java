@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         // check for API 23, Marshmallow up
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            assert powerManager != null;
             if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
                 // user has not set PS to ignore batt savings, pop dialog
                 checkDozeDialog();

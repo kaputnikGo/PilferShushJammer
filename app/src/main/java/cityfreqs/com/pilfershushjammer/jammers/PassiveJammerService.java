@@ -99,6 +99,7 @@ public class PassiveJammerService extends Service {
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(getResources().getString(R.string.service_state_1));
+            assert notifyManager != null;
             notifyManager.createNotificationChannel(channel);
         }
 

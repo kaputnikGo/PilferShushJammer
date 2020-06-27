@@ -30,14 +30,13 @@ Therefore, your app should record audio only when it's in the foreground or
 
 Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Android 9 and will **stop working** with a Security Ex error in Android 10
 
+Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
+see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
+
 **TODO:**
 - URGRENT Android 10 concurrent audio test and fix
 - check buffer size reported as being 2048 instead of device actual 8192, overriden with device actual
-- Android 10 concurrent audio capture policy, see AudioManager.AudioRecordingCallback (API 24, 29)
-- see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
---
---
-- test AudioSource.DEFAULT (0) vs AudioSource.MIC (1) with headset
+- .
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
@@ -52,6 +51,7 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 - test Android 10 https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
 - audio source set to VOICE_COMMUNICATION (5.4.5 [C-1-3] silence other app while VOICE_COMM)
 - for API >= 29 setAllowedCapturePolicy to ALLOW_CAPTURE_BY_NONE (for VoIP vs VoIP)
+- added popup toast warning for concurrent audio capture state
 
 
    vers. 4.4.0

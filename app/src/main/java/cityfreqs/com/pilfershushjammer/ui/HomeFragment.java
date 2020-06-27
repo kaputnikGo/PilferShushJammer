@@ -97,8 +97,10 @@ public class HomeFragment extends Fragment {
 
         // test for Android 10 concurrent audio blocking for source VOICE_COMMS
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // specifically blocks other apps recording this app's audio - which is zero data
             audioManager.setAllowedCapturePolicy(AudioAttributes.ALLOW_CAPTURE_BY_NONE);
         }
+
         debugLogger("ON-ATTACH", false);
     }
 
@@ -528,13 +530,13 @@ public class HomeFragment extends Fragment {
                 AudioManager.AUDIOFOCUS_GAIN);
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_2), false);
+            if (DEBUG) entryLogger(context.getResources().getString(R.string.audiofocus_check_2), false);
         }
         else if (result == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
-            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_3), false);
+            if (DEBUG) entryLogger(context.getResources().getString(R.string.audiofocus_check_3), false);
         }
         else {
-            if (DEBUG) entryLogger(getResources().getString(R.string.audiofocus_check_4), false);
+            if (DEBUG) entryLogger(context.getResources().getString(R.string.audiofocus_check_4), false);
         }
         return result;
     }
@@ -543,6 +545,7 @@ public class HomeFragment extends Fragment {
     // For backwards compatibility, it will still return the caller's own services.
     private boolean checkServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        assert manager != null;
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
                 return true;
@@ -556,6 +559,7 @@ public class HomeFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("message");
+            assert message != null;
             PASSIVE_RUNNING = (message.equals("true"));
             debugLogger("Receive message Jammer Service running: " + message, false);
         }
