@@ -1,4 +1,4 @@
-### 4.4.0 (unreleased)
+### 4.4.0 (2020-6-27)
 * bugfix - add context for entryLogger
 * language clarity
 * Spanish translation

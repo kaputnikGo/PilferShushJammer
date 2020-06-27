@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi;
 
 import java.util.List;
 
+import cityfreqs.com.pilfershushjammer.R;
+
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
 public class RecordingCallback extends AudioManager.AudioRecordingCallback {
@@ -41,11 +43,11 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
     private void displayWarning(boolean isSilenced) {
         CharSequence warningText;
         if (isSilenced) {
-            warningText = "PilferShush WARNING: another app has control of the microphone.";
+            warningText = context.getResources().getString(R.string.recording_callback_silenced);
             Log.d(TAG, "client is silenced");
         }
         else {
-            warningText = "PilferShush has control of the microphone.";
+            warningText = context.getResources().getString(R.string.recording_callback_not_silenced);
             Log.d(TAG, "client is NOT silenced");
         }
         Toast toast = Toast.makeText(context, warningText, Toast.LENGTH_LONG);
