@@ -44,7 +44,10 @@ see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_captur
 
 
 **Changes:**
-- bugfix : add context for entryLogger
+- bugfix : remove context for entryLogger
+- caution text to system YELLOW
+- adb print cleanup
+- 
 - language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
 - Spanish language translation via https://github.com/sguinetti
 - add README dialog to app for more detailed info and link to project page
@@ -54,7 +57,7 @@ see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_captur
 - added popup toast warning for concurrent audio capture state
 
 
-   vers. 4.4.0
+   vers. 4.4.1
    - min API 18 (4.3)
    - target API 28 (9.x)
    - compiled API 29 (10.x)

@@ -1,3 +1,8 @@
+### 4.4.1 (unreleased)
+* remove context from entryLogger
+* caution text to system YELLOW
+* adb print cleanup
+
 ### 4.4.0 (2020-6-27)
 * bugfix - add context for entryLogger
 * language clarity

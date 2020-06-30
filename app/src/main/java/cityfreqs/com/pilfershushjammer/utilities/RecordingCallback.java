@@ -38,6 +38,9 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
             displayWarning(isSilenced);
             // maybe get audioSource for added info about possible type of app takeover of mic
         }
+        else {
+            Log.d(TAG, "No audioConfig found");
+        }
     }
 
     private void displayWarning(boolean isSilenced) {

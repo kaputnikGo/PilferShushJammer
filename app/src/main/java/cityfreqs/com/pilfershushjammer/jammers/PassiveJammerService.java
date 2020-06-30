@@ -23,6 +23,7 @@ import cityfreqs.com.pilfershushjammer.R;
 
 
 public class PassiveJammerService extends Service {
+    private static final String TAG = "PSJAM_Service";
 
     public static final String ACTION_START_PASSIVE = "cityfreqs.com.pilfershushjammer.action.START_PASSIVE";
     public static final String ACTION_STOP_PASSIVE = "cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE";
@@ -168,7 +169,7 @@ public class PassiveJammerService extends Service {
     }
 
     private void notifyFragment(String running) {
-        Log.d("PSJAM_PASSIVE", "jammer running: " + running);
+        Log.d(TAG, "jammer running: " + running);
         Intent intent = new Intent("passive_running");
         // You can also include some extra data.
         intent.putExtra("message", running);
@@ -199,15 +200,15 @@ public class PassiveJammerService extends Service {
                 int state = intent.getIntExtra("state", -1);
                 switch (state) {
                     case 0:
-                        Log.d("PSJAM_PASSIVE", "Headset not present.");
+                        Log.d(TAG, "Headset not present.");
                         toggleHeadset();
                         break;
                     case 1:
-                        Log.d("PSJAM_PASSIVE", "Headset present.");
+                        Log.d(TAG, "Headset present.");
                         toggleHeadset();
                         break;
                     default:
-                        Log.d("PSJAM_PASSIVE", "Headset state unknown.");
+                        Log.d(TAG, "Headset state unknown.");
                 }
             }
         }

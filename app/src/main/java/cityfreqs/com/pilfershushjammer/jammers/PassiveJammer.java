@@ -25,7 +25,6 @@ public class PassiveJammer {
     private MediaRecorder placeboRecorder;
     private static String placeboMediaRecorderFileName;
     private RecordingCallback recordCallback;
-    private AudioRecordingConfiguration recordConfig;
 
     private boolean DEBUG;
 
@@ -173,7 +172,7 @@ public class PassiveJammer {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getAudioConfig() {
-        recordConfig = audioRecord.getActiveRecordingConfiguration();
+        AudioRecordingConfiguration recordConfig = audioRecord.getActiveRecordingConfiguration();
         if (recordConfig != null) {
             Log.d(TAG, "registerCallback config, silenced: " + recordConfig.isClientSilenced());
         }
@@ -182,7 +181,6 @@ public class PassiveJammer {
         }
     }
 
-    //TODO
     private boolean runMediaRecorderPlacebo() {
         // as per changes to API28+ background mic use now only available to
         // foreground services using the MediaRecorder instance
