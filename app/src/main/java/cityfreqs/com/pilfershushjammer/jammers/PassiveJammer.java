@@ -184,8 +184,9 @@ public class PassiveJammer {
     private boolean runMediaRecorderPlacebo() {
         // as per changes to API28+ background mic use now only available to
         // foreground services using the MediaRecorder instance
+        // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER)
         placeboRecorder = new MediaRecorder();
-        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);

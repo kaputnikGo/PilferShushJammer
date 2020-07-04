@@ -47,6 +47,7 @@ see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_captur
 - bugfix : remove context for entryLogger
 - caution text to system YELLOW
 - adb print cleanup
+- mediaRecordPlacebo to VOICE_COMM source
 - 
 - language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
 - Spanish language translation via https://github.com/sguinetti
