@@ -37,7 +37,7 @@ Note: Can Android 10 have a trigger to the service so it can (auto?) reapply UI 
 as per [C-1-4] "the one that started capture the most recently receives audio", **however** C-1-4 is not labelled MUST, or SHOULD
 
 **TODO:**
-- URGRENT Android 10 concurrent audio test and fix
+- URGENT Android 10 concurrent audio test and fix
 - option (auto) to force reapply mic hold and jam as latest app using mic
 - check buffer size reported as being 2048 instead of device actual 8192, overriden with device actual
 - .
