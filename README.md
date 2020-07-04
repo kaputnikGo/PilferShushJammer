@@ -33,8 +33,12 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
 see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
 
+Note: Can Android 10 have a trigger to the service so it can (auto?) reapply UI focus, mic hold and jam? 
+as per [C-1-4] "the one that started capture the most recently receives audio", **however** C-1-4 is not labelled MUST, or SHOULD
+
 **TODO:**
 - URGRENT Android 10 concurrent audio test and fix
+- option (auto) to force reapply mic hold and jam as latest app using mic
 - check buffer size reported as being 2048 instead of device actual 8192, overriden with device actual
 - .
 - consider optional jammer state persistence over boot
