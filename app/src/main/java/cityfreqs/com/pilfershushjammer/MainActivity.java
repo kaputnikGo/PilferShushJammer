@@ -3,6 +3,7 @@ package cityfreqs.com.pilfershushjammer;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -178,7 +179,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.cityfreqs.com.au/pilfer.php"));
-                        startActivity(browserIntent);
+                        try {
+                            if (browserIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivity(browserIntent);
+                            }
+                        } catch (ActivityNotFoundException ex) {
+                            Toast.makeText(getApplicationContext(), "Open default browser failed", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.dialog_button_dismiss, new DialogInterface.OnClickListener() {
@@ -210,7 +217,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kaputnikGo/PilferShushJammer"));
-                        startActivity(browserIntent);
+                        try {
+                            if (browserIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivity(browserIntent);
+                            }
+                        } catch (ActivityNotFoundException ex) {
+                            Toast.makeText(getApplicationContext(), "Open default browser failed", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.dialog_button_dismiss, new DialogInterface.OnClickListener() {

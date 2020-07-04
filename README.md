@@ -52,6 +52,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 - caution text to system YELLOW
 - adb print cleanup
 - mediaRecordPlacebo to VOICE_COMM source
+- browser intent ex null
 - 
 - language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
 - Spanish language translation via https://github.com/sguinetti
