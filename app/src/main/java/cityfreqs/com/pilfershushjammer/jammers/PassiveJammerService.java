@@ -55,6 +55,7 @@ public class PassiveJammerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         registerReceiver(notifyStopReceiver, new IntentFilter("notifyStopPassive"));
         registerReceiver(headsetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+        registerReceiver(retriggerPassiveReceiver, new IntentFilter("RETRIGGER_PASSIVE"));
 
         audioBundle = new Bundle();
         if (intent != null) {
@@ -151,11 +152,13 @@ public class PassiveJammerService extends Service {
         stopForeground(true);
         stopSelf();
         unregisterReceiver(notifyStopReceiver);
+        unregisterReceiver(retriggerPassiveReceiver);
     }
 
-    private void toggleHeadset() {
+    private void retriggerPassive() {
         // catch any hotplug change in mic hardware
-        // stop currently running passive
+        // or other changes ie Android 10 concurrent audio
+        // stop if currently running passive
         if (passiveJammer != null) {
             passiveJammer.stopPassiveJammer();
             Toast.makeText(getApplicationContext(),
@@ -166,6 +169,7 @@ public class PassiveJammerService extends Service {
         stopForeground(true);
         // then restart
         startPassiveService();
+        Log.d(TAG, "retriggerPassive called.");
     }
 
     private void notifyFragment(String running) {
@@ -189,6 +193,18 @@ public class PassiveJammerService extends Service {
         }
     };
 
+    private final BroadcastReceiver retriggerPassiveReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action != null) {
+                if (action.equals("RETRIGGER_PASSIVE")) {
+                    retriggerPassive();
+                }
+            }
+        }
+    };
+
     private final BroadcastReceiver headsetReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -201,11 +217,11 @@ public class PassiveJammerService extends Service {
                 switch (state) {
                     case 0:
                         Log.d(TAG, "Headset not present.");
-                        toggleHeadset();
+                        retriggerPassive();
                         break;
                     case 1:
                         Log.d(TAG, "Headset present.");
-                        toggleHeadset();
+                        retriggerPassive();
                         break;
                     default:
                         Log.d(TAG, "Headset state unknown.");
