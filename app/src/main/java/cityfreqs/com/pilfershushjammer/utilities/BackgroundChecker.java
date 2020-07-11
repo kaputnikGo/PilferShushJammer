@@ -27,6 +27,7 @@ public class BackgroundChecker {
 
     private static final String RECORD_PERMISSION = "RECORD_AUDIO";
     private static final String BOOT_PERMISSION = "RECEIVE_BOOT_COMPLETED";
+    private static final String ACCESS_PERMISSION = "BIND_ACCESSIBILITY_SERVICE";
     private static String[] AUDIO_SDK_NAMES; // fixed as per raw/file
 
     public BackgroundChecker(Context context, boolean debug) {
@@ -221,6 +222,9 @@ public class BackgroundChecker {
                         }
                         if (permsString.contains(RECORD_PERMISSION)) {
                             appEntry.setRecordable(true);
+                        }
+                        if (permsString.contains(ACCESS_PERMISSION)) {
+                            appEntry.setAccessibility(true);
                         }
                     }
 

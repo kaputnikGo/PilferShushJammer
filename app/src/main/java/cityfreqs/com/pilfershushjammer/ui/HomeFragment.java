@@ -573,7 +573,6 @@ public class HomeFragment extends Fragment {
         int end = homeText.getText().length();
         Spannable spannableText = (Spannable) homeText.getText();
         if (caution) {
-            //spannableText.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.colorAccent)), start, end, 0);
             spannableText.setSpan(new ForegroundColorSpan(Color.YELLOW), start, end, 0);
         }
         else {

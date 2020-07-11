@@ -150,7 +150,8 @@ public class InspectorFragment extends Fragment {
             entryLogger(getResources().getString(R.string.userapp_scan_intro_6), false);
             entryLogger(getResources().getString(R.string.userapp_scan_intro_7), false);
             entryLogger(getResources().getString(R.string.userapp_scan_intro_8), false);
-            entryLogger(getResources().getString(R.string.userapp_scan_intro_9) + "\n", false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_9), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_10) + "\n", false);
             audioAppEntryLog();
         }
         else {

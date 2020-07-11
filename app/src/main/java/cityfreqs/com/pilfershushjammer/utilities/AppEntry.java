@@ -15,6 +15,7 @@ public class AppEntry {
     private boolean receivers;
     private boolean services;
     private boolean audioSdk;
+    private boolean accessibility;
 
     private int servicesNum;
     private int receiversNum;
@@ -31,6 +32,7 @@ public class AppEntry {
         receivers = false;
         services = false;
         audioSdk = false;
+        accessibility = false;
         servicesNum = 0;
         receiversNum = 0;
     }
@@ -61,6 +63,13 @@ public class AppEntry {
         return recordable;
     }
 
+    void setAccessibility(boolean accessibility) {
+        this.accessibility = accessibility;
+    }
+    boolean getAccessibility() {
+        return accessibility;
+    }
+
     void setBootCheck(boolean bootCheck) {
         this.bootCheck = bootCheck;
     }
@@ -81,7 +90,7 @@ public class AppEntry {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
-        return (recordable && bootCheck && receivers && services && audioSdk);
+        return (recordable && bootCheck && receivers && services && audioSdk && accessibility);
     }
 
     void setAudioSdk(boolean audioSdk) {
@@ -125,6 +134,7 @@ public class AppEntry {
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
                 "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
                 "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioSdk +
+                "\nACCESSIBILITY: " + accessibility +
                 "\n--------------------------------------\n";
     }
 

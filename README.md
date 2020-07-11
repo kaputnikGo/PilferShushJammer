@@ -33,14 +33,15 @@ Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Andro
 Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
 see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
 
-Note: Can Android 10 have a trigger to the service so it can (auto?) reapply UI focus, mic hold and jam? 
+Note: Testing Android 10 auto-trigger to the passive service so it can reapply audio focus, mic hold and blocking -
 as per [C-1-4] "the one that started capture the most recently receives audio", **however** C-1-4 is not labelled MUST, or SHOULD
 
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
-- option (auto) to force reapply mic hold and jam as latest app using mic
-- check buffer size reported as being 2048 instead of device actual 8192, overriden with device actual
+- check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - .
+- test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
+- android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider optional jammer state persistence over boot
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
@@ -48,19 +49,14 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 
 **Changes:**
-- bugfix : remove context for entryLogger
+- Android 10 concurrent audio mitigation test build
+- centered popup toast warning for concurrent audio capture state
+- passive jammer service auto restart during C-1-4 conflict 
 - caution text to system YELLOW
-- adb print cleanup
 - mediaRecordPlacebo to VOICE_COMM source
 - browser intent ex null
-- 
-- language : use blocklist/allowlist to improve clarity because blacklist/whitelist are not even metaphors
-- Spanish language translation via https://github.com/sguinetti
-- add README dialog to app for more detailed info and link to project page
-- test Android 10 https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
-- audio source set to VOICE_COMMUNICATION (5.4.5 [C-1-3] silence other app while VOICE_COMM)
-- for API >= 29 setAllowedCapturePolicy to ALLOW_CAPTURE_BY_NONE (for VoIP vs VoIP)
-- added popup toast warning for concurrent audio capture state
+- add accessibility service permission to background check
+- updated Inspector and Readme text
 
 
    vers. 4.4.1
