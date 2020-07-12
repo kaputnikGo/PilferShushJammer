@@ -1,4 +1,4 @@
-### 4.4.1 (unreleased)
+### 4.4.1 (2020-7-12)
 * Android 10 concurrent audio mitigation test build
 * centered popup toast warning for concurrent audio capture state
 * passive jammer auto restart during C-1-4 conflict 
