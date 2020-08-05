@@ -332,11 +332,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void stopPassive() {
-        Intent stopIntent = new Intent(getActivity(), PassiveJammerService.class);
-        stopIntent.setAction(ACTION_STOP_PASSIVE);
-        context.startService(stopIntent);
-        PASSIVE_RUNNING = false;
-        entryLogger(getResources().getString(R.string.main_scanner_4), true);
+        // npe here at getActivity, use context instead?
+        if (isAdded()) {
+            Intent stopIntent = new Intent(getActivity(), PassiveJammerService.class);
+            stopIntent.setAction(ACTION_STOP_PASSIVE);
+            context.startService(stopIntent);
+            PASSIVE_RUNNING = false;
+            entryLogger(getResources().getString(R.string.main_scanner_4), true);
+        }
     }
 
     private void runActive() {

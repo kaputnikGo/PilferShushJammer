@@ -1,3 +1,10 @@
+### 4.4.2 (unreleased)
+* update buildtools, platform-tools
+* getActivity npe bugfix
+* auto-backup to false
+* remove old drawable xml, possible ex cause
+* update gradle dep
+
 ### 4.4.1 (2020-7-12)
 * Android 10 concurrent audio mitigation test build
 * centered popup toast warning for concurrent audio capture state

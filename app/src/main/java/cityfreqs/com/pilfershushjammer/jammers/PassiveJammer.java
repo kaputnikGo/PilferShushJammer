@@ -167,7 +167,13 @@ public class PassiveJammer {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void unregisterCallback() {
-        audioRecord.unregisterAudioRecordingCallback(recordCallback);
+        // moto (Q) killed the callback after receiving it with an ex
+        try {
+            audioRecord.unregisterAudioRecordingCallback(recordCallback);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)

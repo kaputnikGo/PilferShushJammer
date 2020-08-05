@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 29 (Q, 10.0), Android Studio 4.0 stable
+Build update: compile API 29 (Q, 10.0), Android Studio 4.0.1 stable, Gradle 6.1.1
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -39,6 +39,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
+- Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
@@ -49,6 +50,12 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 
 **Changes:**
+- update buildtools, platform-tools
+- getActivity npe bugfix
+- auto-backup to false
+- remove old drawable xml, possible ex cause
+- update gradle dep
+-
 - Android 10 concurrent audio mitigation test build
 - centered popup toast warning for concurrent audio capture state
 - passive jammer service auto restart during C-1-4 conflict 
@@ -59,7 +66,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 - updated Inspector and Readme text
 
 
-   vers. 4.4.1
+   vers. 4.4.2
    - min API 18 (4.3)
    - target API 28 (9.x)
    - compiled API 29 (10.x)
