@@ -55,6 +55,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 - auto-backup to false
 - remove old drawable xml, possible ex cause
 - update gradle dep
+- add new SDK
 -
 - Android 10 concurrent audio mitigation test build
 - centered popup toast warning for concurrent audio capture state

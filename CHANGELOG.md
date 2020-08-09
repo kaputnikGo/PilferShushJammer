@@ -4,6 +4,7 @@
 * auto-backup to false
 * remove old drawable xml, possible ex cause
 * update gradle dep
+* add new SDK
 
 ### 4.4.1 (2020-7-12)
 * Android 10 concurrent audio mitigation test build
