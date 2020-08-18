@@ -1,4 +1,6 @@
-### 4.4.2 (unreleased)
+### 4.5.0 (unreleased)
+* add boot receiver for auto restart app at device reboot
+* add receive boot permission
 * update buildtools, platform-tools
 * getActivity npe bugfix
 * auto-backup to false

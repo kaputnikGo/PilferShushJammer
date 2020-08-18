@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="false"
@@ -51,6 +52,15 @@
             </intent-filter>
         </service>
 
+        <receiver android:name="cityfreqs.com.pilfershushjammer.utilities.BootReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
 
     </application>

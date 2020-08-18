@@ -43,13 +43,15 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
-- consider optional jammer state persistence over boot
+- consider optional jammer state persistence over boot <- adding to 4.5.0
 - consider min API bump to 23 (6.x)
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
 
 
 **Changes:**
+- add boot receiver for auto restart app at device reboot
+- add receive boot permission
 - update buildtools, platform-tools
 - getActivity npe bugfix
 - auto-backup to false
@@ -67,7 +69,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 - updated Inspector and Readme text
 
 
-   vers. 4.4.2
+   vers. 4.5.0
    - min API 18 (4.3)
    - target API 28 (9.x)
    - compiled API 29 (10.x)
