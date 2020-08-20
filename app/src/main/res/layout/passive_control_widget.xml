@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/appwidget_height"
+    android:background="@color/colorAccent"
+    android:padding="@dimen/micro_margin">
+
+    <ImageButton
+        android:id="@+id/passive_control_button"
+        android:layout_width="@dimen/appwidget_height"
+        android:layout_height="@dimen/appwidget_height"
+        android:contentDescription="@string/passive_appwidget_name"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/passive_appwidget_text"
+        android:text="@string/passive_appwidget_text"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

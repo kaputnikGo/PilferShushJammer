@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="false"
@@ -14,11 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--
+        // remm'd as pre Android 11 testing
+        <receiver android:name=".utilities.PassiveControlWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/passive_control_widget_info" />
+        </receiver>
+        -->
+
         <activity
-            android:name="cityfreqs.com.pilfershushjammer.MainActivity"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -29,40 +42,39 @@
         </activity>
 
         <service
-            android:name="cityfreqs.com.pilfershushjammer.jammers.PassiveJammerService"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/passive_service_name"
+            android:name=".jammers.PassiveJammerService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/passive_service_name">
             <intent-filter>
                 <action android:name="cityfreqs.com.pilfershushjammer.action.START_PASSIVE" />
                 <action android:name="cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE" />
             </intent-filter>
         </service>
-
         <service
-            android:name="cityfreqs.com.pilfershushjammer.jammers.ActiveJammerService"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/active_service_name"
+            android:name=".jammers.ActiveJammerService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/active_service_name">
             <intent-filter>
                 <action android:name="cityfreqs.com.pilfershushjammer.action.START_ACTIVE" />
                 <action android:name="cityfreqs.com.pilfershushjammer.action.STOP_ACTIVE" />
             </intent-filter>
         </service>
 
-        <receiver android:name="cityfreqs.com.pilfershushjammer.utilities.BootReceiver"
+        <receiver
+            android:name=".utilities.BootReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

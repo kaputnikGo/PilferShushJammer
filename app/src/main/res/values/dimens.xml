@@ -13,4 +13,6 @@
     <dimen name="button_bottom_margin">8dp</dimen>
     <dimen name="settings_input_width">60dp</dimen>
     <dimen name="text_button_height">44dp</dimen>
+    <dimen name="appwidget_height">44dp</dimen>
+    <dimen name="appwidget_length">110dp</dimen>
 </resources>

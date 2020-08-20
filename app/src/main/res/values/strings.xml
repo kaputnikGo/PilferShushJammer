@@ -170,7 +170,7 @@
     <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
     <string name="audio_check_7">Setting frequency to:\u0020</string>
 
-        <!--
+    <!--
         PassiveJammer.java
         -->
     <string name="passive_state_1">Passive Jammer init.</string>
@@ -190,14 +190,14 @@
     <string name="passive_state_14">MediaRecorderPlacebo prepare() failed.</string>
     <string name="passive_state_15">MediaRecorderPlacebo release and null.</string>
 
-        <!--
+    <!--
         ActiveJammer.java
         -->
     <string name="active_state_1">threadPlay run exception.</string>
     <string name="active_state_2">stopPlayer thread exception.</string>
     <string name="active_state_3">stopPlayer audioTrack exception.</string>
 
-        <!--
+    <!--
         ~ JammerService.java
         -->
     <string name="service_state_1">PilferShush Jammer notifications</string>
@@ -206,7 +206,7 @@
     <string name="service_state_4">Passive Jammer service started.</string>
     <string name="service_state_5">Passive Jammer service stopped.</string>
 
-        <!--
+    <!--
         background userapp checker
         -->
     <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
@@ -246,5 +246,12 @@
     -->
     <string name="recording_callback_silenced">PilferShush WARNING: another app has control of the microphone.</string>
     <string name="recording_callback_not_silenced">PilferShush has control of the microphone.</string>
+
+    <!--
+     Passive jammer app widget
+    -->
+    <string name="passive_appwidget_name">Passive Jammer Control</string>
+    <string name="passive_appwidget_text">Passive Control</string>
+    <string name="passive_add_widget">Add widget</string>
 
 </resources>
