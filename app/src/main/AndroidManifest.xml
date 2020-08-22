@@ -15,8 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--
-        // remm'd as pre Android 11 testing
         <receiver android:name=".utilities.PassiveControlWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -25,7 +23,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/passive_control_widget_info" />
         </receiver>
-        -->
 
         <activity
             android:name=".MainActivity"
@@ -50,6 +47,7 @@
             <intent-filter>
                 <action android:name="cityfreqs.com.pilfershushjammer.action.START_PASSIVE" />
                 <action android:name="cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE" />
+                <action android:name="cityfreqs.com.pilfershushjammer.action.WIDGET_PASSIVE" />
             </intent-filter>
         </service>
         <service

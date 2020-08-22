@@ -27,6 +27,7 @@ public class PassiveJammerService extends Service {
 
     public static final String ACTION_START_PASSIVE = "cityfreqs.com.pilfershushjammer.action.START_PASSIVE";
     public static final String ACTION_STOP_PASSIVE = "cityfreqs.com.pilfershushjammer.action.STOP_PASSIVE";
+    public static final String ACTION_WIDGET_PASSIVE = "cityfreqs.com.pilfershushjammer.action.WIDGET_PASSIVE";
 
     private static final String CHANNEL_ID = "PilferShush";
     private static final String CHANNEL_NAME = "Passive Jammer";
@@ -62,12 +63,17 @@ public class PassiveJammerService extends Service {
             audioBundle = intent.getExtras();
             String action = intent.getAction();
             if (action != null) {
-                if (action.equals(ACTION_START_PASSIVE)) {
-                    createNotification();
-                    startPassiveService();
-                }
-                else if (action.equals(ACTION_STOP_PASSIVE)) {
-                    stopPassiveService();
+                switch (action) {
+                    case ACTION_START_PASSIVE:
+                        createNotification();
+                        startPassiveService();
+                        break;
+                    case ACTION_STOP_PASSIVE:
+                        stopPassiveService();
+                        break;
+                    case ACTION_WIDGET_PASSIVE:
+                        widgetPassive();
+                        break;
                 }
             }
         }
@@ -170,6 +176,15 @@ public class PassiveJammerService extends Service {
         // then restart
         startPassiveService();
         Log.d(TAG, "retriggerPassive called.");
+    }
+
+    private void widgetPassive() {
+        // called whether service is running or not!
+        // cannot run without audioBundle, so run activity?
+        Log.d(TAG, "widgetPassive called");
+        Intent widgetIntent = new Intent(this, MainActivity.class);
+        widgetIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(widgetIntent);
     }
 
     private void notifyFragment(String running) {
