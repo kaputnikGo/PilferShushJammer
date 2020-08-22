@@ -14,6 +14,7 @@ import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.jammers.PassiveJammerService;
 
 import static android.content.Context.ACTIVITY_SERVICE;
+import static cityfreqs.com.pilfershushjammer.jammers.PassiveJammerService.ACTION_WIDGET_PASSIVE;
 
 public class PassiveControlWidget extends AppWidgetProvider {
 
@@ -22,7 +23,7 @@ public class PassiveControlWidget extends AppWidgetProvider {
         // called on install of widget to homescreen
         for (int appWidgetId : appWidgetIds) {
             Intent buttonIntent = new Intent(context, PassiveJammerService.class);
-            buttonIntent.setAction(PassiveJammerService.ACTION_WIDGET_PASSIVE);
+            buttonIntent.setAction(ACTION_WIDGET_PASSIVE);
             PendingIntent pendingButtonIntent = PendingIntent.getService(context, 0, buttonIntent, 0);
 
             // wrap the whole widget layout in a view to capture button and text touch
@@ -32,7 +33,15 @@ public class PassiveControlWidget extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
             //TODO check and start the Passive service to account for Android 11
+            // can't create widget on screen if service already running...
             Log.d("PS_WIDGET", "press the button and update!");
+
+            /*
+            Intent mainIntent = new Intent(context, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mainIntent);
+             */
+
 
             ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
             assert manager != null;
@@ -51,8 +60,19 @@ public class PassiveControlWidget extends AppWidgetProvider {
     }
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+        // not needed?
+        if (intent != null) {
+            if (intent.getAction().equals(ACTION_WIDGET_PASSIVE)) {
+                Log.d("PS_WIDGET", "onReceive reached");
+            }
+        }
+    }
+
+    @Override
     public void onEnabled(Context context) {
         // nothing yet
+        Log.d("PS_WIDGET", "onEnabled reached");
     }
 
     @Override

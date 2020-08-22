@@ -38,7 +38,8 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
-- Android 11 changes to foreground services and mic access
+- Android 11 changes to foreground services and mic access, remember its just a trigger
+- inconsistent behaviour with widget and jammer service state
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - .
@@ -51,7 +52,8 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 
 **Changes:**
-- adding appwidget in prep for Android 11
+- remove lockscreen notify as can cause dupe activity
+- added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
 - update buildtools, platform-tools

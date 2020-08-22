@@ -107,11 +107,13 @@ public class PassiveJammerService extends Service {
                     CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(getResources().getString(R.string.service_state_1));
+            channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
             assert notifyManager != null;
             notifyManager.createNotificationChannel(channel);
         }
 
-        notifyPassiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        notifyPassiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))

@@ -1,5 +1,6 @@
 ### 4.5.0 (unreleased)
-* adding appwidget in prep for Android 11
+* remove lockscreen notify as can cause dupe activity
+* added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
 * update buildtools, platform-tools
