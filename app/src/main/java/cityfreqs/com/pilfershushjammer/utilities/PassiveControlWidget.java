@@ -21,13 +21,11 @@ public class PassiveControlWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // called on install of widget to homescreen
         for (int appWidgetId : appWidgetIds) {
-
-            // TODO not this
-            // Create an Intent to launch
             Intent buttonIntent = new Intent(context, PassiveJammerService.class);
             buttonIntent.setAction(PassiveJammerService.ACTION_WIDGET_PASSIVE);
             PendingIntent pendingButtonIntent = PendingIntent.getService(context, 0, buttonIntent, 0);
 
+            // wrap the whole widget layout in a view to capture button and text touch
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.passive_control_widget);
             views.setOnClickPendingIntent(R.id.passive_control_button, pendingButtonIntent);
 
@@ -40,12 +38,11 @@ public class PassiveControlWidget extends AppWidgetProvider {
             assert manager != null;
             for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
                 if (PassiveJammerService.class.getName().equals(service.service.getClassName())) {
-                    //service running
                     Toast.makeText(context, "service already running", Toast.LENGTH_SHORT).show();
                     Log.d("PS_WIDGET", "service running");
                 }
                 else {
-                    //context.startService(serviceIntent);
+                    // Sam4 said service NOT started when it was, still worked though
                     Toast.makeText(context, "service NOT started", Toast.LENGTH_SHORT).show();
                     Log.d("PS_WIDGET", "service NOT running");
                 }
@@ -55,12 +52,12 @@ public class PassiveControlWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
+        // nothing yet
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
+        // nothing yet
     }
 }
 

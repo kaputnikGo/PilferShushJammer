@@ -180,7 +180,7 @@ public class PassiveJammerService extends Service {
 
     private void widgetPassive() {
         // called whether service is running or not!
-        // cannot run without audioBundle, so run activity?
+        // cannot run without audioBundle, so run activity
         Log.d(TAG, "widgetPassive called");
         Intent widgetIntent = new Intent(this, MainActivity.class);
         widgetIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
