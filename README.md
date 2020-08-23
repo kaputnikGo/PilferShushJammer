@@ -38,6 +38,7 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
+- check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - inconsistent behaviour with widget and jammer service state
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
