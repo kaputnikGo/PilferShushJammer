@@ -3,12 +3,16 @@
 * added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
+
+### 4.4.2 (unreleased)
+* upgrade target to API 29, Google Play comply
 * update buildtools, platform-tools
 * getActivity npe bugfix
 * auto-backup to false
 * remove old drawable xml, possible ex cause
 * update gradle dep
 * add new SDK
+* prep code for Android 11
 
 ### 4.4.1 (2020-7-12)
 * Android 10 concurrent audio mitigation test build

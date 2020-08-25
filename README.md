@@ -28,18 +28,17 @@ Note: On devices running Android 9 (API level 28) or higher, apps running in the
 Therefore, your app should record audio only when it's in the foreground or 
 **when you include an instance of MediaRecorder in a foreground service.**
 
-Note: Device Admin feature USES_POLICY_DISABLE_CAMERA is **deprecated** in Android 9 and will **stop working** with a Security Ex error in Android 10
-
 Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
 see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
 
-Note: Testing Android 10 auto-trigger to the passive service so it can reapply audio focus, mic hold and blocking -
-as per [C-1-4] "the one that started capture the most recently receives audio", **however** C-1-4 is not labelled MUST, or SHOULD
+Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
+see https://developer.android.com/preview/privacy/foreground-services
 
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
 - Android 11 changes to foreground services and mic access, remember its just a trigger
+- Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
 - inconsistent behaviour with widget and jammer service state
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
@@ -53,30 +52,24 @@ as per [C-1-4] "the one that started capture the most recently receives audio", 
 
 
 **Changes:**
+PENDING 4.5.0
 - remove lockscreen notify as can cause dupe activity
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
+RELEASE 4.4.2
+- upgrade target to API 29, Google Play comply
 - update buildtools, platform-tools
 - getActivity npe bugfix
 - auto-backup to false
 - remove old drawable xml, possible ex cause
 - update gradle dep
 - add new SDK
--
-- Android 10 concurrent audio mitigation test build
-- centered popup toast warning for concurrent audio capture state
-- passive jammer service auto restart during C-1-4 conflict 
-- caution text to system YELLOW
-- mediaRecordPlacebo to VOICE_COMM source
-- browser intent ex null
-- add accessibility service permission to background check
-- updated Inspector and Readme text
+- prep code for Android 11
 
-
-   vers. 4.5.0
+   vers. 4.4.2
    - min API 18 (4.3)
-   - target API 28 (9.x)
+   - target API 29 (10.x)
    - compiled API 29 (10.x)
 
    testing devices
