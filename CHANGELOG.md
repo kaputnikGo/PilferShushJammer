@@ -1,12 +1,12 @@
 ### 4.5.0 (unreleased)
-* remove lockscreen notify as can cause dupe activity
 * added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
 
 ### 4.4.2 (unreleased)
-* upgrade target to API 29, Google Play comply
+* upgrade build target to API 29, Google Play comply
 * update buildtools, platform-tools
+* remove lockscreen notify as can cause dupe activity
 * getActivity npe bugfix
 * auto-backup to false
 * remove old drawable xml, possible ex cause

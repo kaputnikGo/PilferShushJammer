@@ -42,6 +42,7 @@ see https://developer.android.com/preview/privacy/foreground-services
 - inconsistent behaviour with widget and jammer service state
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
+- Android 8.x service crashes specifically to its API
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
@@ -53,13 +54,14 @@ see https://developer.android.com/preview/privacy/foreground-services
 
 **Changes:**
 PENDING 4.5.0
-- remove lockscreen notify as can cause dupe activity
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
+
 RELEASE 4.4.2
-- upgrade target to API 29, Google Play comply
+- upgrade build target to API 29, Google Play comply
 - update buildtools, platform-tools
+- remove lockscreen notify as can cause dupe activity
 - getActivity npe bugfix
 - auto-backup to false
 - remove old drawable xml, possible ex cause

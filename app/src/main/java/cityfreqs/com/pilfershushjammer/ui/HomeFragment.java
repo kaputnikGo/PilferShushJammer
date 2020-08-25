@@ -308,7 +308,7 @@ public class HomeFragment extends Fragment {
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
             context.startService(startIntent);
-            // 2 sec check for passive running
+            // 2 sec check for passive running (5 sec till timeout)
             serviceHandler.postDelayed(new Runnable() {
                 public void run() {
                     checkPassiveRunning();

@@ -54,6 +54,7 @@ public class PassiveJammerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // possible 8.x req for startForeground(NOTIFY_ID, createNotification()); here
         registerReceiver(notifyStopReceiver, new IntentFilter("notifyStopPassive"));
         registerReceiver(headsetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
         registerReceiver(retriggerPassiveReceiver, new IntentFilter("RETRIGGER_PASSIVE"));
@@ -77,6 +78,7 @@ public class PassiveJammerService extends Service {
                 }
             }
         }
+        // 8.x needs return START_STICKY; ?
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -143,6 +145,8 @@ public class PassiveJammerService extends Service {
 
             Notification notification = notifyPassiveBuilder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+            // API 30: startForeground(notification, FOREGROUND_SERVICE_TYPE_MICROPHONE);
+            // + manifest dec <service android:foregroundServiceType="microphone" />
             startForeground(NOTIFY_ID, notification);
         }
     }
