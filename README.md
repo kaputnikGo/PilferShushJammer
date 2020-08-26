@@ -78,6 +78,7 @@ RELEASE 4.4.2
    - EMU : Galaxy Nexus 4.3 (18) (Android Studio AVD, no GApps)
    - EMU : Nexus 4 5.1 (22) (Android Studio AVD, no GApps)
    - EMU : Nexus 5X 7.0 (24) (Android Studio AVD, GApps)
+   - EMU : Galaxy Nexus Oreo (27) (Android Studio AVD, GApps)
    - EMU : Pixel 3a 10.0 (29) (Android Studio AVD, GApps)
    - LOW : s4 I9195 (deprecated) 4.3.1 (18)(CyanogenMod 10.2, F-Droid)
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)

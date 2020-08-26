@@ -3,7 +3,7 @@
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
 
-### 4.4.2 (unreleased)
+### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply
 * update buildtools, platform-tools
 * remove lockscreen notify as can cause dupe activity
