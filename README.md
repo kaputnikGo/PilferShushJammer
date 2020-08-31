@@ -39,6 +39,7 @@ see https://developer.android.com/preview/privacy/foreground-services
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
+- Android 11 get ex at mediaRecorder VOICE_COMM as source, Pixel 2(PassiveJammer.java:195) ?
 - inconsistent behaviour with widget and jammer service state
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
@@ -57,6 +58,7 @@ PENDING 4.5.0
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
+- androidx deps update
 
 RELEASE 4.4.2
 - upgrade build target to API 29, Google Play comply

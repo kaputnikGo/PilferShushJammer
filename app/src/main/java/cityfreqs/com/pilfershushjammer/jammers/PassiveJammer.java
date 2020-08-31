@@ -192,6 +192,7 @@ public class PassiveJammer {
         // foreground services using the MediaRecorder instance
         // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER)
         placeboRecorder = new MediaRecorder();
+        // TODO API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method)
         placeboRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);

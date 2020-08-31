@@ -5,9 +5,8 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- rem boot perm for minor release 4.4.2
+    <!-- rem boot perm for minor release 4.4.2 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    -->
 
     <application
         android:allowBackup="false"
@@ -55,7 +54,7 @@
             </intent-filter>
         </service>
 
-        <!-- rem below for minor release 4.4.2
+        <!-- rem below for minor release 4.4.2 -->
         <receiver
             android:name=".utilities.BootReceiver"
             android:enabled="true"
@@ -75,7 +74,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/passive_control_widget_info" />
         </receiver>
-        end rem -->
+        <!-- end rem -->
 
     </application>
 
