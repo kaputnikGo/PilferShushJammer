@@ -3,9 +3,9 @@
     <string name="passive_service_name">PilferShush Pasivo</string>
     <string name="active_service_name">PilferShush Activo</string>
     <string name="action_about">Acerca de</string>
-    <string name="action_readme">Readme</string>
+    <string name="action_readme">Léame</string>
     <string name="action_power">Energía</string>
-    <string name="action_debug">Debug</string>
+    <string name="action_debug">Depurar</string>
 
     <string name="action_power_state">Disponible sólo para Android 6.0 Marshmallow (API 23) y superiores.</string>
 
@@ -21,7 +21,7 @@
 
     <string name="dialog_button_save">Guardar</string>
     <string name="dialog_button_cancel">Cancelar</string>
-    <string name="dialog_button_okay">OK</string>
+    <string name="dialog_button_okay">ACEPTAR</string>
     <string name="dialog_button_yes">SI</string>
     <string name="dialog_button_no">NO</string>
     <string name="dialog_button_off">APAGAR</string>
@@ -29,7 +29,7 @@
     <string name="dialog_button_dismiss">Omitir</string>
     <string name="dialog_button_continue">Continuar</string>
     <string name="dialog_button_source">GITHUB</string>
-    <string name="dialog_button_moreinfo">More Info</string>
+    <string name="dialog_button_moreinfo">Más Info</string>
     <string name="notify_stop_button">DETNER PASIVO</string>
 
     <string name="options_dialog_1">Bloqueo de lectura del buffer</string>
@@ -50,7 +50,7 @@
     <string name="audiofocus_check_7">Solicitud de interrumpir foco de audio concedida.</string>
     <string name="audiofocus_check_8">IRQ_TELEPHONY loss_transient.</string>
 
-    <string name="resume_status_1">SERVICIO PASIVO ENCONTRADA</string>
+    <string name="resume_status_1">SERVICIO PASIVO ENCONTRADO</string>
     <string name="resume_status_2">SERVICIO PASIVO NO ENCONTRADO</string>
     <string name="resume_status_3">SERVICIO ACTIVO ENCONTRADO</string>
     <string name="resume_status_4">SERVICIO ACTIVO NO ENCONTRADO</string>
@@ -93,14 +93,14 @@
     <!--
     readme dialog text
     -->
-    <string name="readme_dialog_1">README</string>
-    <string name="readme_dialog_2">The INSPECTOR function is not a proof but merely a way to provide more information to the user about any installed apps on their device.</string>
-    <string name="readme_dialog_3">Summary: lists user installed apps and checks for record audio ability, start at boot, background services, background receivers, NUHF/ACR SDK name inclusion and Accessibility service use for gaining special functions.</string>
-    <string name="readme_dialog_4">Search: provides more information about a specific user installed app and any services or receivers it has. These names are usually an indication of their function but they can be non-sensical, random letters.</string>
-    <string name="readme_dialog_5">SDK list: is the current names of known packages from companies that provide near ultra-high frequency listening and/or automated content recognition abilities. PilferShush app searches the user installed apps for any package names that make a match from this list. This is not a proof of any app behaviour but merely one method to provide more information to the user about the apps on their devices.</string>
-    <string name="readme_dialog_6">The PASSIVE Jammer is the primary method of defence against unwanted use of the device microphone by user installed apps. It utilises a current feature of the Android API that insists that only one user app may use the microphone at a time. PilferShush asks the Android system for access to the microphone via the AudioRecord function and then asks to start recording. At this point the microphone is now ready to provide the requesting app with audio data. PilferShush does not ask for this audio data but simply maintains its hold on the microphone. Initially, on older Android devices, this was enough but with later versions it is now necessary to create and prepare a MediaRecorder function so that PilferShush is still allowed to access the microphone while running in the background. System apps such as Telephone will always override and take control of the microphone. Some voice assistants and accessibility apps, depending on their setup, may still access the microphone during this passive jamming.  As of Android 10 (Q) concurrent use of the microphone is allowed which means another user app may take over the microphone while PilferShush is jamming in the background. Limited responses are possible at the moment but a pop up should appear in the middle of the screen to inform the user of an Android 10 device that another app has control of the microphone and that PilferShush is attempting to regain blocking control of the microphone. More research is being carried out.</string>
-    <string name="readme_dialog_7">The ACTIVE Jammer is an experimental method of jamming NUHF beacon signals with random sounds that fall within the NUHF ranges as measured from 18000 hz to 24000 hz. NUHF beacons send out specific tones that are encoded to make sense to the specific app it is targeting. Usually these specific tones are centered around a particular frequency (carrier) with other meaningful tones emitted within a range above and below that frequency (drift limit). The broadcast of these NUHF beacon signals are played very fast (drift speed) and in a frequency range that humans can\'t ordinarily hear. PilferShush active jammer attempts to block these beacon signals by flooding the same frequency range with meaningless random tones. You should assume this method is unreliable, for reasons beyond this README, even if you know what specific settings are likely to match a particular NUHF beacon signal.</string>
-    <string name="readme_dialog_8">For more research and information click the "MORE INFO" button to open the project webpage in your browser.</string>
+    <string name="readme_dialog_1">LÉAME</string>
+    <string name="readme_dialog_2">La función INSPECTOR no es una prueba, sino simplemente una forma de proporcionar más información al usuario sobre las aplicaciones instaladas en su dispositivo.</string>
+    <string name="readme_dialog_3">Resumen: enumera las aplicaciones instaladas por el usuario y verifica la capacidad de grabación de audio, el arranque de inicio, los servicios en segundo plano, los receptores en segundo plano, la inclusión de nombres NUHF/ACR SDK y el uso del servicio de accesibilidad para obtener funciones especiales.</string>
+    <string name="readme_dialog_4">Buscar: proporciona más información sobre una aplicación específica instalada por el usuario y cualquier servicio o receptor que tenga. Estos nombres suelen ser una indicación de su función, pero pueden mostrar letras aleatorias sin sentido.</string>
+    <string name="readme_dialog_5">Lista de SDK: is the current names of known packages from companies that provide near ultra-high frequency listening and/or automated content recognition abilities. PilferShush app searches the user installed apps for any package names that make a match from this list. This is not a proof of any app behaviour but merely one method to provide more information to the user about the apps on their devices.</string>
+    <string name="readme_dialog_6">El bloqueador PASIVO es el método principal de protección frente al mal uso del micrófono del dispositivo cedida de las aplicaciones instaladas por el usuario. Utiliza una función actual de la API de Android que fuerza a recurrir el micrófono una aplicación de usuario a la vez. PilferShush solicita al sistema Android acceso al micrófono a través de la función AudioRecord y luego solicita comenzar a grabar. En este punto, el micrófono ya está listo para proporcionar datos de audio a la aplicación solicitante. PilferShush no solicita estos datos de audio, sino que simplemente mantiene su control sobre el micrófono. Inicialmente, en dispositivos Android más antiguos, esto era suficiente, pero con versiones posteriores ahora es necesario crear y preparar una función MediaRecorder para que PilferShush aún pueda acceder al micrófono mientras se ejecuta en segundo plano. Las aplicaciones del sistema como Teléfono siempre anularán y tomarán el control del micrófono. Algunos asistentes de voz y aplicaciones de accesibilidad, según su configuración, aún pueden acceder al micrófono durante esta interferencia pasiva. A partir de Android 10 (Q), se permite el uso simultáneo del micrófono, lo que significa que otra aplicación de usuario puede tomar el control del micrófono mientras PilferShush se interrumpe en segundo plano. Las respuestas limitadas son posibles en este momento, pero debería aparecer una ventana emergente en la mitad de la pantalla para informar al usuario de un dispositivo con Android 10 que otra aplicación tiene el control del micrófono y que PilferShush está intentando recuperar el control de bloqueo del micrófono. Se están realizando más investigaciones.</string>
+    <string name="readme_dialog_7">El bloqueador ACTIVO es un método experimental para bloquear señales de rastreo NUHF con sonidos aleatorios que ceden dentro de los rangos de NUHF medidos desde 18000 hz a 24000 hz. Las balizas NUHF envían tonos específicos que están codificados para que tengan sentido para la aplicación específica a la que se dirige. Por lo general, estos tonos específicos se centran alrededor de una frecuencia particular (portadora) con otros tonos significativos emitidos dentro de un rango por encima y por debajo de esa frecuencia (límite de deriva). La transmisión de estas señales de baliza NUHF se reproduce muy rápido (velocidad de deriva) y en un rango de frecuencia que los humanos normalmente no pueden escuchar. El bloqueador activo PilferShush intenta bloquear estas señales de baliza inundando el mismo rango de frecuencia con tonos aleatorios sin sentido. Debe asumir que este método no es fiable, por razones más allá de este LÉAME, incluso si sabe qué configuraciones específicas pueden coincidir con una señal de baliza NUHF particular.</string>
+    <string name="readme_dialog_8">Para más investigación e información, haga clic en el botón "MÁS INFORMACIÓN" para abrir la página web del proyecto en su navegador.</string>
 
     <string name="about_version">versión\u0020</string>
     <string name="about_dialog_1">Acerca de PilferShush Jammer</string>
@@ -127,7 +127,7 @@
     <string name="jammer_dialog_1">Cambiar el tipo de señal del bloqueador activo.</string>
     <string name="jammer_dialog_2">Tono distorcionado para audición lenta de prueba (~440Hz)</string>
     <string name="jammer_dialog_3">Distorción NUHF completa (18kHz-24kHz)</string>
-    <string name="jammer_dialog_4">Usuario estableció NUHF portada</string>
+    <string name="jammer_dialog_4">Usuario estableció NUHF portadora</string>
     <string name="jammer_dialog_5">Usuario estableció NUHF distorcionada</string>
     <string name="jammer_dialog_6">Ajustar la frecuencia portadora</string>
     <string name="jammer_dialog_8">19000</string>
@@ -206,11 +206,11 @@
     <string name="sdk_names_list">Lista de nombres de paquetes SDK NUHF/ACR buscados:\u0020</string>
     <string name="dialog_userapps">Lista de aplicaciones escaneadas</string>
 
-    <string name="userapp_scan_1">Userapp Checker fail.</string>
+    <string name="userapp_scan_1">Control Userapp fallido.</string>
     <string name="userapp_scan_2">run user app checks\u2026</string>
-    <string name="userapp_scan_3">User Apps with RECORD AUDIO:\u0020</string>
+    <string name="userapp_scan_3">Apps de usuario con RECORD AUDIO:\u0020</string>
 
-    <string name="userapp_scan_4">NO USER APPS FOUND FOR CHECKER.</string>
+    <string name="userapp_scan_4">NO SE ENCONTARON APPS PARA REVISAR.</string>
     <string name="userapp_scan_5">Se encontraron servicios de aplicación de usuario para\u0020</string>
     <string name="userapp_scan_6">Se encontraron receptores de aplicaciones de usuario para\u0020</string>
     <string name="userapp_scan_7">Lista AppEntry:\u0020</string>
@@ -237,15 +237,15 @@
     <!--
  recording callback
 -->
-    <string name="recording_callback_silenced">PilferShush WARNING: another app has control of the microphone.</string>
-    <string name="recording_callback_not_silenced">PilferShush has control of the microphone.</string>
+    <string name="recording_callback_silenced">ADVERTENCIA PilferShush: otra app tiene el control del micrófono.</string>
+    <string name="recording_callback_not_silenced">PilferShush tiene el control del micrófono.</string>
 
     <!--
      Passive jammer app widget
     -->
-    <string name="passive_appwidget_name">Passive Jammer Control</string>
-    <string name="passive_appwidget_text">Passive Control</string>
-    <string name="passive_add_widget">Add widget</string>
+    <string name="passive_appwidget_name">Control de bloqueo pasivo</string>
+    <string name="passive_appwidget_text">Control pasivo</string>
+    <string name="passive_add_widget">Añadir widget</string>
 
 
 </resources>
