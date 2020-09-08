@@ -1,0 +1,1 @@
+Bloquea el uso innecesario del micrófono integrado

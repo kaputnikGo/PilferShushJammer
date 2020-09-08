@@ -1,0 +1,38 @@
+PilferShush Jammer bloquea aquellas aplicaciones que intentan utilizar el micrófono sin su conocimiento. Algunas aplicaciones utilizan procesos ocultos para realizar grabaciones de audio en segundo plano generado por balizas cercanas, anuncios de televisión, servicios de música en streaming o sitios web. Este audio de seguimiento se transmite entre 18 kHz y 22 kHz (cerca de la frecuencia ultra alta), que supera al rango de audición humana permitido, pero dentro del rango de grabación de un teléfono Android típico.
+
+Para bloquear el uso no deseado del micrófono mediante procesos de aplicaciones ocultas, PilferShush Jammer solicita el uso del micrófono de hardware del sistema Android y lo mantiene. Esta técnica bloquea el micrófono de cualquier otra aplicación que intente acceder a él. Se ha probado esta solución solo en aplicaciones de usuario, no en aplicaciones del sistema. El sistema Android debería evitar que PilferShush Jammer bloquee el micrófono siempre que se reciba o se realice una llamada telefónica.
+
+Cuando la técnica de interferencia se está ejecutando y el micrófono está bloqueado, PilferShush Jammer envía una notificación para mantener informado al usuario de que se está ejecutando. Las pruebas han demostrado que consume 0% de CPU, 0% de red y 43,6 MB de RAM cuando se ejecuta durante más de una hora.
+
+Esta es una aplicación experimental creada como parte de la investigación sobre métodos de contravigilancia de audio en el mundo de Android e IoT.
+
+Requiere el permiso RECORD_AUDIO para acceder y bloquear el micrófono.
+
+* NO graba ni escucha ningún audio.
+* NO se conecta a Internet.
+
+'''Añadidos en la versión 2.0 de Active Jammer:'''
+
+Los tonos se pueden emitir con una frecuencia portadora y un límite de deriva con una velocidad restringida a NUHF de 18 kHz a 24 kHz, según las capacidades del dispositivo. Por ejemplo, con portadora de 20000 Hz, límite de deriva de 1000 Hz y velocidad lenta: emitirá una frecuencia aleatoria entre 19 kHz y 21 kHz aproximadamente cada segundo.
+
+'''En la version 3.0 los bloqueadores actúan como servicio:'''
+
+Tanto los bloqueadores activos como los pasivos ahora se ejecutan como un servicio (en primer plano) que debería indicar con precisión si se están ejecutando o no. Esto depende tanto del sistema operativo Android (administración de energía) como de cualquier administrador de aplicaciones que pueda destruir los servicios en ejecución.
+
+Como esta aplicación busca bloquear el uso del micrófono, es importante NO ignorar ni ocultar la notificación, de lo contrario, no se daría cuenta que se está ejecutando.
+
+También incluye un escáner para verificar las aplicaciones instaladas por el usuario para NUHF y SDK de Reconocimiento de contenido de audio (ACR), así como cualquier servicio o receptor.
+
+'''Rediseño de la versión 4.0'''
+Revisión importante del diseño para aclarar la información y simplificar los usos típicos de la aplicación
+
+Notas:
+Seguimos buscando un mejor código de salida de audio Active Jammer.
+
+La salida de ruido blanco puede no ser muy eficaz para bloquear y es un sonido algo molesto.
+
+Es posible que la salida del altavoz no tenga suficiente amplitud para bloquear las señales NUHF no deseadas; las pruebas lo determinarán.
+
+
+El código fuente está disponible: <a href="https://github.com/kaputnikGo/PilferShushJammer">PilferShush Jammer Github</a>
+Página web de investigación y proyectos: <a href="https://www.cityfreqs.com.au/pilfer.php">City Frequencies PilferShush<a/>
