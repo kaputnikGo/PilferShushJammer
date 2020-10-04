@@ -34,6 +34,8 @@ see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_captur
 Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
 see https://developer.android.com/preview/privacy/foreground-services
 
+Note: APK signing with API30 needs v2/v3 - not v1
+
 **TODO:**
 - URGENT Android 10 concurrent audio test and fix
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
@@ -44,11 +46,12 @@ see https://developer.android.com/preview/privacy/foreground-services
 - check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
+- requestAudioFocus deprecate, see AudioAttributes
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider optional jammer state persistence over boot <- adding to 4.5.0
-- consider min API bump to 23 (6.x)
+- consider min API bump to 23 (6.x), or at least 21 (5.0) for AudioAttributes
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
 
@@ -58,18 +61,9 @@ PENDING 4.5.0
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
-- androidx deps update
-
-RELEASE 4.4.2
-- upgrade build target to API 29, Google Play comply
-- update buildtools, platform-tools
-- remove lockscreen notify as can cause dupe activity
-- getActivity npe bugfix
-- auto-backup to false
-- remove old drawable xml, possible ex cause
-- update gradle dep
-- add new SDK
-- prep code for Android 11
+- androidx and deps update
+- mediaRecorder source switch to DEFAULT
+- updates to Spanish translation
 
    vers. 4.4.2
    - min API 18 (4.3)

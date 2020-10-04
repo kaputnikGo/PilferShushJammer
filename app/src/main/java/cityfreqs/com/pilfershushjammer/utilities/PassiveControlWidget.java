@@ -20,7 +20,7 @@ public class PassiveControlWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // called on install of widget to homescreen
+        // called on install of widget to homescreen, unless have a widget configuration activity
         for (int appWidgetId : appWidgetIds) {
             Intent buttonIntent = new Intent(context, PassiveJammerService.class);
             buttonIntent.setAction(ACTION_WIDGET_PASSIVE);
@@ -72,6 +72,7 @@ public class PassiveControlWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // nothing yet
+        // called when widget created for first time
         Log.d("PS_WIDGET", "onEnabled reached");
     }
 

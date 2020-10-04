@@ -2,7 +2,9 @@
 * added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
-* androidx deps update
+* androidx and deps update
+* mediaRecorder source switched to DEFAULT
+* updates to Spanish translation
 
 ### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply
