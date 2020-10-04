@@ -5,6 +5,8 @@
 * androidx and deps update
 * mediaRecorder source switched to DEFAULT
 * updates to Spanish translation
+* add AudioRecord.Builder in prep for Android 11
+* API28 microphoneInfo list enum
 
 ### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply

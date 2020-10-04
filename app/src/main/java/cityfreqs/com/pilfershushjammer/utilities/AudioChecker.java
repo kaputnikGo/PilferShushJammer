@@ -6,9 +6,15 @@ import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder;
+import android.media.MicrophoneInfo;
 import android.media.audiofx.Equalizer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
+
+import java.io.IOException;
+import java.util.List;
 
 import cityfreqs.com.pilfershushjammer.R;
 
@@ -17,6 +23,7 @@ public class AudioChecker {
     private Context context;
     private Bundle audioBundle;
     private boolean DEBUG;
+    private List<MicrophoneInfo> microphoneInfoList;
 
     public AudioChecker(Context context, Bundle audioBundle) {
         this.context = context;
@@ -105,6 +112,11 @@ public class AudioChecker {
                                 audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[4], buffSize);
 
                                 recorder.release();
+                                // call the MediaRecorder tester, not necessary at moment
+                                if (determineMediaRecorderType()) {
+                                    return true;
+                                }
+                                // return true here anyway
                                 return true;
                             }
                         }
@@ -118,6 +130,96 @@ public class AudioChecker {
             }
         }
         return false;
+    }
+
+    private boolean determineMediaRecorderType() {
+        // as per changes to API28+ background mic use now only available to
+        // foreground services using the MediaRecorder instance
+        // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER or DEFAULT)
+        MediaRecorder placeboRecorder = new MediaRecorder();
+        // reserve a file handle in the application specific cache directory in the filesystem
+        String placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
+        placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
+        // it is never written to.
+        // TODO API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method), if/else?
+
+        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // VOICE_COMMUNICATION
+        placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
+
+        debugLogger("detMediaRecorderType placebo set.", false);
+
+        try {
+            // optional attempt to enum device mics and capabilities
+            //TODO
+            // needs: Note: The query is only valid if the MediaRecorder is currently recording.
+            // so need prepare() and start()?
+            // getting: E/MediaRecorderJNI: MediaRecorder::getActiveMicrophones error -19
+            // and: E/MediaRecorder: getActiveMicrophones failed:-5
+            // and: I/MediaRecorder: getActiveMicrophones failed, fallback on routed device info
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                // list of MicrophoneInfo (object of floats x,y,z for orientation)
+                microphoneInfoList = placeboRecorder.getActiveMicrophones();
+
+                scanMicrophoneInfoList();
+            }
+            else {
+                debugLogger("Not build P, no mic scan.", false);
+            }
+
+            // MediaRecorder.java only checks for file exists, not mic hardware
+            placeboRecorder.prepare();
+        }
+        catch (IOException e) {
+            debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+        }
+        finally {
+            //placeboRecorder.stop(); // <- has not started so no need to stop.
+            placeboRecorder.reset();
+            placeboRecorder.release();
+            debugLogger(context.getResources().getString(R.string.passive_state_15), true);
+        }
+        return true;
+    }
+
+    private void scanMicrophoneInfoList() {
+        // get some infos, check list is populated
+        debugLogger("scanMicrophoneInfo list now...", false);
+        if (microphoneInfoList.isEmpty()) {
+            // why oh why
+            debugLogger("micInfoList is empty.", true);
+            return;
+        }
+        // no really, how many, 3? more?
+        int howManyMics = microphoneInfoList.size();
+        debugLogger("how many mics: " + howManyMics, false);
+        // P = api28 for MicrophoneInfo
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            int micId = 0;
+            int micType = 0;
+            float micSens = 0.0f;
+            List<Pair<Float, Float>> freqPair;
+            int micDirection = 0;
+            int micLocation = 0;
+
+            for (MicrophoneInfo microphoneInfo : microphoneInfoList) {
+                // no iter
+                micId = microphoneInfo.getId();
+                micType = microphoneInfo.getType(); // hopefully only returns an input device
+                debugLogger("micID: " + micId + "mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType], false);
+                //
+                micSens = microphoneInfo.getSensitivity();
+                freqPair = microphoneInfo.getFrequencyResponse();
+                debugLogger("Freq pair: " + freqPair.toString() + "sensitivity (dB FS): " + micSens, false);
+                //
+                micDirection = microphoneInfo.getDirectionality();
+                micLocation = microphoneInfo.getLocation();
+                debugLogger("Mic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
+                        + "Mic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection], false);
+
+            }
+        }
     }
 
     public boolean determineOutputAudioType() {

@@ -46,6 +46,26 @@ public class AudioSettings {
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
             "maxFreq", "bufferRead", "debug", "permissions"
     };
+
+    // MicrophoneInfo for min API28
+    public static final String[] MIC_INFO_LOCATION = new String[]{
+            "unknown", "mainbody", "mainbody movable", "peripheral"
+    };
+
+    public static final String[] MIC_INFO_DIRECTION = new String[]{
+            "unknown", "omni", "bi-directional", "cardioid", "hyper-cardioid", "super-cardioid"
+    };
+
+    // added API 23
+    // API 30 has 25: "builtin-speaker-safe" -  outputting sounds like notifications and alarms
+    // (i.e. sounds the user couldn't necessarily anticipate)
+    public static final String[] AUDIO_DEVICE_INFO_TYPE = new String[]{
+            "unknown", "builtin-earpiece", "builtin-speaker", "wired-headset", "wired-headphones", //5
+            "line-analog", "line-digital", "bluetooth-sco", "bluetooth-a2dp", "hdmi", "hdmi-arc", //10
+            "usb-device", "usb-accessory", "dock", "FM", "builtin-mic", //15
+            "FM-tuner", "TV-tuner", "telephony", "aux-line", "IP", //20
+            "bus", "usb-headset", "hearing-aid" //24
+    };
 }
 
 /*

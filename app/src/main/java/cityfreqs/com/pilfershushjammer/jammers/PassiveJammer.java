@@ -1,6 +1,7 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
+import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.AudioRecordingConfiguration;
 import android.media.MediaRecorder;
@@ -45,12 +46,38 @@ public class PassiveJammer {
     boolean startPassiveJammer() {
         if (audioRecord == null) {
             try {
-                audioRecord = new AudioRecord(
+                // this set to M/23 for AudioRecord.Builder in prep for API 30/Android 11
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    /*
+                    // Configuration for capturing audio played by other apps - probably not necessary
+                    MediaProjection mediaProjection;
+                    // Retrieve a audio capable projection from the MediaProjectionManager
+                    AudioPlaybackCaptureConfiguration config =
+                            new AudioPlaybackCaptureConfiguration.Builder(mediaProjection)
+                                    .addMatchingUsage(AudioAttributes.USAGE_MEDIA) // .USAGE_UNKNOWN
+                                    .build();
+                    */
+                    audioRecord = new AudioRecord.Builder()
+                        .setAudioSource(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]))
+                            .setAudioFormat(new AudioFormat.Builder()
+                                //.setAudioPlaybackCaptureConfig(config) // api29 concurrent capture
+                                //.setPrivacySensitive(true) // api30 block concurrent capture
+                                .setEncoding(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]))
+                                .setSampleRate(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]))
+                                .setChannelMask(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[2]))
+                                .build())
+                        .setBufferSizeInBytes(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]))
+                        .build();
+                }
+                else {
+                    // fallback to the older method < M/23
+                    audioRecord = new AudioRecord(
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[2]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]));
+                }
 
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     registerCallback();
@@ -195,8 +222,8 @@ public class PassiveJammer {
         // TODO API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method), if/else?
         placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // VOICE_COMMUNICATION
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
 
         try {
             // MediaRecorder.java only checks for file exists, not mic hardware
@@ -217,6 +244,7 @@ public class PassiveJammer {
     private void stopMediaRecorderPlacebo() {
         if (placeboRecorder != null) {
             //placeboRecorder.stop(); // <- has not started so no need to stop.
+            placeboRecorder.reset();
             placeboRecorder.release();
             placeboRecorder = null;
         }

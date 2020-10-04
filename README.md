@@ -37,8 +37,9 @@ see https://developer.android.com/preview/privacy/foreground-services
 Note: APK signing with API30 needs v2/v3 - not v1
 
 **TODO:**
-- URGENT Android 10 concurrent audio test and fix
+- URGENT Android 10 concurrent audio continue testing
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
+- Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
 - Android 11 get ex at mediaRecorder VOICE_COMM as source, Pixel 2(PassiveJammer.java:195) ?
@@ -47,11 +48,12 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
 - requestAudioFocus deprecate, see AudioAttributes
+- add microphoneInfo list enum print option in InspectorFragment
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider optional jammer state persistence over boot <- adding to 4.5.0
-- consider min API bump to 23 (6.x), or at least 21 (5.0) for AudioAttributes
+- consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
 - rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
 
@@ -64,6 +66,7 @@ PENDING 4.5.0
 - androidx and deps update
 - mediaRecorder source switch to DEFAULT
 - updates to Spanish translation
+- API28 microphoneInfo enum
 
    vers. 4.4.2
    - min API 18 (4.3)
