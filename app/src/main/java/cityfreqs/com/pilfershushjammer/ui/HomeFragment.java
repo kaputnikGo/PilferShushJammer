@@ -85,7 +85,12 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             audioBundle = getArguments().getBundle("audioBundle");
             if (audioBundle != null) {
-                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+                // usually set via dialog in main via pagerAdapter, first instance of audioBundle here
+                // hardcode for testing
+                DEBUG = true;
+                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
+                // un-rem for production
+                //DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
             }
         }
         else {
@@ -428,6 +433,9 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         }
+        // testing MediaRecorder vars, depends on differing min APIs
+        // ignore returning boolean for now
+        audioChecker.determineMediaRecorderType();
         return true;
     }
 

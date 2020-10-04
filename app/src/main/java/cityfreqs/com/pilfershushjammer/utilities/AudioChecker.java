@@ -112,11 +112,6 @@ public class AudioChecker {
                                 audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[4], buffSize);
 
                                 recorder.release();
-                                // call the MediaRecorder tester, not necessary at moment
-                                if (determineMediaRecorderType()) {
-                                    return true;
-                                }
-                                // return true here anyway
                                 return true;
                             }
                         }
@@ -132,7 +127,8 @@ public class AudioChecker {
         return false;
     }
 
-    private boolean determineMediaRecorderType() {
+    public boolean determineMediaRecorderType() {
+        debugLogger("determineMediaRecorderType called.", false);
         // as per changes to API28+ background mic use now only available to
         // foreground services using the MediaRecorder instance
         // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER or DEFAULT)
@@ -148,7 +144,15 @@ public class AudioChecker {
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
 
-        debugLogger("detMediaRecorderType placebo set.", false);
+        // try and trip the routedDevice, need prepare() and start()
+        try {
+            placeboRecorder.prepare();
+            placeboRecorder.start();
+            debugLogger("determineMediaRecorderType placebo set and prepare.", false);
+        }
+        catch (IOException e) {
+            debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+        }
 
         try {
             // optional attempt to enum device mics and capabilities
@@ -159,9 +163,26 @@ public class AudioChecker {
             // and: E/MediaRecorder: getActiveMicrophones failed:-5
             // and: I/MediaRecorder: getActiveMicrophones failed, fallback on routed device info
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                // list of MicrophoneInfo (object of floats x,y,z for orientation)
-                microphoneInfoList = placeboRecorder.getActiveMicrophones();
+                // test things are plugged in, n.b.
+                // The query is only valid if the MediaRecorder is currently recording.
+                // If the recorder is not recording, the returned device can be null or correspond
+                // to previously selected device when the recorder was last active.
+                debugLogger("attempt getRoutedDevice().", false);
 
+                if (placeboRecorder.getRoutedDevice() != null) {
+                    int routedType = placeboRecorder.getRoutedDevice().getType();
+                    debugLogger("routed mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[routedType], false);
+                }
+                else {
+                    // probably unreachable if no start(), will result in java.lang.RuntimeException: getRoutedDeviceId failed.
+                    debugLogger("getRoutedDevice is null.", true);
+                }
+
+                // list of MicrophoneInfo (object of floats x,y,z for orientation)
+                // getting: E/MediaRecorderJNI: MediaRecorder::getActiveMicrophones error -38
+                // and: I/MediaRecorder: getActiveMicrophones failed, fallback on routed device info
+                // a device with no firmware filling this micInfo will only get Android fallback for default ?
+                microphoneInfoList = placeboRecorder.getActiveMicrophones();
                 scanMicrophoneInfoList();
             }
             else {
@@ -173,6 +194,9 @@ public class AudioChecker {
         }
         catch (IOException e) {
             debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+        }
+        catch (Exception ex) {
+            debugLogger("Caught non IO exception in mediaRecorder init, ex: " + ex, true);
         }
         finally {
             //placeboRecorder.stop(); // <- has not started so no need to stop.
@@ -200,6 +224,7 @@ public class AudioChecker {
             int micType = 0;
             float micSens = 0.0f;
             List<Pair<Float, Float>> freqPair;
+            float first = 0.0f, second = 0.0f;
             int micDirection = 0;
             int micLocation = 0;
 
@@ -207,16 +232,27 @@ public class AudioChecker {
                 // no iter
                 micId = microphoneInfo.getId();
                 micType = microphoneInfo.getType(); // hopefully only returns an input device
-                debugLogger("micID: " + micId + "mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType], false);
+                debugLogger("micID: " + micId + " mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType], false);
                 //
                 micSens = microphoneInfo.getSensitivity();
+                // if dB Full Scale reports as -3.4028235E38 is const SENSITIVITY_UNKNOWN
+                if (micSens < 0) micSens = -3.4f;
+
                 freqPair = microphoneInfo.getFrequencyResponse();
-                debugLogger("Freq pair: " + freqPair.toString() + "sensitivity (dB FS): " + micSens, false);
+                if (freqPair.isEmpty()) {
+                    // ignore, device cant produce the info
+                    debugLogger("freq response size is empty.", false);
+                }
+                else {
+                    first = freqPair.get(0).first;
+                    second = freqPair.get(0).second;
+                }
+                debugLogger("Freq pair 1: " + first + " 2: " + second + " sensitivity (dB FS): " + micSens, false);
                 //
                 micDirection = microphoneInfo.getDirectionality();
                 micLocation = microphoneInfo.getLocation();
                 debugLogger("Mic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
-                        + "Mic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection], false);
+                        + " Mic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection], false);
 
             }
         }
