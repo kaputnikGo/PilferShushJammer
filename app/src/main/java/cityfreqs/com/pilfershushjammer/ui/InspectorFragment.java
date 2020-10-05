@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AppEntry;
+import cityfreqs.com.pilfershushjammer.utilities.AudioChecker;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
@@ -33,6 +34,7 @@ public class InspectorFragment extends Fragment {
     private Context context;
 
     private BackgroundChecker backgroundChecker;
+    private AudioChecker audioChecker;
     private TextView scannerText;
 
     private ImageButton appSummaryButton;
@@ -68,6 +70,7 @@ public class InspectorFragment extends Fragment {
             entryLogger("Failed to load audio settings.", true);
         }
         backgroundChecker = new BackgroundChecker(context, DEBUG);
+        audioChecker = new AudioChecker(context);
     }
 
     @Override
@@ -125,6 +128,11 @@ public class InspectorFragment extends Fragment {
         backgroundChecker.runChecker();
 
         introText();
+        // add a call to audioChecker.determineMediaRecorderType()
+        // return a mic info string for outputting to entryLogger
+        String reportBack = "Attempting MediaRecorder info checks.";
+        reportBack = audioChecker.determineMediaRecorderType();
+        entryLogger(reportBack, true);
     }
 
     private void introText() {
@@ -248,7 +256,7 @@ public class InspectorFragment extends Fragment {
         int end = scannerText.getText().length();
         Spannable spannableText = (Spannable) scannerText.getText();
         if (caution) {
-            spannableText.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start, end, 0);
+            spannableText.setSpan(new ForegroundColorSpan(Color.YELLOW), start, end, 0);
         }
         else {
             spannableText.setSpan(new ForegroundColorSpan(Color.WHITE), start, end, 0);

@@ -348,7 +348,7 @@ public class SettingsFragment extends Fragment {
         int end = settingsText.getText().length();
         Spannable spannableText = (Spannable) settingsText.getText();
         if (caution) {
-            spannableText.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start, end, 0);
+            spannableText.setSpan(new ForegroundColorSpan(Color.YELLOW), start, end, 0);
         }
         else {
             spannableText.setSpan(new ForegroundColorSpan(Color.WHITE), start, end, 0);

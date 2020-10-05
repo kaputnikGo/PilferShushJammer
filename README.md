@@ -38,16 +38,14 @@ Note: APK signing with API30 needs v2/v3 - not v1
 
 **TODO:**
 - URGENT Android 10 concurrent audio continue testing
+- URGENT Android 11 changes to concurrent audio
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
-- Android 11 get ex at mediaRecorder VOICE_COMM as source, Pixel 2(PassiveJammer.java:195) ?
 - inconsistent behaviour with widget and jammer service state
-- check buffer size reported as being 2048 instead of device actual 8192, overridden with device actual
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
-- requestAudioFocus deprecate, see AudioAttributes
 - add microphoneInfo list enum print option in InspectorFragment
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
@@ -67,6 +65,9 @@ PENDING 4.5.0
 - mediaRecorder source switch to DEFAULT
 - updates to Spanish translation
 - API28 microphoneInfo enum
+- API check for requestAudioFocus check method
+- Inspector Fragment has mic info check print
+- remove Color.Accent resource need
 
    vers. 4.4.2
    - min API 18 (4.3)

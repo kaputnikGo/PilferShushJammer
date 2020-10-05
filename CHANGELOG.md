@@ -7,6 +7,9 @@
 * updates to Spanish translation
 * add AudioRecord.Builder in prep for Android 11
 * API28 microphoneInfo list enum
+* API check for requestAudioFocus check method
+* Inspector Fragment has mic info check print
+* remove Color.Accent resource need
 
 ### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply

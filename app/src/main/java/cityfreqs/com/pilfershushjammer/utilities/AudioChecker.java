@@ -25,6 +25,13 @@ public class AudioChecker {
     private boolean DEBUG;
     private List<MicrophoneInfo> microphoneInfoList;
 
+    public AudioChecker(Context context) {
+        // constructor for checks only, not settings, called from InspectorFragment
+        this.context = context;
+        // hmmm, for now
+        DEBUG = true;
+    }
+
     public AudioChecker(Context context, Bundle audioBundle) {
         this.context = context;
         this.audioBundle = audioBundle;
@@ -127,8 +134,10 @@ public class AudioChecker {
         return false;
     }
 
-    public boolean determineMediaRecorderType() {
+    public String determineMediaRecorderType() {
         debugLogger("determineMediaRecorderType called.", false);
+        // n.b. this method slows down app start-up by approx ~2 seconds
+
         // as per changes to API28+ background mic use now only available to
         // foreground services using the MediaRecorder instance
         // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER or DEFAULT)
@@ -146,12 +155,14 @@ public class AudioChecker {
 
         // try and trip the routedDevice, need prepare() and start()
         try {
+            // MediaRecorder.java only checks for file exists, not mic hardware
             placeboRecorder.prepare();
+            // Begins capturing and encoding data to the file specified with setOutputFile().
             placeboRecorder.start();
-            debugLogger("determineMediaRecorderType placebo set and prepare.", false);
         }
         catch (IOException e) {
             debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+            return "MediaRecorder checks prepare,start error IO ex.";
         }
 
         try {
@@ -183,20 +194,20 @@ public class AudioChecker {
                 // and: I/MediaRecorder: getActiveMicrophones failed, fallback on routed device info
                 // a device with no firmware filling this micInfo will only get Android fallback for default ?
                 microphoneInfoList = placeboRecorder.getActiveMicrophones();
-                scanMicrophoneInfoList();
+                return scanMicrophoneInfoList();
             }
             else {
-                debugLogger("Not build P, no mic scan.", false);
+                debugLogger("Device is under Android P, no mic scan.", false);
+                return "Device under API 28 (P), no mic info checks possible.";
             }
-
-            // MediaRecorder.java only checks for file exists, not mic hardware
-            placeboRecorder.prepare();
         }
         catch (IOException e) {
             debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+            return "MediaRecorder checks pAndroid P error IO ex.";
         }
         catch (Exception ex) {
             debugLogger("Caught non IO exception in mediaRecorder init, ex: " + ex, true);
+            return "MediaRecorder checks pAndroid P error non-IO ex.";
         }
         finally {
             //placeboRecorder.stop(); // <- has not started so no need to stop.
@@ -204,32 +215,31 @@ public class AudioChecker {
             placeboRecorder.release();
             debugLogger(context.getResources().getString(R.string.passive_state_15), true);
         }
-        return true;
     }
 
-    private void scanMicrophoneInfoList() {
+    private String scanMicrophoneInfoList() {
         // get some infos, check list is populated
         debugLogger("scanMicrophoneInfo list now...", false);
         if (microphoneInfoList.isEmpty()) {
             // why oh why
-            debugLogger("micInfoList is empty.", true);
-            return;
+            return "micInfoList is empty.";
         }
         // no really, how many, 3? more?
         int howManyMics = microphoneInfoList.size();
         debugLogger("how many mics: " + howManyMics, false);
         // P = api28 for MicrophoneInfo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            int micId = 0;
-            int micType = 0;
-            float micSens = 0.0f;
+            int micId;
+            int micType;
+            float micSens;
             List<Pair<Float, Float>> freqPair;
             float first = 0.0f, second = 0.0f;
-            int micDirection = 0;
-            int micLocation = 0;
+            int micDirection;
+            int micLocation;
 
             for (MicrophoneInfo microphoneInfo : microphoneInfoList) {
                 // no iter
+                // build as a String for return
                 micId = microphoneInfo.getId();
                 micType = microphoneInfo.getType(); // hopefully only returns an input device
                 debugLogger("micID: " + micId + " mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType], false);
@@ -254,8 +264,20 @@ public class AudioChecker {
                 debugLogger("Mic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
                         + " Mic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection], false);
 
+                // should change pairs == 0 to an "unknown" string
+                return "Microphone check:"
+                        + "\nnumber of mics: " + howManyMics
+                        + "\nMic ID: " + micId
+                        + "\nMic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType]
+                        + "\nFrequency range pair 1: " + first + " 2: " + second
+                        + "\nSensitivity (dB FS): " + micSens
+                        + "\nMic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
+                        + "\nMic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection]
+                        + "\n";
+
             }
         }
+        return "Build version under Android P, no mic info possible.";
     }
 
     public boolean determineOutputAudioType() {

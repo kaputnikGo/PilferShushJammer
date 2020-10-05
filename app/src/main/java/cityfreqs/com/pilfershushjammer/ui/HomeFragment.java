@@ -8,7 +8,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,6 +88,7 @@ public class HomeFragment extends Fragment {
             audioBundle = getArguments().getBundle("audioBundle");
             if (audioBundle != null) {
                 // usually set via dialog in main via pagerAdapter, first instance of audioBundle here
+                //TODO
                 // hardcode for testing
                 DEBUG = true;
                 audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
@@ -433,9 +436,6 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         }
-        // testing MediaRecorder vars, depends on differing min APIs
-        // ignore returning boolean for now
-        audioChecker.determineMediaRecorderType();
         return true;
     }
 
@@ -487,6 +487,7 @@ public class HomeFragment extends Fragment {
         if (DEBUG) entryLogger("AudioFocus check", false);
         // note: api 26+ use AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
         // NOTE: no resource context available in onAudioFocusChange
+        // temp init of mediaPlayer simply for a systems check
         final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
             public void onAudioFocusChange(int focusChange) {
@@ -536,10 +537,34 @@ public class HomeFragment extends Fragment {
                 }
             }
         };
-        int result = audioManager.requestAudioFocus(audioFocusListener,
-                AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN);
 
+        // if/else for += API 26 (Oreo, 8.0) deprecation stream_types for focus
+        int result;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes playbackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            AudioFocusRequest focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(playbackAttributes)
+                    .setAcceptsDelayedFocusGain(false)
+                    .setWillPauseWhenDucked(false)
+                    .setOnAudioFocusChangeListener(audioFocusListener)
+                    .build();
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(playbackAttributes);
+            result = audioManager.requestAudioFocus(focusRequest);
+            // get rid of it
+            mediaPlayer.release();
+        }
+        else {
+            // method below is deprecated in API 26
+            result = audioManager.requestAudioFocus(audioFocusListener,
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
+        }
+        //final Object focusLock = new Object();
+        //boolean playbackDelayed = false;
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             if (DEBUG) entryLogger(context.getResources().getString(R.string.audiofocus_check_2), false);
         }
