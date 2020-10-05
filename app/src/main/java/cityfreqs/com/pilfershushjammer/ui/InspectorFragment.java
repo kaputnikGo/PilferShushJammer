@@ -130,7 +130,7 @@ public class InspectorFragment extends Fragment {
         introText();
         // add a call to audioChecker.determineMediaRecorderType()
         // return a mic info string for outputting to entryLogger
-        String reportBack = "Attempting MediaRecorder info checks.";
+        String reportBack;
         reportBack = audioChecker.determineMediaRecorderType();
         entryLogger(reportBack, true);
     }
