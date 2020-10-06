@@ -420,6 +420,7 @@ public class HomeFragment extends Fragment {
     private boolean determineAudio(int requester) {
         // due to conflicts with AudioFocus, init calls only check for audio record.
         // if the active jammer is engaged it will check for output as per usual.
+        // update:  have added output check call to end of a true recordAudio check
         if (requester == PASS_REQ || requester == INIT_REQ) {
             entryLogger(getResources().getString(R.string.audio_check_pre_1), false);
             if (!audioChecker.determineRecordAudioType()) {

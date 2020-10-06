@@ -318,6 +318,7 @@ public class SettingsFragment extends Fragment {
         CONFORM CHECKS FOR USER INPUT
     */
     private int checkCarrierFrequency(int carrierFrequency) {
+        entryLogger("maxFreq: " + audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]), true);
         if (carrierFrequency > audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]))
             return audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
 

@@ -119,6 +119,11 @@ public class AudioChecker {
                                 audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[4], buffSize);
 
                                 recorder.release();
+                                if (determineOutputAudioType()) {
+                                    // testing output checks here t oavoid possible audiofocus conflicts
+                                    debugLogger("determineAudioOutput inner call returns true.", true);
+                                    return true;
+                                }
                                 return true;
                             }
                         }
@@ -359,10 +364,15 @@ public class AudioChecker {
     }
 
     // testing android/media/audiofx/Equalizer
-    // idea is to make the whitenoise less annoying
-    // vers 4.0.6 - rem'ing the EQ changes, is now merely a report function
+    // vers 4.0.6 - rem'ing the EQ changes, is now
+    // currently just a state report function
+    // vers 4.5.0 looking into creating a preset to boost PS Active Jammer for VOICE_COMMS jamming
+
+    // has an API 28 addition of DynamicsProcessing that includes:
+    // inputGain, preEq, multibandEq, postEq, limiter for each channel
     private boolean testOnboardEQ(int audioSessionId) {
         try {
+            // up the priority to much greater than 0 to override current audio effect engine owner,
             Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
             // get some info
@@ -390,6 +400,39 @@ public class AudioChecker {
 
             // vers 4.0.6 - Equalizer appears to be NOT application specific, and is applied across device:
             // Removing the EQ changes as the Active jammer is currently not optimal.
+
+            //TODO
+            // vers 4.5.0 - considering EQ boosts for adversarial jamming of voice assistants
+            // via freq artifacts that occur over the VOICE_COMMS range
+            // concern is boosting passed safe device specific speaker thresholds,
+            // EQ in NOT application specific and so affects all audio output
+
+            // need Equalizer.getCurrentPreset() to hopefully save pre PilferShush eq state (user changed included)
+            short preshow = equalizer.getCurrentPreset();
+            // see what if anything
+            debugLogger("Preshow EQ preset name is: " + equalizer.getPresetName(preshow), true);
+            // also see what options if any
+            debugLogger("EQ says number of presets is: " + equalizer.getNumberOfPresets(), true);
+            // may actually need this
+            Equalizer.Settings preshowSettings = equalizer.getProperties();
+            // has short[] bandLevels, short curPreset and short numBands
+            debugLogger("Preshow.settings toString: " + preshowSettings.toString(), true);
+            debugLogger("audioSessionId num: " + audioSessionId, true);
+            /*
+            Preshow EQ preset name is: Normal
+            Preshow.settings toString: Equalizer;curPreset=0;numBands=5;band1Level=300;band2Level=0;band3Level=0;band4Level=0;band5Level=300
+            band1 is band0 at 30Hz - 120Hz, center at 60Hz, level(gain in milB) = 300 // why?
+            band5 is band4 at 7kHz - 20kHz, center at 1kHz, level(gain in milB) = 300 // again why? all others are at 0
+             */
+
+            // set pilfershush eq and trigger only on Active jamming,
+            // save as custom, or give unique name if poss, may show up in AudioFX app
+
+            // Active off means remove pilfershush eq and
+
+            // return to preset
+            // equalizer.usePreset(preshow);
+            // equalizer.setProperties();
 
             // only active test is to squash all freqs in bands 0-3, leaving last band (4) free...
             /*

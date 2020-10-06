@@ -41,11 +41,53 @@ public class AudioSettings {
 
     // Bundle keys string names: number = 15
     public static final String[] AUDIO_BUNDLE_KEYS = new String[]{
-            "audioSource", "sampleRate", "channelInConfig", "encoding",
-            "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType",
-            "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ",
-            "maxFreq", "bufferRead", "debug", "permissions"
+            "audioSource", "sampleRate", "channelInConfig", "encoding", //3
+            "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
+            "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ", //12
+            "maxFreq", "bufferRead", "debug", "permissions" //16
     };
+
+    // just another way of doing the above
+    public static String GET_AUDIO_BUNDLE_KEY(int i) {
+        switch (i) {
+            case 0:
+                return "audioSource";
+            case 1:
+                return "sampleRate";
+            case 2:
+                return "channelInConfig";
+            case 3:
+                return "encoding";
+            case 4:
+                return "bufferInSize";
+            case 5:
+                return "channelOutConfig";
+            case 6:
+                return "bufferOutSize";
+            case 7:
+                return "activeType";
+            case 8:
+                return "jammerType";
+            case 9:
+                return "userCarrier";
+            case 10:
+                return "userLimit";
+            case 11:
+                return "userSpeed";
+            case 12:
+                return "hasEQ";
+            case 13:
+                return "maxFreq";
+            case 14:
+                return "bufferRead";
+            case 15:
+                return "debug";
+            case 16:
+                return "permission";
+            default:
+                return "unknown";
+        }
+    }
 
     // MicrophoneInfo for min API28
     public static final String[] MIC_INFO_LOCATION = new String[]{
@@ -65,6 +107,69 @@ public class AudioSettings {
             "usb-device", "usb-accessory", "dock", "FM", "builtin-mic", //15
             "FM-tuner", "TV-tuner", "telephony", "aux-line", "IP", //20
             "bus", "usb-headset", "hearing-aid" //24
+    };
+
+    // just another way of doing the above but returning the constant names...
+    public static String GET_DEVICE_TYPE(int i) {
+        switch (i) {
+            case 0:
+                return "UNKNOWN";
+            case 1:
+                return "TYPE_BUILTIN_EARPIECE";
+            case 2:
+                return "TYPE_BUILTIN_SPEAKER";
+            case 3:
+                return "TYPE_WIRED_HEADSET";
+            case 4:
+                return "TYPE_WIRED_HEADPHONES";
+            case 5:
+                return "TYPE_LINE_ANALOG";
+            case 6:
+                return "TYPE_LINE_DIGITAL";
+            case 7:
+                return "TYPE_BLUETOOTH_SCO";
+            case 8:
+                return "TYPE_BLUETOOTH_A2DP";
+            case 9:
+                return "TYPE_HDMI";
+            case 10:
+                return "TYPE_HDMI_ARC";
+            case 11:
+                return "TYPE_USB_DEVICE";
+            case 12:
+                return "TYPE_USB_ACCESSORY";
+            case 13:
+                return "TYPE_DOCK";
+            case 14:
+                return "TYPE_FM";
+            case 15:
+                return "TYPE_BUILTIN_MIC";
+            case 16:
+                return "TYPE_FM_TUNER";
+            case 17:
+                return "TYPE_TV_TUNER";
+            case 18:
+                return "TYPE_TELEPHONY";
+            case 19:
+                return "TYPE_AUX_LINE";
+            case 20:
+                return "TYPE_IP";
+            case 21:
+                return "TYPE_BUS";
+            case 22:
+                return "TYPE_USB_HEADSET";
+            case 23:
+                return "HEARING_AID";
+            default:
+                return "TYPE_UNKNOWN";
+        }
+    }
+
+    // these will resolve to a UUID
+    public static String[] GET_AUDIO_EFFECT_TYPE = new String[] {
+        "EFFECT_TYPE_AEC", "EFFECT_TYPE_AGC", "EFFECT_TYPE_BASS_BOOST", "EFFECT_TYPE_DYNAMICS_PROCESSING", // last for API 28
+        "EFFECT_TYPE_ENV_REVERB", "EFFECT_TYPE_EQUALIZER", "EFFECT_TYPE_LOUDNESS_ENHANCER", // last for API 19
+        "EFFECT_TYPE_NS", "EFFECT_TYPE_PRESET_REVERB", "EFFECT_TYPE_VIRTUALIZER"
     };
 }
 

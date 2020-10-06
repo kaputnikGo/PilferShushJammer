@@ -46,7 +46,7 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - inconsistent behaviour with widget and jammer service state
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
-- add microphoneInfo list enum print option in InspectorFragment
+- testing Active Jammer as external voice assistant jammer
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
@@ -68,6 +68,7 @@ PENDING 4.5.0
 - API check for requestAudioFocus check method
 - Inspector Fragment has mic info check print
 - remove Color.Accent resource need
+- add chromecast as NUHF SDK
 
    vers. 4.4.2
    - min API 18 (4.3)

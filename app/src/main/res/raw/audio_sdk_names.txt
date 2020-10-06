@@ -6,6 +6,7 @@ axwave
 beatgridmedia
 bitsound
 chirp
+chromecast
 cifrasoft
 copsonic
 cueaudio
