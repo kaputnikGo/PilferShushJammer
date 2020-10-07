@@ -115,7 +115,8 @@ public class ActiveJammerService extends Service {
 
     private void startActiveService() {
         activeJammer = new ActiveJammer(getApplicationContext(), audioBundle);
-        activeJammer.play(audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7]) ? 1 : 0);
+        // 0=tone,1=noise,2=shadow
+        activeJammer.play(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[7]));
         //
         Notification notification = notifyActiveBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;

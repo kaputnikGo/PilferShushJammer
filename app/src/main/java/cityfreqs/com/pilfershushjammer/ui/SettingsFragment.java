@@ -1,6 +1,5 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,10 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import cityfreqs.com.pilfershushjammer.R;
@@ -85,7 +85,7 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        final View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         TextView driftInput = view.findViewById(R.id.drift_input_text);
         driftInput.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch activeTypeSwitch = view.findViewById(R.id.active_type_switch);
+        SwitchCompat activeTypeSwitch = view.findViewById(R.id.active_type_switch);
         activeTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -126,22 +126,28 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch activeSoundSwitch = view.findViewById(R.id.active_sound_switch);
-        activeSoundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7], isChecked);
-                if (isChecked) {
-                    //tones, default
-                    entryLogger(getResources().getString(R.string.app_status_8), false);
-                }
-                else {
-                    //whitenoise
-                    entryLogger(getResources().getString(R.string.app_status_9), false);
+        RadioGroup activeRadioGroup = view.findViewById(R.id.active_radio_group);
+        activeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_noise:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 0);
+                        entryLogger(getResources().getString(R.string.app_status_9), false);
+                        break;
+                    case R.id.radio_tones:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 1);
+                        entryLogger(getResources().getString(R.string.app_status_8), false);
+                        break;
+                    case R.id.radio_shadow:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 2);
+                        entryLogger(getResources().getString(R.string.app_status_9_1), false);
+                        break;
                 }
             }
         });
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch bufferTypeSwitch = view.findViewById(R.id.buffer_type_switch);
+        SwitchCompat bufferTypeSwitch = view.findViewById(R.id.buffer_type_switch);
         bufferTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // default to false

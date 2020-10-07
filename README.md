@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 29 (Q, 10.0), Android Studio 4.0.1 stable, Gradle 6.1.1
+Build update: compile API 29 (Q, 10.0), Android Studio 4.0.2 stable, Gradle 6.1.1
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -69,6 +69,7 @@ PENDING 4.5.0
 - Inspector Fragment has mic info check print
 - remove Color.Accent resource need
 - add chromecast as NUHF SDK
+- add ActiveJammer shadow method
 
    vers. 4.4.2
    - min API 18 (4.3)

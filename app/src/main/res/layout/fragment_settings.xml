@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.SettingsFragment">
 
     <LinearLayout
@@ -110,7 +110,7 @@
                     android:text="@string/active_dialog_5"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/active_type_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,43 +130,27 @@
                     app:layout_constraintRight_toRightOf="parent" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/active_sound_layout"
+            <RadioGroup android:id="@+id/active_radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/zero_margin"
-                android:layout_marginTop="@dimen/half_margin"
-                android:layout_marginEnd="@dimen/zero_margin"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/noise_radio"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/radio_noise"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_toStartOf="@+id/active_sound_switch"
                     android:text="@string/active_dialog_4"
-                    app:layout_constraintLeft_toLeftOf="parent" />
-
-                <Switch
-                    android:id="@+id/active_sound_switch"
+                    android:checked="false"/>
+                <RadioButton android:id="@+id/radio_tones"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:checked="true"
-                    app:layout_constraintLeft_toRightOf="@+id/noise_radio" />
-
-                <TextView
-                    android:id="@+id/tone_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@+id/active_sound_switch"
                     android:text="@string/active_dialog_3"
-                    app:layout_constraintLeft_toRightOf="@+id/active_sound_switch"
-                    app:layout_constraintRight_toRightOf="parent" />
-            </RelativeLayout>
+                    android:checked="true"/>
+                <RadioButton android:id="@+id/radio_shadow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/active_dialog_7"
+                    android:checked="false"/>
+            </RadioGroup>
+
         </LinearLayout>
 
         <LinearLayout
@@ -222,7 +206,7 @@
                     android:text="@string/buffer_label_2"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/buffer_type_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

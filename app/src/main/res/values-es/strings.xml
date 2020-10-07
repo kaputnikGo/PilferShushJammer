@@ -73,6 +73,7 @@
     <string name="app_status_7">El ecualizador no está disponible.</string>
     <string name="app_status_8">Bloqueador activo cambiado a tonos.</string>
     <string name="app_status_9">Bloqueador activo cambiado a ruido blanco.</string>
+    <string name="app_status_9_1">Bloqueador activo cambiado a shadow.</string>
     <string name="app_status_10">Impulsor pasivo funcionando.</string>
     <string name="app_status_11">Impulsor activo funcionando.</string>
     <string name="app_status_12">Toque para volver a la app.</string>
@@ -144,6 +145,7 @@
     <string name="active_dialog_4">RUIDO</string>
     <string name="active_dialog_5">PRUEBA</string>
     <string name="active_dialog_6">NUHF</string>
+    <string name="active_dialog_7">SHADOW</string>
 
     <string name="eq_check_1">Probando dispositivo para el ecualizador audiofx.</string>
     <string name="eq_check_2">Prueba del ecualizador del dispositivo audiofx aprobada.</string>

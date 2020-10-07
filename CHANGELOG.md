@@ -11,6 +11,7 @@
 * Inspector Fragment has mic info check print
 * remove Color.Accent resource need
 * add chromecast as NUHF SDK
+* add ActiveJammer shadow method
 
 ### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply

@@ -15,6 +15,11 @@ public class AudioSettings {
 
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
     public static final int DEFAULT_NUHF_FREQUENCY = 19000;
+    public static final int SHADOW_CARRIER_FREQUENCY = 24000;
+    public static final int SHADOW_MINIMUM_FREQUENCY = 23500;
+    public static final int SHADOW_FLOOR_FREQUENCY = 25000;
+    public static final int SHADOW_CEILING_FREQUENCY = 26000;
+    public static final int SHADOW_DRIFT_RANGE = 500;
 
     public static final int CARRIER_TEST_FREQUENCY = 440;
     public static final int MAXIMUM_TEST_FREQUENCY = CARRIER_TEST_FREQUENCY + (int) (CARRIER_TEST_FREQUENCY * 0.5);
@@ -24,8 +29,9 @@ public class AudioSettings {
     public static final int MINIMUM_DRIFT_LIMIT = 10;
     public static final int DRIFT_SPEED_MULTIPLIER = 1000;
 
-    public static final int JAMMER_WHITE = 0;
+    public static final int JAMMER_NOISE = 0;
     public static final int JAMMER_TONE = 1;
+    public static final int JAMMER_SHADOW = 2;
 
     public static final int JAMMER_TYPE_TEST = 0;
     public static final int JAMMER_TYPE_NUHF = 1;
@@ -65,7 +71,7 @@ public class AudioSettings {
             case 6:
                 return "bufferOutSize";
             case 7:
-                return "activeType";
+                return "activeType"; // no longer bool, is int (0,1,2)
             case 8:
                 return "jammerType";
             case 9:

@@ -12,8 +12,7 @@ import java.util.Random;
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 
-//TODO check getResource calls in debugLogger
-
+//check getResource calls in debugLogger
 public class ActiveJammer {
     private static final String TAG = "PilferShush_ACTIVE";
     private Context context;
@@ -23,6 +22,14 @@ public class ActiveJammer {
     private boolean isPlaying;
     private Thread jammerThread;
     private boolean DEBUG;
+
+    private byte[] soundData;
+    private int sampleRate;
+    private int driftFreq;
+    private int driftSpeed;
+    private double[] sample;
+    private float angularIncrement;
+    private float sineAngle;
 
     public ActiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
@@ -35,6 +42,13 @@ public class ActiveJammer {
         amplitude = 1.0f;
         audioTrack = null;
         isPlaying = false;
+        sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
+        soundData = new byte[sampleRate];
+        driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
+        driftFreq = 0;
+        sample = new double[sampleRate];
+        sineAngle = 0;
+        angularIncrement = 0;
     }
 
     /*
@@ -83,11 +97,14 @@ public class ActiveJammer {
                     audioTrack.play();
 
                     while (isPlaying) {
+                        if (type == AudioSettings.JAMMER_NOISE) {
+                            createWhiteNoise();
+                        }
                         if (type == AudioSettings.JAMMER_TONE) {
                             createTone();
                         }
-                        if (type == AudioSettings.JAMMER_WHITE) {
-                            createWhiteNoise();
+                        if (type == AudioSettings.JAMMER_SHADOW) {
+                            createShadowSound();
                         }
                     }
                 }
@@ -141,15 +158,15 @@ public class ActiveJammer {
                         audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[10]));
 
             default:
-                return getTestDrift();
+                return getFullRangeDrift();
         }
     }
 
     private synchronized void createTone() {
-        int sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
-        int driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
-        double[] sample = new double[sampleRate];
-        byte[] soundData = new byte[2 * sampleRate];
+        //sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
+        //driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
+        //sample = new double[sampleRate];
+        soundData = new byte[2 * sampleRate]; // account for Nyquist
 
         // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
 
@@ -164,7 +181,7 @@ public class ActiveJammer {
         // - AMPLITUDE RAMPS pre and post every loadDriftTone()
         // - ZERO VALUE SAMPLES either side of loadDriftTone()
 
-        int driftFreq = loadDriftTone();
+        driftFreq = loadDriftTone();
         // every nth iteration get a new drift freq (48k rate / driftSpeed )
         for (int i = 0; i < sampleRate; ++i) {
             if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[8]) != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
@@ -186,11 +203,23 @@ public class ActiveJammer {
     }
 
     private synchronized void createWhiteNoise() {
-        byte[] soundData = new byte[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
         new Random().nextBytes(soundData);
 
         for (int i = 0; i < soundData.length; i++) {
             soundData[i] *= amplitude;
+        }
+        playSound(soundData);
+    }
+
+    private synchronized void createShadowSound() {
+        sineAngle = 0;
+        // angular increment
+        angularIncrement = (float)(2 * Math.PI) * getShadowTone() / sampleRate;
+        for (int i = 0; i < soundData.length; i++) {
+            // sine wave gen
+            sample[i] = (float) Math.sin(sineAngle);
+            soundData[i] = (byte) (sample[i] * Short.MAX_VALUE); // erm ...
+            sineAngle += angularIncrement;
         }
         playSound(soundData);
     }
@@ -200,10 +229,8 @@ public class ActiveJammer {
             debugLogger(context.getResources().getString(R.string.audio_check_3), true);
             return;
         }
-
         try {
             if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
-                //audioTrack.play();
                 audioTrack.write(soundData, 0, soundData.length);
             }
             else {
@@ -215,6 +242,7 @@ public class ActiveJammer {
         }
     }
 
+    // TODO configure this based upon AudioChecker creating a settings property
     private void onboardEQ(int audioSessionId) {
         try {
             Equalizer equalizer = new Equalizer(0, audioSessionId);
@@ -231,9 +259,10 @@ public class ActiveJammer {
                 // boost band 4 twice
                 equalizer.setBandLevel((short)4, maxEQ);
             }
+            debugLogger("ActiveJammer onboardEQ set.", true);
         }
         catch (Exception ex) {
-            debugLogger("onboardEQ Exception.", true);
+            debugLogger("ActiveJammer onboardEQ Exception.", true);
             ex.printStackTrace();
         }
     }
@@ -261,6 +290,35 @@ public class ActiveJammer {
         return new Random().nextInt(max - min) + min;
     }
 
+    private int getShadowTone() {
+        // get a random frequency ideally between 23kHz and 24kHz (maxFreq - 1000)
+        // maximum == 24kHz, min == AudioSettings.SHADOW_CARRIER_FREQUENCY
+        // check device maxFreq is equal to shadow carrier of 24kHz
+
+        // best possible for standard device (48kHz) including dev
+        if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) == AudioSettings.SHADOW_CARRIER_FREQUENCY) {
+            // return random from carrier to minimum as range
+            return new Random().nextInt(AudioSettings.SHADOW_CARRIER_FREQUENCY
+                    - AudioSettings.SHADOW_MINIMUM_FREQUENCY)
+                    + AudioSettings.SHADOW_MINIMUM_FREQUENCY;
+        }
+        // check if its above (a newer device maybe) then adjust range
+        // if it is >= CEILING, then we have optimal device
+        else if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) >= AudioSettings.SHADOW_CEILING_FREQUENCY) {
+            return new Random().nextInt(AudioSettings.SHADOW_CEILING_FREQUENCY
+                    - AudioSettings.SHADOW_FLOOR_FREQUENCY)
+                    + AudioSettings.SHADOW_FLOOR_FREQUENCY;
+        }
+        // check if its under the minimum
+        else {
+            // send a no or something?
+            // get from device maxFreq and minus 500
+            return new Random().nextInt(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13])
+                    - AudioSettings.SHADOW_DRIFT_RANGE)
+                    + AudioSettings.SHADOW_DRIFT_RANGE;
+        }
+    }
+
     // carrier should be between 18k - 24k
     private int getUserRangedDrift(int carrierFrequency, int limit) {
         carrierFrequency = conformCarrierFrequency(carrierFrequency);
@@ -268,6 +326,11 @@ public class ActiveJammer {
         int max = conformMaximumRangedValue(carrierFrequency + limit);
 
         return new Random().nextInt(max - min) + min;
+    }
+
+    private int getFullRangeDrift() {
+        // get random within range of device maximum output freq and useful minimum of 100hz
+        return new Random().nextInt(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) - 100) + 100;
     }
 
     private int conformCarrierFrequency(int carrier) {
@@ -280,17 +343,11 @@ public class ActiveJammer {
     }
 
     private int conformMinimumRangedValue(int minValue) {
-        if (minValue >= AudioSettings.MINIMUM_NUHF_FREQUENCY)
-            return minValue;
-        else
-            return AudioSettings.MINIMUM_NUHF_FREQUENCY;
+        return Math.max(minValue, AudioSettings.MINIMUM_NUHF_FREQUENCY);
     }
 
     private int conformMaximumRangedValue(int maxValue) {
-        if (maxValue <= audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]))
-            return maxValue;
-        else
-            return audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
+        return Math.min(maxValue, audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]));
     }
 
     private void debugLogger(String message, boolean caution) {

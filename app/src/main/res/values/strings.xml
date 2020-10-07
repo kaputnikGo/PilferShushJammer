@@ -79,6 +79,7 @@
     <string name="app_status_7">EQ is not available.</string>
     <string name="app_status_8">Active jammer switched to tones.</string>
     <string name="app_status_9">Active jammer switched to whitenoise.</string>
+    <string name="app_status_9_1">Active jammer switched to shadow.</string>
     <string name="app_status_10">Passive jammer running.</string>
     <string name="app_status_11">Active jammer running.</string>
     <string name="app_status_12">Tap to return to app.</string>
@@ -150,6 +151,7 @@
     <string name="active_dialog_4">NOISE</string>
     <string name="active_dialog_5">TEST</string>
     <string name="active_dialog_6">NUHF</string>
+    <string name="active_dialog_7">SHADOW</string>
 
     <string name="eq_check_1">Testing for device audiofx equalizer.</string>
     <string name="eq_check_2">Device audiofx equalizer test passed.</string>

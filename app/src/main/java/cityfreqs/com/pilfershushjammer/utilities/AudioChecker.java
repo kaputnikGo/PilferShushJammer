@@ -370,6 +370,9 @@ public class AudioChecker {
 
     // has an API 28 addition of DynamicsProcessing that includes:
     // inputGain, preEq, multibandEq, postEq, limiter for each channel
+    //
+    // n.b. ActiveJammer.java has an onBoardEq() that will
+    // run if audioBundle.hasEq == true
     private boolean testOnboardEQ(int audioSessionId) {
         try {
             // up the priority to much greater than 0 to override current audio effect engine owner,
