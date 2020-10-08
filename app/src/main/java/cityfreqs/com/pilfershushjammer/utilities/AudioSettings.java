@@ -13,6 +13,9 @@ public class AudioSettings {
             2, 4, 8, 16, 32, 64, 128, 256};
     */
 
+    // 6.28318530718
+    public static final double TWO_PI = 2.0 * Math.PI;
+
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
     public static final int DEFAULT_NUHF_FREQUENCY = 19000;
     public static final int SHADOW_CARRIER_FREQUENCY = 24000;
@@ -50,7 +53,7 @@ public class AudioSettings {
             "audioSource", "sampleRate", "channelInConfig", "encoding", //3
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ", //12
-            "maxFreq", "bufferRead", "debug", "permissions" //16
+            "maxFreq", "bufferRead", "debug", "permissions", "formatOut" //17
     };
 
     // just another way of doing the above
@@ -90,6 +93,8 @@ public class AudioSettings {
                 return "debug";
             case 16:
                 return "permission";
+            case 17:
+                return "formatOut";
             default:
                 return "unknown";
         }

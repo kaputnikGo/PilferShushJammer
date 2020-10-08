@@ -1,9 +1,12 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.audiofx.Equalizer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,6 +22,8 @@ public class ActiveJammer {
     private Bundle audioBundle;
     private float amplitude;
     private AudioTrack audioTrack;
+    private AudioAttributes playbackAttributes;
+    private AudioFormat audioFormat;
     private boolean isPlaying;
     private Thread jammerThread;
     private boolean DEBUG;
@@ -28,8 +33,12 @@ public class ActiveJammer {
     private int driftFreq;
     private int driftSpeed;
     private double[] sample;
-    private float angularIncrement;
-    private float sineAngle;
+    // short method vrs
+    private short[] shortBuffer;
+    private double frequency;
+    float angle;
+    float[] samplesLow;
+    float increment;
 
     public ActiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
@@ -39,7 +48,7 @@ public class ActiveJammer {
     }
 
     private void resetActiveJammer() {
-        amplitude = 1.0f;
+        amplitude = 1.0f; // unity gain
         audioTrack = null;
         isPlaying = false;
         sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
@@ -47,8 +56,11 @@ public class ActiveJammer {
         driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
         driftFreq = 0;
         sample = new double[sampleRate];
-        sineAngle = 0;
-        angularIncrement = 0;
+        // shadowTone
+        shortBuffer = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6])]; // needs to be buffer size, not sampleRate
+        //
+        angle = 0;
+        samplesLow = new float[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6])]; //1024/2048
     }
 
     /*
@@ -61,6 +73,8 @@ public class ActiveJammer {
         }
         //stop();
         isPlaying = true;
+        debugLogger("active play type: " + type, true);
+        debugLogger("buffer size: " + audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6]), true);
         threadPlay(type);
     }
 
@@ -80,21 +94,53 @@ public class ActiveJammer {
         jammerThread = new Thread() {
             public void run() {
                 try {
-                    audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-                            audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]),
-                            audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[5]),
-                            audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
-                            audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6]),
-                            AudioTrack.MODE_STREAM);
+                    // if/else for += API 26 (Oreo, 8.0) deprecation stream_types for focus
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        playbackAttributes = new AudioAttributes.Builder()
+                                .setUsage(AudioAttributes.USAGE_MEDIA)
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .build();
 
-                    audioTrack.setStereoVolume(amplitude, amplitude);
+                        audioFormat = new AudioFormat.Builder()
+                                .setEncoding(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[17]))
+                                .setSampleRate(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]))
+                                .setChannelMask(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[5]))
+                                .build();
+
+                        audioTrack = new AudioTrack(playbackAttributes,
+                                audioFormat,
+                                audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]),
+                                AudioTrack.MODE_STREAM,
+                                AudioManager.AUDIO_SESSION_ID_GENERATE);
+
+                        audioTrack.setVolume(amplitude);
+                    }
+                    else {
+                        // API 23 wants AudioTrack.builder with no inst StreamType
+                        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                                audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]),
+                                audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[5]),
+                                audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]),
+                                audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6]),
+                                AudioTrack.MODE_STREAM);
+
+                        audioTrack.setStereoVolume(amplitude, amplitude);
+                    }
 
                     if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[12])) {
                         onboardEQ(audioTrack.getAudioSessionId());
                     }
                     // AudioTrack doesn't like an empty buffer, add an empty one until proper jammer tones
                     // but: AudioTrack will wait until it has enough data before starting.
+                    // this probably causes the non-sensible buffer values to be played
                     audioTrack.play();
+
+                    // shadow Tones
+                    // stronger signal when called here
+                    // should change freq every 0.45 ms
+                    frequency = 23000.0;//getShadowTone(); //23950.0
+                    debugLogger("getShadowTone: " + frequency, true);
+                    //increment = (float) (AudioSettings.TWO_PI * frequency / sampleRate);
 
                     while (isPlaying) {
                         if (type == AudioSettings.JAMMER_NOISE) {
@@ -109,7 +155,7 @@ public class ActiveJammer {
                     }
                 }
                 catch (Exception ex) {
-                    debugLogger(context.getResources().getString(R.string.active_state_1), true);
+                    debugLogger(context.getResources().getString(R.string.active_state_1) + ex, true);
                 }
             }
         };
@@ -163,36 +209,26 @@ public class ActiveJammer {
     }
 
     private synchronized void createTone() {
-        //sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
-        //driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
-        //sample = new double[sampleRate];
-        soundData = new byte[2 * sampleRate]; // account for Nyquist
-
         // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
-
         // The format specified in the AudioTrack constructor should be AudioFormat.ENCODING_PCM_8BIT
         //  to correspond to the data in the array.
         // yet: The format can be AudioFormat.ENCODING_PCM_16BIT, but this is deprecated.
-
         // and: Audio data format: PCM 8 bit per sample. Not guaranteed to be supported by devices.
-
-
-
         // - AMPLITUDE RAMPS pre and post every loadDriftTone()
         // - ZERO VALUE SAMPLES either side of loadDriftTone()
 
+        soundData = new byte[2 * sampleRate]; // account for Nyquist
         driftFreq = loadDriftTone();
         // every nth iteration get a new drift freq (48k rate / driftSpeed )
         for (int i = 0; i < sampleRate; ++i) {
             if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[8]) != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
                 driftFreq = loadDriftTone();
             }
-            sample[i] = Math.sin(driftFreq * 2 * Math.PI * i / sampleRate);
+            sample[i] = Math.sin(driftFreq * AudioSettings.TWO_PI * i / sampleRate);
         }
-
         int idx = 0;
         for (final double dVal : sample) {
-            final short val = (short) ((dVal * 32767)); // max the amplitude
+            final short val = (short) ((dVal * Short.MAX_VALUE)); // 32767 or 65536? max the amplitude <- check this
             // in 16 bit wav PCM, first byte is the low order byte
             soundData[idx] = (byte) (val & 0x00ff);
             idx++;
@@ -212,18 +248,49 @@ public class ActiveJammer {
     }
 
     private synchronized void createShadowSound() {
-        sineAngle = 0;
-        // angular increment
-        angularIncrement = (float)(2 * Math.PI) * getShadowTone() / sampleRate;
-        for (int i = 0; i < soundData.length; i++) {
-            // sine wave gen
-            sample[i] = (float) Math.sin(sineAngle);
-            soundData[i] = (byte) (sample[i] * Short.MAX_VALUE); // erm ...
-            sineAngle += angularIncrement;
+        // n.b. with current devices this is NOT an example of NUHF creating shadow bands,
+        // in MEMs microphones but merely artifacts produced in code and/or speaker output
+
+        // increment = 6.28318530718 * 23950 / 48000 = 3.135047668895021
+        //frequency = getShadowTone(); //23950.0
+        increment = (float) (AudioSettings.TWO_PI * getShadowTone() / sampleRate);
+        for (int i = 0; i < samplesLow.length; i++) {
+            // pure base tone gen, no artifacts
+            samplesLow[i] = (float) Math.sin(angle);
+
+            // addition of either of these two, creates pulsing and full range flood
+            // below has multiple strong bands over flood
+            //samplesLow[i] = (samplesLow[i] >= 0.0) ? 1 : -1;
+            // below has multiple strong bands over flood with rhythmic pulsing
+            //samplesLow[i] = (float) (AudioSettings.TWO_PI * Math.asin(samplesLow[i]));
+            // end of addition
+            shortBuffer[i] = (short) (samplesLow[i] * Short.MAX_VALUE);
+            angle += increment;
         }
-        playSound(soundData);
+        playSound(shortBuffer);
+
     }
 
+    // short audioTrack version
+    private synchronized void playSound(short[] shortBuffer) {
+        if (audioBundle == null) {
+            debugLogger(context.getResources().getString(R.string.audio_check_3), true);
+            return;
+        }
+        try {
+            if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
+                audioTrack.write(shortBuffer, 0, shortBuffer.length);
+            }
+            else {
+                debugLogger(context.getResources().getString(R.string.audio_check_3), false);
+            }
+        }
+        catch (Exception e) {
+            debugLogger(context.getResources().getString(R.string.audio_check_4), true);
+        }
+    }
+
+    // byte audioTrack version
     private synchronized void playSound(byte[] soundData) {
         if (audioBundle == null) {
             debugLogger(context.getResources().getString(R.string.audio_check_3), true);
@@ -290,17 +357,23 @@ public class ActiveJammer {
         return new Random().nextInt(max - min) + min;
     }
 
-    private int getShadowTone() {
-        // get a random frequency ideally between 23kHz and 24kHz (maxFreq - 1000)
+    private double getShadowTone() {
+        // get a random frequency ideally between 25kHz and 26kHz (maxFreq - 1000)
+        // but most devices only capable of 23.5kHz - 24kHz - so shadow concept prob not work
+
         // maximum == 24kHz, min == AudioSettings.SHADOW_CARRIER_FREQUENCY
         // check device maxFreq is equal to shadow carrier of 24kHz
 
         // best possible for standard device (48kHz) including dev
         if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) == AudioSettings.SHADOW_CARRIER_FREQUENCY) {
             // return random from carrier to minimum as range
+            // dev device is showing varying results with freqs, hardcoded 23950 has best flood of shadow bands
+            return 23950.0;
+            /*
             return new Random().nextInt(AudioSettings.SHADOW_CARRIER_FREQUENCY
                     - AudioSettings.SHADOW_MINIMUM_FREQUENCY)
                     + AudioSettings.SHADOW_MINIMUM_FREQUENCY;
+             */
         }
         // check if its above (a newer device maybe) then adjust range
         // if it is >= CEILING, then we have optimal device

@@ -46,13 +46,13 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - inconsistent behaviour with widget and jammer service state
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
+- rebuilding the active jammer
 - testing Active Jammer as external voice assistant jammer
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider optional jammer state persistence over boot <- adding to 4.5.0
 - consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
-- rebuild the active jammer
 - consider user app summary include and print package name of NUHF/ACR if found
 
 
@@ -70,6 +70,7 @@ PENDING 4.5.0
 - remove Color.Accent resource need
 - add chromecast as NUHF SDK
 - add ActiveJammer shadow method
+- cleaning up Active jammer code mess
 
    vers. 4.4.2
    - min API 18 (4.3)

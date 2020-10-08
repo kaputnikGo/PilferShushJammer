@@ -1,6 +1,7 @@
 package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -24,10 +25,15 @@ public class AudioChecker {
     private Bundle audioBundle;
     private boolean DEBUG;
     private List<MicrophoneInfo> microphoneInfoList;
+    private AudioTrack audioTrack;
+    private AudioAttributes playbackAttributes;
+    private AudioFormat audioFormatObject;
+    private float amplitude;
 
     public AudioChecker(Context context) {
         // constructor for checks only, not settings, called from InspectorFragment
         this.context = context;
+        amplitude = 1.0f;
         // hmmm, for now
         DEBUG = true;
     }
@@ -39,12 +45,24 @@ public class AudioChecker {
     }
 
     private int getClosestPowersHigh(int reported) {
-        // return the next highest power from the minimum reported
+        // return the next HIGHEST power from the minimum reported
         // 512, 1024, 2048, 4096, 8192, 16384
         for (int power : AudioSettings.POWERS_TWO_HIGH) {
             if (reported <= power) {
                 return power;
             }
+        }
+        // didn't find power, return reported
+        return reported;
+    }
+    private int getClosestPowersLow(int reported) {
+        // return the next LOWEST power from the minimum reported
+        // 512, 1024, 2048, 4096, 8192, 16384
+        // ie if 7688, return 4096
+        for (int i = 5; i >= 0 ; i--) {
+          if (reported >= AudioSettings.POWERS_TWO_HIGH[i]) {
+              return AudioSettings.POWERS_TWO_HIGH[i];
+          }
         }
         // didn't find power, return reported
         return reported;
@@ -96,9 +114,10 @@ public class AudioChecker {
                         }
                         int buffSize = AudioRecord.getMinBufferSize(rate, channelInConfig, audioFormat);
                         // force buffSize to powersOfTwo if it isnt (ie.S5)
-                        buffSize = getClosestPowersHigh(buffSize);
 
                         if (buffSize != AudioRecord.ERROR_BAD_VALUE) {
+                            buffSize = getClosestPowersHigh(buffSize);
+
                             AudioRecord recorder = new AudioRecord(
                                     audioSource,
                                     rate,
@@ -306,15 +325,43 @@ public class AudioChecker {
                             debugLogger("reported minBufferSize: " + buffSize, false);
                         }
                         // AudioTrack at create wants bufferSizeInBytes, the total size (in bytes)
+                        // force buffSize to powersOfTwo if it isnt (ie.S5)
+                        // check for Invalid channel configuration first
+                        // -1 ERROR, -2 ERROR_BAD_VALUE, -3 ERROR_INVALID_OPERATION
+                        if (buffSize != AudioTrack.ERROR_BAD_VALUE) {
+                            buffSize = getClosestPowersHigh(buffSize);
+                            debugLogger("AudioOut buffer changed to closest powers two: " + buffSize, true);
+                        }
 
-                        AudioTrack audioTrack = new AudioTrack(
-                                AudioManager.STREAM_MUSIC,
-                                rate,
-                                channelOutConfig,
-                                audioFormat,
-                                buffSize,
-                                AudioTrack.MODE_STREAM);
+                        // if/else for += API 26 (Oreo, 8.0) deprecation stream_types for focus
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            playbackAttributes = new AudioAttributes.Builder()
+                                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                    .build();
 
+                            audioFormatObject = new AudioFormat.Builder()
+                                    .setEncoding(audioFormat)
+                                    .setSampleRate(rate)
+                                    .setChannelMask(channelOutConfig)
+                                    .build();
+
+                            audioTrack = new AudioTrack(playbackAttributes,
+                                    audioFormatObject,
+                                    buffSize,
+                                    AudioTrack.MODE_STREAM,
+                                    AudioManager.AUDIO_SESSION_ID_GENERATE);
+
+                        }
+                        else {
+                            audioTrack = new AudioTrack(
+                                    AudioManager.STREAM_MUSIC,
+                                    rate,
+                                    channelOutConfig,
+                                    audioFormat,
+                                    buffSize,
+                                    AudioTrack.MODE_STREAM);
+                        }
 
                         if (audioTrack.getState() == AudioTrack.STATE_INITIALIZED) {
                             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
@@ -325,6 +372,7 @@ public class AudioChecker {
                             audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[5], channelOutConfig);
                             audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[6], buffSize);
                             audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[13], (int)(rate * 0.5f));
+                            audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[17], audioFormat);
 
                             // test onboardEQ
                             if (testOnboardEQ(audioTrack.getAudioSessionId())) {
@@ -342,13 +390,6 @@ public class AudioChecker {
                             audioTrack.pause();
                             audioTrack.flush();
                             audioTrack.release();
-
-                            if (buffSize > AudioSettings.POWERS_TWO_HIGH[4]) {
-                                // stop Active Jammer from ever running if this?
-                                // caution for potential laggy or breaking audiotrack buffer size of 8192
-                                if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]))
-                                    debugLogger("Output buffer on this device may break active jammer.", true);
-                            }
 
                             return true;
                         }

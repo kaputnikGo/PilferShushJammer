@@ -247,7 +247,6 @@ public class SettingsFragment extends Fragment {
                         // simple check that string is length <= 5, max length of usable frequency
                         if (userCarrierInput.getText().length() != 0 && userCarrierInput.getText().length() <= 5) {
                             if(userCarrierInput.getText().toString().trim().matches(regexStr))
-
                                 userInputCarrier = Integer.parseInt(userCarrierInput.getText().toString());
                         }
                         userInputCarrier = checkCarrierFrequency(userInputCarrier);
