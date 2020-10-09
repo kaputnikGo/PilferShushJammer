@@ -57,7 +57,7 @@ Note: APK signing with API30 needs v2/v3 - not v1
 
 
 **Changes:**
-PENDING 4.5.0
+- PENDING 4.5.0
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission

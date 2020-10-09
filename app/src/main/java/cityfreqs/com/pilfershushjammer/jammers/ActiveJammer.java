@@ -365,8 +365,8 @@ public class ActiveJammer {
     private double getShadowTone() {
         // get a random frequency ideally between 25kHz and 26kHz (maxFreq - 1000)
         // but most devices only capable of 23.5kHz - 24kHz - so shadow concept not work
-        int min = 0;
-        int max = 0;
+        int min;
+        int max;
         // best possible for standard device (48kHz) including dev
         if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) == AudioSettings.SHADOW_CARRIER_FREQUENCY) {
             // return random from carrier to minimum as range

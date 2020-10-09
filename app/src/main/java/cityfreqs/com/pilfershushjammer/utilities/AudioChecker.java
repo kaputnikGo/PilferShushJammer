@@ -25,15 +25,10 @@ public class AudioChecker {
     private Bundle audioBundle;
     private boolean DEBUG;
     private List<MicrophoneInfo> microphoneInfoList;
-    private AudioTrack audioTrack;
-    private AudioAttributes playbackAttributes;
-    private AudioFormat audioFormatObject;
-    private float amplitude;
 
     public AudioChecker(Context context) {
         // constructor for checks only, not settings, called from InspectorFragment
         this.context = context;
-        amplitude = 1.0f;
         // hmmm, for now
         DEBUG = true;
     }
@@ -334,13 +329,14 @@ public class AudioChecker {
                         }
 
                         // if/else for += API 26 (Oreo, 8.0) deprecation stream_types for focus
+                        AudioTrack audioTrack;
                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            playbackAttributes = new AudioAttributes.Builder()
+                            AudioAttributes playbackAttributes = new AudioAttributes.Builder()
                                     .setUsage(AudioAttributes.USAGE_MEDIA)
                                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                                     .build();
 
-                            audioFormatObject = new AudioFormat.Builder()
+                            AudioFormat audioFormatObject = new AudioFormat.Builder()
                                     .setEncoding(audioFormat)
                                     .setSampleRate(rate)
                                     .setChannelMask(channelOutConfig)
