@@ -58,7 +58,7 @@ public class AudioSettings {
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ", //12
             "maxFreq", "bufferRead", "debug", "permissions", "formatOut", //17
-            "waveform" //18
+            "waveform", "eqPreset" //19
     };
 
     // just another way of doing the above
@@ -181,7 +181,7 @@ public class AudioSettings {
         }
     }
 
-    // these will resolve to a UUID
+    // these will resolve to a UUID when/if later APIs enabled
     public static String[] GET_AUDIO_EFFECT_TYPE = new String[] {
         "EFFECT_TYPE_AEC", "EFFECT_TYPE_AGC", "EFFECT_TYPE_BASS_BOOST", "EFFECT_TYPE_DYNAMICS_PROCESSING", // last for API 28
         "EFFECT_TYPE_ENV_REVERB", "EFFECT_TYPE_EQUALIZER", "EFFECT_TYPE_LOUDNESS_ENHANCER", // last for API 19

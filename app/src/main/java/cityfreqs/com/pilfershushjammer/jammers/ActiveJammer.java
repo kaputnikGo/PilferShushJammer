@@ -57,7 +57,7 @@ public class ActiveJammer {
         angle = 0;
         level = Short.MAX_VALUE; // 32767
         K = AudioSettings.TWO_PI / audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
-        frequency = 1000;
+        frequency = 1000; // default start tone
         f = frequency;
         angle = 0.0;
         waveform = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[18]);
@@ -314,24 +314,15 @@ public class ActiveJammer {
         }
     }
 
-    // TODO configure this based upon AudioChecker creating a settings property
+    // based upon AudioChecker creating a settings property
+    // ad-hocs tests show NUHF boosted to -12dB @ 22kHz
+    // even though dev device reports eq band 4 max 20kHz
     private void onboardEQ(int audioSessionId) {
         try {
             Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
-            short bands = equalizer.getNumberOfBands();
-            final short minEQ = equalizer.getBandLevelRange()[0];
-            final short maxEQ = equalizer.getBandLevelRange()[1];
-
-            // attempt a HPF, to reduce (~15dB) all freqs in bands 0-3, boost band 4
-            for (int i = 0; i < 2; i++) {
-                for (short j = 0; j < bands; j++) {
-                    equalizer.setBandLevel(j, minEQ);
-                }
-                // boost band 4 twice
-                equalizer.setBandLevel((short)4, maxEQ);
-            }
-            debugLogger("ActiveJammer onboardEQ set.", true);
+            equalizer.setProperties(new Equalizer.Settings(audioBundle.getString(AudioSettings.AUDIO_BUNDLE_KEYS[19])));
+            debugLogger("ActiveJammer onboardEQ set to PSJAM: " + equalizer.getProperties().toString(), true);
         }
         catch (Exception ex) {
             debugLogger("ActiveJammer onboardEQ Exception.", true);
@@ -342,7 +333,6 @@ public class ActiveJammer {
     /*
         JAMMER CHECKER FUNCTIONS
     */
-
     private int getTestDrift() {
         return new Random().nextInt(AudioSettings.MAXIMUM_TEST_FREQUENCY
                 - AudioSettings.MINIMUM_TEST_FREQUENCY)

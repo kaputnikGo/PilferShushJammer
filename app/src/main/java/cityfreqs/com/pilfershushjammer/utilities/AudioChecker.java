@@ -50,6 +50,8 @@ public class AudioChecker {
         // didn't find power, return reported
         return reported;
     }
+    /*
+    // not yet used
     private int getClosestPowersLow(int reported) {
         // return the next LOWEST power from the minimum reported
         // 512, 1024, 2048, 4096, 8192, 16384
@@ -62,6 +64,7 @@ public class AudioChecker {
         // didn't find power, return reported
         return reported;
     }
+    */
 
     public boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT
@@ -165,9 +168,7 @@ public class AudioChecker {
         String placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
         placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
         // it is never written to.
-        // TODO API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method), if/else?
-
-        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // VOICE_COMMUNICATION
+        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // was VOICE_COMMUNICATION
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
@@ -186,12 +187,6 @@ public class AudioChecker {
 
         try {
             // optional attempt to enum device mics and capabilities
-            //TODO
-            // needs: Note: The query is only valid if the MediaRecorder is currently recording.
-            // so need prepare() and start()?
-            // getting: E/MediaRecorderJNI: MediaRecorder::getActiveMicrophones error -19
-            // and: E/MediaRecorder: getActiveMicrophones failed:-5
-            // and: I/MediaRecorder: getActiveMicrophones failed, fallback on routed device info
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 // test things are plugged in, n.b.
                 // The query is only valid if the MediaRecorder is currently recording.
@@ -243,7 +238,7 @@ public class AudioChecker {
             // why oh why
             return "micInfoList is empty.";
         }
-        // no really, how many, 3? more?
+        // no really, how many?
         int howManyMics = microphoneInfoList.size();
         debugLogger("how many mics: " + howManyMics, false);
         // P = api28 for MicrophoneInfo
@@ -400,96 +395,52 @@ public class AudioChecker {
         return false;
     }
 
-    // testing android/media/audiofx/Equalizer
-    // vers 4.0.6 - rem'ing the EQ changes, is now
-    // currently just a state report function
-    // vers 4.5.0 looking into creating a preset to boost PS Active Jammer for VOICE_COMMS jamming
-
-    // has an API 28 addition of DynamicsProcessing that includes:
+    //TODO
+    // vers 4.5.0 - testing EQ boosts
+    // concern is boosting passed safe device specific speaker thresholds
+    // n.b. API 28 addition of DynamicsProcessing that includes:
     // inputGain, preEq, multibandEq, postEq, limiter for each channel
-    //
-    // n.b. ActiveJammer.java has an onBoardEq() that will
-    // run if audioBundle.hasEq == true
+
     private boolean testOnboardEQ(int audioSessionId) {
+        // eq settings saved here will be used by ActiveJammer audioBundle.hasEq == true
+        // up the priority to much greater than 0 to override current audio effect engine owner,
+        // audioSessionId = 0 (all audio) is deprecated
         try {
-            // up the priority to much greater than 0 to override current audio effect engine owner,
             Equalizer equalizer = new Equalizer(0, audioSessionId);
             equalizer.setEnabled(true);
             // get some info
-            short bands = equalizer.getNumberOfBands();
+            short numBands = equalizer.getNumberOfBands();
             final short minEQ = equalizer.getBandLevelRange()[0]; // returns milliBel
             final short maxEQ = equalizer.getBandLevelRange()[1];
 
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
                 debugLogger("\n" + context.getString(R.string.eq_check_1), false);
-                debugLogger(context.getString(R.string.eq_check_4) + bands, false);
+                debugLogger(context.getString(R.string.eq_check_4) + numBands, false);
                 debugLogger(context.getString(R.string.eq_check_5) + minEQ, false);
                 debugLogger(context.getString(R.string.eq_check_6) + maxEQ, false);
             }
 
             if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                for (short band = 0; band < bands; band++) {
+                for (short band = 0; band < numBands; band++) {
                     // divide by 1000 to get numbers into recognisable ranges
-                    debugLogger("\nband freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
+                    debugLogger("\nband " + band + " freq range min: " + (equalizer.getBandFreqRange(band)[0] / 1000), false);
                     debugLogger("Band " + band + " center freq Hz: " + (equalizer.getCenterFreq(band) / 1000), true);
-                    debugLogger("band freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
-                    // band 5 reports center freq: 14kHz, minrange: 7000 and maxrange: 0  <- is this infinity? uppermost limit?
-                    // could be 21kHz if report standard of same min to max applies.
+                    debugLogger("band " + band + " freq range max: " + (equalizer.getBandFreqRange(band)[1] / 1000), false);
                 }
+                // see what if anything
+                debugLogger("EQ says number of presets is: " + equalizer.getNumberOfPresets(), false);
+                debugLogger("Preshow EQ preset name is: " + equalizer.getPresetName(equalizer.getCurrentPreset()), false);
+                debugLogger("Preshow settings: " + equalizer.getProperties().toString(), false);
             }
-
-            // vers 4.0.6 - Equalizer appears to be NOT application specific, and is applied across device:
-            // Removing the EQ changes as the Active jammer is currently not optimal.
-
-            //TODO
-            // vers 4.5.0 - considering EQ boosts for adversarial jamming of voice assistants
-            // via freq artifacts that occur over the VOICE_COMMS range
-            // concern is boosting passed safe device specific speaker thresholds,
-            // EQ in NOT application specific and so affects all audio output
-
-            // need Equalizer.getCurrentPreset() to hopefully save pre PilferShush eq state (user changed included)
-            short preshow = equalizer.getCurrentPreset();
-            // see what if anything
-            debugLogger("Preshow EQ preset name is: " + equalizer.getPresetName(preshow), true);
-            // also see what options if any
-            debugLogger("EQ says number of presets is: " + equalizer.getNumberOfPresets(), true);
-            // may actually need this
-            Equalizer.Settings preshowSettings = equalizer.getProperties();
-            // has short[] bandLevels, short curPreset and short numBands
-            debugLogger("Preshow.settings toString: " + preshowSettings.toString(), true);
-            debugLogger("audioSessionId num: " + audioSessionId, true);
-            /*
-            Preshow EQ preset name is: Normal
-            Preshow.settings toString: Equalizer;curPreset=0;numBands=5;band1Level=300;band2Level=0;band3Level=0;band4Level=0;band5Level=300
-            band1 is band0 at 30Hz - 120Hz, center at 60Hz, level(gain in milB) = 300 // why?
-            band5 is band4 at 7kHz - 20kHz, center at 1kHz, level(gain in milB) = 300 // again why? all others are at 0
-             */
-
-            // set pilfershush eq and trigger only on Active jamming,
-            // save as custom, or give unique name if poss, may show up in AudioFX app
-
-            // Active off means remove pilfershush eq and
-
-            // return to preset
-            // equalizer.usePreset(preshow);
-            // equalizer.setProperties();
-
-            // only active test is to squash all freqs in bands 0-3, leaving last band (4) free...
-            /*
-            if (audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15])) {
-                debugLogger("\n" + context.getString(R.string.eq_check_7) + minEQ, false);
+            // attenuate all bands except last
+            for (short j = 0; j < numBands-2; j++) {
+                equalizer.setBandLevel(j, minEQ); // -1500
             }
+            // boost last band
+            equalizer.setBandLevel((short)(numBands-1), maxEQ); // +1500
 
-            for (int i = 0; i < 2; i++) {
-                for (short j = 0; j < bands; j++) {
-                    equalizer.setBandLevel(j, minEQ);
-                }
-            }
-            */
-            // not a filter... reduced amplitude seems the best description when using eq.
-            // repeat calls to -15 dB improves sound reduction
-            // band4 to maxEQ will prob not do anything useful?
-
+            audioBundle.putString(AudioSettings.AUDIO_BUNDLE_KEYS[19], equalizer.getProperties().toString());
+            debugLogger("testOnboardEq settings: " + equalizer.getProperties().toString(), true);
             return true;
         }
         catch (Exception ex) {
@@ -513,7 +464,31 @@ public class AudioChecker {
     }
 }
 /*
-                S5 returns:
+
+ NOTES FOR EQ:
+    // EQ is audioSessionId specific
+    // not a filter... reduced amplitude seems the best description when using eq.
+    // currently only active test is to min all freqs in bands 0-3 and max last band (4)
+    // ie: attempt a HPF, to reduce (~15dB) all freqs in bands 0-3, boost band 4
+    // repeat calls to -15 dB improves sound reduction <- check works in android eq
+    // band4 to maxEQ will prob not do anything useful in NUHF range?
+
+             on dev device:
+            default EQ preset name is: Normal
+            default.settings toString: Equalizer;curPreset=0;numBands=5;band1Level=300;band2Level=0;band3Level=0;band4Level=0;band5Level=300
+            band1 is band0 at 30Hz - 120Hz, center at 60Hz, level(gain in milB) = 300 // +3dB
+            band2,3,4 level (gain) = 0 // +0dB
+            band5 is band4 at 7kHz - 20kHz, center at 1kHz, level(gain in milB) = 300 // +3dB
+
+                NOTE::
+                dev device S4 returns:
+                12 presets
+                adjustEq 1000 mB
+                has band 5 at center 16kHz, min 8kHz, max 24kHz
+                and band 0 at center 15Hz, min 7hz, max 23Hz
+
+
+                dev device S5 returns:
                 bands: 5
                 minEQ: -1500 (-15 dB)
                 maxEQ: 1500  (+15 dB)
@@ -537,7 +512,7 @@ public class AudioChecker {
                 band 4
                     ctr: 14000
                     min: 7000
-                    max: 0
+                    max: 20000
 
 notes: media/libeffects/lvm/lib/Eq/lib/LVEQNB.h
     /*      Gain        is in integer dB, range -15dB to +15dB inclusive                    */

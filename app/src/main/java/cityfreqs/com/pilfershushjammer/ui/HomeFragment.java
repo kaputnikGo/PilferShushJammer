@@ -389,6 +389,7 @@ public class HomeFragment extends Fragment {
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SIN);
+        audioBundle.putString(AudioSettings.AUDIO_BUNDLE_KEYS[19], "eqPreset not set");
 
         checkAudio(INIT_REQ);
         // background checker

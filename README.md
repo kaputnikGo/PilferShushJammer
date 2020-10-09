@@ -46,7 +46,7 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - inconsistent behaviour with widget and jammer service state
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
-- rebuilding the active jammer
+- preset and config optional AudioFX
 - testing Active Jammer as external voice assistant jammer
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
