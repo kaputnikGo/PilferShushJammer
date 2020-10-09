@@ -71,6 +71,8 @@ PENDING 4.5.0
 - add chromecast as NUHF SDK
 - add ActiveJammer shadow method
 - cleaning up Active jammer code mess
+- removed click artifacts from NUHF tone active jamming
+- add sine/sqr/saw waveforms
 
    vers. 4.4.2
    - min API 18 (4.3)

@@ -14,12 +14,12 @@ public class AudioSettings {
     */
 
     // 6.28318530718
-    public static final double TWO_PI = 2.0 * Math.PI;
+    public static final double TWO_PI = 6.283185307179586;
 
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
     public static final int DEFAULT_NUHF_FREQUENCY = 19000;
     public static final int SHADOW_CARRIER_FREQUENCY = 24000;
-    public static final int SHADOW_MINIMUM_FREQUENCY = 23500;
+    public static final int SHADOW_MINIMUM_FREQUENCY = 22000;
     public static final int SHADOW_FLOOR_FREQUENCY = 25000;
     public static final int SHADOW_CEILING_FREQUENCY = 26000;
     public static final int SHADOW_DRIFT_RANGE = 500;
@@ -41,6 +41,10 @@ public class AudioSettings {
     public static final int JAMMER_TYPE_DEFAULT_RANGED = 2;
     public static final int JAMMER_TYPE_USER_RANGED = 3;
 
+    public static final int WAVEFORM_SIN = 0;
+    public static final int WAVEFORM_SQR = 1;
+    public static final int WAVEFORM_SAW = 2;
+
     public static final String[] JAMMER_TYPES = new String[]{
             "Slow audible test tone drift (~440Hz)",
             "Full NUHF drift (18kHz-24kHz)",
@@ -53,7 +57,8 @@ public class AudioSettings {
             "audioSource", "sampleRate", "channelInConfig", "encoding", //3
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ", //12
-            "maxFreq", "bufferRead", "debug", "permissions", "formatOut" //17
+            "maxFreq", "bufferRead", "debug", "permissions", "formatOut", //17
+            "waveform" //18
     };
 
     // just another way of doing the above

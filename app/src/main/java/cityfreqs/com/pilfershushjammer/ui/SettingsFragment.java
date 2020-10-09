@@ -132,16 +132,37 @@ public class SettingsFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radio_noise:
-                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 0);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], AudioSettings.JAMMER_NOISE);
                         entryLogger(getResources().getString(R.string.app_status_9), false);
                         break;
                     case R.id.radio_tones:
-                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 1);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], AudioSettings.JAMMER_TONE);
                         entryLogger(getResources().getString(R.string.app_status_8), false);
                         break;
                     case R.id.radio_shadow:
-                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], 2);
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], AudioSettings.JAMMER_SHADOW);
                         entryLogger(getResources().getString(R.string.app_status_9_1), false);
+                        break;
+                }
+            }
+        });
+
+        RadioGroup waveformRadioGroup = view.findViewById(R.id.waveform_radio_group);
+        waveformRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_sine:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SIN);
+                        entryLogger(getResources().getString(R.string.app_status_15), false);
+                        break;
+                    case R.id.radio_square:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SQR);
+                        entryLogger(getResources().getString(R.string.app_status_16), false);
+                        break;
+                    case R.id.radio_sawtooth:
+                        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SAW);
+                        entryLogger(getResources().getString(R.string.app_status_17), false);
                         break;
                 }
             }

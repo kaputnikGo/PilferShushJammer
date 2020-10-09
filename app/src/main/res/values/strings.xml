@@ -85,6 +85,9 @@
     <string name="app_status_12">Tap to return to app.</string>
     <string name="app_status_13">Passive jammer buffer read lock enabled. REQUIRES PASSIVE JAMMER RESTART.</string>
     <string name="app_status_14">Passive jammer buffer read lock disabled. REQUIRES PASSIVE JAMMER RESTART.</string>
+    <string name="app_status_15">Waveform swtched to sine.</string>
+    <string name="app_status_16">Waveform swtched to square.</string>
+    <string name="app_status_17">Waveform swtched to sawtooth.</string>
 
     <string name="intro_1">PilferShush Jammer attempts to block unwanted and hidden use of the hardware microphone.</string>
     <string name="intro_2">Via a PASSIVE jamming technique that engages the microphone blocking other apps from using it.</string>
@@ -152,6 +155,9 @@
     <string name="active_dialog_5">TEST</string>
     <string name="active_dialog_6">NUHF</string>
     <string name="active_dialog_7">SHADOW</string>
+    <string name="active_dialog_8">sine</string>
+    <string name="active_dialog_9">square</string>
+    <string name="active_dialog_10">sawtooth</string>
 
     <string name="eq_check_1">Testing for device audiofx equalizer.</string>
     <string name="eq_check_2">Device audiofx equalizer test passed.</string>

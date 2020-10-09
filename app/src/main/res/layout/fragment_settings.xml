@@ -151,6 +151,27 @@
                     android:checked="false"/>
             </RadioGroup>
 
+            <RadioGroup android:id="@+id/waveform_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/radio_sine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/active_dialog_8"
+                    android:checked="true"/>
+                <RadioButton android:id="@+id/radio_square"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/active_dialog_9"
+                    android:checked="false"/>
+                <RadioButton android:id="@+id/radio_sawtooth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/active_dialog_10"
+                    android:checked="false"/>
+            </RadioGroup>
+
         </LinearLayout>
 
         <LinearLayout

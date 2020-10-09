@@ -382,12 +382,13 @@ public class HomeFragment extends Fragment {
     private void initApplication() {
         debugLogger("INIT_APPLICATION", false);
         // apply audio checker settings to bundle for services
-        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[7], true);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[7], AudioSettings.JAMMER_TONE);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[9], AudioSettings.CARRIER_TEST_FREQUENCY);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[10], AudioSettings.DEFAULT_RANGE_DRIFT_LIMIT);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[11], AudioSettings.MINIMUM_DRIFT_LIMIT);
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SIN);
 
         checkAudio(INIT_REQ);
         // background checker

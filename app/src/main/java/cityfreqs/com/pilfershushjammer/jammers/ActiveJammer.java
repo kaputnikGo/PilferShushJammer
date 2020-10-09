@@ -29,16 +29,15 @@ public class ActiveJammer {
     private boolean DEBUG;
 
     private byte[] soundData;
-    private int sampleRate;
-    private int driftFreq;
     private int driftSpeed;
-    private double[] sample;
-    // short method vrs
+    private double level;
+    private double K;
+    private double f;
+    private double angle;
     private short[] shortBuffer;
     private double frequency;
-    float angle;
-    float[] samplesLow;
-    float increment;
+    private int bufferSize;
+    private int waveform;
 
     public ActiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
@@ -51,16 +50,17 @@ public class ActiveJammer {
         amplitude = 1.0f; // unity gain
         audioTrack = null;
         isPlaying = false;
-        sampleRate = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
-        soundData = new byte[sampleRate];
+        soundData = new byte[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1])];
         driftSpeed = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[11]) * AudioSettings.DRIFT_SPEED_MULTIPLIER; // get into ms ranges
-        driftFreq = 0;
-        sample = new double[sampleRate];
-        // shadowTone
-        shortBuffer = new short[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6])]; // needs to be buffer size, not sampleRate
-        //
+        // new version Active jammer vars
+        bufferSize = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6]);
         angle = 0;
-        samplesLow = new float[audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6])]; //1024/2048
+        level = Short.MAX_VALUE; // 32767
+        K = AudioSettings.TWO_PI / audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]);
+        frequency = 1000;
+        f = frequency;
+        angle = 0.0;
+        waveform = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[18]);
     }
 
     /*
@@ -74,7 +74,8 @@ public class ActiveJammer {
         //stop();
         isPlaying = true;
         debugLogger("active play type: " + type, true);
-        debugLogger("buffer size: " + audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[6]), true);
+        debugLogger("buffer size: " + bufferSize, true);
+        debugLogger("waveform: " + waveform, true);
         threadPlay(type);
     }
 
@@ -134,13 +135,8 @@ public class ActiveJammer {
                     // but: AudioTrack will wait until it has enough data before starting.
                     // this probably causes the non-sensible buffer values to be played
                     audioTrack.play();
-
-                    // shadow Tones
-                    // stronger signal when called here
-                    // should change freq every 0.45 ms
-                    frequency = 23000.0;//getShadowTone(); //23950.0
-                    debugLogger("getShadowTone: " + frequency, true);
-                    //increment = (float) (AudioSettings.TWO_PI * frequency / sampleRate);
+                    shortBuffer = new short[bufferSize];
+                    angle = 0.0; // call here else in tone gen code produces clicks, non-zero-crossings
 
                     while (isPlaying) {
                         if (type == AudioSettings.JAMMER_NOISE) {
@@ -209,33 +205,32 @@ public class ActiveJammer {
     }
 
     private synchronized void createTone() {
-        // NOTES: remove clicks from android audio emit, waveform at pop indicates no zero crossings either side
         // The format specified in the AudioTrack constructor should be AudioFormat.ENCODING_PCM_8BIT
         //  to correspond to the data in the array.
         // yet: The format can be AudioFormat.ENCODING_PCM_16BIT, but this is deprecated.
         // and: Audio data format: PCM 8 bit per sample. Not guaranteed to be supported by devices.
-        // - AMPLITUDE RAMPS pre and post every loadDriftTone()
-        // - ZERO VALUE SAMPLES either side of loadDriftTone()
-
-        soundData = new byte[2 * sampleRate]; // account for Nyquist
-        driftFreq = loadDriftTone();
+        frequency = loadDriftTone();
         // every nth iteration get a new drift freq (48k rate / driftSpeed )
-        for (int i = 0; i < sampleRate; ++i) {
+        for (int i = 0; i < shortBuffer.length; i++) {
             if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[8]) != AudioSettings.JAMMER_TYPE_TEST && i % driftSpeed == 0) {
-                driftFreq = loadDriftTone();
+                // only at zero-crossing
+                if (angle == 0.0) frequency = loadDriftTone();
             }
-            sample[i] = Math.sin(driftFreq * AudioSettings.TWO_PI * i / sampleRate);
+            f += (frequency - f) / bufferSize;
+            angle += (angle < Math.PI) ? f * K : (f * K) - (AudioSettings.TWO_PI);
+            switch (waveform) {
+                case AudioSettings.WAVEFORM_SIN:
+                    shortBuffer[i] = (short) Math.round(Math.sin(angle) * level);
+                    break;
+                case AudioSettings.WAVEFORM_SQR:
+                    shortBuffer[i] = (short) ((angle > 0.0) ? level : -level);
+                    break;
+                case AudioSettings.WAVEFORM_SAW:
+                    shortBuffer[i] = (short) Math.round((angle / Math.PI) * level);
+                    break;
+            }
         }
-        int idx = 0;
-        for (final double dVal : sample) {
-            final short val = (short) ((dVal * Short.MAX_VALUE)); // 32767 or 65536? max the amplitude <- check this
-            // in 16 bit wav PCM, first byte is the low order byte
-            soundData[idx] = (byte) (val & 0x00ff);
-            idx++;
-            soundData[idx] = (byte) ((val & 0xff00) >>> 8);
-            idx++;
-        }
-        playSound(soundData);
+        playSound(shortBuffer);
     }
 
     private synchronized void createWhiteNoise() {
@@ -247,28 +242,38 @@ public class ActiveJammer {
         playSound(soundData);
     }
 
+    // shadowTone notes:
+    // only functions with random hz within range 25000-26000
+    // should change freq every ~ 0.45 ms
+    // output dB on dev S5 device:
+    // 20kHz == -9 dB
+    // 21kHz == -18 dB
+    // 22kHz == -30 dB
+    // 23kHz == -55 dB
+    // 23500Hz == -72dB
+    // 23950Hz == null
     private synchronized void createShadowSound() {
         // n.b. with current devices this is NOT an example of NUHF creating shadow bands,
         // in MEMs microphones but merely artifacts produced in code and/or speaker output
-
-        // increment = 6.28318530718 * 23950 / 48000 = 3.135047668895021
-        //frequency = getShadowTone(); //23950.0
-        increment = (float) (AudioSettings.TWO_PI * getShadowTone() / sampleRate);
-        for (int i = 0; i < samplesLow.length; i++) {
-            // pure base tone gen, no artifacts
-            samplesLow[i] = (float) Math.sin(angle);
-
-            // addition of either of these two, creates pulsing and full range flood
-            // below has multiple strong bands over flood
-            //samplesLow[i] = (samplesLow[i] >= 0.0) ? 1 : -1;
-            // below has multiple strong bands over flood with rhythmic pulsing
-            //samplesLow[i] = (float) (AudioSettings.TWO_PI * Math.asin(samplesLow[i]));
-            // end of addition
-            shortBuffer[i] = (short) (samplesLow[i] * Short.MAX_VALUE);
-            angle += increment;
+        // this code is here as placeholder for if/when devices get suitable output capabilities
+        frequency = getShadowTone(); //22000.0
+        f = frequency;
+        for (int i = 0; i < shortBuffer.length; i++) {
+            f += (frequency - f) / bufferSize;
+            angle += (angle < Math.PI) ? f * K : (f * K) - (AudioSettings.TWO_PI);
+            switch (waveform) {
+                case AudioSettings.WAVEFORM_SIN:
+                    shortBuffer[i] = (short) Math.round(Math.sin(angle) * level);
+                    break;
+                case AudioSettings.WAVEFORM_SQR:
+                    shortBuffer[i] = (short) ((angle > 0.0) ? level : -level);
+                    break;
+                case AudioSettings.WAVEFORM_SAW:
+                    shortBuffer[i] = (short) Math.round((angle / Math.PI) * level);
+                    break;
+            }
         }
         playSound(shortBuffer);
-
     }
 
     // short audioTrack version
@@ -359,37 +364,28 @@ public class ActiveJammer {
 
     private double getShadowTone() {
         // get a random frequency ideally between 25kHz and 26kHz (maxFreq - 1000)
-        // but most devices only capable of 23.5kHz - 24kHz - so shadow concept prob not work
-
-        // maximum == 24kHz, min == AudioSettings.SHADOW_CARRIER_FREQUENCY
-        // check device maxFreq is equal to shadow carrier of 24kHz
-
+        // but most devices only capable of 23.5kHz - 24kHz - so shadow concept not work
+        int min = 0;
+        int max = 0;
         // best possible for standard device (48kHz) including dev
         if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) == AudioSettings.SHADOW_CARRIER_FREQUENCY) {
             // return random from carrier to minimum as range
-            // dev device is showing varying results with freqs, hardcoded 23950 has best flood of shadow bands
-            return 23950.0;
-            /*
-            return new Random().nextInt(AudioSettings.SHADOW_CARRIER_FREQUENCY
-                    - AudioSettings.SHADOW_MINIMUM_FREQUENCY)
-                    + AudioSettings.SHADOW_MINIMUM_FREQUENCY;
-             */
+            max = AudioSettings.SHADOW_MINIMUM_FREQUENCY;
+            min = max - AudioSettings.SHADOW_DRIFT_RANGE;
         }
         // check if its above (a newer device maybe) then adjust range
         // if it is >= CEILING, then we have optimal device
         else if (audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]) >= AudioSettings.SHADOW_CEILING_FREQUENCY) {
-            return new Random().nextInt(AudioSettings.SHADOW_CEILING_FREQUENCY
-                    - AudioSettings.SHADOW_FLOOR_FREQUENCY)
-                    + AudioSettings.SHADOW_FLOOR_FREQUENCY;
+            max = AudioSettings.SHADOW_CEILING_FREQUENCY;
+            min = max - AudioSettings.SHADOW_FLOOR_FREQUENCY;
         }
-        // check if its under the minimum
+        // lastly if its under the minimum
         else {
-            // send a no or something?
             // get from device maxFreq and minus 500
-            return new Random().nextInt(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13])
-                    - AudioSettings.SHADOW_DRIFT_RANGE)
-                    + AudioSettings.SHADOW_DRIFT_RANGE;
+            max = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[13]);
+            min = max - AudioSettings.SHADOW_DRIFT_RANGE;
         }
+        return new Random().nextInt(max - min) + min;
     }
 
     // carrier should be between 18k - 24k
