@@ -27,7 +27,7 @@ Also includes a scanner to check user installed apps for NUHF and Audio Content 
 Major overhaul of the design to make information clearer and to simplify typical uses of the app
 
 Notes:
-Conuing to look into better Active jammer audio output code.
+Continuing to look into better Active jammer audio output code.
 
 White noise output may not be very effective at blocking and is a somewhat annoying sound.
 

@@ -216,7 +216,8 @@ public class ActiveJammer {
                 // only at zero-crossing
                 if (angle == 0.0) frequency = loadDriftTone();
             }
-            f += (frequency - f) / bufferSize;
+            //f += frequency / bufferSize; // slow frequency sweep up/down loop
+            f += (frequency -f) / bufferSize;
             angle += (angle < Math.PI) ? f * K : (f * K) - (AudioSettings.TWO_PI);
             switch (waveform) {
                 case AudioSettings.WAVEFORM_SIN:

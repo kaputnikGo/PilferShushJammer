@@ -27,10 +27,9 @@ public class AudioChecker {
     private List<MicrophoneInfo> microphoneInfoList;
 
     public AudioChecker(Context context) {
-        // constructor for checks only, not settings, called from InspectorFragment
+        // this constructor for checks only, not settings, called from InspectorFragment
         this.context = context;
-        // hmmm, for now
-        DEBUG = true;
+        DEBUG = false;
     }
 
     public AudioChecker(Context context, Bundle audioBundle) {

@@ -46,7 +46,6 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - inconsistent behaviour with widget and jammer service state
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
-- preset and config optional AudioFX
 - testing Active Jammer as external voice assistant jammer
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
@@ -57,7 +56,7 @@ Note: APK signing with API30 needs v2/v3 - not v1
 
 
 **Changes:**
-- PENDING 4.5.0
+- RELEASE 4.5.0
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission
@@ -73,8 +72,9 @@ Note: APK signing with API30 needs v2/v3 - not v1
 - cleaning up Active jammer code mess
 - removed click artifacts from NUHF tone active jamming
 - add sine/sqr/saw waveforms
+- config optional AudioFX equaliser to NUHF preset
 
-   vers. 4.4.2
+   vers. 4.5.0
    - min API 18 (4.3)
    - target API 29 (10.x)
    - compiled API 29 (10.x)

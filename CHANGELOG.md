@@ -1,4 +1,4 @@
-### 4.5.0 (unreleased)
+### 4.5.0 (2020-10-09)
 * added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot
 * add receive boot permission
@@ -15,6 +15,7 @@
 * cleaning up Active jammer code mess
 * removed click artifacts from NUHF tone active jamming
 * add sine/sqr/saw waveforms
+* config optional AudioFX equaliser to NUHF preset
 
 ### 4.4.2 (2020-8-26)
 * upgrade build target to API 29, Google Play comply

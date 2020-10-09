@@ -12,10 +12,7 @@ public class AudioSettings {
     private static final int[] POWERS_TWO_LOW = new int[]{
             2, 4, 8, 16, 32, 64, 128, 256};
     */
-
-    // 6.28318530718
     public static final double TWO_PI = 6.283185307179586;
-
     public static final int MINIMUM_NUHF_FREQUENCY = 18000;
     public static final int DEFAULT_NUHF_FREQUENCY = 19000;
     public static final int SHADOW_CARRIER_FREQUENCY = 24000;
@@ -52,7 +49,7 @@ public class AudioSettings {
             "User NUHF drift with user carrier"
     };
 
-    // Bundle keys string names: number = 15
+    // Bundle keys string names: number = 19
     public static final String[] AUDIO_BUNDLE_KEYS = new String[]{
             "audioSource", "sampleRate", "channelInConfig", "encoding", //3
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
@@ -61,6 +58,7 @@ public class AudioSettings {
             "waveform", "eqPreset" //19
     };
 
+    /*
     // just another way of doing the above
     public static String GET_AUDIO_BUNDLE_KEY(int i) {
         switch (i) {
@@ -79,7 +77,7 @@ public class AudioSettings {
             case 6:
                 return "bufferOutSize";
             case 7:
-                return "activeType"; // no longer bool, is int (0,1,2)
+                return "activeType"; // no longer bool, is now int (0,1,2)
             case 8:
                 return "jammerType";
             case 9:
@@ -104,6 +102,7 @@ public class AudioSettings {
                 return "unknown";
         }
     }
+    */
 
     // MicrophoneInfo for min API28
     public static final String[] MIC_INFO_LOCATION = new String[]{
@@ -125,6 +124,7 @@ public class AudioSettings {
             "bus", "usb-headset", "hearing-aid" //24
     };
 
+    /*
     // just another way of doing the above but returning the constant names...
     public static String GET_DEVICE_TYPE(int i) {
         switch (i) {
@@ -180,13 +180,16 @@ public class AudioSettings {
                 return "TYPE_UNKNOWN";
         }
     }
+    */
 
+    /*
     // these will resolve to a UUID when/if later APIs enabled
     public static String[] GET_AUDIO_EFFECT_TYPE = new String[] {
         "EFFECT_TYPE_AEC", "EFFECT_TYPE_AGC", "EFFECT_TYPE_BASS_BOOST", "EFFECT_TYPE_DYNAMICS_PROCESSING", // last for API 28
         "EFFECT_TYPE_ENV_REVERB", "EFFECT_TYPE_EQUALIZER", "EFFECT_TYPE_LOUDNESS_ENHANCER", // last for API 19
         "EFFECT_TYPE_NS", "EFFECT_TYPE_PRESET_REVERB", "EFFECT_TYPE_VIRTUALIZER"
     };
+    */
 }
 
 /*

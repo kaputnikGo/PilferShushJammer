@@ -88,12 +88,11 @@ public class HomeFragment extends Fragment {
             audioBundle = getArguments().getBundle("audioBundle");
             if (audioBundle != null) {
                 // usually set via dialog in main via pagerAdapter, first instance of audioBundle here
-                //TODO
-                // hardcode for testing
-                DEBUG = true;
-                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
+                //DEBUG = true;
+                //audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
+
                 // un-rem for production
-                //DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
             }
         }
         else {
@@ -627,7 +626,7 @@ public class HomeFragment extends Fragment {
         else if ((!caution) && DEBUG) {
             Log.d(TAG, message);
         }
-        else if (DEBUG) {
+        else {
             Log.i(TAG, message);
         }
     }
