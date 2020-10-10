@@ -234,7 +234,7 @@ public class AudioChecker {
         // get some infos, check list is populated
         debugLogger("scanMicrophoneInfo list now...", false);
         if (microphoneInfoList.isEmpty()) {
-            // why oh why
+            // check for finding zero mics regardless of the reason
             return "micInfoList is empty.";
         }
         // no really, how many?
@@ -249,46 +249,53 @@ public class AudioChecker {
             float first = 0.0f, second = 0.0f;
             int micDirection;
             int micLocation;
-
+            String[] micInfoPrint = new String[howManyMics];
+            int i = 0;
+            micInfoPrint[i] = "Microphone check:" + "\nnumber of mics: " + howManyMics + "\n";
+            // account for multiple mics - dev device only has one :(
             for (MicrophoneInfo microphoneInfo : microphoneInfoList) {
-                // no iter
-                // build as a String for return
                 micId = microphoneInfo.getId();
                 micType = microphoneInfo.getType(); // hopefully only returns an input device
-                debugLogger("micID: " + micId + " mic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType], false);
-                //
                 micSens = microphoneInfo.getSensitivity();
-                // if dB Full Scale reports as -3.4028235E38 is const SENSITIVITY_UNKNOWN
-                if (micSens < 0) micSens = -3.4f;
-
                 freqPair = microphoneInfo.getFrequencyResponse();
-                if (freqPair.isEmpty()) {
-                    // ignore, device cant produce the info
-                    debugLogger("freq response size is empty.", false);
-                }
-                else {
+                if (!freqPair.isEmpty()) {
                     first = freqPair.get(0).first;
                     second = freqPair.get(0).second;
                 }
-                debugLogger("Freq pair 1: " + first + " 2: " + second + " sensitivity (dB FS): " + micSens, false);
-                //
                 micDirection = microphoneInfo.getDirectionality();
                 micLocation = microphoneInfo.getLocation();
-                debugLogger("Mic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
-                        + " Mic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection], false);
 
-                // should change pairs == 0 to an "unknown" string
-                return "Microphone check:"
-                        + "\nnumber of mics: " + howManyMics
-                        + "\nMic ID: " + micId
-                        + "\nMic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType]
-                        + "\nFrequency range pair 1: " + first + " 2: " + second
-                        + "\nSensitivity (dB FS): " + micSens
-                        + "\nMic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
+                micInfoPrint[i] +=
+                        "\nMic ID: " + micId
+                        + "\nMic type: " + AudioSettings.AUDIO_DEVICE_INFO_TYPE[micType];
+                // checks for unknown device specs print 'unknown' and not just a zero number
+                if (freqPair.isEmpty()) {
+                    micInfoPrint[i] +=  "\nFrequency range pair is unknown";
+                }
+                else {
+                    micInfoPrint[i] += "\nFrequency range pair 1: " + first + " 2: " + second;
+                }
+                // if dB Full Scale reports as -3.4028235E38 is const SENSITIVITY_UNKNOWN
+                if (micSens == MicrophoneInfo.SENSITIVITY_UNKNOWN) {
+                    micInfoPrint[i] += "\nSensitivity (dB FS): unknown";
+                }
+                else {
+                    micInfoPrint[i] += "\nSensitivity (dB FS): " + micSens;
+                }
+                micInfoPrint[i] +=
+                        "\nMic location: " + AudioSettings.MIC_INFO_LOCATION[micLocation]
                         + "\nMic polar pattern: " + AudioSettings.MIC_INFO_DIRECTION[micDirection]
                         + "\n";
 
+                // advance counter for multiple mics
+                i++;
             }
+            // make nice return string from array
+            StringBuilder micInfoBuilder = new StringBuilder();
+            for (String s : micInfoPrint) {
+                micInfoBuilder.append(s);
+            }
+            return micInfoBuilder.toString();
         }
         return "Build version under Android P, no mic info possible.";
     }

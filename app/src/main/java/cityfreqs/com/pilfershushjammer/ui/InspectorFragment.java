@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import cityfreqs.com.pilfershushjammer.R;
 import cityfreqs.com.pilfershushjammer.utilities.AppEntry;
-import cityfreqs.com.pilfershushjammer.utilities.AudioChecker;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
@@ -34,7 +33,6 @@ public class InspectorFragment extends Fragment {
     private Context context;
 
     private BackgroundChecker backgroundChecker;
-    private AudioChecker audioChecker;
     private TextView scannerText;
 
     private ImageButton appSummaryButton;
@@ -70,7 +68,6 @@ public class InspectorFragment extends Fragment {
             entryLogger("Failed to load audio settings.", true);
         }
         backgroundChecker = new BackgroundChecker(context, DEBUG);
-        audioChecker = new AudioChecker(context);
     }
 
     @Override
@@ -124,15 +121,29 @@ public class InspectorFragment extends Fragment {
             }
         });
 
+        //TODO
         backgroundChecker.initChecker(context.getPackageManager());
         backgroundChecker.runChecker();
+        backgroundChecker.checkAudioBeaconApps();
 
         introText();
-        // add a call to audioChecker.determineMediaRecorderType()
-        // return a mic info string for outputting to entryLogger
-        String reportBack;
-        reportBack = audioChecker.determineMediaRecorderType();
-        entryLogger(reportBack, true);
+
+        // report
+        int audioNum = backgroundChecker.getUserRecordNumApps();
+        if (audioNum > 0) {
+            entryLogger(getResources().getString(R.string.userapp_scan_8) + audioNum, true);
+        } else {
+            entryLogger(getResources().getString(R.string.userapp_scan_9), false);
+        }
+        if (backgroundChecker.hasAudioBeaconApps()) {
+            entryLogger(backgroundChecker.getAudioBeaconAppNames().length
+                    + getResources().getString(R.string.userapp_scan_10) + "\n", true);
+        } else {
+            entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
+        }
+
+        //TODO move this to Home or Settings?
+        //entryLogger(audioChecker.determineMediaRecorderType(), true);
     }
 
     private void introText() {
@@ -159,7 +170,9 @@ public class InspectorFragment extends Fragment {
             entryLogger(getResources().getString(R.string.userapp_scan_intro_7), false);
             entryLogger(getResources().getString(R.string.userapp_scan_intro_8), false);
             entryLogger(getResources().getString(R.string.userapp_scan_intro_9), false);
-            entryLogger(getResources().getString(R.string.userapp_scan_intro_10) + "\n", false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_10), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_11), false);
+            entryLogger(getResources().getString(R.string.userapp_scan_intro_12) + "\n", false);
             audioAppEntryLog();
         }
         else {

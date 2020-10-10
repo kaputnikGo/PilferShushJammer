@@ -36,9 +36,14 @@ see https://developer.android.com/preview/privacy/foreground-services
 
 Note: APK signing with API30 needs v2/v3 - not v1
 
+Note: currently only testing on ARMv7 with single mic,
+need to get aarch64/arm64 device with multiple mics.
+
+
 **TODO:**
 - URGENT Android 10 concurrent audio continue testing
 - URGENT Android 11 changes to concurrent audio
+- get an arm64 multi mic device
 - check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
 - Android 11 changes to foreground services and mic access, remember its just a trigger
@@ -56,7 +61,14 @@ Note: APK signing with API30 needs v2/v3 - not v1
 
 
 **Changes:**
-- RELEASE 4.5.0
+- 4.5.1 (unreleased)
+- micInfoList for multiple mics print
+- change Inspector to caution for AudioRecord with SDK name
+- improve and increase info from Inspector
+- move micInfo check to Home
+
+
+- 4.5.0 (released Oct 9, 2020)
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot
 - add receive boot permission

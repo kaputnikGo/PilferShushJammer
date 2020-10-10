@@ -1,3 +1,9 @@
+### 4.5.1 (unreleased)
+* micInfoList for multiple mics print
+* change Inspector to caution for AudioRecord with SDK name
+* improve and increase info from Inspector
+* move micInfo check to Home
+
 ### 4.5.0 (2020-10-09)
 * added passive control appwidget in prep for Android 11
 * add boot receiver for auto restart app at device reboot

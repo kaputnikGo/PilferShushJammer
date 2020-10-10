@@ -34,7 +34,6 @@ import cityfreqs.com.pilfershushjammer.jammers.ActiveJammerService;
 import cityfreqs.com.pilfershushjammer.jammers.PassiveJammerService;
 import cityfreqs.com.pilfershushjammer.utilities.AudioChecker;
 import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
-import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.Context.AUDIO_SERVICE;
@@ -65,7 +64,6 @@ public class HomeFragment extends Fragment {
     private ToggleButton activeJammerButton;
 
     private AudioManager audioManager;
-    private BackgroundChecker backgroundChecker;
 
     public HomeFragment() {
         // no-args constructor
@@ -391,15 +389,13 @@ public class HomeFragment extends Fragment {
         audioBundle.putString(AudioSettings.AUDIO_BUNDLE_KEYS[19], "eqPreset not set");
 
         checkAudio(INIT_REQ);
-        // background checker
-        backgroundChecker = new BackgroundChecker(context, audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]));
 
         entryLogger("\n" + getResources().getString(R.string.intro_8) +
                 AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_TEST]
                 + "\n", false);
 
         debugLogger("Debug mode set: " + audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]), true);
-        initBackgroundChecker();
+        entryLogger(audioChecker.determineMediaRecorderType() + "\n", true);
     }
 
     private boolean checkAudio(int requester) {
@@ -439,50 +435,6 @@ public class HomeFragment extends Fragment {
             }
         }
         return true;
-    }
-
-    private void initBackgroundChecker() {
-        if (backgroundChecker != null) {
-            if (runBackgroundChecks()) {
-                // report
-                int audioNum = backgroundChecker.getUserRecordNumApps();
-                if (audioNum > 0) {
-                    entryLogger(getResources().getString(R.string.userapp_scan_8) + audioNum, true);
-                } else {
-                    entryLogger(getResources().getString(R.string.userapp_scan_9), false);
-                }
-                if (backgroundChecker.hasAudioBeaconApps()) {
-                    entryLogger(backgroundChecker.getAudioBeaconAppNames().length
-                            + getResources().getString(R.string.userapp_scan_10) + "\n", true);
-                } else {
-                    entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
-                }
-            }
-        }
-        else {
-            debugLogger("backgroundChecker is NULL at init.", false);
-            entryLogger("Background Checker not initialised.", true);
-        }
-    }
-
-    private boolean runBackgroundChecks() {
-        // already checked for null at initBackground
-        try {
-            if (backgroundChecker.initChecker(context.getPackageManager())) {
-                backgroundChecker.runChecker();
-                backgroundChecker.checkAudioBeaconApps();
-                return true;
-            }
-            else {
-                entryLogger(getResources().getString(R.string.userapp_scan_1), true);
-                return false;
-            }
-        }
-        catch(NullPointerException ex) {
-            ex.printStackTrace();
-            entryLogger(getResources().getString(R.string.userapp_scan_14), true);
-        }
-        return false;
     }
 
     private int audioFocusCheck() {

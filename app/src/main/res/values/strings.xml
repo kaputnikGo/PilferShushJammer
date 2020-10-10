@@ -247,6 +247,8 @@
     <string name="userapp_scan_intro_8">RECEIVER -  send or receive messages from the system or other apps</string>
     <string name="userapp_scan_intro_9">NUHF/ACR SDK - package name match found from current SDK list</string>
     <string name="userapp_scan_intro_10">ACCESSIBILITY - special functions about state of device</string>
+    <string name="userapp_scan_intro_11">SERVICE SDK - First service name found matching SDK list</string>
+    <string name="userapp_scan_intro_12">RECEIVER SDK - First receiver name found matching SDK list</string>
 
 
     <!--

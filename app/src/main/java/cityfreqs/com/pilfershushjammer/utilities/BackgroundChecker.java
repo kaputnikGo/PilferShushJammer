@@ -99,21 +99,23 @@ public class BackgroundChecker {
             for (AppEntry appEntry : appEntries) {
                 if (appEntry.getServices()) {
                     // have services, check for audioBeacon names
-                    if (checkForAudioBeaconService(appEntry.getServiceNames())) {
+                    if (checkForAudioBeaconService(appEntry)) {
                         // have a substring match, set original
                         audioBeaconFound = true;
                     }
                 }
                 if (appEntry.getReceivers()) {
                     // have services, check for audioBeacon names
-                    if (checkForAudioBeaconReceivers(appEntry.getReceiverNames())) {
+                    if (checkForAudioBeaconReceivers(appEntry)) {
                         // have a substring match, set original
                         audioBeaconFound = true;
                     }
                 }
-                if (audioBeaconFound) audioBeaconCount++;
+                if (audioBeaconFound)
+                    audioBeaconCount++;
                 appEntries.get(indexCount).setAudioSdk(audioBeaconFound);
                 indexCount++;
+
                 // reset
                 audioBeaconFound = false;
             }
@@ -138,13 +140,14 @@ public class BackgroundChecker {
 
 
     // loop though services/receivers lists and look for substrings of interest,
-// hardcoded for now, user added later?
-// if find one instance return true
-    private boolean checkForAudioBeaconService(String[] serviceNames) {
+    // hardcoded for now, user added later?
+    // TODO if find one instance return true, need to account for multiple
+    private boolean checkForAudioBeaconService(AppEntry appEntry) {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
-            for (String name : serviceNames) {
+            for (String name : appEntry.getServiceNames()) {
                 for (String SDKname : AUDIO_SDK_NAMES) {
                     if (name.contains(SDKname)) {
+                        appEntry.setServiceWithSDK(name);
                         return true;
                     }
                 }
@@ -153,11 +156,12 @@ public class BackgroundChecker {
         return false;
     }
 
-    private boolean checkForAudioBeaconReceivers(String[] receiverNames) {
+    private boolean checkForAudioBeaconReceivers(AppEntry appEntry) {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
-            for (String name : receiverNames) {
+            for (String name : appEntry.getReceiverNames()) {
                 for (String SDKname : AUDIO_SDK_NAMES) {
                     if (name.contains(SDKname)) {
+                        appEntry.setReceiverWithSDK(name);
                         return true;
                     }
                 }
@@ -165,6 +169,19 @@ public class BackgroundChecker {
         }
         return false;
     }
+
+    private boolean checkPackageNameForAudioBeacons(String packageName) {
+        if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
+            for (String SDKname : AUDIO_SDK_NAMES) {
+                if (packageName.contains(SDKname)) {
+                    debugLogger("SDK found in: " + packageName, true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //combine into one string matcher...
 
     public String[] getOverrideScanAppNames() {
         //
@@ -232,13 +249,22 @@ public class BackgroundChecker {
                     appEntry.setServices(packageInfo.services != null);
                     if (packageInfo.services != null) {
                         appEntry.setServiceInfo(packageInfo.services);
+                        if (checkForAudioBeaconService(appEntry)) {
+                            appEntry.setAudioSdk(true);
+                        }
                     }
 
                     appEntry.setReceivers(packageInfo.receivers != null);
                     if (packageInfo.receivers != null) {
                         appEntry.setActivityInfo(packageInfo.receivers);
+                        if (checkForAudioBeaconReceivers(appEntry)) {
+                            appEntry.setAudioSdk(true);
+                        }
                     }
-
+                    // check packagename for audioBeaconSDK as well
+                    if (checkPackageNameForAudioBeacons(packageInfo.packageName)) {
+                        appEntry.setAudioSdk(true);
+                    }
                     //add to list
                     appEntry.setIdNum(idCounter);
                     appEntries.add(appEntry);

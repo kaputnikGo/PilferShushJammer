@@ -17,6 +17,10 @@ public class AppEntry {
     private boolean audioSdk;
     private boolean accessibility;
 
+    // get names containing SDK name string match
+    private String serviceWithSDK;
+    private String receiverWithSDK;
+
     private int servicesNum;
     private int receiversNum;
 
@@ -35,6 +39,8 @@ public class AppEntry {
         accessibility = false;
         servicesNum = 0;
         receiversNum = 0;
+        serviceWithSDK = "n/a";
+        receiverWithSDK = "n/a";
     }
 
     /********************************************************************/
@@ -90,19 +96,30 @@ public class AppEntry {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
-        return (recordable && bootCheck && receivers && services && audioSdk && accessibility);
+        //TODO change this to be a check for SDK name and AudioRecord only?
+        //return (recordable && bootCheck && receivers && services && audioSdk && accessibility);
+        return (recordable && audioSdk);
     }
 
     void setAudioSdk(boolean audioSdk) {
         this.audioSdk = audioSdk;
     }
 
-
     boolean getAudioSdk() {
         return audioSdk;
     }
 
+    void setServiceWithSDK(String serviceWithSDK) {
+        this.serviceWithSDK = serviceWithSDK;
+    }
 
+    String getServiceWithSDK() { return serviceWithSDK; }
+
+    void setReceiverWithSDK(String receiverWithSDK) {
+        this.receiverWithSDK = receiverWithSDK;
+    }
+
+    String getReceiverWithSDK() { return receiverWithSDK; }
 
     /********************************************************************/
     /*
@@ -131,10 +148,13 @@ public class AppEntry {
      */
 
     public String entryPrint() {
+        //TODO make this stringbuilder with options
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
                 "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
                 "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioSdk +
                 "\nACCESSIBILITY: " + accessibility +
+                "\nSERVICE SDK: " + serviceWithSDK +
+                "\nRECEIVER SDK: " + receiverWithSDK +
                 "\n--------------------------------------\n";
     }
 
