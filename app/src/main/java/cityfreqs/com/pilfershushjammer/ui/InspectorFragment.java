@@ -122,9 +122,14 @@ public class InspectorFragment extends Fragment {
         });
 
         //TODO
-        backgroundChecker.initChecker(context.getPackageManager());
-        backgroundChecker.runChecker();
-        backgroundChecker.checkAudioBeaconApps();
+        if (backgroundChecker.initChecker(context.getPackageManager())) {
+            backgroundChecker.runChecker();
+            backgroundChecker.checkAudioBeaconApps();
+        }
+        else {
+            // has a problem getting SDK names from file, null or 0 length
+            entryLogger(getResources().getString(R.string.userapp_scan_14), true);
+        }
 
         introText();
 
@@ -141,9 +146,6 @@ public class InspectorFragment extends Fragment {
         } else {
             entryLogger(getResources().getString(R.string.userapp_scan_11) + "\n", false);
         }
-
-        //TODO move this to Home or Settings?
-        //entryLogger(audioChecker.determineMediaRecorderType(), true);
     }
 
     private void introText() {

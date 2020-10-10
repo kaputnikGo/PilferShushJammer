@@ -60,14 +60,14 @@ need to get aarch64/arm64 device with multiple mics.
 - consider user app summary include and print package name of NUHF/ACR if found
 
 
-**Changes:**
+**Current:**
 - 4.5.1 (unreleased)
 - micInfoList for multiple mics print
 - change Inspector to caution for AudioRecord with SDK name
 - improve and increase info from Inspector
 - move micInfo check to Home
 
-
+**Changes:**
 - 4.5.0 (released Oct 9, 2020)
 - added passive control appwidget in prep for Android 11
 - add boot receiver for auto restart app at device reboot

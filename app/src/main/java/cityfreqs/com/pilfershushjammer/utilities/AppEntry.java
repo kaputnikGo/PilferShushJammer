@@ -17,7 +17,7 @@ public class AppEntry {
     private boolean audioSdk;
     private boolean accessibility;
 
-    // get names containing SDK name string match
+    // get first name containing SDK name string match
     private String serviceWithSDK;
     private String receiverWithSDK;
 
@@ -96,8 +96,9 @@ public class AppEntry {
         // set and return,
         // called by BackgroundChecker.appEntryLog(),
         // later boolean is checked for in-depth scanning of services, receivers, etc.
-        //TODO change this to be a check for SDK name and AudioRecord only?
+        // was:
         //return (recordable && bootCheck && receivers && services && audioSdk && accessibility);
+        // experiment with:
         return (recordable && audioSdk);
     }
 
