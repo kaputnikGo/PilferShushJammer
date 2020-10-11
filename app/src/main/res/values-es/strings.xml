@@ -211,6 +211,7 @@
         <!--
         background userapp checker
         -->
+    <string name="inspector_row_text">Element</string>
     <string name="sdk_names_list">Lista de nombres de paquetes SDK NUHF/ACR buscados:\u0020</string>
     <string name="dialog_userapps">Lista de aplicaciones escaneadas</string>
 

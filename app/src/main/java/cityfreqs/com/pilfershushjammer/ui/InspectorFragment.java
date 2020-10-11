@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,8 @@ import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
 
 public class InspectorFragment extends Fragment {
+    //TODO make this a RecyclerView with CardViews
+
     private static final String TAG = "PilferShush_Jammer-INSP";
     private boolean DEBUG;
 
@@ -38,6 +42,13 @@ public class InspectorFragment extends Fragment {
     private ImageButton appSummaryButton;
     private ImageButton appInspectButton;
     private ImageButton sdkListButton;
+
+    protected RecyclerView recyclerView;
+    protected RecyclerView.LayoutManager layoutManager;
+    protected InspectorAdapter inspectorAdapter;
+    protected String[] mDataset;
+
+    private AlertDialog appInfoDialog;
 
     public InspectorFragment() {
         // no-args constructor
@@ -78,16 +89,39 @@ public class InspectorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspector, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(getActivity());
+        setRecycleViewLayout();
+        // init recyclerView
+        initDataset();
+        inspectorAdapter = new InspectorAdapter(mDataset);
+        recyclerView.setAdapter(inspectorAdapter);
+
         scannerText = view.findViewById(R.id.scan_text);
         appSummaryButton = view.findViewById(R.id.app_summary_button);
         appInspectButton = view.findViewById(R.id.app_inspect_button);
         sdkListButton = view.findViewById(R.id.sdk_list_button);
 
+        // includes background checker init
         populateElements();
         return view;
     }
 
     /**********************************************************************************************/
+
+    private void setRecycleViewLayout() {
+        int scrollPosition = 0;
+        // if layout manager set, get current scroll position.
+        if (recyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                .findFirstCompletelyVisibleItemPosition();
+        }
+        // set to linear
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.scrollToPosition(scrollPosition);
+    }
 
     private void populateElements() {
         scannerText.setTextColor(Color.parseColor("#00ff00"));
@@ -183,17 +217,51 @@ public class InspectorFragment extends Fragment {
         }
     }
 
+    //TODO make each a clickable pop up with full report
+    // needs to be a listview, major rewrite of Inspector
+    private void initDataset() {
+        // is zero here
+        int datasetSize = backgroundChecker.getNumberAppEntries();
+        Log.d(TAG, "Dataset size: " + datasetSize);
+        mDataset = new String[datasetSize];
+        for (int i = 0; i < datasetSize; i++) {
+            mDataset[i] = "This is element #" + i;
+        }
+    }
+
     private void audioAppEntryLog() {
         ArrayList<AppEntry> appEntries = backgroundChecker.getAppEntries();
 
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
-                entryLogger(appEntry.entryPrint(), appEntry.checkForCaution());
+                appEntryPrinter(appEntry.entryPrint(), appEntry.checkForCaution());
             }
         }
         else {
             entryLogger(context.getResources().getString(R.string.userapp_scan_12), false);
         }
+    }
+    // dialog class?
+    private void setAppInfoDialog(AppEntry appEntry) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setTitle(appEntry.getActivityName());
+        String appEntryString = appEntry.entryPrint();
+        if (appEntry.getServicesNum() > 0)
+            // better method
+            appEntryString += "\nServices List:\n" + appEntry.printServiceNames();
+        if (appEntry.getReceiversNum() > 0)
+            appEntryString += "\nReceivers List:\n" + appEntry.printReceiverNames();
+        dialogBuilder.setMessage(appEntryString);
+        dialogBuilder.setCancelable(false);
+        dialogBuilder
+             .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    Log.d(TAG, "Dismiss app info popup");
+                }
+        });
+        appInfoDialog = dialogBuilder.create();
+        appInfoDialog.show();
     }
 
     private void userAppCheckDialog() {
@@ -264,6 +332,19 @@ public class InspectorFragment extends Fragment {
 
 
     /**********************************************************************************************/
+
+    private void appEntryPrinter(String entry, boolean caution) {
+        int start = scannerText.getText().length();
+        scannerText.append("\n" + entry);
+        int end = scannerText.getText().length();
+        Spannable spannableText = (Spannable) scannerText.getText();
+        if (caution) {
+            spannableText.setSpan(new ForegroundColorSpan(Color.YELLOW), start, end, 0);
+        }
+        else {
+            spannableText.setSpan(new ForegroundColorSpan(Color.WHITE), start, end, 0);
+        }
+    }
 
     private void entryLogger(String entry, boolean caution) {
         int start = scannerText.getText().length();

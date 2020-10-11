@@ -202,6 +202,10 @@ public class BackgroundChecker {
         return appEntries;
     }
 
+    public int getNumberAppEntries() {
+        return appEntries.size();
+    }
+
     /********************************************************************/
     /*
      *

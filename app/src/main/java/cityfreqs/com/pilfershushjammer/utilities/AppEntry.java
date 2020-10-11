@@ -171,6 +171,14 @@ public class AppEntry {
         }
         return names;
     }
+    public String printServiceNames() {
+        StringBuilder appServices = new StringBuilder();
+        for (ServiceInfo serviceInfo : serviceInfo) {
+            // get receiver name
+            appServices.append(serviceInfo.name);
+        }
+        return appServices.toString();
+    }
 
     // also has (is ActivityInfo...) :
     // .packageName;
@@ -184,5 +192,14 @@ public class AppEntry {
             names[j] = receiversInfo[j].name;
         }
         return names;
+    }
+
+    public String printReceiverNames() {
+        StringBuilder appReceivers = new StringBuilder();
+        for (ActivityInfo activityInfo : receiversInfo) {
+            // get receiver name
+            appReceivers.append(activityInfo.name);
+        }
+        return appReceivers.toString();
     }
 }

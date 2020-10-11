@@ -100,6 +100,12 @@
                 tools:layout_editor_absoluteY="-35dp" />
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/scan_text_layout"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
