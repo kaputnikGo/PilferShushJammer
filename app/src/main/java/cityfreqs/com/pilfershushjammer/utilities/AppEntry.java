@@ -148,6 +148,11 @@ public class AppEntry {
      * methods
      */
 
+    public String basicEntryPrint() {
+        // make this just activity name and package name for InspectorFragment recyclerview
+        return "\n" + idNum + " : " + activityName + "\n(" + packageName + ")\n";
+    }
+
     public String entryPrint() {
         //TODO make this stringbuilder with options
         return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
@@ -176,6 +181,7 @@ public class AppEntry {
         for (ServiceInfo serviceInfo : serviceInfo) {
             // get receiver name
             appServices.append(serviceInfo.name);
+            appServices.append("\n");
         }
         return appServices.toString();
     }
@@ -199,6 +205,7 @@ public class AppEntry {
         for (ActivityInfo activityInfo : receiversInfo) {
             // get receiver name
             appReceivers.append(activityInfo.name);
+            appReceivers.append("\n");
         }
         return appReceivers.toString();
     }

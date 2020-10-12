@@ -28,7 +28,7 @@ import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 import cityfreqs.com.pilfershushjammer.utilities.BackgroundChecker;
 
 
-public class InspectorFragment extends Fragment {
+public class InspectorFragment extends Fragment implements InspectorAdapter.RecyclerViewClickListener{
     //TODO make this a RecyclerView with CardViews
 
     private static final String TAG = "PilferShush_Jammer-INSP";
@@ -39,7 +39,6 @@ public class InspectorFragment extends Fragment {
     private BackgroundChecker backgroundChecker;
     private TextView scannerText;
 
-    private ImageButton appSummaryButton;
     private ImageButton appInspectButton;
     private ImageButton sdkListButton;
 
@@ -47,8 +46,7 @@ public class InspectorFragment extends Fragment {
     protected RecyclerView.LayoutManager layoutManager;
     protected InspectorAdapter inspectorAdapter;
     protected String[] mDataset;
-
-    private AlertDialog appInfoDialog;
+    protected TextView inspectorText;
 
     public InspectorFragment() {
         // no-args constructor
@@ -92,36 +90,37 @@ public class InspectorFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
-        setRecycleViewLayout();
-        // init recyclerView
-        initDataset();
-        inspectorAdapter = new InspectorAdapter(mDataset);
-        recyclerView.setAdapter(inspectorAdapter);
+        // for non-changing size of list
+        recyclerView.setHasFixedSize(true);
+        // set to linear
+        layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        inspectorText = view.findViewById(R.id.inspector_text_view);
 
         scannerText = view.findViewById(R.id.scan_text);
-        appSummaryButton = view.findViewById(R.id.app_summary_button);
+        //appSummaryButton = view.findViewById(R.id.app_summary_button);
         appInspectButton = view.findViewById(R.id.app_inspect_button);
         sdkListButton = view.findViewById(R.id.sdk_list_button);
 
         // includes background checker init
         populateElements();
+        // init recyclerView
+        initDataset();
+        //InspectorAdapter.RecyclerViewClickListener clickListener = null;
+        inspectorAdapter = new InspectorAdapter(mDataset);
+        inspectorAdapter.setClickListener(this); // Bind the listener
+        recyclerView.setAdapter(inspectorAdapter);
         return view;
     }
 
-    /**********************************************************************************************/
-
-    private void setRecycleViewLayout() {
-        int scrollPosition = 0;
-        // if layout manager set, get current scroll position.
-        if (recyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
-                .findFirstCompletelyVisibleItemPosition();
-        }
-        // set to linear
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.scrollToPosition(scrollPosition);
+    // clickListener listening...
+    @Override
+    public void onClick(View view, int position) {
+        Log.d(TAG, "ClickListener position: " + position);
+        setAppInfoDialog(backgroundChecker.getOverrideScanAppEntry(position));
     }
+
+    /**********************************************************************************************/
 
     private void populateElements() {
         scannerText.setTextColor(Color.parseColor("#00ff00"));
@@ -131,13 +130,6 @@ public class InspectorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // nothing
-            }
-        });
-
-        appSummaryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                userAppSummary();
             }
         });
 
@@ -184,7 +176,6 @@ public class InspectorFragment extends Fragment {
 
     private void introText() {
         // simple and understandable statements about app usage.
-        entryLogger(getResources().getString(R.string.intro_5) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_6_1) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_6_2) + "\n", false);
         entryLogger(getResources().getString(R.string.intro_6_3) + "\n", false);
@@ -224,8 +215,14 @@ public class InspectorFragment extends Fragment {
         int datasetSize = backgroundChecker.getNumberAppEntries();
         Log.d(TAG, "Dataset size: " + datasetSize);
         mDataset = new String[datasetSize];
-        for (int i = 0; i < datasetSize; i++) {
-            mDataset[i] = "This is element #" + i;
+
+        ArrayList<AppEntry> appEntries = backgroundChecker.getAppEntries();
+        if (appEntries.size() > 0) {
+            int i = 0;
+            for (AppEntry appEntry : appEntries) {
+                mDataset[i] = appEntry.basicEntryPrint();
+                i++;
+            }
         }
     }
 
@@ -234,7 +231,7 @@ public class InspectorFragment extends Fragment {
 
         if (appEntries.size() > 0) {
             for (AppEntry appEntry : appEntries) {
-                appEntryPrinter(appEntry.entryPrint(), appEntry.checkForCaution());
+                entryLogger(appEntry.entryPrint(), appEntry.checkForCaution());
             }
         }
         else {
@@ -260,10 +257,11 @@ public class InspectorFragment extends Fragment {
                     Log.d(TAG, "Dismiss app info popup");
                 }
         });
-        appInfoDialog = dialogBuilder.create();
+        AlertDialog appInfoDialog = dialogBuilder.create();
         appInfoDialog.show();
     }
 
+    //TODO make whole thing dialogs
     private void userAppCheckDialog() {
         if (backgroundChecker != null) {
             String[] appNames = backgroundChecker.getOverrideScanAppNames();
@@ -317,12 +315,24 @@ public class InspectorFragment extends Fragment {
         }
     }
 
+    //TODO make a dialog
     private void displaySdkList() {
         // current list (in /raw) of NUHF/ACR SDK package names
         if (backgroundChecker != null) {
-            entryLogger("\n--------------------------------------\n", false);
-            entryLogger(getResources().getString(R.string.sdk_names_list) + "\n"
-                    + backgroundChecker.displayAudioSdkNames(), false);
+            //String sdkNames = backgroundChecker.displayAudioSdkNames();
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+            dialogBuilder.setTitle(getResources().getString(R.string.sdk_names_list));
+            dialogBuilder.setMessage(backgroundChecker.displayAudioSdkNames());
+            dialogBuilder.setCancelable(true);
+            dialogBuilder
+                    .setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.d(TAG, "Dismiss sdk list popup");
+                        }
+                    });
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         }
         else {
             if (DEBUG) Log.d(TAG, "backgroundChecker is NULL.");
@@ -332,19 +342,6 @@ public class InspectorFragment extends Fragment {
 
 
     /**********************************************************************************************/
-
-    private void appEntryPrinter(String entry, boolean caution) {
-        int start = scannerText.getText().length();
-        scannerText.append("\n" + entry);
-        int end = scannerText.getText().length();
-        Spannable spannableText = (Spannable) scannerText.getText();
-        if (caution) {
-            spannableText.setSpan(new ForegroundColorSpan(Color.YELLOW), start, end, 0);
-        }
-        else {
-            spannableText.setSpan(new ForegroundColorSpan(Color.WHITE), start, end, 0);
-        }
-    }
 
     private void entryLogger(String entry, boolean caution) {
         int start = scannerText.getText().length();

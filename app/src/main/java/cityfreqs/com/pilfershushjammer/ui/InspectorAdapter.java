@@ -1,6 +1,5 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,23 +13,25 @@ import cityfreqs.com.pilfershushjammer.R;
 public class InspectorAdapter extends RecyclerView.Adapter<InspectorAdapter.ViewHolder> {
     private static final String TAG = "PS-INS_ADAPTER";
     private String[] mDataSet;
+    private RecyclerViewClickListener clickListener;
 
     // provide reference to the ViewHolder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView textView;
+        //private RecyclerViewClickListener clickListener;
 
-        public ViewHolder(View v) {
-            super(v);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
-                }
-            });
-            textView = v.findViewById(R.id.inspector_text_view);
+        public ViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this); // bind the listener
+            textView = view.findViewById(R.id.inspector_text_view);
         }
         public TextView getTextView() {
             return textView;
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onClick(v, getAdapterPosition());
         }
     }
 
@@ -50,13 +51,20 @@ public class InspectorAdapter extends RecyclerView.Adapter<InspectorAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull InspectorAdapter.ViewHolder viewHolder, int position) {
-        // get element from datasetat position, set contents of view with element
-        Log.d(TAG, "Element " + position + " set.");
+        // get element from dataset position, set contents of view with element
         viewHolder.getTextView().setText(mDataSet[position]);
     }
 
     @Override
     public int getItemCount() {
         return mDataSet.length;
+    }
+
+    public void setClickListener(RecyclerViewClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public interface RecyclerViewClickListener {
+        void onClick(View view, int position);
     }
 }

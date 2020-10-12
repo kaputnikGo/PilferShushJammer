@@ -8,6 +8,7 @@
     tools:context=".ui.InspectorFragment">
 
     <LinearLayout
+        android:id="@+id/inspector_layout_intro"
         android:layout_width="@dimen/zero_margin"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/main_margin"
@@ -33,27 +34,12 @@
             tools:layout_editor_absoluteX="@dimen/zero_margin">
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/app_summary_button"
+                android:id="@+id/app_inspect_button"
                 android:layout_width="@dimen/toggle_button_width"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/button_start_margin"
                 android:layout_marginBottom="@dimen/button_bottom_margin"
-                app:srcCompat="@drawable/outline_info_24px"
-                android:background="@drawable/text_button_border"
-                android:contentDescription="@string/main_inspector_1" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/app_inspect_button"
-                android:layout_width="@dimen/toggle_button_width"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="38dp"
-                android:layout_marginBottom="@dimen/button_bottom_margin"
-                android:layout_toStartOf="@+id/sdk_list_button"
-                android:layout_toEndOf="@+id/app_summary_button"
                 app:srcCompat="@drawable/outline_inspect_24px"
                 android:background="@drawable/text_button_border"
                 android:contentDescription="@string/main_inspector_2" />
@@ -72,7 +58,7 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/scan_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +68,7 @@
             android:paddingTop="@dimen/half_margin"
             android:paddingBottom="@dimen/mini_margin"
             app:layout_constraintBottom_toBottomOf="@+id/inspector_layout"
-            app:layout_constraintTop_toBottomOf="@+id/inspect_button_layout"
+            app:layout_constraintTop_toTopOf="@+id/inspect_button_layout"
             app:layout_constraintVertical_bias="0.0"
             tools:layout_editor_absoluteX="@dimen/zero_margin">
 
@@ -90,7 +76,6 @@
                 android:id="@+id/scan_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_marginTop="0dp"
                 android:background="@color/colorLogger"
                 android:gravity="bottom"
@@ -98,13 +83,14 @@
                 android:scrollbars="vertical"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="-35dp" />
-        </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/scan_text_layout"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/scan_text"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
