@@ -1,11 +1,15 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
+import android.Manifest;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
@@ -27,6 +31,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import cityfreqs.com.pilfershushjammer.R;
@@ -297,7 +302,7 @@ public class HomeFragment extends Fragment {
 
     /**********************************************************************************************/
 
-    private Handler serviceHandler = new Handler();
+    private final Handler serviceHandler = new Handler();
 
     private void runPassive() {
         if (PASSIVE_RUNNING) {
@@ -395,7 +400,37 @@ public class HomeFragment extends Fragment {
                 + "\n", false);
 
         debugLogger("Debug mode set: " + audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15]), true);
-        entryLogger(audioChecker.determineMediaRecorderType() + "\n", true);
+
+        // crashes in < 11 maybe cos of audio perms and a mic info check
+        // home fragment shows underneath dialogs, so would need a loading activity/screen first
+        String audioCheckerReturn;
+        //TODO check for permissions here
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            new AlertDialog.Builder(context)
+                    .setMessage("This app needs RECORD_AUDIO permission to function.")
+                    .setCancelable(false)
+                    .setPositiveButton(context.getResources().getString(R.string.dialog_button_okay), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d(TAG, context.getResources().getString(R.string.perms_state_4));
+                            // this just stops mic info check for this app run
+                        }
+                    })
+                    .create()
+                    .show();
+            audioCheckerReturn = "Audio Record permissions needed.";
+        }
+        else {
+            audioCheckerReturn = audioChecker.determineMediaRecorderType();
+        }
+
+        if (audioCheckerReturn != null) {
+            entryLogger(audioCheckerReturn + "\n", true);
+        }
+        else {
+            entryLogger("Unable to determine Media Recorder type info.\n", true);
+        }
     }
 
     private boolean checkAudio(int requester) {
@@ -544,7 +579,7 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
-    private BroadcastReceiver passiveReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver passiveReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent

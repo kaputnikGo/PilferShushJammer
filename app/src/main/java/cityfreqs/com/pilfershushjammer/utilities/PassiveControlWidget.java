@@ -66,6 +66,9 @@ public class PassiveControlWidget extends AppWidgetProvider {
             if (intent.getAction().equals(ACTION_WIDGET_PASSIVE)) {
                 Log.d("PS_WIDGET", "onReceive reached");
             }
+            else {
+                Log.d("PS_WIDGET", "onReceive action not WIDGET_PASSIVE!");
+            }
         }
     }
 

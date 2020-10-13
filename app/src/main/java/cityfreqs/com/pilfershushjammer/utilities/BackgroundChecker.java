@@ -12,11 +12,11 @@ import java.util.List;
 
 public class BackgroundChecker {
     private static final String TAG = "PilferShush_BACKCHK";
-    private FileProcessor fileProcessor;
+    private final FileProcessor fileProcessor;
     private PackageManager packageManager;
-    private ArrayList<AppEntry> appEntries;
+    private final ArrayList<AppEntry> appEntries;
     private int audioBeaconCount;
-    private boolean DEBUG;
+    private final boolean DEBUG;
 
     // needs to check for :
     // " android.Manifest.permission.* "
@@ -181,8 +181,8 @@ public class BackgroundChecker {
         }
         return false;
     }
+    /*
     //combine into one string matcher...
-
     public String[] getOverrideScanAppNames() {
         //
         String[] appNames = new String[appEntries.size()];
@@ -193,6 +193,7 @@ public class BackgroundChecker {
         }
         return appNames;
     }
+    */
 
     public AppEntry getOverrideScanAppEntry(int appEntryIndex) {
         return appEntries.get(appEntryIndex);
@@ -269,6 +270,8 @@ public class BackgroundChecker {
                     if (checkPackageNameForAudioBeacons(packageInfo.packageName)) {
                         appEntry.setAudioSdk(true);
                     }
+                    // check for application icon for display in appEntryDialog
+                    appEntry.setAppIcon(packageManager.getApplicationIcon(applicationInfo.packageName));
                     //add to list
                     appEntry.setIdNum(idCounter);
                     appEntries.add(appEntry);

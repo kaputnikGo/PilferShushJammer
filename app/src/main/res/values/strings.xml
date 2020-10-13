@@ -237,6 +237,8 @@
     <string name="userapp_scan_12">No user apps found.</string>
     <string name="userapp_scan_13">USER APP SUMMARY.</string>
     <string name="userapp_scan_14">Error in background app checker.</string>
+    <string name="userapp_scan_15">Possible NUHF/ACR SDK signature(s) with RECORD_AUDIO capability found.</string>
+    <string name="userapp_scan_16">NUHF/ACR SDK signatures with RECORD_AUDIO capability not found.</string>
 
     <string name="userapp_scan_intro_1">Audio tracker SDKs may have TRUE in at least three categories.</string>
     <string name="userapp_scan_intro_2">This is not a proof of audio tracker behaviour or presence.</string>
@@ -248,9 +250,16 @@
     <string name="userapp_scan_intro_8">RECEIVER -  send or receive messages from the system or other apps</string>
     <string name="userapp_scan_intro_9">NUHF/ACR SDK - package name match found from current SDK list</string>
     <string name="userapp_scan_intro_10">ACCESSIBILITY - special functions about state of device</string>
-    <string name="userapp_scan_intro_11">SERVICE SDK - First service name found matching SDK list</string>
-    <string name="userapp_scan_intro_12">RECEIVER SDK - First receiver name found matching SDK list</string>
+    <string name="userapp_scan_intro_11">SERVICE with SDK - First service name found matching SDK list</string>
+    <string name="userapp_scan_intro_12">RECEIVER with SDK - First receiver name found matching SDK list</string>
 
+    <!--
+    appEntry dialog text
+    -->
+    <string name="app_entry_text_1">SERVICE with SDK</string>
+    <string name="app_entry_text_2">Full Services list:</string>
+    <string name="app_entry_text_3">RECEIVER with SDK</string>
+    <string name="app_entry_text_4">Full Receivers list:</string>
 
     <!--
      recording callback

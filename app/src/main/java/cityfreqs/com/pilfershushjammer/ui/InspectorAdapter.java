@@ -12,7 +12,7 @@ import cityfreqs.com.pilfershushjammer.R;
 
 public class InspectorAdapter extends RecyclerView.Adapter<InspectorAdapter.ViewHolder> {
     private static final String TAG = "PS-INS_ADAPTER";
-    private String[] mDataSet;
+    private final String[] mDataSet;
     private RecyclerViewClickListener clickListener;
 
     // provide reference to the ViewHolder

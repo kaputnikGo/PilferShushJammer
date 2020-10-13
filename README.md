@@ -22,7 +22,7 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as a foreground service
 
-Build update: compile API 29 (Q, 10.0), Android Studio 4.0.2 stable, Gradle 6.1.1
+Build update: compile API 29 (Q, 10.0), Android Studio 4.1 stable, Gradle 6.5
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -60,33 +60,17 @@ need to get aarch64/arm64 device with multiple mics.
 - consider user app summary include and print package name of NUHF/ACR if found
 
 
-**Current:**
-- 4.5.1 (unreleased)
+**Changes:**
+- 4.5.1 (released Oct 13, 2020)
 - micInfoList for multiple mics print
 - change Inspector to caution for AudioRecord with SDK name
 - improve and increase info from Inspector
 - move micInfo check to Home
+- appEntry dialog view
+- update gradle 6.5, Android Studio 4.1
+- permissions bugfix for mic info check
 
-**Changes:**
-- 4.5.0 (released Oct 9, 2020)
-- added passive control appwidget in prep for Android 11
-- add boot receiver for auto restart app at device reboot
-- add receive boot permission
-- androidx and deps update
-- mediaRecorder source switch to DEFAULT
-- updates to Spanish translation
-- API28 microphoneInfo enum
-- API check for requestAudioFocus check method
-- Inspector Fragment has mic info check print
-- remove Color.Accent resource need
-- add chromecast as NUHF SDK
-- add ActiveJammer shadow method
-- cleaning up Active jammer code mess
-- removed click artifacts from NUHF tone active jamming
-- add sine/sqr/saw waveforms
-- config optional AudioFX equaliser to NUHF preset
-
-   vers. 4.5.0
+   vers. 4.5.1
    - min API 18 (4.3)
    - target API 29 (10.x)
    - compiled API 29 (10.x)

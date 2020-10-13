@@ -167,7 +167,10 @@ public class AudioChecker {
         String placeboMediaRecorderFileName = context.getCacheDir().getAbsolutePath();
         placeboMediaRecorderFileName += "/PilferShushPlacebo.raw";
         // it is never written to.
+
+        // causing crashes below Android 11?
         placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // was VOICE_COMMUNICATION
+
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);

@@ -1,8 +1,11 @@
-### 4.5.1 (unreleased)
+### 4.5.1 (2020-10-13)
 * micInfoList for multiple mics print
 * change Inspector to caution for AudioRecord with SDK name
 * improve and increase info from Inspector
 * move micInfo check to Home
+* appEntry dialog view
+* update gradle 6.5, Android Studio 4.1
+* permissions bugfix for mic info check
 
 ### 4.5.0 (2020-10-09)
 * added passive control appwidget in prep for Android 11

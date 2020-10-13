@@ -231,6 +231,8 @@
     <string name="userapp_scan_12">No se han encontrado aplicaciones de usuario.</string>
     <string name="userapp_scan_13">RESUMEN DE LA APLICACIÓN DE USUARIO.</string>
     <string name="userapp_scan_14">Error en la revisión de aplicaciones en segundo plano.</string>
+    <string name="userapp_scan_15">Possible NUHF/ACR SDK signature(s) with RECORD_AUDIO capability found.</string>
+    <string name="userapp_scan_16">NUHF/ACR SDK signatures with RECORD_AUDIO capability not found.</string>
 
     <string name="userapp_scan_intro_1">Los SDK de rastreo de audio típicamente tienen TRUE en las tres categorías.</string>
     <string name="userapp_scan_intro_2">Esto no es una prueba del comportamiento o presencia del rastreador de audio.</string>
@@ -242,12 +244,20 @@
     <string name="userapp_scan_intro_8">RECEPTOR - enviar o recibir mensajes del sistema u otras aplicaciones</string>
     <string name="userapp_scan_intro_9">NUHF/ACR SDK - coincidencia de nombre de paquete encontrado en la lista actual de SDK</string>
     <string name="userapp_scan_intro_10">ACCESSIBILITY - special functions about state of device</string>
-    <string name="userapp_scan_intro_11">SERVICE SDK - First service name found matching SDK list</string>
-    <string name="userapp_scan_intro_12">RECEIVER SDK - First receiver name found matching SDK list</string>
+    <string name="userapp_scan_intro_11">SERVICE with SDK - First service name found matching SDK list</string>
+    <string name="userapp_scan_intro_12">RECEIVER with SDK - First receiver name found matching SDK list</string>
 
     <!--
- recording callback
--->
+    appEntry dialog text
+    -->
+    <string name="app_entry_text_1">SERVICE with SDK</string>
+    <string name="app_entry_text_2">Full Services list:</string>
+    <string name="app_entry_text_3">RECEIVER with SDK</string>
+    <string name="app_entry_text_4">Full Receivers list:</string>
+
+    <!--
+    recording callback
+    -->
     <string name="recording_callback_silenced">ADVERTENCIA PilferShush: otra app tiene el control del micrófono.</string>
     <string name="recording_callback_not_silenced">PilferShush tiene el control del micrófono.</string>
 

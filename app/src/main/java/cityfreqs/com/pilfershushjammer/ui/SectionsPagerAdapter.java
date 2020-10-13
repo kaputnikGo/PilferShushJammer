@@ -21,7 +21,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context context;
 
-    private Bundle audioBundle;
+    private final Bundle audioBundle;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

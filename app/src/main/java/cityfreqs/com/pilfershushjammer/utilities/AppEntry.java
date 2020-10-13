@@ -2,6 +2,7 @@ package cityfreqs.com.pilfershushjammer.utilities;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.ServiceInfo;
+import android.graphics.drawable.Drawable;
 
 import java.util.Arrays;
 
@@ -9,6 +10,7 @@ public class AppEntry {
     private String activityName;
     private String packageName;
     private int idNum;
+    private Drawable appIcon;
 
     private boolean recordable;
     private boolean bootCheck;
@@ -39,8 +41,8 @@ public class AppEntry {
         accessibility = false;
         servicesNum = 0;
         receiversNum = 0;
-        serviceWithSDK = "n/a";
-        receiverWithSDK = "n/a";
+        serviceWithSDK = "not found";
+        receiverWithSDK = "not found";
     }
 
     /********************************************************************/
@@ -53,6 +55,10 @@ public class AppEntry {
     }
     void setIdNum(int idNum) {
         this.idNum = idNum;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 
     public int getServicesNum() {
@@ -106,7 +112,7 @@ public class AppEntry {
         this.audioSdk = audioSdk;
     }
 
-    boolean getAudioSdk() {
+    public boolean getAudioSdk() {
         return audioSdk;
     }
 
@@ -114,13 +120,21 @@ public class AppEntry {
         this.serviceWithSDK = serviceWithSDK;
     }
 
-    String getServiceWithSDK() { return serviceWithSDK; }
+    public String getServiceWithSDK() { return serviceWithSDK; }
 
     void setReceiverWithSDK(String receiverWithSDK) {
         this.receiverWithSDK = receiverWithSDK;
     }
 
-    String getReceiverWithSDK() { return receiverWithSDK; }
+    public String getReceiverWithSDK() { return receiverWithSDK; }
+
+    void setAppIcon(Drawable appIcon) {
+        this.appIcon = appIcon;
+    }
+
+    public Drawable getAppIcon() {
+        return appIcon;
+    }
 
     /********************************************************************/
     /*
@@ -150,18 +164,16 @@ public class AppEntry {
 
     public String basicEntryPrint() {
         // make this just activity name and package name for InspectorFragment recyclerview
-        return "\n" + idNum + " : " + activityName + "\n(" + packageName + ")\n";
+        return "\n" + activityName + "\n(" + packageName + ")\n";
     }
 
-    public String entryPrint() {
-        //TODO make this stringbuilder with options
-        return idNum + " : " + activityName + "\n" + packageName + "\nRECORD: " + recordable +
-                "\nBOOT: " + bootCheck + "\nSERVICES: " + services +
-                "\nRECEIVERS: " + receivers + "\nNUHF/ACR SDK: " + audioSdk +
-                "\nACCESSIBILITY: " + accessibility +
-                "\nSERVICE SDK: " + serviceWithSDK +
-                "\nRECEIVER SDK: " + receiverWithSDK +
-                "\n--------------------------------------\n";
+    public String getEntryFeatures() {
+        return "RECORD: " + recordable +
+                "\nBOOT: " + bootCheck +
+                "\nSERVICES: " + services +
+                "\nRECEIVERS: " + receivers +
+                "\nNUHF/ACR SDK: " + audioSdk +
+                "\nACCESSIBILITY: " + accessibility;
     }
 
     // also has:

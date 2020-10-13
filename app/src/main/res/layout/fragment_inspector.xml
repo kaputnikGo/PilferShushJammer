@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/inspector_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/inspector_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/button_bottom_margin"
     tools:context=".ui.InspectorFragment">
 
     <LinearLayout
@@ -14,6 +16,7 @@
         android:layout_marginStart="@dimen/main_margin"
         android:layout_marginTop="@dimen/main_margin"
         android:layout_marginEnd="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/button_bottom_margin"
         android:background="@color/colorLogger"
         android:gravity="center"
         android:orientation="vertical"
@@ -30,7 +33,7 @@
             android:paddingTop="@dimen/main_margin"
             android:paddingBottom="@dimen/mini_margin"
             android:background="@color/colorLogger"
-            app:layout_constraintTop_toTopOf="@+id/inspector_layout"
+            app:layout_constraintTop_toTopOf="@+id/inspector_layout_intro"
             tools:layout_editor_absoluteX="@dimen/zero_margin">
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -40,7 +43,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/button_start_margin"
                 android:layout_marginBottom="@dimen/button_bottom_margin"
-                app:srcCompat="@drawable/outline_inspect_24px"
+                app:srcCompat="@drawable/outline_info_24px"
                 android:background="@drawable/text_button_border"
                 android:contentDescription="@string/main_inspector_2" />
 
@@ -67,8 +70,8 @@
             android:layout_marginEnd="@dimen/half_margin"
             android:paddingTop="@dimen/half_margin"
             android:paddingBottom="@dimen/mini_margin"
-            app:layout_constraintBottom_toBottomOf="@+id/inspector_layout"
-            app:layout_constraintTop_toTopOf="@+id/inspect_button_layout"
+            app:layout_constraintBottom_toBottomOf="@+id/inspector_layout_intro"
+            app:layout_constraintTop_toBottomOf="@+id/inspect_button_layout"
             app:layout_constraintVertical_bias="0.0"
             tools:layout_editor_absoluteX="@dimen/zero_margin">
 
@@ -88,7 +91,9 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/scan_text"/>
+                android:layout_marginBottom="@dimen/button_bottom_margin"
+                app:layout_constraintTop_toBottomOf="@+id/scan_text"
+                app:layout_constraintBottom_toBottomOf="@+id/inspector_layout"/>
 
         </LinearLayout>
 
