@@ -94,6 +94,9 @@ need to get aarch64/arm64 device with multiple mics.
 - Inspector fragment
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_inspector.jpg" height="612px" />
 
+- App Entry Info dialog
+<img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_app_entry.jpg" height="612px" />
+
 - Settings fragment
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-v4_settings.jpg" height="612px" />
  
