@@ -12,6 +12,6 @@ Privacy policy for PilferShush Jammer
 
  - This app DOES NOT have permission to write or save any data on the user's mobile phone.
  
- - The source code for this app is available at https://github.com/kaputnikGo/PilferShushJammer
+ - The source code for this app is available at <https://github.com/kaputnikGo/PilferShushJammer>
  
  dated as per commit timestamp.

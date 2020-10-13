@@ -1,6 +1,6 @@
 # PilferShush Jammer
 
-Research and project page : https://www.cityfreqs.com.au/pilfer.php
+Research and project page : <https://www.cityfreqs.com.au/pilfer.php>
 
 Android microphone checker and jamming application built for AOSP LineageOS.  
 
@@ -29,10 +29,10 @@ Therefore, your app should record audio only when it's in the foreground or
 **when you include an instance of MediaRecorder in a foreground service.**
 
 Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
-see https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture
+see <https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture>
 
 Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
-see https://developer.android.com/preview/privacy/foreground-services
+see <https://developer.android.com/preview/privacy/foreground-services>
 
 Note: APK signing with API30 needs v2/v3 - not v1
 
@@ -44,7 +44,7 @@ need to get aarch64/arm64 device with multiple mics.
 - URGENT Android 10 concurrent audio continue testing
 - URGENT Android 11 changes to concurrent audio
 - get an arm64 multi mic device
-- check against Concurrent Capture 5.4.5 [C-1-1] AudioSource.VOICE_RECOGNITION
+- check against Concurrent Capture 5.4.5 `[C-1-1]` AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
@@ -117,7 +117,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+   <http://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
