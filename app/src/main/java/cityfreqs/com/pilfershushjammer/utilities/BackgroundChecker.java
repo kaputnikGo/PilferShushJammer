@@ -174,7 +174,7 @@ public class BackgroundChecker {
         if (AUDIO_SDK_NAMES != null && AUDIO_SDK_NAMES.length > 0) {
             for (String SDKname : AUDIO_SDK_NAMES) {
                 if (packageName.contains(SDKname)) {
-                    debugLogger("SDK found in: " + packageName, true);
+                    debugLogger("SDK found in: " + packageName);
                     return true;
                 }
             }
@@ -225,7 +225,6 @@ public class BackgroundChecker {
         PackageInfo packageInfo;
         List<ApplicationInfo> packages;
         packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-        int idCounter = 0;
         for (ApplicationInfo applicationInfo : packages) {
             try {
                 packageInfo = packageManager.getPackageInfo(applicationInfo.packageName,
@@ -240,13 +239,13 @@ public class BackgroundChecker {
                     // check for specific permissions
                     for (String permsString: packageInfo.requestedPermissions) {
                         if (permsString.contains(BOOT_PERMISSION)) {
-                            appEntry.setBootCheck(true);
+                            appEntry.setBootCheck();
                         }
                         if (permsString.contains(RECORD_PERMISSION)) {
-                            appEntry.setRecordable(true);
+                            appEntry.setRecordable();
                         }
                         if (permsString.contains(ACCESS_PERMISSION)) {
-                            appEntry.setAccessibility(true);
+                            appEntry.setAccessibility();
                         }
                     }
 
@@ -273,9 +272,7 @@ public class BackgroundChecker {
                     // check for application icon for display in appEntryDialog
                     appEntry.setAppIcon(packageManager.getApplicationIcon(applicationInfo.packageName));
                     //add to list
-                    appEntry.setIdNum(idCounter);
                     appEntries.add(appEntry);
-                    idCounter++;
                 }
             }
             catch (PackageManager.NameNotFoundException e) {
@@ -284,12 +281,12 @@ public class BackgroundChecker {
         }
     }
 
-    private void debugLogger(String message, boolean caution) {
+    private void debugLogger(String message) {
         // for the times that fragments arent attached etc, print to adb
-        if (caution && DEBUG) {
+        if (DEBUG) {
             Log.e(TAG, message);
         }
-        else if ((!caution) && DEBUG) {
+        else if (false) {
             Log.d(TAG, message);
         }
         else {

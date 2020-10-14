@@ -1,6 +1,7 @@
 package cityfreqs.com.pilfershushjammer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onDestroy();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {

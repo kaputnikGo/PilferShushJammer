@@ -20,14 +20,14 @@ import cityfreqs.com.pilfershushjammer.utilities.RecordingCallback;
 
 public class PassiveJammer {
     private static final String TAG = "PilferShush_PASSIVE";
-    private Context context;
-    private Bundle audioBundle;
+    private final Context context;
+    private final Bundle audioBundle;
     private AudioRecord audioRecord;
     private MediaRecorder placeboRecorder;
     private static String placeboMediaRecorderFileName;
     private RecordingCallback recordCallback;
 
-    private boolean DEBUG;
+    private final boolean DEBUG;
 
     public PassiveJammer(Context context, Bundle audioBundle) {
         this.context = context;
@@ -224,6 +224,7 @@ public class PassiveJammer {
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
+        Log.d(TAG, "Placebo runner.");
 
         try {
             // MediaRecorder.java only checks for file exists, not mic hardware

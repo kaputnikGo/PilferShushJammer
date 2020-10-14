@@ -7,9 +7,8 @@ import android.graphics.drawable.Drawable;
 import java.util.Arrays;
 
 public class AppEntry {
-    private String activityName;
-    private String packageName;
-    private int idNum;
+    private final String activityName;
+    private final String packageName;
     private Drawable appIcon;
 
     private boolean recordable;
@@ -53,9 +52,13 @@ public class AppEntry {
     public String getActivityName() {
         return activityName;
     }
+
+
+    /*
     void setIdNum(int idNum) {
         this.idNum = idNum;
     }
+    */
 
     public String getPackageName() {
         return packageName;
@@ -68,22 +71,24 @@ public class AppEntry {
         return receiversNum;
     }
 
-    void setRecordable(boolean recordable) {
-        this.recordable = recordable;
+    void setRecordable() {
+        this.recordable = true;
     }
     boolean getRecordable() {
         return recordable;
     }
 
-    void setAccessibility(boolean accessibility) {
-        this.accessibility = accessibility;
+    void setAccessibility() {
+        this.accessibility = true;
     }
+    /*
     boolean getAccessibility() {
         return accessibility;
     }
+    */
 
-    void setBootCheck(boolean bootCheck) {
-        this.bootCheck = bootCheck;
+    void setBootCheck() {
+        this.bootCheck = true;
     }
 
     void setReceivers(boolean receivers) {

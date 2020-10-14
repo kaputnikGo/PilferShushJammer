@@ -1,5 +1,6 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -128,6 +129,7 @@ public class SettingsFragment extends Fragment {
 
         RadioGroup activeRadioGroup = view.findViewById(R.id.active_radio_group);
         activeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -149,6 +151,7 @@ public class SettingsFragment extends Fragment {
 
         RadioGroup waveformRadioGroup = view.findViewById(R.id.waveform_radio_group);
         waveformRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {

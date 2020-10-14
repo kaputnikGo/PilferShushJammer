@@ -24,7 +24,7 @@ import static android.content.Context.ACTIVITY_SERVICE;
 public class RecordingCallback extends AudioManager.AudioRecordingCallback {
     private final String TAG = "PSJammer-RecordCallback";
     private boolean isSilenced = false;
-    private Context context;
+    private final Context context;
     private Toast toast;
 
     public RecordingCallback(Context context) {

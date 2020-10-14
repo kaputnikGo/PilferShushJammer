@@ -89,7 +89,7 @@ public class InspectorFragment extends Fragment implements InspectorAdapter.Recy
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspector, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         // for non-changing size of list
         recyclerView.setHasFixedSize(true);

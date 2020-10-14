@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import cityfreqs.com.pilfershushjammer.R;
 
 public class InspectorAdapter extends RecyclerView.Adapter<InspectorAdapter.ViewHolder> {
-    private static final String TAG = "PS-INS_ADAPTER";
+    //private static final String TAG = "PS-INS_ADAPTER";
     private final String[] mDataSet;
     private RecyclerViewClickListener clickListener;
 

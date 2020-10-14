@@ -18,15 +18,15 @@ import cityfreqs.com.pilfershushjammer.utilities.AudioSettings;
 //check getResource calls in debugLogger
 public class ActiveJammer {
     private static final String TAG = "PilferShush_ACTIVE";
-    private Context context;
-    private Bundle audioBundle;
+    private final Context context;
+    private final Bundle audioBundle;
     private float amplitude;
     private AudioTrack audioTrack;
     private AudioAttributes playbackAttributes;
     private AudioFormat audioFormat;
     private boolean isPlaying;
     private Thread jammerThread;
-    private boolean DEBUG;
+    private final boolean DEBUG;
 
     private byte[] soundData;
     private int driftSpeed;

@@ -62,14 +62,13 @@ public class AppEntryDialog {
 
     private void setCaution() {
         multiTextView = dialogView.findViewById(R.id.app_entry_caution);
+        multiTextView.setTextColor(Color.YELLOW);
         if (appEntry.checkForCaution()) {
             // too wordy?
             multiTextView.setText(context.getResources().getString(R.string.userapp_scan_15));
-            multiTextView.setTextColor(Color.YELLOW);
         }
         else {
             multiTextView.setText(context.getResources().getString(R.string.userapp_scan_16));
-            multiTextView.setTextColor(Color.YELLOW);
         }
     }
 
