@@ -1,3 +1,6 @@
+### 4.5.2 (unreleased)
+* bugfix for adding already added fragment
+
 ### 4.5.1 (2020-10-13)
 * micInfoList for multiple mics print
 * change Inspector to caution for AudioRecord with SDK name
