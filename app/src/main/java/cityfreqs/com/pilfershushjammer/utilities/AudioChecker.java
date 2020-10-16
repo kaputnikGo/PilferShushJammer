@@ -19,30 +19,27 @@ import java.util.List;
 
 import cityfreqs.com.pilfershushjammer.R;
 
+import static android.content.Context.AUDIO_SERVICE;
+
 public class AudioChecker {
     private static final String TAG = "PilferShush_AUDIO";
     private final Context context;
     private final Bundle audioBundle;
+    private final AudioManager audioManager;
     private final boolean DEBUG;
     private List<MicrophoneInfo> microphoneInfoList;
-
-    /*
-    public AudioChecker(Context context) {
-        // this constructor for checks only, not settings, called from InspectorFragment
-        this.context = context;
-        DEBUG = false;
-    }
-    */
 
     public AudioChecker(Context context, Bundle audioBundle) {
         this.context = context;
         this.audioBundle = audioBundle;
+        audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
         DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
     }
 
     private int getClosestPowersHigh(int reported) {
         // return the next HIGHEST power from the minimum reported
         // 512, 1024, 2048, 4096, 8192, 16384
+        // n.b. bad devices are getting a derived 16384.
         for (int power : AudioSettings.POWERS_TWO_HIGH) {
             if (reported <= power) {
                 return power;
@@ -66,6 +63,40 @@ public class AudioChecker {
         return reported;
     }
     */
+
+    public String checkAudioManagerSupport() {
+        // for API 23+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String support;
+            assert audioManager != null;
+            String micSupportString = audioManager.getProperty(
+                    AudioManager.PROPERTY_SUPPORT_MIC_NEAR_ULTRASOUND);
+            if (micSupportString == null) {
+                micSupportString = "null";
+            }
+            support = "Support Mic NUHF: " + micSupportString + "\n";
+
+            String spkrSupportString = audioManager.getProperty(
+                    AudioManager.PROPERTY_SUPPORT_SPEAKER_NEAR_ULTRASOUND);
+            if (spkrSupportString == null) {
+                spkrSupportString = "null";
+            }
+            support += "Support Spkr NUHF: " + spkrSupportString;
+            return support;
+        }
+        else {
+            return "Device under API23 (M) no NUHF property check.";
+        }
+    }
+
+    public void setCapturePolicy() {
+        // probably be expanded as Android 11 becomes prevalent
+        // test for Android 10 concurrent audio blocking for source VOICE_COMMS
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // specifically blocks other apps recording this app's audio - which is zero data
+            audioManager.setAllowedCapturePolicy(AudioAttributes.ALLOW_CAPTURE_BY_NONE);
+        }
+    }
 
     public boolean determineRecordAudioType() {
         // guaranteed default for Android is 44.1kHz, PCM_16BIT, CHANNEL_IN_DEFAULT

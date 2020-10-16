@@ -52,7 +52,7 @@ need to get aarch64/arm64 device with multiple mics.
 - Android 10 getting android.app.RemoteServiceException: notify small icon ref, +5 sec delay, invalid notify channel?
 - Android 8.x service crashes specifically to its API
 - testing Active Jammer as external voice assistant jammer
-- MID device active nuhf with screen display off, activity in backstack, retriggers active in test tone mode
+- MID device active nuhf with screen display off, activity in backstack, retriggers active in test tone mode (screen rotate)
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)

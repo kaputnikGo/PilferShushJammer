@@ -20,6 +20,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

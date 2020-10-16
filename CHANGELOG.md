@@ -1,5 +1,6 @@
 ### 4.5.3 (unreleased)
-*
+* android manifest config for screen off display rotate
+* audioManager property support near ultrasound check
 
 ### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment

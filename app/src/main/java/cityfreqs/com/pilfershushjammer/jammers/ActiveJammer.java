@@ -217,7 +217,7 @@ public class ActiveJammer {
                 if (angle == 0.0) frequency = loadDriftTone();
             }
             //f += frequency / bufferSize; // slow frequency sweep up/down loop
-            f += (frequency -f) / bufferSize;
+            f += (frequency - f) / bufferSize;
             angle += (angle < Math.PI) ? f * K : (f * K) - (AudioSettings.TWO_PI);
             switch (waveform) {
                 case AudioSettings.WAVEFORM_SIN:
@@ -257,6 +257,8 @@ public class ActiveJammer {
         // n.b. with current devices this is NOT an example of NUHF creating shadow bands,
         // in MEMs microphones but merely artifacts produced in code and/or speaker output
         // this code is here as placeholder for if/when devices get suitable output capabilities
+        //TODO
+        // profile freq = freq, freq += freq for useful variations compared to freq += freq - f
         frequency = getShadowTone(); //22000.0
         f = frequency;
         for (int i = 0; i < shortBuffer.length; i++) {

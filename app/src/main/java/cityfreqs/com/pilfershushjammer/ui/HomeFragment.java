@@ -68,8 +68,6 @@ public class HomeFragment extends Fragment {
     private ToggleButton passiveJammerButton;
     private ToggleButton activeJammerButton;
 
-    private AudioManager audioManager;
-
     public HomeFragment() {
         // no-args constructor
     }
@@ -91,25 +89,20 @@ public class HomeFragment extends Fragment {
             audioBundle = getArguments().getBundle("audioBundle");
             if (audioBundle != null) {
                 // usually set via dialog in main via pagerAdapter, first instance of audioBundle here
-                //DEBUG = true;
-                //audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
+                DEBUG = true;
+                audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], DEBUG);
 
                 // un-rem for production
-                DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
+                //DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
             }
         }
         else {
             // catch for no args bundle, will need to create new audioBundle with perms var...
-            entryLogger("Failed to load audio settings.", true);
+            debugLogger("Failed to load audio settings.", true);
         }
-        audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
-        audioChecker = new AudioChecker(context, audioBundle);
 
-        // test for Android 10 concurrent audio blocking for source VOICE_COMMS
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // specifically blocks other apps recording this app's audio - which is zero data
-            audioManager.setAllowedCapturePolicy(AudioAttributes.ALLOW_CAPTURE_BY_NONE);
-        }
+        assert audioBundle != null;
+        audioChecker = new AudioChecker(context, audioBundle);
 
         debugLogger("ON-ATTACH", false);
     }
@@ -408,6 +401,10 @@ public class HomeFragment extends Fragment {
 
         checkAudio(INIT_REQ);
 
+        // test for Android 10 concurrent audio blocking for source VOICE_COMMS
+        audioChecker.setCapturePolicy();
+        entryLogger(audioChecker.checkAudioManagerSupport(), false);
+
         entryLogger("\n" + getResources().getString(R.string.intro_8) +
                 AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_TEST]
                 + "\n", false);
@@ -548,6 +545,7 @@ public class HomeFragment extends Fragment {
 
         // if/else for += API 26 (Oreo, 8.0) deprecation stream_types for focus
         int result;
+        AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AudioAttributes playbackAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -561,12 +559,14 @@ public class HomeFragment extends Fragment {
                     .build();
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioAttributes(playbackAttributes);
+            assert audioManager != null;
             result = audioManager.requestAudioFocus(focusRequest);
             // get rid of it
             mediaPlayer.release();
         }
         else {
             // method below is deprecated in API 26
+            assert audioManager != null;
             result = audioManager.requestAudioFocus(audioFocusListener,
                     AudioManager.STREAM_MUSIC,
                     AudioManager.AUDIOFOCUS_GAIN);
