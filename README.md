@@ -55,22 +55,18 @@ need to get aarch64/arm64 device with multiple mics.
 - .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
-- consider optional jammer state persistence over boot <- adding to 4.5.0
 - consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
-- consider user app summary include and print package name of NUHF/ACR if found
 
 
 **Changes:**
-- 4.5.1 (released Oct 13, 2020)
-- micInfoList for multiple mics print
-- change Inspector to caution for AudioRecord with SDK name
-- improve and increase info from Inspector
-- move micInfo check to Home
-- appEntry dialog view
-- update gradle 6.5, Android Studio 4.1
-- permissions bugfix for mic info check
+- 4.5.2 (released Oct 16, 2020)
+- bugfix for adding already added fragment
+- mediaRecord check catch for exception on some devices
+- revert to DEFAULT as VOICE_COMM may cause Process_VoIP
+- added Settings switch for VOICE_COMM or DEFAULT
+- notes in AudioSettings.java
 
-   vers. 4.5.1
+   vers. 4.5.2
    - min API 18 (4.3)
    - target API 29 (10.x)
    - compiled API 29 (10.x)

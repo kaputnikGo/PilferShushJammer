@@ -1,4 +1,4 @@
-### 4.5.2 (unreleased)
+### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment
 * mediaRecord check catch for exception on some devices
 * revert to DEFAULT as VOICE_COMM may cause Process_VoIP
