@@ -42,6 +42,9 @@ public class AudioSettings {
     public static final int WAVEFORM_SQR = 1;
     public static final int WAVEFORM_SAW = 2;
 
+    public static final int MIC_SOURCE_DEFAULT = 0;
+    public static final int MIC_SOURCE_VOICE_COMM = 7;
+
     public static final String[] JAMMER_TYPES = new String[]{
             "Slow audible test tone drift (~440Hz)",
             "Full NUHF drift (18kHz-24kHz)",
@@ -103,6 +106,29 @@ public class AudioSettings {
         }
     }
     */
+
+    public static String GET_MIC_SOURCE(int i) {
+        switch (i) {
+            case 0:
+                return "AUDIO_SOURCE_DEFAULT";
+            case 1:
+                return "AUDIO_SOURCE_MIC";
+            case 2:
+                return "AUDIO_SOURCE_VOICE_UPLINK";  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+            case 3:
+                return "AUDIO_SOURCE_VOICE_DOWNLINK"; // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+            case 4:
+                return "AUDIO_SOURCE_VOICE_CALL"; // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
+            case 5:
+                return "AUDIO_SOURCE_CAMCORDER"; // for video recording, same orientation as camera
+            case 6:
+                return "AUDIO_SOURCE_VOICE_RECOGNITION"; // tuned for voice recognition
+            case 7:
+                return "AUDIO_SOURCE_VOICE_COMMUNICATION"; // tuned for VoIP with echo cancel, auto gain ctrl if available
+            default:
+                return "AUDIO_SOURCE_DEFAULT";
+        }
+    }
 
     // MicrophoneInfo for min API28
     public static final String[] MIC_INFO_LOCATION = new String[]{
@@ -253,6 +279,46 @@ public class AudioSettings {
         return byteArray;
     }
     */
+
+/*
+
+ NOTES FOR MediaRecorder.AudioSource.VOICE_COMMUNICATION
+ may cause spurious Process_VoIP calls as OS may be doing DSP on the zero-data buffer
+ n.b. as per adb on taint device:
+ calls made to :
+ AudioALSAStreamManager
+ AudioALSAStreamIn
+ AudioSpeechEnhanceInfo
+ AudioYusuParam
+ AudioALSAHardware
+ AudioALSAVoiceWakeUpController
+ AudioALSAStreamOut
+ AudioALSAVolumeController
+ AudioALSAPlaybackHandlerFast
+ AudioALSAHardwareResourceManager
+ AudioALSADeviceParser
+ AudioALSAPlaybackHandlerBase
+ MtkAudioBitConverter // vendor mediatek
+ AudioALSADriverUtility
+ AudioALSADeviceConfigManager
+ AudioVoiceUIDL
+
+ VoIP is causing AudioALSAHardware: +routing createAudioPatch 80000004->Mixer Src 7
+ and
+ AudioALSAStreamManager: +createCaptureHandler(), mAudioMode = 0, input_source = 7, input_device = 0x80000004, mBypassDualMICProcessUL=0
+ and
+ AudioALSACaptureHandlerAEC: AudioALSACaptureHandlerAEC() // echo cancellation
+
+D/AudioSPELayer: Process_VoIP, mULInBufQLenTotal=1420, mDLInBufQLenTotal=4550, SPERecBufSize=1280,ULIncopysize=35
+D/AudioSPELayer: WriteReferenceBuffer,inBufLength=586
+D/AudioSPELayer: AddtoInputBuffer queue downlink sec 362 nsec 173730713, downlink sec 362 nsec 150062907
+D/AudioSPELayer: downlink estimate time bRemainInfo=1, pre tv_sec=362, pre nsec=131720316, mPreDLBufLen=588
+D/AudioSPELayer: downlink queue estimate time, sec 362 nsec 150062907, inBufLength=586
+D/AudioSPELayer: AddtoInputBuffer, mDLInBufferQ.size()=8, mDLPreQnum=5,mDLPreQLimit=0,mFirstVoIPUplink=0,mDLInBufQLenTotal=4496
+D/AudioSPELayer: uplink estimate time bRemainInfo=1, pre tv_sec=362, pre nsec=133373292, mPreDLBufLen=586, tv_sec=362, nsec=153416523
+
+ */
+
 
 /*
  * *******************************************************************/

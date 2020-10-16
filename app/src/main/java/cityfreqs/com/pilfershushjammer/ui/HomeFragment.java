@@ -317,7 +317,13 @@ public class HomeFragment extends Fragment {
             Intent startIntent = new Intent(getActivity(), PassiveJammerService.class);
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
-            context.startService(startIntent);
+            //API 26+ requires startForegroundService
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(startIntent);
+            }
+            else {
+                context.startService(startIntent);
+            }
             // 2 sec check for passive running (5 sec till timeout)
             serviceHandler.postDelayed(new Runnable() {
                 public void run() {
@@ -365,7 +371,13 @@ public class HomeFragment extends Fragment {
             Intent startIntent = new Intent(getActivity(), ActiveJammerService.class);
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);
             startIntent.putExtras(audioBundle);
-            context.startService(startIntent);
+            // API 26+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(startIntent);
+            }
+            else {
+                context.startService(startIntent);
+            }
             ACTIVE_RUNNING = true;
             entryLogger(getResources().getString(R.string.main_scanner_5), true);
         }
@@ -392,6 +404,7 @@ public class HomeFragment extends Fragment {
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SIN);
         audioBundle.putString(AudioSettings.AUDIO_BUNDLE_KEYS[19], "eqPreset not set");
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_DEFAULT);
 
         checkAudio(INIT_REQ);
 
@@ -404,7 +417,7 @@ public class HomeFragment extends Fragment {
         // crashes in < 11 maybe cos of audio perms and a mic info check
         // home fragment shows underneath dialogs, so would need a loading activity/screen first
         String audioCheckerReturn;
-        //TODO check for permissions here
+        //check for permissions here, as some are crashing
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(context)
@@ -422,7 +435,13 @@ public class HomeFragment extends Fragment {
             audioCheckerReturn = "Audio Record permissions needed.";
         }
         else {
-            audioCheckerReturn = audioChecker.determineMediaRecorderType();
+            try {
+                audioCheckerReturn = audioChecker.determineMediaRecorderType();
+            }
+            catch (IllegalStateException ex) {
+                entryLogger("attempt to determine audio record capability caused an exception.", true);
+                audioCheckerReturn = null;
+            }
         }
 
         if (audioCheckerReturn != null) {

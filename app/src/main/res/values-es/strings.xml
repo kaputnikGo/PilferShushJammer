@@ -124,6 +124,10 @@
     <string name="buffer_label_1">ACTIVADO</string>
     <string name="buffer_label_2">DESACTIVADO</string>
 
+    <string name="mic_source_text_1">Microphone source (VoIP may use CPU)</string>
+    <string name="mic_source_label_1">Default</string>
+    <string name="mic_source_label_2">VoIP</string>
+
     <string name="drift_dialog_1">Fijar velocidad de distorción</string>
     <string name="drift_dialog_2">10</string>
     <string name="drift_dialog_3">(1 = rápido, 10 = lento)</string>
@@ -141,6 +145,7 @@
 
     <string name="jammer_dialog_13">Tipo de bloqueador cambiado a\u0020</string>
     <string name="jammer_dialog_14">Tipo de bloqueador cambiado a distorción de 1000Hz portada a\u0020</string>
+    <string name="jammer_dialog_15">Microphone source changed to\u0020</string>
 
     <string name="active_dialog_1">Seleccionar tipo de sonido</string>
     <string name="active_dialog_2">Tipo de salida de sonido del bloqueador activo</string>

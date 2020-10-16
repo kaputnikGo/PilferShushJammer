@@ -84,6 +84,7 @@ public class PassiveJammer {
                 }
 
                 debugLogger(context.getResources().getString(R.string.passive_state_1), false);
+                debugLogger("Jammer using mic source: " + audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]), false);
                 return true;
             }
             catch (Exception ex) {
@@ -207,10 +208,10 @@ public class PassiveJammer {
     private void getAudioConfig() {
         AudioRecordingConfiguration recordConfig = audioRecord.getActiveRecordingConfiguration();
         if (recordConfig != null) {
-            Log.d(TAG, "registerCallback config, silenced: " + recordConfig.isClientSilenced());
+            debugLogger("registerCallback config, silenced: " + recordConfig.isClientSilenced(), false);
         }
         else {
-            Log.d(TAG, "registerCallback config null");
+            debugLogger("registerCallback config null", true);
         }
     }
 
@@ -219,13 +220,16 @@ public class PassiveJammer {
         // foreground services using the MediaRecorder instance
         // change AudioSource here for Android 10 boost (VOICE_COMM or CAMCORDER or DEFAULT)
         placeboRecorder = new MediaRecorder();
-        // TODO API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method), if/else?
-        placeboRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT); // VOICE_COMMUNICATION
+        // check API 30 gets RuntimeException at android.media.MediaRecorder.setAudioSource (Native Method), if/else?
+        // was:
+        //(MediaRecorder.AudioSource.DEFAULT); // VOICE_COMMUNICATION
+        // now using the mic source switch
+        placeboRecorder.setAudioSource(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]));
         placeboRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         placeboRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
-        Log.d(TAG, "Placebo runner.");
 
+        debugLogger("Placebo runner prepare.", false);
         try {
             // MediaRecorder.java only checks for file exists, not mic hardware
             placeboRecorder.prepare();

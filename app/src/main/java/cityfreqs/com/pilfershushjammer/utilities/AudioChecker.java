@@ -21,16 +21,18 @@ import cityfreqs.com.pilfershushjammer.R;
 
 public class AudioChecker {
     private static final String TAG = "PilferShush_AUDIO";
-    private Context context;
-    private Bundle audioBundle;
-    private boolean DEBUG;
+    private final Context context;
+    private final Bundle audioBundle;
+    private final boolean DEBUG;
     private List<MicrophoneInfo> microphoneInfoList;
 
+    /*
     public AudioChecker(Context context) {
         // this constructor for checks only, not settings, called from InspectorFragment
         this.context = context;
         DEBUG = false;
     }
+    */
 
     public AudioChecker(Context context, Bundle audioBundle) {
         this.context = context;
@@ -73,28 +75,20 @@ public class AudioChecker {
             inputSource = AUDIO_SOURCE_MIC;
         }
         */
-        // test change to audio source:: AUDIO_SOURCE_VOICE_COMMUNICATION (7)
+        // audio source:: AUDIO_SOURCE_VOICE_COMMUNICATION (7)
         // FOR PRIORITY BUMP IN ANDROID 10 (API29)
-        int audioSource = MediaRecorder.AudioSource.VOICE_COMMUNICATION;// 7 //.DEFAULT; // 0
-
-        // note::
-        /*
-        media/libstagefright/AudioSource.cpp
-        typedef enum {
-                    AUDIO_SOURCE_DEFAULT             = 0,
-                    AUDIO_SOURCE_MIC                 = 1,
-                    AUDIO_SOURCE_VOICE_UPLINK        = 2,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-                    AUDIO_SOURCE_VOICE_DOWNLINK      = 3,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-                    AUDIO_SOURCE_VOICE_CALL          = 4,  // system only, requires Manifest.permission#CAPTURE_AUDIO_OUTPUT
-                    AUDIO_SOURCE_CAMCORDER           = 5,  // for video recording, same orientation as camera
-                    AUDIO_SOURCE_VOICE_RECOGNITION   = 6,  // tuned for voice recognition
-                    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,  // tuned for VoIP with echo cancel, auto gain ctrl if available
-                    AUDIO_SOURCE_CNT,
-                    AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
-        } audio_source_t;
-        */
+        // possible cause for Process_VoIP as OS may be doing DSP on the zero-data buffer
+        // D/AudioSPELayer: Process_VoIP, mULInBufQLenTotal=1420, mDLInBufQLenTotal=4496, SPERecBufSize=1280,ULIncopysize=35
+        // now as a switch in SettingsFragment
+        //DEFAULT == 0, VOICE_COMMUNICATION == 7
+        int audioSource = audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]);
+        // notes::
         // some pre-processing like echo cancellation, noise suppression is applied on the audio captured using VOICE_COMMUNICATION
         // assumption is that # 6,7 add DSP to the DEFAULT/MIC input
+        /* MediaRecorder.java:: Microphone audio source tuned for voice communications such as VoIP. It
+         *  will for instance take advantage of echo cancellation or automatic gain control
+         *  if available.
+         */
 
         for (int rate : AudioSettings.SAMPLE_RATES) {
             for (short audioFormat : new short[] {
@@ -136,7 +130,7 @@ public class AudioChecker {
 
                                 recorder.release();
                                 if (determineOutputAudioType()) {
-                                    // testing output checks here t oavoid possible audiofocus conflicts
+                                    // testing output checks here to avoid possible audiofocus conflicts
                                     debugLogger("determineAudioOutput inner call returns true.", true);
                                     return true;
                                 }
@@ -176,6 +170,9 @@ public class AudioChecker {
         placeboRecorder.setOutputFile(placeboMediaRecorderFileName);
 
         // try and trip the routedDevice, need prepare() and start()
+        // can cause exceptions in SOME devices from restart app while passive running
+        // MediaRecorder: start failed: -38 // means start failed, post-init success, mic in use
+        // INVALID_OPERATION   = -ENOSYS
         try {
             // MediaRecorder.java only checks for file exists, not mic hardware
             placeboRecorder.prepare();
@@ -184,7 +181,11 @@ public class AudioChecker {
         }
         catch (IOException e) {
             debugLogger(context.getResources().getString(R.string.passive_state_14), true);
-            return "MediaRecorder checks prepare,start error IO ex.";
+            return "MediaRecorder prepare, start error IO ex.";
+        }
+        catch (IllegalStateException ex) {
+            debugLogger(context.getResources().getString(R.string.passive_state_14), true);
+            return "MediaRecorder prepare error, mic in use.";
         }
 
         try {

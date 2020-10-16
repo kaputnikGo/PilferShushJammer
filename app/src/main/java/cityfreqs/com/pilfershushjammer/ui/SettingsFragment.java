@@ -88,6 +88,43 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        SwitchCompat activeTypeSwitch = view.findViewById(R.id.active_type_switch);
+        activeTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //nuhf
+                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_NUHF);
+                    entryLogger(getResources().getString(R.string.jammer_dialog_13)
+                            + AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_NUHF], false);
+                }
+                else {
+                    //test, default
+                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
+                    entryLogger(getResources().getString(R.string.jammer_dialog_13)
+                            + AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_TEST], false);
+                }
+            }
+        });
+
+        SwitchCompat micSourceSwitch = view.findViewById(R.id.mic_source_switch);
+        micSourceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //VoIP
+                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_VOICE_COMM);
+                    entryLogger(getResources().getString(R.string.jammer_dialog_15)
+                            + AudioSettings.GET_MIC_SOURCE(AudioSettings.MIC_SOURCE_VOICE_COMM), false);
+                }
+                else {
+                    //default
+                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_DEFAULT);
+                    entryLogger(getResources().getString(R.string.jammer_dialog_15)
+                            + AudioSettings.GET_MIC_SOURCE(AudioSettings.MIC_SOURCE_DEFAULT), false);
+                }
+            }
+        });
+
+
         TextView driftInput = view.findViewById(R.id.drift_input_text);
         driftInput.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -106,24 +143,6 @@ public class SettingsFragment extends Fragment {
         limitInput.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 limitInputDialog();
-            }
-        });
-
-        SwitchCompat activeTypeSwitch = view.findViewById(R.id.active_type_switch);
-        activeTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //nuhf
-                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_NUHF);
-                    entryLogger(getResources().getString(R.string.jammer_dialog_13)
-                            + AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_NUHF], false);
-                }
-                else {
-                    //test, default
-                    audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[8], AudioSettings.JAMMER_TYPE_TEST);
-                    entryLogger(getResources().getString(R.string.jammer_dialog_13)
-                            + AudioSettings.JAMMER_TYPES[AudioSettings.JAMMER_TYPE_TEST], false);
-                }
             }
         });
 
@@ -384,5 +403,6 @@ public class SettingsFragment extends Fragment {
         else {
             spannableText.setSpan(new ForegroundColorSpan(Color.WHITE), start, end, 0);
         }
+        settingsText.requestFocus();
     }
 }

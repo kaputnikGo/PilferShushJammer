@@ -1,5 +1,9 @@
 ### 4.5.2 (unreleased)
 * bugfix for adding already added fragment
+* mediaRecord check catch for exception on some devices
+* revert to DEFAULT as VOICE_COMM may cause Process_VoIP
+* added Settings switch for VOICE_COMM or DEFAULT
+* notes in AudioSettings.java
 
 ### 4.5.1 (2020-10-13)
 * micInfoList for multiple mics print

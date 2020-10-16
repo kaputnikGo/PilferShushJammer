@@ -145,7 +145,7 @@ public class PassiveJammerService extends Service {
 
             Notification notification = notifyPassiveBuilder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-            // API 30: startForeground(notification, FOREGROUND_SERVICE_TYPE_MICROPHONE);
+            // API 30 R: startForeground(notification, FOREGROUND_SERVICE_TYPE_MICROPHONE);
             // + manifest dec <service android:foregroundServiceType="microphone" />
             startForeground(NOTIFY_ID, notification);
         }
