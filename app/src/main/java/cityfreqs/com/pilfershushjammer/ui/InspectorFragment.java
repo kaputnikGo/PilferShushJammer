@@ -153,8 +153,14 @@ public class InspectorFragment extends Fragment implements InspectorAdapter.Recy
         });
 
         if (backgroundChecker.initChecker(context.getPackageManager())) {
-            backgroundChecker.runChecker();
-            backgroundChecker.checkAudioBeaconApps();
+            // can cause exception on some devices/api
+            if (backgroundChecker.runChecker()) {
+                backgroundChecker.checkAudioBeaconApps();
+            }
+            else {
+                // exception with packageManager
+                entryLogger(getResources().getString(R.string.userapp_scan_14), true);
+            }
         }
         else {
             // has a problem getting SDK names from file, null or 0 length

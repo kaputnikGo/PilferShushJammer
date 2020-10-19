@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -102,7 +101,7 @@ public class ActiveJammerService extends Service {
         notifyActiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         notifyActiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
+                //.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(getResources().getString(R.string.app_status_11))
                 .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)

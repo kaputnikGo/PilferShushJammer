@@ -216,7 +216,7 @@ public class BackgroundChecker {
         return (applicationInfo.flags & mask) == 0;
     }
 
-    public void runChecker() {
+    public boolean runChecker() {
         // get list of apps
         // also:
         // PackageManager.getSystemAvailableFeatures() - list all features
@@ -277,8 +277,18 @@ public class BackgroundChecker {
             }
             catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+                return false;
+            }
+            catch (RuntimeException ex) {
+                // deadObjectException causes this at getPackageInfo, android 6.0
+                return false;
+            }
+            catch (Exception ex) {
+                // any old iron
+                return false;
             }
         }
+        return true;
     }
 
     private void debugLogger(String message) {
