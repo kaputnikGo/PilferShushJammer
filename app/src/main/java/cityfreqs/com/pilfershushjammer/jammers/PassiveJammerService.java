@@ -117,7 +117,6 @@ public class PassiveJammerService extends Service {
             .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         notifyPassiveBuilder.setSmallIcon(R.mipmap.ic_stat_logo_notify_jammer)
-                //.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(getResources().getString(R.string.app_status_10))
                 .setContentText(getResources().getString(R.string.app_status_12))
                 .setContentIntent(pendingIntent)

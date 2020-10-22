@@ -2,7 +2,7 @@
 * android manifest config for screen off display rotate
 * audioManager property support near ultrasound check
 * packageInfo exception handling
-* notification xml icon crashing some devices
+* removed notification xml icon crashing some devices
 
 ### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment

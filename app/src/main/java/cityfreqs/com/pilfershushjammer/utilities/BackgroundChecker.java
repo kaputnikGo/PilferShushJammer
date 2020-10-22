@@ -63,14 +63,10 @@ public class BackgroundChecker {
     public int getUserRecordNumApps() {
         // count number with getRecordable == true
         int count = 0;
-        if (appEntries != null) {
-            for (AppEntry appEntry : appEntries) {
-                if (appEntry.getRecordable()) count ++;
-            }
-            return count;
+        for (AppEntry appEntry : appEntries) {
+            if (appEntry.getRecordable()) count ++;
         }
-        else
-            return 0;
+        return count;
     }
 
     /*
@@ -295,9 +291,6 @@ public class BackgroundChecker {
         // for the times that fragments arent attached etc, print to adb
         if (DEBUG) {
             Log.e(TAG, message);
-        }
-        else if (false) {
-            Log.d(TAG, message);
         }
         else {
             Log.i(TAG, message);
