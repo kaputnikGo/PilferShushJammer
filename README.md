@@ -15,7 +15,7 @@ System telephone calls will override and bump the Jammer from the microphone.
 Adds a notification as a reminder for running while in background.
 
 Tested and blocks Google Voice search (user) app.
-Currently testing Google Home app voice blocking.
+Currently testing Google Home and Omnibox app voice blocking.
 
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
