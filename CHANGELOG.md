@@ -4,6 +4,7 @@
 * packageInfo exception handling
 * removed notification xml icon crashing some devices
 * build tools update
+* add SDK name
 
 ### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment
