@@ -31,6 +31,7 @@
 
         <service
             android:name=".jammers.PassiveJammerService"
+            android:description="Service to allow the Passive Jammer to run in the background."
             android:enabled="true"
             android:exported="false"
             android:icon="@mipmap/ic_launcher"
@@ -44,6 +45,7 @@
 
         <service
             android:name=".jammers.ActiveJammerService"
+            android:description="Service to allow the Active Jammer to run in the background."
             android:enabled="true"
             android:exported="false"
             android:icon="@mipmap/ic_launcher"

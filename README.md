@@ -42,6 +42,12 @@ need to get aarch64/arm64 device with multiple mics.
 
 
 **TODO:**
+- Omnibox voice search winning concurrent audio mic control
+- concurrent audio fight results in toast loop from passive service:
+- E/NotificationService: Package has already posted 25 toasts. Not showing more. Package=cityfreqs.com.pilfershushjammer
+- background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
+- vs AccessibilityService misuse, in Android 10 (does not work in Go version)
+- see : <https://developer.android.com/guide/components/activities/background-starts>
 - URGENT Android 10 concurrent audio continue testing
 - URGENT Android 11 changes to concurrent audio
 - get an arm64 multi mic device

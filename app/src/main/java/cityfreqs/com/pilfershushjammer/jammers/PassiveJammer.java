@@ -44,6 +44,23 @@ public class PassiveJammer {
     }
 
     boolean startPassiveJammer() {
+        // concurrent audio fight gets java.lang.IllegalStateException: Unable to retrieve AudioRecord pointer for getId()
+        // find it, after retriggerPassive is called. from AudioRecord.h:579 getPortId() :
+        /* Get the unique port ID assigned to this AudioRecord instance by audio policy manager.
+         * The ID is unique across all audioserver clients and can change during the life cycle
+         * of a given AudioRecord instance if the connection to audioserver is restored.
+         */
+        // returns audio_port_handle_t mPortId (// Id from Audio Policy Manager)
+        /*
+        AudioDeviceInfo int getId() returns mPort.handle().id(); (The internal device ID.)
+        mPort is AudioDevicePort (/master/media/java/android/media/AudioDevicePort.java) :
+        has address, id and audioformat type capability info
+        AudioManager.listAudioPorts() - lists current available ports
+        AudioPort.buildConfig() returns AudioPortConfig for a given port,
+        and use it to create connection via AudioManager.connectAudioPatch()
+         */
+        // also, just prior to this exception: D/hardware_info: hw_info_append_hw_type : device_name = voip-sub-mic-comm
+
         if (audioRecord == null) {
             try {
                 // this set to M/23 for AudioRecord.Builder in prep for API 30/Android 11
@@ -57,6 +74,7 @@ public class PassiveJammer {
                                     .addMatchingUsage(AudioAttributes.USAGE_MEDIA) // .USAGE_UNKNOWN
                                     .build();
                     */
+                    // illegalState not here
                     audioRecord = new AudioRecord.Builder()
                         .setAudioSource(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]))
                             .setAudioFormat(new AudioFormat.Builder()
@@ -206,11 +224,11 @@ public class PassiveJammer {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getAudioConfig() {
+        // illegalState not here
         AudioRecordingConfiguration recordConfig = audioRecord.getActiveRecordingConfiguration();
         if (recordConfig != null) {
             debugLogger("registerCallback config, silenced: " + recordConfig.isClientSilenced(), false);
-        }
-        else {
+        } else {
             debugLogger("registerCallback config null", true);
         }
     }

@@ -81,6 +81,8 @@ public class PassiveJammerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    //TODO check Binder binds as cause of getPortId exceptions
+    // occurs with service in background auto-restarting PassiveJammer.java
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
