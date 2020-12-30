@@ -1,1 +1,281 @@
-Initial
+<resources>
+    <string name="app_name">PilferShush Jammer</string>
+    <string name="passive_service_name">PilferShush Passiver Modus</string>
+    <string name="active_service_name">PilferShush Aktiver Modus</string>
+    <string name="action_about">Über</string>
+    <string name="action_readme">Readme</string>
+    <string name="action_power">Akku</string>
+    <string name="action_debug">Fehlersuche</string>
+
+    <string name="action_power_state">Nur verfügbar für Android 6.0 (API 23) Marshmallow und höher.</string>
+
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Inspector</string>
+    <string name="tab_text_3">Einstellungen</string>
+
+    <string name="perms_state_1">Audio aufnehmen</string>
+    <string name="perms_state_2_1">PilferShush Jammer benötigt die Berechtigung auf das Mikrofon zugreifen zu dürfen, andernfalls wird diese App nicht funktionieren.</string>
+    <string name="perms_state_2_2">Diese App hört kein Audio ab, nimmt kein Audio auf und verbindet sich nicht mit dem Internet.</string>
+    <string name="perms_state_3">Berechtigung verweigert, bitte schließen Sie diese App, sie wird ohne die Erlaubnis "Audio aufnehmen" nicht funktionieren.</string>
+    <string name="perms_state_4">Die App wird geschlossen, da die "Audio aufnehmen" Berechtigung nicht gewährt wurde.</string>
+
+    <string name="dialog_button_save">Speichern</string>
+    <string name="dialog_button_cancel">Abbrechen</string>
+    <string name="dialog_button_okay">OK</string>
+    <string name="dialog_button_yes">JA</string>
+    <string name="dialog_button_no">NEIN</string>
+    <string name="dialog_button_off">AUS</string>
+    <string name="dialog_button_on">EIN</string>
+    <string name="dialog_button_dismiss">Verwerfen</string>
+    <string name="dialog_button_continue">Weiter</string>
+    <string name="dialog_button_source">GITHUB</string>
+    <string name="dialog_button_moreinfo">Weitere Informationen</string>
+    <string name="notify_stop_button">PASSIVEN MODUS STOPPEN</string>
+
+    <string name="options_dialog_1">Buffer read lock</string>
+
+    <string name="doze_dialog_title">Einstellungen</string>
+    <string name="doze_dialog_1">PilferShush Jammer erbittet die Aufnahme in die Ausnahmeliste für Android-System-Batterieoptimierungen.</string>
+    <string name="doze_dialog_2">Ab Android 6.0 (API 23) Marshmallow wurde von Android eine neue Doze-Batterieerhaltungsfunktion eingeführt, die die Hintergrund-CPU-Aktivität für einige Zeit aussetzt.</string>
+    <string name="doze_dialog_3">Diese App benötigt zwar nur sehr geringe bis vernachlässigbare Ressourcen, der passive Mikrofon Jammer benötigt jedoch einen Hintergrunddienst um zu funktionieren.</string>
+    <string name="doze_dialog_4">Für einen langfristig zuverlässigen Einsatz des Jammers müssen alle Akku-Optimierer oder AKku-Manager so eingestellt werden, dass PilferShush ungehindert weiterlaufen kann.</string>
+    <string name="doze_dialog_5">Um PilferShush zur System-Zulassungsliste hinzuzufügen, drücken Sie "weiter", um zur Seite mit den Android-Einstellungen zu gelangen, wählen Sie dann "Alle Anwendungen" aus dem Dropdown-Menü, suchen Sie nach PilferShush und wählen Sie es aus.</string>
+
+    <string name="audiofocus_check_1">Audio Fokus check\u2026</string>
+    <string name="audiofocus_check_2">Audio Fokus Anfrage aktzeptiert.</string>
+    <string name="audiofocus_check_3">Audio Fokus Anfrage abgelehnt.</string>
+    <string name="audiofocus_check_4">Audio Fokus unbekannt.</string>
+    <string name="audiofocus_check_5">Audio Fokus Anfrage auf Unterbrechung.</string>
+    <string name="audiofocus_check_6">Audio Fokus Anfrage auf Unterbrechung ignoriert.</string>
+    <string name="audiofocus_check_7">Audio Fokus Anfrage auf Unterbrechung erlaubt.</string>
+    <string name="audiofocus_check_8">IRQ_TELEPHONY loss_transient.</string>
+
+    <string name="resume_status_1">PASSIVER SERVICE GEFUNDEN</string>
+    <string name="resume_status_2">PASSIVER SERVICE NICHT GEFUNDEN</string>
+    <string name="resume_status_3">AKTIVER SERVICE GEFUNDEN</string>
+    <string name="resume_status_4">AKTIVER SERVICE NICHT GEFUNDEN</string>
+    <string name="resume_status_5">RESUME AUDIOFOCUS GRANT</string>
+    <string name="resume_status_6">RESUME AUDIOFOCUS LOSS</string>
+    <string name="resume_status_7">runPassive() when PASSIVE_RUNNING</string>
+    <string name="resume_status_8">runActive() when ACTIVE_RUNNING</string>
+
+    <string name="main_scanner_1" translatable="false">Aktiv</string>
+    <string name="main_scanner_2" translatable="false">Passiv</string>
+    <string name="main_scanner_3">Passives Jamming läuft\u2026</string>
+    <string name="main_scanner_4">Passives Jamming angehalten.</string>
+    <string name="main_scanner_5">Aktives Jamming läuft\u2026</string>
+    <string name="main_scanner_6">Aktives Jamming angehalten.</string>
+
+    <string name="main_inspector_1" translatable="false">Zusammenfassung</string>
+    <string name="main_inspector_2" translatable="false">Inspizieren</string>
+    <string name="main_inspector_3" translatable="false">SDK Liste</string>
+
+    <string name="app_status_1">Passiver Jammer aktiv,</string>
+    <string name="app_status_2">Passiver Jammer nicht aktiv,</string>
+    <string name="app_status_3">Aktiver Jammer aktiv.</string>
+    <string name="app_status_4">Aktiver Jammer nicht aktiv.</string>
+    <string name="app_status_5">EQ ist ausgeschalten</string>
+    <string name="app_status_6">EQ ist angeschalten.</string>
+    <string name="app_status_7">EQ ist nicht verfügbar.</string>
+    <string name="app_status_8">Aktiver Jammer zu Tönen gewechselt.</string>
+    <string name="app_status_9">Aktiver Jammer zu Whitenoise gewechselt.</string>
+    <string name="app_status_9_1">Active jammer switched to shadow.</string>
+    <string name="app_status_10">Passiver Jammer aktiv.</string>
+    <string name="app_status_11">Aktiver Jammer aktiv.</string>
+    <string name="app_status_12">Tippen um zur App zurückzukehren.</string>
+    <string name="app_status_13">Passive jammer buffer read lock enabled. REQUIRES PASSIVE JAMMER RESTART.</string>
+    <string name="app_status_14">Passive jammer buffer read lock disabled. REQUIRES PASSIVE JAMMER RESTART.</string>
+    <string name="app_status_15">Waveform switched to sine.</string>
+    <string name="app_status_16">Waveform switched to square.</string>
+    <string name="app_status_17">Waveform switched to sawtooth.</string>
+    
+    <string name="intro_1">PilferShush Jammer versucht, den unerwünschten und geheimen Gebrauch des Hardware-Mikrofons zu blockieren.</string>
+    <string name="intro_2">Entweder mit einer PASSIVEN Jamming-Technik, die das Mikrofon aktiviert und andere Apps daran hindert, es zu benutzen.</string>
+    <string name="intro_3">Oder über einen AKTIVEN Störsender, der entweder Töne oder weißes Rauschen von 18 kHz bis 24 kHz aussendet.</string>
+    <string name="intro_4">Diese App hört dabei KEINEN Ton vom Mikrofon ab und nimmt auch KEINEN auf.</string>
+    <string name="intro_5">Die Info-Zusammenfassung zeigt grundlegende Informationen über alle vom Benutzer installierten Anwendungen.</string>
+    <string name="intro_6_1">Die Suche zeigt die Hintergrund Services und Empfänger für eine gewählte App.</string>
+    <string name="intro_6_2">Die SDK-Liste zeigt die Namen der gefundenen NUHF/ACR Pakete.</string>
+    <string name="intro_6_3">Apps können mehrere Pakete mit jeweils unterschiedlichen Namen enthalten.</string>
+    <string name="intro_7">Verwenden Sie die Einstellungen, um die Einstellungen für das aktive Jammen zu ändern. </string>
+    <string name="intro_8">Aktiver Störsender eingestellt auf:\u0020</string>
+
+    <!--
+    readme dialog text
+    -->
+    <string name="readme_dialog_1">README</string>
+    <string name="readme_dialog_2">Die INSPECTOR-Funktion ist kein verbindlicher Nachweis, sondern lediglich eine Möglichkeit, dem Benutzer mehr Informationen über alle auf seinem Gerät installierten Anwendungen zur Verfügung zu stellen.</string>
+    <string name="readme_dialog_3">Zusammenfassung: listet die vom Benutzer installierten Anwendungen auf und prüft die Fähigkeit zur Audioaufzeichnung, den Start beim Booten, die Hintergrunddienste, die Hintergrundempfänger, die Einbeziehung des NUHF/ACR SDK-Namens und die Nutzung des Accessibility-Dienstes zur Erlangung spezieller Funktionen. </string>
+    <string name="readme_dialog_4">Suche: Bietet mehr Informationen über eine bestimmte, vom Benutzer installierte Anwendung und alle Dienste oder Empfänger, die sie besitzt. Diese Namen sind normalerweise ein Hinweis auf ihre Funktion, aber sie können unsinnige, zufällige Buchstaben sein.</string>
+    <string name="readme_dialog_5">SDK-Liste: sind die aktuellen Namen von bekannten Paketen von Firmen, die ein ultrahochfrequentes Abhören und/oder automatische Inhaltserkennungsfähigkeiten anbieten. Die PilferShush-App durchsucht die vom Benutzer installierten Anwendungen nach allen Paketnamen, die aus dieser Liste eine Übereinstimmung ergeben. Dies ist kein Beweis für das Verhalten der Apps, sondern lediglich eine Methode, um dem Benutzer mehr Informationen über die Apps auf seinen Geräten zur Verfügung zu stellen.</string>
+    <string name="readme_dialog_6">Der PASSIVE Jammer ist die primäre Verteidigungsmethode gegen die unerwünschte Benutzung des Mikrofons durch vom Benutzer installierte Anwendungen. Er nutzt eine aktuelle Funktion der Android-API, die jeweils nur genau eine Benutzeranwendung Zugriff auf das Mikrofon gewährt. PilferShush bittet das Android-System über die Berechtigung "Audio aufnehmen" um Zugriff auf das Mikrofon und bittet dann darum, die Aufnahme zu starten. Das Mikrofon ist nun bereit, die anfordernde App mit Audiodaten zu versorgen. PilferShush fragt jedoch nicht nach diesen Audiodaten, sondern hält die Berechtigung für das Mikrofon einfach. Auf älteren Android-Geräten war dies anfänglich ausreichend, aber mit späteren Versionen ist es nun notwendig, eine MediaRecorder-Funktion zu erstellen und vorzubereiten, so dass PilferShush weiterhin auf das Mikrofon zugreifen kann, während es im Hintergrund läuft. Systemanwendungen wie z.B. die Telefon-App überschreiben und übernehmen immer die Kontrolle über das Mikrofon. Einige Sprachassistenten und Accessibility-Anwendungen können, abhängig von ihrer Einrichtung, während dieses passiven Störens immer noch auf das Mikrofon zugreifen. Ab Android 10 (Q) ist die gleichzeitige Verwendung des Mikrofons erlaubt, was bedeutet, dass eine andere Benutzeranwendung die Kontrolle über das Mikrofon übernehmen kann, während PilferShush im Hintergrund aktiv ist. Aktuell kann dagegen nicht viel getan werden, aber es sollte ein Pop-up in der Mitte des Bildschirms erscheinen, um den Benutzer eines Android 10-Gerätes darüber zu informieren, dass eine andere App die Kontrolle über das Mikrofon hat und dass PilferShush versucht, die Kontrolle über das Mikrofon wiederzuerlangen. Es wird nach weiteren Lösungen gesucht.</string>
+    <string name="readme_dialog_7">Der AKTIVE Jammer ist eine experimentelle Methode zum Stören von NUHF-Beacon Signalen mit zufälligen Tönen, die in die NUHF-Bereiche, gemessen zwischen 18000 hz und 24000 hz, fallen. NUHF-Beacons senden spezifische Töne aus, die so kodiert sind, dass sie nur für die spezifische Anwendung, auf die sie abzielen, entschlüsselbar sind. Gewöhnlich sind diese spezifischen Töne um eine bestimmte Frequenz (Träger) zentriert, während andere sinnvolle Töne innerhalb eines Bereichs oberhalb und unterhalb dieser Frequenz (Driftgrenze) ausgestrahlt werden. Die Ausstrahlung dieser NUHF-Beacon-Signale erfolgt sehr schnell (Drift-Geschwindigkeit) und in einem Frequenzbereich, den Menschen normalerweise nicht hören können. Der aktive Störsender PilferShush versucht, diese Beacon-Signale zu blockieren, indem er den gleichen Frequenzbereich mit sinnlosen Zufallssignalen überflutet. Sie sollten davon ausgehen, dass diese Methode aus Gründen, die über diese README hinausgehen, unzuverlässig ist, selbst wenn Sie wissen, welche spezifischen Einstellungen wahrscheinlich zu einem bestimmten NUHF-Beacon-Signal passen.</string>
+    <string name="readme_dialog_8">Um mehr über den aktuellen Stand der Forschung zu erfahren, klicken Sie auf die Schaltfläche "Weitere Informationen", um die Projektwebseite in Ihrem Browser zu öffnen.</string>
+
+    <string name="about_version">Version\u0020</string>
+    <string name="about_dialog_1">Über PilferShush Jammer</string>
+    <string name="about_dialog_2">Hierbei handelt es sich um eine experimentelle Anwendung zu forschungszwecken, mit der die unerwünschte, geheime Verwendung des Mikrofons unauffällig blockiert werden soll.</string>
+    <string name="about_dialog_3">Diese App verfügt über eine "Inspector"-Funktion, die mögliche Übereinstimmungen mit bekannten SDK-Paketnamen findet, welche Ultrahochfrequenzen oder Audioinhaltserkennung verwenden. Die Suchmethode kann zu falsch positiven Ergebnissen führen.</string>
+    <string name="about_dialog_4">Der Quellcode ist Open Source und bei Github verfügbar.</string>
+    <string name="about_dialog_5">Die App ist Teil der laufenden Android-Audio-Gegenüberwachungsforschung.</string>
+    <string name="about_dialog_6">Option below to enable audio record buffer read lock (possible slight increase in CPU overhead).</string>
+
+    <string name="debug_dialog_1">Debugging Modus</string>
+    <string name="debug_dialog_2">Dieser Modus gibt einige zusätzliche Meldungen in der Anwendung sowie einige Log-Meldungen an alle angeschlossenen ADBs aus</string>
+
+    <string name="settings_label_1">Aktiver Jammer Einstellungen</string>
+    <string name="settings_label_2">Passiver Jammer Einstellungen</string>
+
+    <string name="buffer_info_text_1">Enable audioRecord buffer read lock (more CPU)</string>
+    <string name="buffer_label_1">AKTIVIEREN</string>
+    <string name="buffer_label_2">DEAKTIVIEREN</string>
+
+    <string name="mic_source_text_1">Mikrofon Quelle (VoIP kann mehr CPU verbrauchen)</string>
+    <string name="mic_source_label_1">Standard</string>
+    <string name="mic_source_label_2">VoIP</string>
+
+    <string name="drift_dialog_1">Set drift speed</string>
+    <string name="drift_dialog_2">10</string>
+    <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
+
+    <string name="jammer_dialog_1">Ändern des Signal Typs des Aktiven Jammers.</string>
+    <string name="jammer_dialog_2">Slow audible test tone drift (~440Hz)</string>
+    <string name="jammer_dialog_3">Full NUHF drift (18kHz-24kHz)</string>
+    <string name="jammer_dialog_4">User set NUHF carrier</string>
+    <string name="jammer_dialog_5">User set NUHF drift</string>
+    <string name="jammer_dialog_6">Set carrier frequency</string>
+    <string name="jammer_dialog_8">19000</string>
+    <string name="jammer_dialog_9">Set drift limit</string>
+    <string name="jammer_dialog_10">1000</string>
+    <string name="jammer_dialog_11">(All frequencies constrained to NUHF)</string>
+
+    <string name="jammer_dialog_13">Jammer Typ gewechselt zu\u0020</string>
+    <string name="jammer_dialog_14">Jammer Typ gewechselt zu 1000Hz drift with carrier at\u0020</string>
+    <string name="jammer_dialog_15">Mikrofon Quelle geändert zu\u0020</string>
+
+    <string name="active_dialog_1">Wähle den Geräusch-Typ</string>
+    <string name="active_dialog_2">Aktiver Jammer Geräusch Typ</string>
+    <string name="active_dialog_3">TÖNE</string>
+    <string name="active_dialog_4">GERÄUSCHE</string>
+    <string name="active_dialog_5">TEST</string>
+    <string name="active_dialog_6">NUHF</string>
+    <string name="active_dialog_7">SHADOW</string>
+    <string name="active_dialog_8">sine</string>
+    <string name="active_dialog_9">square</string>
+    <string name="active_dialog_10">sawtooth</string>
+
+    <string name="eq_check_1">Testing for device audiofx equalizer.</string>
+    <string name="eq_check_2">Device audiofx equalizer test passed.</string>
+    <string name="eq_check_3">Device audiofx equalizer test failed.</string>
+    <string name="eq_check_4">Number of EQ bands:\u0020</string>
+    <string name="eq_check_5">adjust EQ minimum milliBels:\u0020</string>
+    <string name="eq_check_6">adjust EQ maximum milliBels:\u0020</string>
+    <string name="eq_check_7">HPF test to reduce EQ twice by minEQ value:\u0020</string>
+    <string name="eq_check_8">testEQ Exception, possibly device specific implementation.</string>
+
+    <string name="audio_check_pre_1">Checking for best audio record type.</string>
+    <string name="audio_check_pre_2">Checking for best audio output type.</string>
+    <string name="audio_check_1">Determine record audio type failure.</string>
+    <string name="audio_check_2">Unable to initiate audio output.</string>
+    <string name="audio_check_3">Error: No audioSettings object found.</string>
+    <string name="audio_check_4">Exception error initialising audioTrack.</string>
+    <string name="audio_check_5">Setting frequency to within device limit:\u0020</string>
+    <string name="audio_check_6">Setting frequency to within NUHF limit:\u0020</string>
+    <string name="audio_check_7">Setting frequency to:\u0020</string>
+
+        <!--
+        PassiveJammer.java
+        -->
+    <string name="passive_state_1">Passiver Jammer initialisiert.</string>
+    <string name="passive_state_2">Passiver Jammer konnte nicht initialisieren.</string>
+    <string name="passive_state_3">Passiver Jammer startet.</string>
+    <string name="passive_state_4">Passiver Jammer audio status error: invalid operation.</string>
+    <string name="passive_state_5_1">Passiver Jammer audio status error: uninitialized.</string>
+    <string name="passive_state_5_2">Mögliche Ursache: Mikrofon bereits in Benutzung.</string>
+    <string name="passive_state_6">Passiver Jammer get recording state = false.</string>
+    <string name="passive_state_7">Passiver Jammer exception, failed to run.</string>
+    <string name="passive_state_8">Passiver Jammer Audioaufnahme konnte nicht initialisiert werden.</string>
+    <string name="passive_state_9">Passiver Jammer stop and release.</string>
+    <string name="passive_state_10">Passiver Jammer läuft nicht.</string>
+    <string name="passive_state_11">Passiver Jammer buffer read lock.</string>
+    <string name="passive_state_12">MediaRecorderPlacebo läuft.</string>
+    <string name="passive_state_13">MediaRecorderPlacebo läuft nicht.</string>
+    <string name="passive_state_14">MediaRecorderPlacebo prepare() failed.</string>
+    <string name="passive_state_15">MediaRecorderPlacebo release and null.</string>
+
+        <!--
+        ActiveJammer.java
+        -->
+    <string name="active_state_1">threadPlay run exception.</string>
+    <string name="active_state_2">stopPlayer thread exception.</string>
+    <string name="active_state_3">stopPlayer audioTrack exception.</string>
+
+        <!--
+        ~ JammerService.java
+        -->
+    <string name="service_state_1">PilferShush Jammer Benachrichtigungen</string>
+    <string name="service_state_2">Aktive Jammer Dienst gestartet.</string>
+    <string name="service_state_3">Aktive Jammer Dienst gestoppt.</string>
+    <string name="service_state_4">Passiver Jammer Dienst gestartet.</string>
+    <string name="service_state_5">Passiver Jammer Dienst gestoppt.</string>
+
+        <!--
+        background userapp checker
+        -->
+    <string name="sdk_names_list">Liste der NUHF/ACR SDK durchsuchten Paket-Namen:\u0020</string>
+    <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
+    <string name="dialog_userapps">Scan Apps List</string>
+
+    <string name="userapp_scan_1">Userapp Checker fail.</string>
+    <string name="userapp_scan_2">run user app checks\u2026</string>
+    <string name="userapp_scan_3">Benutzeranwendungen mit RECORD AUDIO:\u0020</string>
+
+    <string name="userapp_scan_4">Keine Benutzeranwendungen gefunden.</string>
+    <string name="userapp_scan_5">Found User App services for\u0020</string>
+    <string name="userapp_scan_6">Found User App receivers for\u0020</string>
+    <string name="userapp_scan_7">AppEntry list:\u0020</string>
+
+    <string name="userapp_scan_8">Apps die Audio aufnehmen gefunden:\u0020</string>
+    <string name="userapp_scan_9">Keine Apps die Audio aufnehmen gefunden.</string>
+    <string name="userapp_scan_10">\u0020mögliche NUHF/ACR SDK Namen erkannt. Siehe die Benutzeranwendung Zusammenfassung für mehr Informationen.</string>
+    <string name="userapp_scan_11">Keine NUHF/ACR SDK Paketnamen erkannt.</string>
+    <string name="userapp_scan_12">Keine Benutzeranwendungen gefunden.</string>
+    <string name="userapp_scan_13">Benutzeranwendung Zusammenfassung.</string>
+    <string name="userapp_scan_14">Fehler bei der Suche nach Hintergrundanwendungen.</string>
+    <string name="userapp_scan_15">Possible NUHF/ACR SDK signature(s) with RECORD_AUDIO capability found.</string>
+    <string name="userapp_scan_16">NUHF/ACR SDK signatures with RECORD_AUDIO capability not found.</string>
+
+    <string name="userapp_scan_intro_1">SDKs die Audio verfolgen haben oft mindestens in drei der Kategorien ein TRUE.</string>
+    <string name="userapp_scan_intro_2">Dies ist jedoch kein Beweis für das Vorhandensein oder die Aktivität eines solchen Trackers.</string>
+    <string name="userapp_scan_intro_3">Name der Benutzeranwendung</string>
+    <string name="userapp_scan_intro_4">Paketname der Benutzeranwendung</string>
+    <string name="userapp_scan_intro_5">RECORD - benutzt das Mikrofon</string>
+    <string name="userapp_scan_intro_6">BOOT - App kann automatisch mit dem System gestartet werden</string>
+    <string name="userapp_scan_intro_7">SERVICE - Langzeit-Hintergrundaktivität</string>
+    <string name="userapp_scan_intro_8">RECEIVER -  Sendet oder empfängt Nachrichten vom System oder anderen Apps</string>
+    <string name="userapp_scan_intro_9">NUHF/ACR SDK - Paketname wurde in aktueller SDK gefunden</string>
+    <string name="userapp_scan_intro_10">ACCESSIBILITY - Spezialfunktionen über den Gerätestatus</string>
+    <string name="userapp_scan_intro_11">SERVICE with SDK - First service name found matching SDK list</string>
+    <string name="userapp_scan_intro_12">RECEIVER with SDK - First receiver name found matching SDK list</string>
+
+    <!--
+    appEntry dialog text
+    -->
+    <string name="app_entry_text_1">SERVICE with SDK</string>
+    <string name="app_entry_text_2">Full Services list:</string>
+    <string name="app_entry_text_3">RECEIVER with SDK</string>
+    <string name="app_entry_text_4">Full Receivers list:</string>
+
+    <!--
+     recording callback
+    -->
+    <string name="recording_callback_silenced">PilferShush WARNUNG: Eine andere App hat die Kontrolle über das Mikrofon.</string>
+    <string name="recording_callback_not_silenced">PilferShush hat die Kontrolle über das Mikrofon.</string>
+    <!--
+     Passive jammer app widget
+    -->
+    <string name="passive_appwidget_name">Passive Jammer Control</string>
+    <string name="passive_appwidget_text">Passive Control</string>
+    <string name="passive_add_widget">Add widget</string>
+
+</resources>
