@@ -26,9 +26,11 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
     private boolean isSilenced = false;
     private final Context context;
     private Toast toast;
+    private final int retriggerCounter;
 
-    public RecordingCallback(Context context) {
+    public RecordingCallback(Context context, int retriggerCounter) {
         this.context = context;
+        this.retriggerCounter = retriggerCounter;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -43,7 +45,11 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
                     AudioRecordingConfiguration config = configs.get(i);
                     isSilenced = config.isClientSilenced();
                 }
-                displayWarning(isSilenced);
+                // check excessiveRetrigger toast problem
+                Log.d(TAG, "ExcessiveCounter in callback: " + retriggerCounter);
+                if (retriggerCounter <= 3) {
+                    displayWarning(isSilenced);
+                }
                 // maybe get audioSource for added info about possible type of app takeover of mic
             } else {
                 Log.d(TAG, "No audioConfig found");

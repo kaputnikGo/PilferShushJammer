@@ -29,7 +29,7 @@ public class PassiveJammer {
 
     private final boolean DEBUG;
 
-    public PassiveJammer(Context context, Bundle audioBundle) {
+    public PassiveJammer(Context context, Bundle audioBundle, int retriggerCounter) {
         this.context = context;
         this.audioBundle = audioBundle;
         DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
@@ -39,7 +39,7 @@ public class PassiveJammer {
         // it is never written to.
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            recordCallback = new RecordingCallback(context);
+            recordCallback = new RecordingCallback(context, retriggerCounter);
         }
     }
 

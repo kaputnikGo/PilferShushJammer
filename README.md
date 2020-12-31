@@ -40,28 +40,29 @@ Note: APK signing with API30 needs v2/v3 - not v1
 Note: currently only testing on ARMv7 with single mic,
 need to get aarch64/arm64 device with multiple mics.
 
+Note: Microphone source switch setting from VOICE_COMM to DEFAULT will cause
+passive jammer to lose concurrent audio focus and stop blocking the microphone
+
 
 **TODO:**
 - Omnibox voice search winning concurrent audio mic control
-- concurrent audio fight results in toast loop from passive service:
-- E/NotificationService: Package has already posted 25 toasts. Not showing more. Package=cityfreqs.com.pilfershushjammer
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
 - URGENT Android 10 concurrent audio continue testing
 - URGENT Android 11 changes to concurrent audio
-- get an arm64 multi mic device
 - check against Concurrent Capture 5.4.5 `[C-1-1]` AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
 - Android 11 changes to foreground services and mic access, remember its just a trigger
 - Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
+- .
 - inconsistent behaviour with widget and jammer service state
 - Android 8.x service crashes specifically to its API
 - testing Active Jammer as external voice assistant jammer
-- .
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
+- get an arm64 multi mic device
 
 
 **Changes:**

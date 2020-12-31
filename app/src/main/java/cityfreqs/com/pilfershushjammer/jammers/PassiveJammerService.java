@@ -35,6 +35,7 @@ public class PassiveJammerService extends Service {
     private PassiveJammer passiveJammer;
     private Bundle audioBundle;
     private NotificationCompat.Builder notifyPassiveBuilder;
+    private int retriggerCounter;
 
     public PassiveJammerService() {
         //default, for the manifest
@@ -43,6 +44,7 @@ public class PassiveJammerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        retriggerCounter = 0;
     }
 
     @Override
@@ -131,7 +133,7 @@ public class PassiveJammerService extends Service {
     }
 
     private void startPassiveService() {
-        passiveJammer = new PassiveJammer(getApplicationContext(), audioBundle);
+        passiveJammer = new PassiveJammer(getApplicationContext(), audioBundle, retriggerCounter);
         if (passiveJammer.startPassiveJammer()) {
             if (!passiveJammer.runPassiveJammer()) {
                 // has record state errors
@@ -139,9 +141,12 @@ public class PassiveJammerService extends Service {
                 return;
             }
             notifyFragment("true");
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.service_state_4),
-                    Toast.LENGTH_SHORT).show();
+            // allow only up to 2 retrigger toasts, else excessive
+            if (retriggerCounter <= 3) {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.service_state_4),
+                        Toast.LENGTH_SHORT).show();
+            }
 
             Notification notification = notifyPassiveBuilder.build();
             notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
@@ -151,12 +156,27 @@ public class PassiveJammerService extends Service {
         }
     }
 
+    private void excessiveRestart() {
+        // possible fight loop in Android 10 with user focus app gaining mic access,
+        // usecase example: googlevoicesearch/omnibox
+        // assumption is that as app has focus, then user wants mic to be used here
+        // and PSJAM retrigger toasts will be annoying and unwanted.
+        // is separate function in case of use for it, or better notify to user etc
+        Toast.makeText(getApplicationContext(),
+                "Excessive retriggers means jammer stopping now.",
+                Toast.LENGTH_SHORT).show();
+        stopPassiveService();
+    }
+
     private void stopPassiveService() {
         if (passiveJammer != null) {
             passiveJammer.stopPassiveJammer();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.service_state_5),
-                    Toast.LENGTH_SHORT).show();
+            // allow only up to 2 retrigger toasts, else excessive
+            if (retriggerCounter <= 3) {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.service_state_5),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
         //
         unregisterReceiver(headsetReceiver);
@@ -180,8 +200,17 @@ public class PassiveJammerService extends Service {
         notifyFragment("false");
         stopForeground(true);
         // then restart
-        startPassiveService();
-        Log.d(TAG, "retriggerPassive called.");
+        // check for retrigger count is excessive
+        // excessive counts approx 20-40 are nuts, mute them, testing count of 3
+        retriggerCounter++;
+        if (retriggerCounter >= 3) {
+            Log.d(TAG, "excessiveRestart called at counter: " + retriggerCounter);
+            excessiveRestart();
+        }
+        else {
+            startPassiveService();
+            Log.d(TAG, "retriggerPassive called at counter: " + retriggerCounter);
+        }
     }
 
     private void widgetPassive() {
