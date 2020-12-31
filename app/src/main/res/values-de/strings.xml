@@ -36,7 +36,7 @@
 
     <string name="doze_dialog_title">Einstellungen</string>
     <string name="doze_dialog_1">PilferShush Jammer erbittet die Aufnahme in die Ausnahmeliste für Android-System-Batterieoptimierungen.</string>
-    <string name="doze_dialog_2">Ab Android 6.0 (API 23) Marshmallow wurde von Android eine neue Doze-Batterieerhaltungsfunktion eingeführt, die die Hintergrund-CPU-Aktivität für einige Zeit aussetzt.</string>
+    <string name="doze_dialog_2">Ab Android 6.0 (API 23) Marshmallow wurde von Android eine neue Doze-Batterieerhaltungsfunktion eingeführt, die Hintergrund-CPU-Aktivität für einige Zeit aussetzt.</string>
     <string name="doze_dialog_3">Diese App benötigt zwar nur sehr geringe bis vernachlässigbare Ressourcen, der passive Mikrofon Jammer benötigt jedoch einen Hintergrunddienst um zu funktionieren.</string>
     <string name="doze_dialog_4">Für einen langfristig zuverlässigen Einsatz des Jammers müssen alle Akku-Optimierer oder AKku-Manager so eingestellt werden, dass PilferShush ungehindert weiterlaufen kann.</string>
     <string name="doze_dialog_5">Um PilferShush zur System-Zulassungsliste hinzuzufügen, drücken Sie "weiter", um zur Seite mit den Android-Einstellungen zu gelangen, wählen Sie dann "Alle Anwendungen" aus dem Dropdown-Menü, suchen Sie nach PilferShush und wählen Sie es aus.</string>
@@ -223,7 +223,6 @@
         background userapp checker
         -->
     <string name="sdk_names_list">Liste der NUHF/ACR SDK durchsuchten Paket-Namen:\u0020</string>
-    <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
     <string name="userapp_scan_1">Userapp Checker fail.</string>

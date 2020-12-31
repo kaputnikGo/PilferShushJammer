@@ -5,6 +5,7 @@
 * removed notification xml icon crashing some devices
 * build tools update
 * add SDK name
+* German translation from https://github.com/c-4-m
 
 ### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment
