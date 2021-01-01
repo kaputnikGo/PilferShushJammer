@@ -397,7 +397,9 @@ public class HomeFragment extends Fragment {
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[14], false);
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[18], AudioSettings.WAVEFORM_SIN);
         audioBundle.putString(AudioSettings.AUDIO_BUNDLE_KEYS[19], "eqPreset not set");
-        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_DEFAULT);
+        // making VoIP the init mic source as default will not beat android10 concurrent audio
+        // test AudioSettings.MIC_SOURCE_VOICE_RECOG for Assistant spoofing, needs VoiceInteractionService etc
+        audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_VOICE_COMM);
 
         checkAudio(INIT_REQ);
 

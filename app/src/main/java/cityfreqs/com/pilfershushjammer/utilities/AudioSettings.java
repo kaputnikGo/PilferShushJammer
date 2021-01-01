@@ -43,6 +43,7 @@ public class AudioSettings {
     public static final int WAVEFORM_SAW = 2;
 
     public static final int MIC_SOURCE_DEFAULT = 0;
+    public static final int MIC_SOURCE_VOICE_RECOG = 6;
     public static final int MIC_SOURCE_VOICE_COMM = 7;
 
     public static final String[] JAMMER_TYPES = new String[]{

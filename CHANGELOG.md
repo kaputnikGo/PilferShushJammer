@@ -7,6 +7,7 @@
 * add SDK name
 * German translation from https://github.com/c-4-m
 * Excessive retrigger counter for concurrent audio loss via UI focus
+* revert back to VOICE_COMM as mic source due to Android 10 concurrent audio
 
 ### 4.5.2 (2020-10-16)
 * bugfix for adding already added fragment
