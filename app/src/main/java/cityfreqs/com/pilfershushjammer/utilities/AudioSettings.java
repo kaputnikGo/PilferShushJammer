@@ -45,6 +45,9 @@ public class AudioSettings {
     public static final int MIC_SOURCE_DEFAULT = 0;
     public static final int MIC_SOURCE_VOICE_RECOG = 6;
     public static final int MIC_SOURCE_VOICE_COMM = 7;
+    public static final int MIC_SOURCE_HOTWORD = 1999;
+    // Hotword requires android.Manifest.permission.HOTWORD_RECOGNITION
+    // also: android.permission.CAPTURE_AUDIO_HOTWORD ("Not for use by third-party applications.")
 
     public static final String[] JAMMER_TYPES = new String[]{
             "Slow audible test tone drift (~440Hz)",

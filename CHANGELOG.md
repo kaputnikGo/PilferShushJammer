@@ -1,4 +1,4 @@
-### 4.5.3 (unreleased)
+### 4.5.3 (2021-1-02)
 * android manifest config for screen off display rotate
 * audioManager property support near ultrasound check
 * packageInfo exception handling

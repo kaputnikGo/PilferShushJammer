@@ -49,7 +49,7 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 
 **TODO:**
 - minimum API bump to 21 (5.0, Lollipop), need to branch?
-- Chrome browser/Omnibox voice search winning concurrent audio mic control
+- Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
@@ -70,14 +70,18 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 
 
 **Changes:**
-- 4.5.2 (released Oct 16, 2020)
-- bugfix for adding already added fragment
-- mediaRecord check catch for exception on some devices
-- revert to DEFAULT as VOICE_COMM may cause Process_VoIP
-- added Settings switch for VOICE_COMM or DEFAULT
-- notes in AudioSettings.java
+- 4.5.3 (released January 2, 2021)
+- android manifest config for screen off display rotate
+- audioManager property support near ultrasound check
+- packageInfo exception handling
+- removed notification xml icon crashing some devices
+- build tools update
+- add SDK name
+- German translation from https://github.com/c-4-m
+- Excessive retrigger counter for concurrent audio loss via UI focus
+- revert back to VOICE_COMM as mic source due to Android 10 concurrent audio
 
-   vers. 4.5.2
+   vers. 4.5.3
    - min API 18 (4.3)
    - target API 29 (10.x)
    - compiled API 29 (10.x)
