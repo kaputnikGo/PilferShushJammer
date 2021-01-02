@@ -5,7 +5,7 @@
 * removed notification xml icon crashing some devices
 * build tools update
 * add SDK name
-* German translation from https://github.com/c-4-m
+* German translation from <https://github.com/c-4-m>
 * Excessive retrigger counter for concurrent audio loss via UI focus
 * revert back to VOICE_COMM as mic source due to Android 10 concurrent audio
 
