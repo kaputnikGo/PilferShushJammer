@@ -7,6 +7,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +38,7 @@
 
         <service
             android:name=".jammers.PassiveJammerService"
+            android:foregroundServiceType="microphone"
             android:enabled="true"
             android:exported="false"
             android:icon="@mipmap/ic_launcher"

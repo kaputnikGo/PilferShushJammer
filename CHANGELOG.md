@@ -1,3 +1,9 @@
+### 4.6.0 (unreleased)
+* min API bump to 21 (5.0, Lollipop)
+* github branch archive2 prior to min api 21 bump
+* Android 11 add foregroundServiceType
+* add <queries> intent for browser package access
+
 ### 4.5.3 (2021-1-02)
 * android manifest config for screen off display rotate
 * audioManager property support near ultrasound check

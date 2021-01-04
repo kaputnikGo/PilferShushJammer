@@ -33,7 +33,7 @@ import cityfreqs.com.pilfershushjammer.ui.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer-ACT";
-    public static final String VERSION = "4.5.3";
+    public static final String VERSION = "4.6.0";
     //public static final boolean DEBUG = true;
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private AlertDialog alertDialog;
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         dialogBuilder.setCancelable(true);
         dialogBuilder
                 .setPositiveButton(R.string.dialog_button_moreinfo, new DialogInterface.OnClickListener() {
+                    @SuppressLint("QueryPermissionsNeeded")
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.cityfreqs.com.au/pilfer.php"));
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         dialogBuilder.setCancelable(true);
         dialogBuilder
                 .setPositiveButton(R.string.dialog_button_source, new DialogInterface.OnClickListener() {
+                    @SuppressLint("QueryPermissionsNeeded")
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kaputnikGo/PilferShushJammer"));

@@ -15,15 +15,13 @@ System telephone calls will override and bump the Jammer from the microphone.
 Adds a notification as a reminder for running while in background.
 
 Tested and blocks Google Voice search (user) app.
-Currently testing Google Home and Omnibox app voice blocking.
+Currently testing Chrome/Omnibox/Assistant app voice blocking.
 
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
 Scan user installed apps for key features, possible NUHF/ACR SDK package name matches and services/receivers running.
 
 Jammers run as a foreground service
-
-Build update: compile API 29 (Q, 10.0), Android Studio 4.1.1 stable, Gradle 6.5
 
 Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
 Therefore, your app should record audio only when it's in the foreground or 
@@ -33,7 +31,7 @@ Note: Android 10 has new concurrent audio capture policy that means other record
 see <https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture>
 
 Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
-see <https://developer.android.com/preview/privacy/foreground-services>
+see <https://developer.android.com/about/versions/11/privacy/foreground-services>
 
 Note: APK signing with API30 needs v2/v3 - not v1
 
@@ -48,25 +46,30 @@ and RoleManager.ROLE_ASSISTANT and necessary services code
 see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 
 **TODO:**
-- minimum API bump to 21 (5.0, Lollipop), need to branch?
+- minimum API bump to 21 (5.0, Lollipop), branched
 - Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
-- URGENT Android 10 concurrent audio continue testing
-- URGENT Android 11 changes to concurrent audio
+- Android 11 changes to concurrent audio
 - check against Concurrent Capture 5.4.5 `[C-1-1]` AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
-- Android 11 changes to foreground services and mic access, remember its just a trigger
-- Android 11 requires manifest dec and foregroundServiceType(80) (microphone)
+- I/AppsFilter: interaction: PackageSetting{8c95e9c cityfreqs.com.pilfershushjammer/10154} -> PackageSetting{1739b10 com.android.chrome/10117} BLOCKED
 - .
 - inconsistent behaviour with widget and jammer service state
 - Android 8.x service crashes specifically to its API
-- testing Active Jammer as external voice assistant jammer
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
 - android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
 - consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
 - get an arm64 multi mic device
+
+
+**Build:**
+- min API 21 (5.0)
+- target API 20 (11.x)
+- compiled API 30 (11.x)
+- Android Studio 4.1.1 stable
+- Gradle 6.5
 
 
 **Changes:**
@@ -81,10 +84,6 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 - Excessive retrigger counter for concurrent audio loss via UI focus
 - revert back to VOICE_COMM as mic source due to Android 10 concurrent audio
 
-   vers. 4.5.3
-   - min API 18 (4.3)
-   - target API 29 (10.x)
-   - compiled API 29 (10.x)
 
    testing devices
    - EMU : Galaxy Nexus 4.3 (18) (Android Studio AVD, no GApps)
@@ -92,11 +91,11 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
    - EMU : Nexus 5X 7.0 (24) (Android Studio AVD, GApps)
    - EMU : Galaxy Nexus Oreo (27) (Android Studio AVD, GApps)
    - EMU : Pixel 3a 10.0 (29) (Android Studio AVD, GApps)
-   - LOW : s4 I9195 (deprecated) 4.3.1 (18)(CyanogenMod 10.2, F-Droid)
+   - LOW : s4 I9195 (antique) 5.1.1 (22)(CyanogenMod 12.1, F-Droid)
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)
    - MID : Galaxy Tab 2 GT-P5110 (minimal) 7.1.2 (25) (LineageOS 14.1, F-Droid)
    - DEV : s5 G900I (tainted) 10.0 (29)(LineageOS 17.1, GApps)
-   - PROD: s5 G900P 7.1.2 (25) (LineageOS 14.1, F-Droid)
+   - PROD: s5 G900P (nominal) 7.1.2 (25) (LineageOS 14.1, F-Droid)
  
  
 **App screenshots:**

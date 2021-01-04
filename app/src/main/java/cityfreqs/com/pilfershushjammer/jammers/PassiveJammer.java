@@ -79,12 +79,12 @@ public class PassiveJammer {
                         .setAudioSource(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[0]))
                             .setAudioFormat(new AudioFormat.Builder()
                                 //.setAudioPlaybackCaptureConfig(config) // api29 concurrent capture
-                                //.setPrivacySensitive(true) // api30 block concurrent capture
                                 .setEncoding(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[3]))
                                 .setSampleRate(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[1]))
                                 .setChannelMask(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[2]))
                                 .build())
                         .setBufferSizeInBytes(audioBundle.getInt(AudioSettings.AUDIO_BUNDLE_KEYS[4]))
+                        //.setPrivacySensitive(true) // api30 block concurrent capture, VoIP defaults this to true
                         .build();
                 }
                 else {
