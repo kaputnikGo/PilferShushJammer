@@ -329,6 +329,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private void assistDialog() {
         //TODO testing Voice Assistant jamming
+        // seems to only require one time setup in Settings OS window,
+        // then even if not selected as Default Assist app it still jams the omnibox... ??!!??
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
         dialogBuilder.setTitle(getResources().getString(R.string.debug_dialog_1));
         dialogBuilder.setMessage(getResources().getString(R.string.assist_dialog_2));
@@ -360,8 +362,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Log.d(TAG, "Attempting to activate/deactivate Assistant Jammer...");
         String assistant = Settings.Secure.getString(getContentResolver(), "voice_interaction_service");
 
-        if (assistant != null) {
+        if (assistant == null || assistant.isEmpty()) {
+            Log.d(TAG, "Setup assistant for voice interaction resulted in a null/empty string.");
+            // notes:
+            // Settings.java : @TestApi public static final String VOICE_INTERACTION_SERVICE = "voice_interaction_service";
+            // /*The currently selected voice interaction service flattened ComponentName.*/
+
+            // @UnsupportedAppUsage public static final String ASSISTANT = "assistant";
+            // /* The current assistant component. It could be a voice interaction service,
+            //  * or an activity that handles ACTION_ASSIST, or empty which means using the default
+            //  * handling.
+            // set using android.app.role.RoleManager#ROLE_ASSISTANT assistant role
+        }
+        else {
             ComponentName componentName = ComponentName.unflattenFromString(assistant);
+            Log.d(TAG, "ComponentName: " + componentName.toString());
 
             if (activate) {
                 if (componentName.getPackageName().equals(getPackageName())) {
@@ -397,9 +412,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                          .show();
                 }
             }
-        }
-        else {
-            Log.d(TAG, "Setup assistant for voice interaction resulted in a null.");
         }
     }
 

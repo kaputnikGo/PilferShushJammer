@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import cityfreqs.com.pilfershushjammer.R;
+
 public class AssistJammerSession extends VoiceInteractionSession {
 
     // taken from: https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow
@@ -24,7 +26,7 @@ public class AssistJammerSession extends VoiceInteractionSession {
         super.onHandleAssist(data, structure, content);
 
         Toast.makeText(getContext(),
-                "AssistJammer blocked the Assistant",
+                getContext().getResources().getString(R.string.assist_dialog_blocked),
                 Toast.LENGTH_SHORT)
                 .show();
     }

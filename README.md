@@ -41,14 +41,14 @@ need to get aarch64/arm64 device with multiple mics.
 Note: Microphone source switch setting from VOICE_COMM to DEFAULT will cause
 passive jammer to lose concurrent audio focus and stop blocking the microphone
 
-Note: Voice Assistant always wins (<30), consider blocking with BIND_VOICE_INTERACTION (api21) permission  
-and RoleManager.ROLE_ASSISTANT and necessary services code
+Note: Voice Assistant always wins (<30), testing BIND_VOICE_INTERACTION (api21/23) permission  
+and, possibly RoleManager.ROLE_ASSISTANT, with necessary services code
 see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 
 **TODO:**
 - minimum API bump to 21 (5.0, Lollipop), branched
 - Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
-- Assistant jammer requires min API 23 (M)
+- Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
