@@ -1,0 +1,5 @@
+<voice-interaction-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:recognitionService="cityfreqs.com.pilfershushjammer.assist.AssistJammerService"
+    android:sessionService="cityfreqs.com.pilfershushjammer.assist.AssistJammerSessionService"
+    android:supportsAssist="true" />

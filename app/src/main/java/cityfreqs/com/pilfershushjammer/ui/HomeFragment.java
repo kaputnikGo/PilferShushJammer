@@ -400,6 +400,8 @@ public class HomeFragment extends Fragment {
         // making VoIP the init mic source as default will not beat android10 concurrent audio
         // test AudioSettings.MIC_SOURCE_VOICE_RECOG for Assistant spoofing, needs VoiceInteractionService etc
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_VOICE_COMM);
+        // TODO testing Voice Assistant jamming, require manual trigger to start
+        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[20], false);
 
         checkAudio(INIT_REQ);
 

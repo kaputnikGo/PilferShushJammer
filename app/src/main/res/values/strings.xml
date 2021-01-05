@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">PilferShush Jammer</string>
     <string name="passive_service_name">PilferShush Passive</string>
     <string name="active_service_name">PilferShush Active</string>
@@ -222,7 +222,7 @@
     <!--
         background userapp checker
         -->
-    <string name="inspector_row_text">Element</string>
+    <string name="inspector_row_text" translatable="false">Element</string>
     <string name="sdk_names_list">List of NUHF/ACR SDK package names searched:\u0020</string>
     <string name="dialog_userapps">Scan Apps List</string>
 
@@ -278,5 +278,17 @@
     <string name="passive_appwidget_name">Passive Jammer Control</string>
     <string name="passive_appwidget_text">Passive Control</string>
     <string name="passive_add_widget">Add widget</string>
+
+    <!--
+     Assistant jammer - testing
+    -->
+    <string name="action_assist" tools:ignore="MissingTranslation">Assistant Jammer</string>
+    <string name="assist_dialog_1" tools:ignore="MissingTranslation">Voice Assistant Jammer</string>
+    <string name="assist_dialog_2" tools:ignore="MissingTranslation">Testing the Voice Assistant Jammer, which will utilise BIND_VOICE_INTERACTION in an attempt to intercept and block any VOICE_RECOGNITION or VOICE_ASSISTANT service running in the background.</string>
+    <string name="assist_dialog_3" tools:ignore="MissingTranslation">Tap on \'Assist app\' and choose PilferShush Jammer to activate</string>
+    <string name="assist_dialog_4" tools:ignore="MissingTranslation">Tap on \'Assist app\' and choose PilferShush Jammer to deactivate</string>
+    <string name="assist_dialog_activated" tools:ignore="MissingTranslation">Assistant Jammer is activated</string>
+    <string name="assist_dialog_deactivated" tools:ignore="MissingTranslation">Assistant Jammer is deactivated</string>
+    <string name="assist_dialog_blocked" tools:ignore="MissingTranslation">Assistant Jammer has blocked a Voice Interaction</string>
 
 </resources>

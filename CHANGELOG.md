@@ -3,6 +3,7 @@
 * github branch archive2 prior to min api 21 bump
 * Android 11 add foregroundServiceType
 * add <queries> intent for browser package access
+* prototyping Voice Assistant jammer
 
 ### 4.5.3 (2021-1-02)
 * android manifest config for screen off display rotate

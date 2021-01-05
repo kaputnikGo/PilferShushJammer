@@ -62,7 +62,7 @@ public class AudioSettings {
             "bufferInSize", "channelOutConfig", "bufferOutSize", "activeType", //7
             "jammerType", "userCarrier", "userLimit", "userSpeed", "hasEQ", //12
             "maxFreq", "bufferRead", "debug", "permissions", "formatOut", //17
-            "waveform", "eqPreset" //19
+            "waveform", "eqPreset", "voiceAssist" //20
     };
 
     /*

@@ -48,14 +48,14 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 **TODO:**
 - minimum API bump to 21 (5.0, Lollipop), branched
 - Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
+- Assistant jammer requires min API 23 (M)
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
 - Android 11 changes to concurrent audio
 - check against Concurrent Capture 5.4.5 `[C-1-1]` AudioSource.VOICE_RECOGNITION
 - Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
-- I/AppsFilter: interaction: PackageSetting{8c95e9c cityfreqs.com.pilfershushjammer/10154} -> PackageSetting{1739b10 com.android.chrome/10117} BLOCKED
-- .
+- ...
 - inconsistent behaviour with widget and jammer service state
 - Android 8.x service crashes specifically to its API
 - test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))

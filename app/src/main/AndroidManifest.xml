@@ -62,6 +62,21 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name="cityfreqs.com.pilfershushjammer.assist.AssistJammerService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+            <meta-data
+                android:name="android.voice_interaction"
+                android:resource="@xml/assist_service"/>
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="cityfreqs.com.pilfershushjammer.assist.AssistJammerSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"/>
+
         <receiver
             android:name=".utilities.BootReceiver"
             android:enabled="true"
