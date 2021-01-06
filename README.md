@@ -48,6 +48,7 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 **TODO:**
 - minimum API bump to 21 (5.0, Lollipop), branched
 - Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
+- Excessive and annoying toasts during concurrent fight, add option and counter logic
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
