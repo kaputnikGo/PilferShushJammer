@@ -47,8 +47,12 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
                 }
                 // check excessiveRetrigger toast problem
                 Log.d(TAG, "ExcessiveCounter in callback: " + retriggerCounter);
-                if (retriggerCounter <= 3) {
+                if (retriggerCounter < 3) {
                     displayWarning(isSilenced);
+                }
+                else if (retriggerCounter == 3) {
+                    // just show once...
+                    excessiveWarning();
                 }
                 // maybe get audioSource for added info about possible type of app takeover of mic
             } else {
@@ -80,9 +84,20 @@ public class RecordingCallback extends AudioManager.AudioRecordingCallback {
             warningText = context.getResources().getString(R.string.recording_callback_not_silenced);
             Log.d(TAG, "client is NOT silenced");
         }
-        toast = Toast.makeText(context, warningText, Toast.LENGTH_LONG);
+        toast = Toast.makeText(context, warningText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void excessiveWarning() {
+        if (toast != null) {
+            // cancel previous toasts if quick changes detected
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, "PilferShush WARNING: Another app is constantly trying to get access to the microphone.", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+        Log.d(TAG, "Excessive warning called.");
     }
 
     // As of Build.VERSION_CODES.O, this method is no longer available to third party applications.
