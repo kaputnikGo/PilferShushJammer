@@ -5,6 +5,7 @@
 * add <queries> intent for browser package access
 * prototyping Assistant/Omnibox jammer
 * add excessive retrigger warning
+* catch MediaRecorder placebo exception in some devices
 
 ### 4.5.3 (2021-1-02)
 * android manifest config for screen off display rotate

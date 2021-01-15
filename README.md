@@ -44,6 +44,9 @@ passive jammer to lose concurrent audio focus and stop blocking the microphone
 Note: Voice Assistant always wins (<30), testing BIND_VOICE_INTERACTION (api21/23) permission  
 and, possibly RoleManager.ROLE_ASSISTANT, with necessary services code
 see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
+and android.googlesource.com/platform/frameworks/base/marshmallow-release/./tests/VoiceInteraction/
+
+Note: perennial source of a few crashes : <https://stackoverflow.com/questions/48804456/how-to-fix-android-app-remoteserviceexception-without-any-message-not-related>
 
 **TODO:**
 - minimum API bump to 21 (5.0, Lollipop), branched
@@ -125,7 +128,7 @@ see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
 - Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
 
-# 2020 Kaputnik Go
+# 2021 Kaputnik Go
 
 
 Licensed under the Apache License, Version 2.0 (the "License");

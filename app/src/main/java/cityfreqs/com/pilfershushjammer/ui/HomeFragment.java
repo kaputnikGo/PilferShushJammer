@@ -400,7 +400,6 @@ public class HomeFragment extends Fragment {
         // making VoIP the init mic source as default will not beat android10 concurrent audio
         // test AudioSettings.MIC_SOURCE_VOICE_RECOG for Assistant spoofing, needs VoiceInteractionService etc
         audioBundle.putInt(AudioSettings.AUDIO_BUNDLE_KEYS[0], AudioSettings.MIC_SOURCE_VOICE_COMM);
-        // TODO testing Voice Assistant jamming, require manual trigger to start
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[20], false);
 
         checkAudio(INIT_REQ);
@@ -441,6 +440,11 @@ public class HomeFragment extends Fragment {
             }
             catch (IllegalStateException ex) {
                 entryLogger("attempt to determine audio record capability caused an exception.", true);
+                audioCheckerReturn = null;
+            }
+            catch (RuntimeException runex) {
+                // this is occurring on only a few devices, but this catch may help stop the placebo crashing the app
+                entryLogger("mediaRecorder placebo start caused a runtime exception.", true);
                 audioCheckerReturn = null;
             }
         }
