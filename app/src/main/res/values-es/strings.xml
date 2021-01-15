@@ -273,5 +273,16 @@
     <string name="passive_appwidget_text">Control pasivo</string>
     <string name="passive_add_widget">Añadir widget</string>
 
+    <!--
+     Assistant jammer
+    -->
+    <string name="action_assist">Assistant Jammer</string>
+    <string name="assist_dialog_1">Voice Assistant Jammer</string>
+    <string name="assist_dialog_2">The Voice Assistant Jammer is a new test feature that utilises the BIND_VOICE_INTERACTION permission in an attempt to intercept and block any VOICE_RECOGNITION or VOICE_ASSISTANT record audio service that tries to access the microphone. As with the Passive Jammer it will not record any audio and any Voice Assistants should get zeroed audio data. An Android Settings window may appear to allow you to select or deselect the PilferShush app to be the Assistant app. Despite the default Android warning, the PilferShush Assistant Jammer will not read any information about any apps other than via the Inspector</string>
+    <string name="assist_dialog_3">Tap on \'Assist app\' and choose PilferShush Jammer to activate</string>
+    <string name="assist_dialog_4">Tap on \'Assist app\' and choose PilferShush Jammer to deactivate</string>
+    <string name="assist_dialog_activated">Assistant Jammer is activated</string>
+    <string name="assist_dialog_deactivated">Assistant Jammer is deactivated</string>
+    <string name="assist_dialog_blocked">Assistant Jammer has blocked a Voice Interaction</string>
 
 </resources>

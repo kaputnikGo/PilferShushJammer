@@ -105,6 +105,12 @@ public class AudioSettings {
                 return "permission";
             case 17:
                 return "formatOut";
+            case 18:
+                return "waveform";
+            case 19:
+                return "eqPreset";
+            case 20:
+                return "voiceAssist";
             default:
                 return "unknown";
         }

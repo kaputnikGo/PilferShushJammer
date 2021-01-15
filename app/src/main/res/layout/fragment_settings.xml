@@ -149,6 +149,28 @@
                     app:layout_constraintRight_toRightOf="parent" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/assist_jammer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:layout_marginEnd="@dimen/half_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/assist_jammer_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_button_height"
+                    android:layout_marginBottom="@dimen/main_margin"
+                    android:background="@drawable/text_button_border"
+                    android:gravity="center"
+                    android:padding="@dimen/mini_margin"
+                    android:text="@string/assist_dialog_1"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout

@@ -26,11 +26,4 @@
         android:title="@string/action_debug"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_assist"
-        android:orderInCategory="40"
-        android:title="@string/action_assist"
-        app:showAsAction="never" />
-
-
 </menu>

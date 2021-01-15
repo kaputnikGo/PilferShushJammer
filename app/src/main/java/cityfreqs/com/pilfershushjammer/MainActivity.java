@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -157,9 +156,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 return true;
             case R.id.action_debug:
                 debugDialog();
-                return true;
-            case R.id.action_assist:
-                assistDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -325,94 +321,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         alertDialog = dialogBuilder.create();
         if(!isFinishing())
             alertDialog.show();
-    }
-
-    private void assistDialog() {
-        //TODO testing Voice Assistant jamming
-        // seems to only require one time setup in Settings OS window,
-        // then even if not selected as Default Assist app it still jams the omnibox... ??!!??
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        dialogBuilder.setTitle(getResources().getString(R.string.debug_dialog_1));
-        dialogBuilder.setMessage(getResources().getString(R.string.assist_dialog_2));
-        dialogBuilder.setCancelable(false);
-        dialogBuilder
-                .setPositiveButton(R.string.dialog_button_on, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        sectionsPagerAdapter.setAssistBoolean(true);
-                        Log.d(TAG, "Assist Jammer TRUE");
-                        activateAssistantJammer(true);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_button_off, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        sectionsPagerAdapter.setAssistBoolean(false);
-                        Log.d(TAG, "Assist Jammer FALSE");
-                        activateAssistantJammer(false);
-                    }
-                });
-
-        alertDialog = dialogBuilder.create();
-        if(!isFinishing())
-            alertDialog.show();
-    }
-
-    private void activateAssistantJammer(boolean activate) {
-        Log.d(TAG, "Attempting to activate/deactivate Assistant Jammer...");
-        String assistant = Settings.Secure.getString(getContentResolver(), "voice_interaction_service");
-
-        if (assistant == null || assistant.isEmpty()) {
-            Log.d(TAG, "Setup assistant for voice interaction resulted in a null/empty string.");
-            // notes:
-            // Settings.java : @TestApi public static final String VOICE_INTERACTION_SERVICE = "voice_interaction_service";
-            // /*The currently selected voice interaction service flattened ComponentName.*/
-
-            // @UnsupportedAppUsage public static final String ASSISTANT = "assistant";
-            // /* The current assistant component. It could be a voice interaction service,
-            //  * or an activity that handles ACTION_ASSIST, or empty which means using the default
-            //  * handling.
-            // set using android.app.role.RoleManager#ROLE_ASSISTANT assistant role
-        }
-        else {
-            ComponentName componentName = ComponentName.unflattenFromString(assistant);
-            Log.d(TAG, "ComponentName: " + componentName.toString());
-
-            if (activate) {
-                if (componentName.getPackageName().equals(getPackageName())) {
-                    // is already activated
-                    Toast.makeText(this,
-                            getResources().getString(R.string.assist_dialog_activated),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else {
-                // needs to add PilferShush Jammer in voice assist settings OS window to activate
-                    Toast.makeText(this,
-                            getResources().getString(R.string.assist_dialog_3),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
-                }
-            }
-            else {
-                if (componentName.getPackageName().equals(getPackageName())) {
-                    // is already activated, so can deactivate via OS settings window
-                    Toast.makeText(this,
-                            getResources().getString(R.string.assist_dialog_4),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
-                }
-                else {
-                    // is already deactivated so toast and ignore
-                    Toast.makeText(this,
-                            getResources().getString(R.string.assist_dialog_deactivated),
-                            Toast.LENGTH_SHORT)
-                         .show();
-                }
-            }
-        }
     }
 
     private void showPermissionsDialog(String message, DialogInterface.OnClickListener okListener) {

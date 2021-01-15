@@ -106,10 +106,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[16], permissionCheck);
     }
 
-    public void setAssistBoolean(boolean setBoolean) {
-        audioBundle.putBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[20], setBoolean);
-    }
-
     public Bundle getAudioBundle() {
         return audioBundle;
     }
