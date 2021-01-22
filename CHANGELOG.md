@@ -6,6 +6,8 @@
 * prototyping Assistant/Omnibox jammer
 * add excessive retrigger warning
 * catch MediaRecorder placebo exception in some devices
+* update Android Studio
+* add SDK name
 
 ### 4.5.3 (2021-1-02)
 * android manifest config for screen off display rotate

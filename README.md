@@ -70,9 +70,9 @@ Note: perennial source of a few crashes : <https://stackoverflow.com/questions/4
 
 **Build:**
 - min API 21 (5.0)
-- target API 20 (11.x)
+- target API 30 (11.x)
 - compiled API 30 (11.x)
-- Android Studio 4.1.1 stable
+- Android Studio 4.1.2 stable
 - Gradle 6.5
 
 
