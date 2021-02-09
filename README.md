@@ -49,6 +49,7 @@ and android.googlesource.com/platform/frameworks/base/marshmallow-release/./test
 Note: perennial source of a few crashes : <https://stackoverflow.com/questions/48804456/how-to-fix-android-app-remoteserviceexception-without-any-message-not-related>
 
 **TODO:**
+- Android 12 has a "mute microphone" settings switch - determine its scope
 - minimum API bump to 21 (5.0, Lollipop), branched
 - Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
 - Excessive and annoying toasts during concurrent fight, add option and counter logic
