@@ -284,5 +284,6 @@
     <string name="assist_dialog_activated">Assistant Jammer is activated</string>
     <string name="assist_dialog_deactivated">Assistant Jammer is deactivated</string>
     <string name="assist_dialog_blocked">Assistant Jammer has blocked a Voice Interaction</string>
+    <string name="assist_error_1">Unable to access Voice Assistant Settings</string>
 
 </resources>

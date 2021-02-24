@@ -271,7 +271,8 @@ public class SettingsFragment extends Fragment {
     }
 
     private void activateAssistantJammer(boolean activate) {
-        Log.d(TAG, "Assistant Jammer atempting to activate: " + activate);
+        // this is clunky while in testing mode
+        Log.d(TAG, "Assistant Jammer attempting to activate with: " + activate);
         String assistant = Settings.Secure.getString(context.getContentResolver(), "voice_interaction_service");
 
         // this catches the PS_Jammer being added to Settings/Default assist app page but not being selected,
@@ -287,7 +288,14 @@ public class SettingsFragment extends Fragment {
             context.startService(intent);
         }
         else {
-            Log.w(TAG, "AssistJammer is current voice activeService.");
+            // allow to switch it off as well
+            Log.w(TAG, "AssistJammer is current voice activeService, option to switch it off.");
+            //trip settings
+            startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
+            // start service
+            Intent intent = new Intent(context, AssistJammerService.class);
+            intent.setAction(Intent.ACTION_ASSIST);
+            context.startService(intent);
         }
 
         if (assistant == null || assistant.isEmpty()) {
@@ -301,9 +309,16 @@ public class SettingsFragment extends Fragment {
             //  * or an activity that handles ACTION_ASSIST, or empty which means using the default
             //  * handling.
             // set using android.app.role.RoleManager#ROLE_ASSISTANT assistant role
+
+            // add some useful info to UI...
+            Toast.makeText(context,
+                    getResources().getString(R.string.assist_error_1),
+                    Toast.LENGTH_SHORT)
+                    .show();
         }
         else {
             ComponentName componentName = ComponentName.unflattenFromString(assistant);
+            assert componentName != null;
             Log.d(TAG, "ComponentName: " + componentName.toString());
 
             if (activate) {
