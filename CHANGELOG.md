@@ -1,4 +1,4 @@
-### 4.6.0 (unreleased)
+### 4.6.0 (2021-2-24)
 * min API bump to 21 (5.0, Lollipop)
 * github branch archive2 prior to min api 21 bump
 * Android 11 add foregroundServiceType

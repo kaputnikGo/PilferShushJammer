@@ -78,16 +78,16 @@ Note: perennial source of a few crashes : <https://stackoverflow.com/questions/4
 
 
 **Changes:**
-- 4.5.3 (released January 2, 2021)
-- android manifest config for screen off display rotate
-- audioManager property support near ultrasound check
-- packageInfo exception handling
-- removed notification xml icon crashing some devices
-- build tools update
+- 4.6.0 (released February 24, 2021)
+- min API bump to 21 (5.0, Lollipop)
+- github branch archive2 prior to min api 21 bump
+- Android 11 add foregroundServiceType
+- add <queries> intent for browser package access
+- prototyping Assistant/Omnibox jammer
+- add excessive retrigger warning
+- catch MediaRecorder placebo exception in some devices
+- update Android Studio
 - add SDK name
-- German translation from <https://github.com/c-4-m>
-- Excessive retrigger counter for concurrent audio loss via UI focus
-- revert back to VOICE_COMM as mic source due to Android 10 concurrent audio
 
 
    testing devices

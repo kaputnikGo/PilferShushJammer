@@ -288,7 +288,9 @@ public class SettingsFragment extends Fragment {
             context.startService(intent);
         }
         else {
-            // allow to switch it off as well
+            // allow to switch it off as well,
+            // note: AOSP 5.1 No GApps Settings/Language&Input/Voice Input/ has no "none" option, so PSJam remains selected
+            // unless there is another app to toggle between...
             Log.w(TAG, "AssistJammer is current voice activeService, option to switch it off.");
             //trip settings
             startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
