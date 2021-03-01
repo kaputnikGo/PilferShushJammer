@@ -50,22 +50,14 @@ Note: perennial source of a few crashes : <https://stackoverflow.com/questions/4
 
 **TODO:**
 - Android 12 has a "mute microphone" settings switch - determine its scope
-- minimum API bump to 21 (5.0, Lollipop), branched
-- Chrome browser/Omnibox voice search winning concurrent audio mic control due to Assistant
-- Excessive and annoying toasts during concurrent fight, add option and counter logic
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
 - Android 11 changes to concurrent audio
-- check against Concurrent Capture 5.4.5 `[C-1-1]` AudioSource.VOICE_RECOGNITION
-- Android 11 move to AudioRecord.Builder for new setPrivacySensitive(boolean) method
-- ...
 - inconsistent behaviour with widget and jammer service state
 - Android 8.x service crashes specifically to its API
-- test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1))
-- android 5.1 emu fail to restart jamming activity from dismissed (possible crap emu, inconsistent, gets an anr on service)
-- consider min API bump to 23 (6.x) for AudioRecord.Builder, or at least 21 (5.0) for AudioAttributes
+- test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1)))
 - get an arm64 multi mic device
 
 
