@@ -49,7 +49,7 @@ and android.googlesource.com/platform/frameworks/base/marshmallow-release/./test
 Note: perennial source of a few crashes : <https://stackoverflow.com/questions/48804456/how-to-fix-android-app-remoteserviceexception-without-any-message-not-related>
 
 **TODO:**
-- Android 12 has a "mute microphone" settings switch - determine its scope
+- Android 12 (S, API31) has a "mute microphone" settings switch - determine its scope
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
