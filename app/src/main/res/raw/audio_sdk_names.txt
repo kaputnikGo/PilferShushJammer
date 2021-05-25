@@ -45,6 +45,7 @@ soniccode
 sonicnotify
 soundhound
 soundpays
+spokestack
 spotify
 tonetag
 trillbit

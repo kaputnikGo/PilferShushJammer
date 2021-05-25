@@ -88,7 +88,7 @@ Note: perennial source of a few crashes : <https://stackoverflow.com/questions/4
    - EMU : Nexus 5X 7.0 (24) (Android Studio AVD, GApps)
    - EMU : Galaxy Nexus Oreo (27) (Android Studio AVD, GApps)
    - EMU : Pixel 3a 10.0 (29) (Android Studio AVD, GApps)
-   - LOW : s4 I9195 (antique) 5.1.1 (22)(CyanogenMod 12.1, F-Droid)
+   - LOW : s4 I9195 (antique) 7.1.2 (25)( /e/ 0.13, Cleanapk)
    - SLO : Mts 5045D (tainted) 6.0.1 (23) (CyanogenMod 13.0, GApps)
    - MID : Galaxy Tab 2 GT-P5110 (minimal) 7.1.2 (25) (LineageOS 14.1, F-Droid)
    - DEV : s5 G900I (tainted) 10.0 (29)(LineageOS 17.1, GApps)
