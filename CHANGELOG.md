@@ -1,6 +1,7 @@
 ### 4.6.1 (ureleased)
 * build dependencies update
 * new SDK name
+* device list update
 
 * min API bump to 21 (5.0, Lollipop)
 * github branch archive2 prior to min api 21 bump
