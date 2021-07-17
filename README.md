@@ -21,11 +21,7 @@ Active jammer - tone and white noise versions, boost EQ for higher amplitude.
 
 Scan user installed apps for key features, possible NUHF/ACR SDK package name matches and services/receivers running.
 
-Jammers run as a foreground service
-
-Note: On devices running Android 9 (API level 28) or higher, apps running in the background cannot access the microphone. 
-Therefore, your app should record audio only when it's in the foreground or 
-**when you include an instance of MediaRecorder in a foreground service.**
+Jammers run as an instance of MediaRecorder in a foreground service
 
 Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
 see <https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture>
@@ -33,22 +29,14 @@ see <https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_captu
 Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
 see <https://developer.android.com/about/versions/11/privacy/foreground-services>
 
-Note: APK signing with API30 needs v2/v3 - not v1
-
-Note: currently only testing on ARMv7 with single mic,
-need to get aarch64/arm64 device with multiple mics.
+Note: APK app bundle will soon be necessary thing for Google Play Store, maintain apk here for FDroid
 
 Note: Microphone source switch setting from VOICE_COMM to DEFAULT will cause
 passive jammer to lose concurrent audio focus and stop blocking the microphone
 
-Note: Voice Assistant always wins (<30), testing BIND_VOICE_INTERACTION (api21/23) permission  
-and, possibly RoleManager.ROLE_ASSISTANT, with necessary services code
-see <https://github.com/commonsguy/cw-omnibus/tree/master/Assist/TapOffNow>
-and android.googlesource.com/platform/frameworks/base/marshmallow-release/./tests/VoiceInteraction/
-
-Note: perennial source of a few crashes : <https://stackoverflow.com/questions/48804456/how-to-fix-android-app-remoteserviceexception-without-any-message-not-related>
 
 **TODO:**
+- API 24 (7.0) minimum: add Quick Settings tile service for passive (req: android.permission.BIND_QUICK_SETTINGS_TILE)
 - Android 12 (S, API31) has a "mute microphone" settings switch - determine its scope
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
@@ -56,9 +44,6 @@ Note: perennial source of a few crashes : <https://stackoverflow.com/questions/4
 - see : <https://developer.android.com/guide/components/activities/background-starts>
 - Android 11 changes to concurrent audio
 - inconsistent behaviour with widget and jammer service state
-- Android 8.x service crashes specifically to its API
-- test android.permission.BIND_ACCESSIBILITY_SERVICE (API >= 16 (4.1)))
-- get an arm64 multi mic device
 
 
 **Build:**
