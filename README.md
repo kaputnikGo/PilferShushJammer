@@ -37,6 +37,7 @@ passive jammer to lose concurrent audio focus and stop blocking the microphone
 
 **TODO:**
 - API 24 (7.0) minimum: add Quick Settings tile service for passive (req: android.permission.BIND_QUICK_SETTINGS_TILE)
+- add sdk name print (link to exodus?) to Inspector dialog if nuhf/acr sdk found
 - Android 12 (S, API31) has a "mute microphone" settings switch - determine its scope
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
