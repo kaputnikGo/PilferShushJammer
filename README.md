@@ -49,10 +49,10 @@ passive jammer to lose concurrent audio focus and stop blocking the microphone
 
 **Build:**
 - min API 21 (5.0)
-- target API 30 (11.x)
-- compiled API 30 (11.x)
-- Android Studio 4.1.2 stable
-- Gradle 6.5
+- target API 30 (11.0)
+- compiled API 30 (11.0)
+- Android Studio 4.2.2 stable
+- Gradle 6.7.1
 
 
 **Changes:**
