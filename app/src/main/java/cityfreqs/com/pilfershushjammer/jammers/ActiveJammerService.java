@@ -1,18 +1,17 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import cityfreqs.com.pilfershushjammer.MainActivity;
 import cityfreqs.com.pilfershushjammer.R;
@@ -72,15 +71,13 @@ public class ActiveJammerService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent,0);
 
-        NotificationManager notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_LOW);
-            channel.setDescription(getResources().getString(R.string.service_state_1));
-            assert notifyManager != null;
-            notifyManager.createNotificationChannel(channel);
-        }
+        NotificationManagerCompat notifyManager = NotificationManagerCompat.from(this);
+        NotificationChannelCompat channel = new NotificationChannelCompat.Builder(
+                CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_LOW)
+                .setName(CHANNEL_NAME)
+                .setDescription(getResources().getString(R.string.service_state_1))
+                .build();
+        notifyManager.createNotificationChannel(channel);
 
         notifyActiveBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 

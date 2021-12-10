@@ -295,13 +295,7 @@ public class HomeFragment extends Fragment {
             Intent startIntent = new Intent(getActivity(), PassiveJammerService.class);
             startIntent.setAction(PassiveJammerService.ACTION_START_PASSIVE);
             startIntent.putExtras(audioBundle);
-            //API 26+ requires startForegroundService
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(startIntent);
-            }
-            else {
-                context.startService(startIntent);
-            }
+            ContextCompat.startForegroundService(context, startIntent);
             // 2 sec check for passive running (5 sec till timeout)
             serviceHandler.postDelayed(new Runnable() {
                 public void run() {
@@ -349,13 +343,7 @@ public class HomeFragment extends Fragment {
             Intent startIntent = new Intent(getActivity(), ActiveJammerService.class);
             startIntent.setAction(ActiveJammerService.ACTION_START_ACTIVE);
             startIntent.putExtras(audioBundle);
-            // API 26+
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(startIntent);
-            }
-            else {
-                context.startService(startIntent);
-            }
+            ContextCompat.startForegroundService(context, startIntent);
             ACTIVE_RUNNING = true;
             entryLogger(getResources().getString(R.string.main_scanner_5), true);
         }
