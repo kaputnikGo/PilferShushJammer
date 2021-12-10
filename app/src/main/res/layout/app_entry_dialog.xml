@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:id="@+id/app_entry_dialog"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin"
             android:layout_marginTop="@dimen/main_margin"

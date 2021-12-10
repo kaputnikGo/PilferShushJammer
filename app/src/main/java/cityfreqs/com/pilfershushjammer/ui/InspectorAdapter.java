@@ -31,7 +31,7 @@ public class InspectorAdapter extends RecyclerView.Adapter<InspectorAdapter.View
 
         @Override
         public void onClick(View v) {
-            clickListener.onClick(v, getAdapterPosition());
+            clickListener.onClick(v, getBindingAdapterPosition());
         }
     }
 

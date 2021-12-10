@@ -120,26 +120,21 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // called when fragment's activity method has returned
         debugLogger("OnActivityCreated called.", false);
         initApplication();
     }
 
-    // deprecated method
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    public void onResume() {
+        super.onResume();
+
         if (getView() != null) {
             DEBUG = audioBundle.getBoolean(AudioSettings.AUDIO_BUNDLE_KEYS[15], false);
             debugLogger("Home view visible", false);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         if (getActivity() != null) {
             getActivity().registerReceiver(passiveReceiver,
