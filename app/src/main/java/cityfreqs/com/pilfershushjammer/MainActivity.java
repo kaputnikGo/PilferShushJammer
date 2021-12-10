@@ -25,19 +25,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-import cityfreqs.com.pilfershushjammer.ui.SectionsPagerAdapter;
+import cityfreqs.com.pilfershushjammer.ui.SectionsStateAdapter;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer-ACT";
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private AlertDialog alertDialog;
 
-    SectionsPagerAdapter sectionsPagerAdapter;
-    ViewPager viewPager;
+    SectionsStateAdapter sectionsStateAdapter;
+    ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        viewPager = findViewById(R.id.view_pager);
+        sectionsStateAdapter = new SectionsStateAdapter(this, this);
+        viewPager2 = findViewById(R.id.view_pager);
 
-        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager2.setAdapter(sectionsStateAdapter);
         // maintain fragment state for num of pages
-        viewPager.setOffscreenPageLimit(sectionsPagerAdapter.getCount() - 1);
+        viewPager2.setOffscreenPageLimit(sectionsStateAdapter.getItemCount() - 1);
         TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        new TabLayoutMediator(tabLayout, viewPager2, ((tab, position) ->
+                tab.setText(sectionsStateAdapter.getPageTitle(position)))
+        ).attach();
 
         // permissions ask:
         // check API version, above 23 permissions are asked at runtime
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
             else {
                 //initApp
-                sectionsPagerAdapter.permissionCheckPassed(true);
+                sectionsStateAdapter.permissionCheckPassed(true);
             }
         }
         else {
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
             else {
                 //initApp
-                sectionsPagerAdapter.permissionCheckPassed(true);
+                sectionsStateAdapter.permissionCheckPassed(true);
             }
         }
     }
@@ -279,14 +282,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .setPositiveButton(R.string.dialog_button_on, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        sectionsPagerAdapter.setDebugBoolean(true);
+                        sectionsStateAdapter.setDebugBoolean(true);
                         Log.d(TAG, "Debug mode on TRUE");
                     }
                 })
                 .setNegativeButton(R.string.dialog_button_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        sectionsPagerAdapter.setDebugBoolean(false);
+                        sectionsStateAdapter.setDebugBoolean(false);
                         Log.d(TAG, "Debug mode on FALSE");
                     }
                 });
@@ -318,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
             else {
                 //initApp
-                sectionsPagerAdapter.permissionCheckPassed(true);
+                sectionsStateAdapter.permissionCheckPassed(true);
             }
         }
         else {
