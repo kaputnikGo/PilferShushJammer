@@ -108,11 +108,6 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -242,23 +237,13 @@ public class HomeFragment extends Fragment {
         sharedPrefsEditor.apply();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     /**********************************************************************************************/
 
     private void populateElements(){
         homeText.setTextColor(Color.parseColor("#00ff00"));
         homeText.setMovementMethod(new ScrollingMovementMethod());
         homeText.setSoundEffectsEnabled(false); // no further click sounds
-        homeText.setOnClickListener(new TextView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // nothing
-            }
-        });
+        homeText.setOnClickListener(null);
 
         passiveJammerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

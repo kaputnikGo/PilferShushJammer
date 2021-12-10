@@ -81,11 +81,6 @@ public class InspectorFragment extends Fragment implements InspectorAdapter.Recy
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inspector, container, false);
 
@@ -131,12 +126,7 @@ public class InspectorFragment extends Fragment implements InspectorAdapter.Recy
         scannerText.setTextColor(Color.parseColor("#00ff00"));
         scannerText.setMovementMethod(new ScrollingMovementMethod());
         scannerText.setSoundEffectsEnabled(false); // no further click sounds
-        scannerText.setOnClickListener(new TextView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // nothing
-            }
-        });
+        scannerText.setOnClickListener(null);
 
         appInspectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

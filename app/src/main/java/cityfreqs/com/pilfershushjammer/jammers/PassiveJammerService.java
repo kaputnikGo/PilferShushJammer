@@ -48,12 +48,6 @@ public class PassiveJammerService extends Service {
     }
 
     @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        // called when app removed from running apps list
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // possible 8.x req for startForeground(NOTIFY_ID, createNotification()); here
         registerReceiver(notifyStopReceiver, new IntentFilter("notifyStopPassive"));
@@ -89,11 +83,6 @@ public class PassiveJammerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        //
     }
 
     private void createNotification() {

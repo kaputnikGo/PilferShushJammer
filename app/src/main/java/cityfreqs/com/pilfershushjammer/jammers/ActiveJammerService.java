@@ -36,17 +36,6 @@ public class ActiveJammerService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        // called when app removed from running apps list
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         audioBundle = new Bundle();
         if (intent != null) {
@@ -75,11 +64,6 @@ public class ActiveJammerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        //
     }
 
     private void createNotification() {

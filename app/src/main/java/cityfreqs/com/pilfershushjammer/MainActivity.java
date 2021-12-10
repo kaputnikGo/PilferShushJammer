@@ -112,33 +112,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onBackPressed() {
         moveTaskToBack(true);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @SuppressLint("NonConstantResourceId")
