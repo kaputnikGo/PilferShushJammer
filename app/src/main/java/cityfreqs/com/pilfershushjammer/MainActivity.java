@@ -33,8 +33,6 @@ import cityfreqs.com.pilfershushjammer.ui.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "PilferShush_Jammer-ACT";
-    public static final String VERSION = "4.6.0";
-    //public static final boolean DEBUG = true;
     private static final int REQUEST_AUDIO_PERMISSION = 1;
     private AlertDialog alertDialog;
 
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         + (getResources().getString(R.string.about_dialog_5));
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        dialogBuilder.setTitle(getResources().getString(R.string.about_version) + VERSION);
+        dialogBuilder.setTitle(getResources().getString(R.string.about_version) + BuildConfig.VERSION_NAME);
         dialogBuilder.setMessage(aboutString);
         dialogBuilder.setCancelable(true);
         dialogBuilder
