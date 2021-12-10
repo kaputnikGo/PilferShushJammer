@@ -3,7 +3,6 @@ package cityfreqs.com.pilfershushjammer.ui;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
@@ -126,11 +125,7 @@ public class AppEntryDialog {
 
     public Dialog buildDialog() {
         builder.setCancelable(true);
-        builder.setPositiveButton(R.string.dialog_button_okay, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // OK
-            }
-        });
+        builder.setPositiveButton(R.string.dialog_button_okay, null);
 
         // create dialog and return it
         return builder.create();

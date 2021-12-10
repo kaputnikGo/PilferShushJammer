@@ -1,7 +1,6 @@
 package cityfreqs.com.pilfershushjammer.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
@@ -395,12 +395,7 @@ public class SettingsFragment extends Fragment {
                         }
                     }
                 })
-                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // dismissed
-                    }
-                });
+                .setNegativeButton(R.string.dialog_button_cancel, null);
         alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
@@ -439,12 +434,7 @@ public class SettingsFragment extends Fragment {
                                 + userInputCarrier, false);
                     }
                 })
-                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // dismissed
-                    }
-                });
+                .setNegativeButton(R.string.dialog_button_cancel, null);
 
         alertDialog = dialogBuilder.create();
         alertDialog.show();
@@ -485,12 +475,7 @@ public class SettingsFragment extends Fragment {
 
                     }
                 })
-                .setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // dismissed
-                    }
-                });
+                .setNegativeButton(R.string.dialog_button_cancel, null);
 
         alertDialog = dialogBuilder.create();
         alertDialog.show();
