@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/inspector_layout_intro"
         android:layout_width="@dimen/zero_margin"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="@dimen/main_margin"
         android:layout_marginTop="@dimen/main_margin"
         android:layout_marginEnd="@dimen/main_margin"
