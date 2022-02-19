@@ -1,0 +1,38 @@
+PilferShush Jammer, mikrofonu sizin bilginiz dışında kullanmaya çalışan diğer uygulamaları engeller. Bazı uygulamalar, yakındaki işaretçiler, televizyon reklamları, akışlı müzik hizmetleri veya web siteleri tarafından oluşturulan arka planda izleme sesini kaydetmek için gizli işlemler kullanır. Bu izleme sesi, tipik insan işitme aralığının ötesinde, ancak tipik bir Android telefonun kayıt aralığı içinde olan 18 kHz ve 22 kHz (ultra yüksek frekansa yakın) arasında iletilir.
+
+Gizli uygulama süreçleri tarafından mikrofonun istenmeyen kullanımını engellemek için PilferShush Jammer, Android sisteminden donanım mikrofonunun kullanılmasını talep eder ve tutar. Bu teknik, mikrofona erişmeye çalışan diğer uygulamalardan mikrofonu kilitler. Bu teknik, sistem uygulamalarında değil, yalnızca kullanıcı uygulamalarında test edilmiştir. Android sistemi, bir telefon araması alındığında veya yapıldığında, PilferShush Jammer'ın mikrofonu engellemesini durdurmalıdır.
+
+Karıştırma tekniği çalışırken ve mikrofon kilitliyken, PilferShush Jammer, kullanıcının çalıştığını bildirmek için bir bildirim gönderir. Testler, bir saatten fazla çalışırken %0 CPU, %0 ağ ve 43.6mb RAM kullandığını göstermiştir.
+
+Bu, Android ve IoT dünyasında sesli karşı gözetleme yöntemlerine yönelik araştırmanın bir parçası olarak yapılmış deneysel bir uygulamadır.
+
+Mikrofona erişip kilitleyebilmesi için RECORD_AUDIO izni gerektirir.
+
+* Herhangi bir ses kaydetmez veya dinlemez.
+* İnternete BAĞLANMAZ.
+
+'''Sürüm 2.0 Aktif Jammer ilavesi:'''
+
+Tonlar, cihazın özelliklerine bağlı olarak tümü 18 kHz ila 24 kHz arasında NUHF ile sınırlandırılmış bir oranda bir taşıyıcı frekans ve bir drift limiti ile yayılabilir. Örneğin 20000 Hz taşıyıcı, 1000 Hz sürüklenme sınırı ve yavaş hız - yaklaşık olarak her saniyede 19 kHz ile 21 kHz arasında rasgele frekans verir.
+
+'''Sürüm 3.0 Jammer'lar hizmet olarak çalışır:'''
+
+Hem aktif hem de pasif bozucular artık çalışıp çalışmadıklarını doğru bir şekilde göstermesi gereken (ön plan) bir hizmet olarak çalışıyor. Bu, hem Android işletim sistemine (güç yönetimi) hem de çalışan hizmetleri yok edebilecek Uygulama Yöneticilerine bağlıdır.
+
+Bu uygulama mikrofon kullanımını engellemeye çalıştığından, bildirimi KAPATMAMAK veya GİZLEMEMEK önemlidir, aksi takdirde çalıştığını unutabilirsiniz.
+
+Ayrıca, NUHF ve Ses İçeriği Tanıma (ACR) SDK'ları için kullanıcı tarafından yüklenen uygulamaları ve ayrıca herhangi bir hizmet veya alıcıyı kontrol etmek için bir tarayıcı içerir.
+
+'''Sürüm 4.0 Yeniden Tasarım'''
+Bilgileri daha net hale getirmek ve uygulamanın tipik kullanımlarını basitleştirmek için tasarımın büyük bir revizyonu
+
+Notlar:
+Daha iyi Aktif jammer ses çıkış kodunu araştırmaya devam ediyoruz.
+
+Beyaz gürültü çıkışı engellemede çok etkili olmayabilir ve biraz rahatsız edici bir sestir.
+
+Hoparlör çıkışı, istenmeyen NUHF sinyallerini engellemek için yeterli genliğe sahip olmayabilir - test belirleyecektir.
+
+
+Kaynak kodu mevcuttur: <a href="https://github.com/kaputnikGo/PilferShushJammer">PilferShush Jammer Github</a>
+Araştırma ve Proje web sayfası: <a href="https://www.cityfreqs.com.au/pilfer.php">Şehir Frekansları PilferShush<a/>
