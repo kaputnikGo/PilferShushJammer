@@ -108,7 +108,7 @@ passive jammer to lose concurrent audio focus and stop blocking the microphone
 - Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
 
-# 2021 Kaputnik Go
+# 2022 Kaputnik Go
 
 
 Licensed under the Apache License, Version 2.0 (the "License");
