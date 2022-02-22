@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PilferShush Jammer</string>
+    <string name="passive_service_name">PilferSus Pasif</string>
+    <string name="active_service_name">PilferShush Aktif</string>
+    <string name="action_about">Hakkında</string>
+    <string name="action_readme">Beni Oku</string>
+    <string name="action_power">Güç</string>
+    <string name="action_debug">Hata ayıklama</string>
+
+    <string name="action_power_state">Yalnızca Android 6.0 (API 23) Marshmallow ve sonraki sürümler için kullanılabilir.</string>
+
+    <string name="tab_text_1">Başlangıç</string>
+    <string name="tab_text_2">Kontroller</string>
+    <string name="tab_text_3">Ayarlar</string>
+
+    <string name="perms_state_1">Ses kaydı</string>
+    <string name="perms_state_2_1">PilferShush Jammer'ın mikrofona erişmek ve mikrofonun sıkışmasını etkinleştirmek için bir izin isteğinde bulunması gerekir, aksi takdirde bu uygulama çalışmaz.</string>
+    <string name="perms_state_2_2">Bu uygulama herhangi bir sesi dinlemez, herhangi bir ses kaydetmez ve internete bağlanmaz.</string>
+    <string name="perms_state_3">İzin reddedildi, lütfen bu uygulamayı kapatın, RECORD AUDIO izni olmadan çalışmaz.</string>
+    <string name="perms_state_4">RECORD_AUDIO izni verilmediği için uygulama kapatılıyor.</string>
+
+    <string name="dialog_button_save">Kaydet</string>
+    <string name="dialog_button_cancel">İptal et</string>
+    <string name="dialog_button_okay">Tamam</string>
+    <string name="dialog_button_yes">EVET</string>
+    <string name="dialog_button_no">HAYIR</string>
+    <string name="dialog_button_off">KAPALI</string>
+    <string name="dialog_button_on">AÇIK</string>
+    <string name="dialog_button_dismiss">Reddet</string>
+    <string name="dialog_button_continue">Devam et</string>
+    <string name="dialog_button_source">GITHUB</string>
+    <string name="dialog_button_moreinfo">Daha fazla bilgi</string>
+    <string name="notify_stop_button">PASİF ET</string>
+
+    <string name="options_dialog_1">Tampon okuma kilidi</string>
+
+    <string name="doze_dialog_title">Ayarları değiştir</string>
+    <string name="doze_dialog_1">PilferShush Jammer, Android sistemi Pil Optimizasyonları istisnaları izin verilenler listesinde yer almayı talep ediyor.</string>
+    <string name="doze_dialog_2">Android 6.0'dan (API 23) Marshmallow'dan itibaren, Android tarafından arka planda CPU etkinliğini belirli süreler boyunca erteleyen yeni bir (Doze) pil koruma işlevi tanıtıldı..</string>
+    <string name="doze_dialog_3">Bu uygulama çok düşük ila ihmal edilebilir kaynaklar kullanırken, Pasif Jammer mikrofonunun çalışması için bir arka plan hizmetinin çalışması gerekir.</string>
+    <string name="doze_dialog_4">Jammer'ın uzun süreli güvenilir kullanımı için, PilferShush'ın engellenmeden çalışmaya devam etmesine izin vermek için herhangi bir pil optimize edici veya yöneticinin ayarlanması gerekir.</string>
+    <string name="doze_dialog_5">PilferShush'ı sistem izin verilenler listesine eklemek için Android Ayarları sayfasına ilerlemek üzere "devam"a basın, ardından açılır menüden "Tüm Uygulamalar"ı seçin, PilferShush'ı arayın ve seçin.</string>
+
+    <string name="audiofocus_check_1">Ses Odaklanma kontrolü\u2026</string>
+    <string name="audiofocus_check_2">Ses Odaklanma isteği verildi.</string>
+    <string name="audiofocus_check_3">Ses Odaklanma istek başarısız.</string>
+    <string name="audiofocus_check_4">Ses Odaklanma Bilinmeyen.</string>
+    <string name="audiofocus_check_5">Ses Odaklanma kesme isteği.</string>
+    <string name="audiofocus_check_6">Ses Odaklanma kesme isteği yok sayıldı.</string>
+    <string name="audiofocus_check_7">Ses Odaklanma kesme isteği verildi.</string>
+    <string name="audiofocus_check_8">IRQ_TELEPHONY loss_transient.</string>
+
+    <string name="resume_status_1">PASİF SERVİS BULUNDU</string>
+    <string name="resume_status_2">PASİF SERVİS BULUNAMADI</string>
+    <string name="resume_status_3">AKTİF HİZMET BULUNDU</string>
+    <string name="resume_status_4">AKTİF HİZMET BULUNAMADI</string>
+    <string name="resume_status_5">SES ODAKLANMA DEVAM ET</string>
+    <string name="resume_status_6">SES ODAK KAYBI DEVAM ET</string>
+    <string name="resume_status_7">runPassive() when PASSIVE_RUNNING</string>
+    <string name="resume_status_8">runActive() when ACTIVE_RUNNING</string>
+
+    <string name="main_scanner_1" translatable="false">Aktif</string>
+    <string name="main_scanner_2" translatable="false">Pasif</string>
+    <string name="main_scanner_3">Frekans bozmayı çalıştırma\u2026</string>
+    <string name="main_scanner_4">Frekans bozmayı durdur.</string>
+    <string name="main_scanner_5">Aktif frekans bozmayı çalıştırma\u2026</string>
+    <string name="main_scanner_6">Aktif frekans bozmayı durdur.</string>
+
+    <string name="main_inspector_1" translatable="false">Özet</string>
+    <string name="main_inspector_2" translatable="false">Denetle</string>
+    <string name="main_inspector_3" translatable="false">SDK listesi</string>
+
+    <string name="app_status_1">Frekans bozucu çalışıyor,</string>
+    <string name="app_status_2">Frekans bozucu çalışmıyor,</string>
+    <string name="app_status_3">Frekans bozucu aktif.</string>
+    <string name="app_status_4">Frekans bozucu çalışmıyor.</string>
+    <string name="app_status_5">EQ kapalı.</string>
+    <string name="app_status_6">EQ açık.</string>
+    <string name="app_status_7">EQ kullanılabilir değil.</string>
+    <string name="app_status_8">Jammer frekans tonu değiştirildi.</string>
+    <string name="app_status_9">Aktif jammer, beyaz gürültü moduna geçti.</string>
+    <string name="app_status_9_1">Aktif jammer gözcü moda geçti.</string>
+    <string name="app_status_10">Jammer çalışıyor.</string>
+    <string name="app_status_11">Aktif jammer çalışıyor.</string>
+    <string name="app_status_12">Uygulamaya dönmek için dokunun.</string>
+    <string name="app_status_13">Sinyal bozucu arabellek okuma kilidi etkinleştirildi. JAMMER TEKRAR BAŞLATMASI GEREKTİRİR.</string>
+    <string name="app_status_14">Sinyal bozucu arabellek okuma kilidi devre dışı bırakıldı. JAMMER TEKRAR BAŞLATMASI GEREKTİRİR.</string>
+    <string name="app_status_15">Dalga formu sinüse çevrildi.</string>
+    <string name="app_status_16">Dalga formu matris'e çevrildi.</string>
+    <string name="app_status_17">Dalga formu karma olarak değiştirildi.</string>
+
+    <string name="intro_1">PilferShush Jammer, donanım mikrofonunun istenmeyen ve gizli kullanımını engellemeye çalışır.</string>
+    <string name="intro_2">Mikrofonu devreye sokan ve diğer uygulamaların mikrofonu kullanmasını engelleyen bir frekans bozma tekniği ile.</string>
+    <string name="intro_3">Veya 18 kHz ila 24 kHz arasında tonlar veya beyaz gürültü yayan bir AKTİF bozucu aracılığıyla.</string>
+    <string name="intro_4">Bu uygulama, bu işlem sırasında mikrofondan gelen seslerin hiçbirini dinlemez veya kaydetmez..</string>
+    <string name="intro_5">Bilgi özeti, kullanıcı tarafından yüklenen tüm uygulamalarla ilgili temel bilgileri gösterir.</string>
+    <string name="intro_6_1">Arama, açılır listeden seçilen belirli bir uygulama için listelenen arka plan hizmetlerini ve alıcıları gösterir.</string>
+    <string name="intro_6_2">Liste SDK, aranan NUHF/ACR paketlerinin adlarını gösterir.</string>
+    <string name="intro_6_3">Uygulamalar, her biri farklı adlara sahip birden çok paket içerebilir.</string>
+    <string name="intro_7">Etkin frekansı değiştirmek için Ayarlar'ı kullanın.</string>
+    <string name="intro_8">Aktif jammer olarak ayarlandı:\u0020</string>
+
+    <!--
+    readme dialog text
+    -->
+    <string name="readme_dialog_1">Beni oku</string>
+    <string name="readme_dialog_2">DENETLEYİCİ işlevi bir kanıt değil, yalnızca kullanıcıya cihazlarında yüklü uygulamalar hakkında daha fazla bilgi sağlamanın bir yoludur..</string>
+    <string name="readme_dialog_3">Özet: Kullanıcı tarafından yüklenen uygulamaları listeler ve ses kaydı yeteneği, önyüklemede başlatma, arka plan hizmetleri, arka plan alıcıları, NUHF/ACR SDK ad ekleme ve özel işlevler elde etmek için Erişilebilirlik hizmeti kullanımını kontrol eder.</string>
+    <string name="readme_dialog_4">Arama: belirli bir kullanıcı tarafından yüklenen uygulama ve sahip olduğu hizmetler veya alıcılar hakkında daha fazla bilgi sağlar. Bu isimler genellikle işlevlerinin bir göstergesidir ancak anlamsız, rastgele harfler olabilirler..</string>
+    <string name="readme_dialog_5">SDK listesi: ultra yüksek frekansa yakın dinleme ve/veya otomatik içerik tanıma yetenekleri sağlayan şirketlerin bilinen paketlerinin mevcut adlarıdır. PilferShush uygulaması, bu listeden eşleşen herhangi bir paket adı için kullanıcı tarafından yüklenen uygulamaları arar. Bu, herhangi bir uygulama davranışının kanıtı değildir, yalnızca kullanıcıya cihazlarındaki uygulamalar hakkında daha fazla bilgi sağlamanın bir yöntemidir..</string>
+    <string name="readme_dialog_6">PASIF Jammer, kullanıcı tarafından yüklenen uygulamaları, cihaz mikrofonunun istenmeyen kullanımına karşı birincil savunma yöntemidir. Bir seferde yalnızca bir kullanıcı uygulamasının mikrofonu kullanabileceği konusunda ısrar eden Android API'sinin mevcut bir özelliğini kullanır. PilferShush, Android sisteminden AudioRecord işlevi aracılığıyla mikrofona erişmesini ister ve ardından kaydı başlatmasını ister. Bu noktada mikrofon, istekte bulunan uygulamaya ses verileri sağlamaya hazırdır. PilferShush bu ses verilerini istemez, sadece mikrofondaki tutuşunu korur. Başlangıçta, eski Android cihazlarda bu yeterliydi, ancak sonraki sürümlerde artık bir MediaRecorder işlevi oluşturmak ve hazırlamak gerekiyor, böylece PilferShush'ın arka planda çalışırken mikrofona erişmesine hala izin veriliyor. Telefon gibi sistem uygulamaları her zaman mikrofonu geçersiz kılar ve mikrofonun kontrolünü alır. Kurulumlarına bağlı olarak bazı sesli yardımcılar ve erişilebilirlik uygulamaları bu pasif sıkışma sırasında mikrofona erişmeye devam edebilir. Android 10'dan (Q) itibaren mikrofonun eşzamanlı kullanımına izin verilir; bu, PilferShush arka planda parazit yaparken başka bir kullanıcı uygulamasının mikrofonu devralabileceği anlamına gelir. Şu anda sınırlı yanıtlar mümkündür, ancak bir Android 10 cihazının kullanıcısını başka bir uygulamanın mikrofonun kontrolüne sahip olduğunu ve PilferShush'ın mikrofonun engelleme kontrolünü yeniden kazanmaya çalıştığını bildirmek için ekranın ortasında bir açılır pencere görünmelidir. Daha fazla araştırma yapılıyor.</string>
+    <string name="readme_dialog_7">AKTİF Jammer, NUHF işaret sinyallerini 18000 hz ile 24000 hz arasında ölçülen NUHF aralıklarına giren rastgele seslerle karıştırmanın deneysel bir yöntemidir. NUHF işaretleri, hedeflediği belirli uygulamaya anlam kazandırmak için kodlanmış belirli tonları gönderir. Genellikle bu belirli tonlar, belirli bir frekans (taşıyıcı) etrafında ortalanır ve diğer anlamlı tonlar, bu frekansın (sapma sınırı) üstünde ve altında bir aralıkta yayılır. Bu NUHF işaret sinyallerinin yayını çok hızlı (sürüklenme hızı) ve insanların normalde duyamayacağı bir frekans aralığında çalınır. PilferShush aktif bozucu, aynı frekans aralığını anlamsız rastgele tonlarla doldurarak bu işaret sinyallerini engellemeye çalışır. Hangi belirli ayarların belirli bir NUHF işaret sinyaliyle eşleşmesinin muhtemel olduğunu bilmelisiniz,README (BENİ OKU) inceleyinz..</string>
+    <string name="readme_dialog_8">Daha fazla bilgi için proje web sayfasını tarayıcınızda açmak üzere "DAHA FAZLA BİLGİ" düğmesine tıklayın..</string>
+
+    <string name="about_version">version\u0020</string>
+    <string name="about_dialog_1">PilferShush Jammer Hakkında</string>
+    <string name="about_dialog_2">Bu, yerleşik mikrofonun istenmeyen, gizli kullanımını dikkat çekmeden engellemek için tasarlanmış deneysel bir araştırma uygulamasıdır..</string>
+    <string name="about_dialog_3">Ultra Yüksek Frekanslar veya Ses İçeriği Tanıma kullanan SDK paket adlarıyla olası eşleşmeleri bulmak için bir Denetleyiciye sahiptir. Arama yöntemi olumsuz tetiklemelere neden olabilir .</string>
+    <string name="about_dialog_4">PilferShush Jammer Github'da mevcuttur.</string>
+    <string name="about_dialog_5">Devam eden Android anti-sound gözetim araştırmasının bir parçası.</string>
+    <string name="about_dialog_6">Ses kaydı arabelleği okuma kilidini etkinleştirmek için aşağıdaki seçenek (CPU ek yükünde olası hafif artış).</string>
+
+    <string name="debug_dialog_1">Hata ayıklama modu</string>
+    <string name="debug_dialog_2">Bu mod, uygulama görünümlerine bazı ekstra mesajların yanı sıra ekli herhangi bir ADB'ye bazı Günlük mesajları yazdıracaktır.</string>
+
+    <string name="settings_label_1">Aktif Jammer Ayarları</string>
+    <string name="settings_label_2">Pasif Jammer Ayarları</string>
+
+    <string name="buffer_info_text_1">AudioRecord arabelleği okuma kilidini etkinleştir (daha fazla CPU)</string>
+    <string name="buffer_label_1">ETKİNLEŞTİR</string>
+    <string name="buffer_label_2">DEVRE DIŞI BIRAK</string>
+
+    <string name="mic_source_text_1">Mikrofon kaynağı (VoIP, CPU kullanabilir)</string>
+    <string name="mic_source_label_1">Varsayılan</string>
+    <string name="mic_source_label_2">VoIP</string>
+
+    <string name="drift_dialog_1">Eğilim hızını ayarla</string>
+    <string name="drift_dialog_2">10</string>
+    <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
+
+    <string name="jammer_dialog_1">Aktif jammer sinyal tipini değiştir.</string>
+    <string name="jammer_dialog_2">Yavaş mod test tonu (~440Hz)</string>
+    <string name="jammer_dialog_3">Tam NUHF tonu (18kHz-24kHz)</string>
+    <string name="jammer_dialog_4">Kullanıcı, NUHF sinyalini belirledi</string>
+    <string name="jammer_dialog_5">Kullanıcı NUHF frekansını ayarla</string>
+    <string name="jammer_dialog_6">iletim frekansını ayarla</string>
+    <string name="jammer_dialog_8">19000</string>
+    <string name="jammer_dialog_9">Akım sınırını ayarla</string>
+    <string name="jammer_dialog_10">1000</string>
+    <string name="jammer_dialog_11">(Tüm frekanslar NUHF ile sınırlı)</string>
+
+    <string name="jammer_dialog_13">Jammer türü olarak değiştirildi\u0020</string>
+    <string name="jammer_dialog_14">Jammer türü, devresi\u0020 konumundayken 1000Hz frekans olarak değiştirildi</string>
+    <string name="jammer_dialog_15">Mikrofon kaynağı\u0020 olarak değiştirildi</string>
+
+    <string name="active_dialog_1">Ses türünü seçin</string>
+    <string name="active_dialog_2">Aktif jammer çıkış ses tipi</string>
+    <string name="active_dialog_3">RASTGELE TONLAR</string>
+    <string name="active_dialog_4">PARAZİT</string>
+    <string name="active_dialog_5">TEST</string>
+    <string name="active_dialog_6">NUHF</string>
+    <string name="active_dialog_7">KARIŞTIR</string>
+    <string name="active_dialog_8">Sinüs</string>
+    <string name="active_dialog_9">Matris</string>
+    <string name="active_dialog_10">Karma</string>
+
+    <string name="eq_check_1">Cihaz audiofx ekolayzır testi.</string>
+    <string name="eq_check_2">Cihaz audiofx ekolayzır testi geçti.</string>
+    <string name="eq_check_3">Cihaz audiofx ekolayzer testi başarısız oldu.</string>
+    <string name="eq_check_4">EQ bantlarının sayısı:\u0020</string>
+    <string name="eq_check_5">EQ minimumunu ayarla milliBels:\u0020</string>
+    <string name="eq_check_6">EQ maksimumunu ayarla milliBels:\u0020</string>
+    <string name="eq_check_7">MinEQ ile EQ'yu iki kez azaltmak için HPF testi value:\u0020</string>
+    <string name="eq_check_8">testEQ İstisna, muhtemelen cihaza özel uygulama.</string>
+
+    <string name="audio_check_pre_1">En iyi ses kaydı türü kontrol ediliyor.</string>
+    <string name="audio_check_pre_2">En iyi ses çıkış türünü kontrol etme.</string>
+    <string name="audio_check_1">Ses kaydı türü hatasını belirleyin.</string>
+    <string name="audio_check_2">Ses çıkışı başlatılamıyor.</string>
+    <string name="audio_check_3">Hata: AudioSettings nesnesi bulunamadı.</string>
+    <string name="audio_check_4">AudioTrack başlatılırken istisna hatası.</string>
+    <string name="audio_check_5">Frekansı cihaz limiti dahilinde ayarlama:\u0020</string>
+    <string name="audio_check_6">Frekansı NUHF limiti dahilinde ayarlama:\u0020</string>
+    <string name="audio_check_7">Frekansın ayarı:\u0020</string>
+
+    <!--
+        PassiveJammer.java
+        -->
+    <string name="passive_state_1">Pasif Karıştırıcı başlatın.</string>
+    <string name="passive_state_2">Pasif Jammer başlatılamadı.</string>
+    <string name="passive_state_3">Pasif Jammer başlangıcı.</string>
+    <string name="passive_state_4">Pasif Jammer ses durumu hatası: geçersiz işlem.</string>
+    <string name="passive_state_5_1">Pasif Jammer ses durumu hatası: başlatılmamış.</string>
+    <string name="passive_state_5_2">Olası neden: mikrofon zaten kullanımda.</string>
+    <string name="passive_state_6">Pasif Jammer kayıt durumunu state = false.</string>
+    <string name="passive_state_7">Pasif Jammer istisnası, çalıştırılamadı.</string>
+    <string name="passive_state_8">Pasif Jammer ses kaydı başlatılamadı.</string>
+    <string name="passive_state_9">Pasif Jammer durdur.</string>
+    <string name="passive_state_10">Pasif Jammer çalışmıyor.</string>
+    <string name="passive_state_11">Pasif Jammer arabelleği okuma kilidi.</string>
+    <string name="passive_state_12">MediaRecorderPlacebo çalışıyor.</string>
+    <string name="passive_state_13">MediaRecorderPlacebo çalışmıyor.</string>
+    <string name="passive_state_14">MediaRecorderPlacebo () başarısız oldu.</string>
+    <string name="passive_state_15">MediaRecorderPlacebo serbest bırak.</string>
+
+    <!--
+        ActiveJammer.java
+        -->
+    <string name="active_state_1">threadPlay çalıştırma istisnası.</string>
+    <string name="active_state_2">stopPlayer iş parçacığı istisnası.</string>
+    <string name="active_state_3">stopPlayer audioTrack istisnası.</string>
+
+    <!--
+        ~ JammerService.java
+        -->
+    <string name="service_state_1">PilferShush Jammer bildirimleri</string>
+    <string name="service_state_2">Aktif Jammer hizmeti başlatıldı.</string>
+    <string name="service_state_3">Aktif Jammer hizmeti durduruldu.</string>
+    <string name="service_state_4">Pasif Jammer hizmeti başlatıldı.</string>
+    <string name="service_state_5">Pasif Jammer hizmeti durduruldu.</string>
+
+    <!--
+        background userapp checker
+        -->
+    <string name="inspector_row_text" translatable="false">Öğeler</string>
+    <string name="sdk_names_list">Aranan NUHF/ACR SDK paket adlarının listesi:\u0020</string>
+    <string name="dialog_userapps">Uygulama Listesini tara</string>
+
+    <string name="userapp_scan_1">Userapp denetleyicisi başarısız.</string>
+    <string name="userapp_scan_2">Kullanıcı uygulama kontrollerini çalıştır\u2026</string>
+    <string name="userapp_scan_3">RECORD AUDIO ile Kullanıcı Uygulamaları:\u0020</string>
+
+    <string name="userapp_scan_4">DENETLEYİCİ İÇİN KULLANICI UYGULAMASI BULUNAMADI.</string>
+    <string name="userapp_scan_5">Bulunan Kullanıcı Uygulaması hizmetleri\u0020</string>
+    <string name="userapp_scan_6">Bulunan Kullanıcı Uygulaması alıcıları\u0020</string>
+    <string name="userapp_scan_7">Uygulama Girişi listesi:\u0020</string>
+
+    <string name="userapp_scan_8">Bulunan ses uygulamalarını kaydedin:\u0020</string>
+    <string name="userapp_scan_9">Kayıtlı ses uygulaması bulunamadı.</string>
+    <string name="userapp_scan_10">\u0020olası NUHF/ACR SDK adları algılandı. Daha fazla bilgi için Kullanıcı Uygulamaları Özetini kontrol edin.</string>
+    <string name="userapp_scan_11">NUHF/ACR SDK paket adı algılanmadı.</string>
+    <string name="userapp_scan_12">Kullanıcı uygulaması bulunamadı.</string>
+    <string name="userapp_scan_13">KULLANICI UYGULAMA ÖZETİ.</string>
+    <string name="userapp_scan_14">Arka plan uygulama denetleyicisinde hata.</string>
+    <string name="userapp_scan_15">RECORD_AUDIO özelliğine sahip olası NUHF/ACR SDK imzası/imzaları bulundu.</string>
+    <string name="userapp_scan_16">RECORD_AUDIO özellikli NUHF/ACR SDK imzaları bulunamadı.</string>
+
+    <string name="userapp_scan_intro_1">Ses izleyici SDK'larında en az üç kategoride DOĞRU olabilir.</string>
+    <string name="userapp_scan_intro_2">Bu, ses izleyici davranışının veya varlığının bir kanıtı değildir.</string>
+    <string name="userapp_scan_intro_3">Kullanıcı Uygulama Adı</string>
+    <string name="userapp_scan_intro_4">Kullanıcı Uygulaması paket adı</string>
+    <string name="userapp_scan_intro_5">KAYIT için mikrofonu kullanın</string>
+    <string name="userapp_scan_intro_6">BOOT - cihaz yeniden başlatıldıktan sonra uygulama otomatik olarak yeniden başlayabilir</string>
+    <string name="userapp_scan_intro_7">HİZMET - uzun süredir devam eden arka plan işlemi</string>
+    <string name="userapp_scan_intro_8">ALICI - sistemden veya diğer uygulamalardan mesaj gönderin veya alın</string>
+    <string name="userapp_scan_intro_9">NUHF/ACR SDK - mevcut SDK listesinden bulunan paket adı eşleşmesi</string>
+    <string name="userapp_scan_intro_10">ERİŞİLEBİLİRLİK - cihazın durumuyla ilgili özel işlevler</string>
+    <string name="userapp_scan_intro_11">SDK ile HİZMET - SDK listesiyle eşleşen ilk hizmet adı bulundu</string>
+    <string name="userapp_scan_intro_12">ALICI - SDK listesiyle eşleşen ilk alıcı adı bulundu</string>
+
+    <!--
+    appEntry dialog text
+    -->
+    <string name="app_entry_text_1">SDK ile HİZMET</string>
+    <string name="app_entry_text_2">Hizmetler listesi:</string>
+    <string name="app_entry_text_3">SDK ALICI</string>
+    <string name="app_entry_text_4">Tam Alıcı listesi:</string>
+
+    <!--
+     recording callback
+    -->
+    <string name="recording_callback_silenced">PilferShush UYARI: mikrofonun kontrolü başka bir uygulamada.</string>
+    <string name="recording_callback_not_silenced">PilferShush mikrofonun kontrolüne sahiptir.</string>
+
+    <!--
+     Passive jammer app widget
+    -->
+    <string name="passive_appwidget_name">Sinyal Karıştırıcı Kontrolü</string>
+    <string name="passive_appwidget_text">Jammer Kontrol</string>
+    <string name="passive_add_widget">Widget ekle</string>
+
+    <!--
+     Assistant jammer
+    -->
+    <string name="action_assist">Jammer Yardımcısı</string>
+    <string name="assist_dialog_1">Ses Karıştırıcısı Asistanı </string>
+    <string name="assist_dialog_2">Jammer Ses Asistanı, mikrofona erişmeye çalışan herhangi bir VOICE_RECOGNITION veya VOICE_ASSISTANT kayıt ses hizmetine müdahale etmek ve engellemek amacıyla BIND_VOICE_INTERACTION iznini kullanan bir özelliktir. \n\nPasif Karıştırıcıda olduğu gibi, herhangi bir ses kaydetmez ve herhangi bir Sesli Asistan, sıfırlanmış ses verisi almalıdır. PilferShush uygulamasını Assist (Ses girişi) uygulaması olarak seçmenize veya seçimini kaldırmanıza izin vermek için bir Android Ayarları penceresi görünebilir. \n\nVarsayılan Android uyarısına rağmen, PilferShush Assistant Jammer, Müfettiş aracılığıyla yapılanlar dışında herhangi bir uygulama hakkında hiçbir bilgiyi okumayacaktır.</string>
+    <string name="assist_dialog_3">Tap on \'Assist app\' etkinleştirmek için PilferShush Jammer'ı seçin</string>
+    <string name="assist_dialog_4">Tap on \'Assist app\' devre dışı bırakmak için PilferShush Jammer'ı seçin</string>
+    <string name="assist_dialog_activated">Jammer Asistanı etkinleştirildi</string>
+    <string name="assist_dialog_deactivated">Jammer Asistanı devre dışı bırakıldı</string>
+    <string name="assist_dialog_blocked">Jammer Asistanı bir Ses Etkileşimini engelledi</string>
+    <string name="assist_error_1">Ses Asistanı Ayarlarına erişilemiyor</string>
+
+</resources>
