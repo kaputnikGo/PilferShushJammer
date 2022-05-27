@@ -223,11 +223,8 @@ public class SettingsFragment extends Fragment {
         settingsText.setTextColor(Color.parseColor("#00ff00"));
         settingsText.setMovementMethod(new ScrollingMovementMethod());
         settingsText.setSoundEffectsEnabled(false); // no further click sounds
-        settingsText.setOnClickListener(new TextView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // nothing
-            }
+        settingsText.setOnClickListener(v -> {
+            // nothing
         });
 
         settingsContainer = container;

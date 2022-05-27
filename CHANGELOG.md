@@ -1,8 +1,11 @@
-### 4.6.1 (ureleased)
+### 4.6.1 (2022-5-27)
 * build dependencies update
 * new SDK name
 * device list update
 * gradle build update
+* compile to SDK 31
+* placeholder data extraction rules xml
+* Turkish translation from <https://github.com/FabrieI>
 
 ### 4.6.0 (2021-2-24)
 * min API bump to 21 (5.0, Lollipop)

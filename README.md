@@ -23,49 +23,57 @@ Scan user installed apps for key features, possible NUHF/ACR SDK package name ma
 
 Jammers run as an instance of MediaRecorder in a foreground service
 
-Note: Android 10 has new concurrent audio capture policy that means other recording apps can bump a prior recording audio app from the microphone.
-see <https://source.android.com/compatibility/android-cdd#5_4_5_concurrent_capture>
-
 Note: Android 11 (API 30) changes to foreground services access to microphone - "while-in-use access" only.
 see <https://developer.android.com/about/versions/11/privacy/foreground-services>
 
-Note: APK app bundle will soon be necessary thing for Google Play Store, maintain apk here for FDroid
+Note: Android 12 (API 31) has new concurrent audio capture policy
+see <https://source.android.com/compatibility/12/android-12-cdd#54_audio_recording>
+
+Note: APK app bundle will be necessary thing for Google Play Store, apk maintained here for FDroid
 
 Note: Microphone source switch setting from VOICE_COMM to DEFAULT will cause
 passive jammer to lose concurrent audio focus and stop blocking the microphone
 
+Notes: For Android 12 (<https://source.android.com/compatibility/12/android-12-cdd?hl=sr#54_audio_recording>)
+5.4.5. Concurrent Capture
+C-1-1 MUST allow concurrent access to microphone by an accessibility service capturing with AudioSource.VOICE_RECOGNITION
+also:
+C-1-3 ... another app can capture the voice call if it is a privileged (pre-installed) app with permission CAPTURE_AUDIO_OUTPUT.
+
 
 **TODO:**
+- Android Dev Partner Outreach complaining about their app(s) crashing from RecognitionService calls
+
+
 - API 24 (7.0) minimum: add Quick Settings tile service for passive (req: android.permission.BIND_QUICK_SETTINGS_TILE)
 - add sdk name print (link to exodus?) to Inspector dialog if nuhf/acr sdk found
-- Android 12 (S, API31) has a "mute microphone" settings switch - determine its scope
 - Assistant jammer requires min API 23 (M) for supportsAssist in xml
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
-- Android 11 changes to concurrent audio
+- Android 11/12 changes to concurrent audio
 - inconsistent behaviour with widget and jammer service state
+- use NotificationCompat classes in services, check for use
+- Android 12(S, API31) adds SensorPrivacyManager for device checks as to addition of MIC toggle
 
 
 **Build:**
 - min API 21 (5.0)
-- target API 30 (11.0)
-- compiled API 30 (11.0)
-- Android Studio 4.2.2 stable
-- Gradle 6.7.1
+- target API 31 (12.0)
+- compiled API 31 (12.0)
+- Android Studio 2021.2.1 Patch 1
+- Gradle 7.3.3
 
 
 **Changes:**
-- 4.6.0 (released February 24, 2021)
-- min API bump to 21 (5.0, Lollipop)
-- github branch archive2 prior to min api 21 bump
-- Android 11 add foregroundServiceType
-- add <queries> intent for browser package access
-- prototyping Assistant/Omnibox jammer
-- add excessive retrigger warning
-- catch MediaRecorder placebo exception in some devices
-- update Android Studio
-- add SDK name
+- 4.6.1 (released March 26, 2022)
+- build dependencies update
+- new SDK name
+- device list update
+- gradle build update
+- compile to SDK 31
+- placeholder data extraction rules xml
+- Turkish translation from <https://github.com/FabrieI>
 
 
    testing devices
@@ -108,7 +116,7 @@ passive jammer to lose concurrent audio focus and stop blocking the microphone
 - Active jammer (19 kHz carrier, 1000 Hz limit, EQ on) versus ramp-up audio beacon-like signal : scatter jamming demo
 <img src="https://github.com/kaputnikGo/PilferShushJammer/blob/master/images/PS_Jammer-vs-html5_synth.jpg" height="138px" />
 
-# 2021 Kaputnik Go
+# 2022 Kaputnik Go
 
 
 Licensed under the Apache License, Version 2.0 (the "License");
