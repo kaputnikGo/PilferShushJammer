@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "cityfreqs.com.pilfershushjammer",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 42,
+      "versionName": "4.6.1",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

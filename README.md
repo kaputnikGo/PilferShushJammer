@@ -62,7 +62,7 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 - target API 31 (12.0)
 - compiled API 31 (12.0)
 - Android Studio 2021.2.1 Patch 1
-- Gradle 7.3.3
+- Gradle 7.2.1
 
 
 **Changes:**
