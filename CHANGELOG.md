@@ -1,4 +1,5 @@
-### 4.6.1 (2022-5-27)
+### 4.6.1 (2022-6-01)
+* prep for google request
 * build dependencies update
 * new SDK name
 * device list update
@@ -6,6 +7,7 @@
 * compile to SDK 31
 * placeholder data extraction rules xml
 * Turkish translation from <https://github.com/FabrieI>
+* escape apostrophes in xml
 
 ### 4.6.0 (2021-2-24)
 * min API bump to 21 (5.0, Lollipop)

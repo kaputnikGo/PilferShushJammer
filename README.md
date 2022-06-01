@@ -66,7 +66,8 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 
 
 **Changes:**
-- 4.6.1 (released March 26, 2022)
+- 4.6.1 (released June 01, 2022)
+- google request prep
 - build dependencies update
 - new SDK name
 - device list update

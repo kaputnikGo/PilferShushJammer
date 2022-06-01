@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PilferShush Jammer</string>
     <string name="passive_service_name">PilferSus Pasif</string>
@@ -15,7 +14,7 @@
     <string name="tab_text_3">Ayarlar</string>
 
     <string name="perms_state_1">Ses kaydı</string>
-    <string name="perms_state_2_1">PilferShush Jammer'ın mikrofona erişmek ve mikrofonun sıkışmasını etkinleştirmek için bir izin isteğinde bulunması gerekir, aksi takdirde bu uygulama çalışmaz.</string>
+    <string name="perms_state_2_1">PilferShush Jammer\'ın mikrofona erişmek ve mikrofonun sıkışmasını etkinleştirmek için bir izin isteğinde bulunması gerekir, aksi takdirde bu uygulama çalışmaz.</string>
     <string name="perms_state_2_2">Bu uygulama herhangi bir sesi dinlemez, herhangi bir ses kaydetmez ve internete bağlanmaz.</string>
     <string name="perms_state_3">İzin reddedildi, lütfen bu uygulamayı kapatın, RECORD AUDIO izni olmadan çalışmaz.</string>
     <string name="perms_state_4">RECORD_AUDIO izni verilmediği için uygulama kapatılıyor.</string>
@@ -37,10 +36,10 @@
 
     <string name="doze_dialog_title">Ayarları değiştir</string>
     <string name="doze_dialog_1">PilferShush Jammer, Android sistemi Pil Optimizasyonları istisnaları izin verilenler listesinde yer almayı talep ediyor.</string>
-    <string name="doze_dialog_2">Android 6.0'dan (API 23) Marshmallow'dan itibaren, Android tarafından arka planda CPU etkinliğini belirli süreler boyunca erteleyen yeni bir (Doze) pil koruma işlevi tanıtıldı..</string>
+    <string name="doze_dialog_2">Android 6.0\'dan (API 23) Marshmallow\'dan itibaren, Android tarafından arka planda CPU etkinliğini belirli süreler boyunca erteleyen yeni bir (Doze) pil koruma işlevi tanıtıldı..</string>
     <string name="doze_dialog_3">Bu uygulama çok düşük ila ihmal edilebilir kaynaklar kullanırken, Pasif Jammer mikrofonunun çalışması için bir arka plan hizmetinin çalışması gerekir.</string>
-    <string name="doze_dialog_4">Jammer'ın uzun süreli güvenilir kullanımı için, PilferShush'ın engellenmeden çalışmaya devam etmesine izin vermek için herhangi bir pil optimize edici veya yöneticinin ayarlanması gerekir.</string>
-    <string name="doze_dialog_5">PilferShush'ı sistem izin verilenler listesine eklemek için Android Ayarları sayfasına ilerlemek üzere "devam"a basın, ardından açılır menüden "Tüm Uygulamalar"ı seçin, PilferShush'ı arayın ve seçin.</string>
+    <string name="doze_dialog_4">Jammer\'ın uzun süreli güvenilir kullanımı için, PilferShush\'ın engellenmeden çalışmaya devam etmesine izin vermek için herhangi bir pil optimize edici veya yöneticinin ayarlanması gerekir.</string>
+    <string name="doze_dialog_5">PilferShush\'ı sistem izin verilenler listesine eklemek için Android Ayarları sayfasına ilerlemek üzere "devam"a basın, ardından açılır menüden "Tüm Uygulamalar"ı seçin, PilferShush\'ı arayın ve seçin.</string>
 
     <string name="audiofocus_check_1">Ses Odaklanma kontrolü\u2026</string>
     <string name="audiofocus_check_2">Ses Odaklanma isteği verildi.</string>
@@ -87,7 +86,7 @@
     <string name="app_status_13">Sinyal bozucu arabellek okuma kilidi etkinleştirildi. JAMMER TEKRAR BAŞLATMASI GEREKTİRİR.</string>
     <string name="app_status_14">Sinyal bozucu arabellek okuma kilidi devre dışı bırakıldı. JAMMER TEKRAR BAŞLATMASI GEREKTİRİR.</string>
     <string name="app_status_15">Dalga formu sinüse çevrildi.</string>
-    <string name="app_status_16">Dalga formu matris'e çevrildi.</string>
+    <string name="app_status_16">Dalga formu matris\'e çevrildi.</string>
     <string name="app_status_17">Dalga formu karma olarak değiştirildi.</string>
 
     <string name="intro_1">PilferShush Jammer, donanım mikrofonunun istenmeyen ve gizli kullanımını engellemeye çalışır.</string>
@@ -98,7 +97,7 @@
     <string name="intro_6_1">Arama, açılır listeden seçilen belirli bir uygulama için listelenen arka plan hizmetlerini ve alıcıları gösterir.</string>
     <string name="intro_6_2">Liste SDK, aranan NUHF/ACR paketlerinin adlarını gösterir.</string>
     <string name="intro_6_3">Uygulamalar, her biri farklı adlara sahip birden çok paket içerebilir.</string>
-    <string name="intro_7">Etkin frekansı değiştirmek için Ayarlar'ı kullanın.</string>
+    <string name="intro_7">Etkin frekansı değiştirmek için Ayarlar\'ı kullanın.</string>
     <string name="intro_8">Aktif jammer olarak ayarlandı:\u0020</string>
 
     <!--
@@ -109,7 +108,7 @@
     <string name="readme_dialog_3">Özet: Kullanıcı tarafından yüklenen uygulamaları listeler ve ses kaydı yeteneği, önyüklemede başlatma, arka plan hizmetleri, arka plan alıcıları, NUHF/ACR SDK ad ekleme ve özel işlevler elde etmek için Erişilebilirlik hizmeti kullanımını kontrol eder.</string>
     <string name="readme_dialog_4">Arama: belirli bir kullanıcı tarafından yüklenen uygulama ve sahip olduğu hizmetler veya alıcılar hakkında daha fazla bilgi sağlar. Bu isimler genellikle işlevlerinin bir göstergesidir ancak anlamsız, rastgele harfler olabilirler..</string>
     <string name="readme_dialog_5">SDK listesi: ultra yüksek frekansa yakın dinleme ve/veya otomatik içerik tanıma yetenekleri sağlayan şirketlerin bilinen paketlerinin mevcut adlarıdır. PilferShush uygulaması, bu listeden eşleşen herhangi bir paket adı için kullanıcı tarafından yüklenen uygulamaları arar. Bu, herhangi bir uygulama davranışının kanıtı değildir, yalnızca kullanıcıya cihazlarındaki uygulamalar hakkında daha fazla bilgi sağlamanın bir yöntemidir..</string>
-    <string name="readme_dialog_6">PASIF Jammer, kullanıcı tarafından yüklenen uygulamaları, cihaz mikrofonunun istenmeyen kullanımına karşı birincil savunma yöntemidir. Bir seferde yalnızca bir kullanıcı uygulamasının mikrofonu kullanabileceği konusunda ısrar eden Android API'sinin mevcut bir özelliğini kullanır. PilferShush, Android sisteminden AudioRecord işlevi aracılığıyla mikrofona erişmesini ister ve ardından kaydı başlatmasını ister. Bu noktada mikrofon, istekte bulunan uygulamaya ses verileri sağlamaya hazırdır. PilferShush bu ses verilerini istemez, sadece mikrofondaki tutuşunu korur. Başlangıçta, eski Android cihazlarda bu yeterliydi, ancak sonraki sürümlerde artık bir MediaRecorder işlevi oluşturmak ve hazırlamak gerekiyor, böylece PilferShush'ın arka planda çalışırken mikrofona erişmesine hala izin veriliyor. Telefon gibi sistem uygulamaları her zaman mikrofonu geçersiz kılar ve mikrofonun kontrolünü alır. Kurulumlarına bağlı olarak bazı sesli yardımcılar ve erişilebilirlik uygulamaları bu pasif sıkışma sırasında mikrofona erişmeye devam edebilir. Android 10'dan (Q) itibaren mikrofonun eşzamanlı kullanımına izin verilir; bu, PilferShush arka planda parazit yaparken başka bir kullanıcı uygulamasının mikrofonu devralabileceği anlamına gelir. Şu anda sınırlı yanıtlar mümkündür, ancak bir Android 10 cihazının kullanıcısını başka bir uygulamanın mikrofonun kontrolüne sahip olduğunu ve PilferShush'ın mikrofonun engelleme kontrolünü yeniden kazanmaya çalıştığını bildirmek için ekranın ortasında bir açılır pencere görünmelidir. Daha fazla araştırma yapılıyor.</string>
+    <string name="readme_dialog_6">PASIF Jammer, kullanıcı tarafından yüklenen uygulamaları, cihaz mikrofonunun istenmeyen kullanımına karşı birincil savunma yöntemidir. Bir seferde yalnızca bir kullanıcı uygulamasının mikrofonu kullanabileceği konusunda ısrar eden Android API\'sinin mevcut bir özelliğini kullanır. PilferShush, Android sisteminden AudioRecord işlevi aracılığıyla mikrofona erişmesini ister ve ardından kaydı başlatmasını ister. Bu noktada mikrofon, istekte bulunan uygulamaya ses verileri sağlamaya hazırdır. PilferShush bu ses verilerini istemez, sadece mikrofondaki tutuşunu korur. Başlangıçta, eski Android cihazlarda bu yeterliydi, ancak sonraki sürümlerde artık bir MediaRecorder işlevi oluşturmak ve hazırlamak gerekiyor, böylece PilferShush\'ın arka planda çalışırken mikrofona erişmesine hala izin veriliyor. Telefon gibi sistem uygulamaları her zaman mikrofonu geçersiz kılar ve mikrofonun kontrolünü alır. Kurulumlarına bağlı olarak bazı sesli yardımcılar ve erişilebilirlik uygulamaları bu pasif sıkışma sırasında mikrofona erişmeye devam edebilir. Android 10\'dan (Q) itibaren mikrofonun eşzamanlı kullanımına izin verilir; bu, PilferShush arka planda parazit yaparken başka bir kullanıcı uygulamasının mikrofonu devralabileceği anlamına gelir. Şu anda sınırlı yanıtlar mümkündür, ancak bir Android 10 cihazının kullanıcısını başka bir uygulamanın mikrofonun kontrolüne sahip olduğunu ve PilferShush\'ın mikrofonun engelleme kontrolünü yeniden kazanmaya çalıştığını bildirmek için ekranın ortasında bir açılır pencere görünmelidir. Daha fazla araştırma yapılıyor.</string>
     <string name="readme_dialog_7">AKTİF Jammer, NUHF işaret sinyallerini 18000 hz ile 24000 hz arasında ölçülen NUHF aralıklarına giren rastgele seslerle karıştırmanın deneysel bir yöntemidir. NUHF işaretleri, hedeflediği belirli uygulamaya anlam kazandırmak için kodlanmış belirli tonları gönderir. Genellikle bu belirli tonlar, belirli bir frekans (taşıyıcı) etrafında ortalanır ve diğer anlamlı tonlar, bu frekansın (sapma sınırı) üstünde ve altında bir aralıkta yayılır. Bu NUHF işaret sinyallerinin yayını çok hızlı (sürüklenme hızı) ve insanların normalde duyamayacağı bir frekans aralığında çalınır. PilferShush aktif bozucu, aynı frekans aralığını anlamsız rastgele tonlarla doldurarak bu işaret sinyallerini engellemeye çalışır. Hangi belirli ayarların belirli bir NUHF işaret sinyaliyle eşleşmesinin muhtemel olduğunu bilmelisiniz,README (BENİ OKU) inceleyinz..</string>
     <string name="readme_dialog_8">Daha fazla bilgi için proje web sayfasını tarayıcınızda açmak üzere "DAHA FAZLA BİLGİ" düğmesine tıklayın..</string>
 
@@ -117,12 +116,12 @@
     <string name="about_dialog_1">PilferShush Jammer Hakkında</string>
     <string name="about_dialog_2">Bu, yerleşik mikrofonun istenmeyen, gizli kullanımını dikkat çekmeden engellemek için tasarlanmış deneysel bir araştırma uygulamasıdır..</string>
     <string name="about_dialog_3">Ultra Yüksek Frekanslar veya Ses İçeriği Tanıma kullanan SDK paket adlarıyla olası eşleşmeleri bulmak için bir Denetleyiciye sahiptir. Arama yöntemi olumsuz tetiklemelere neden olabilir .</string>
-    <string name="about_dialog_4">PilferShush Jammer Github'da mevcuttur.</string>
+    <string name="about_dialog_4">PilferShush Jammer Github\'da mevcuttur.</string>
     <string name="about_dialog_5">Devam eden Android anti-sound gözetim araştırmasının bir parçası.</string>
     <string name="about_dialog_6">Ses kaydı arabelleği okuma kilidini etkinleştirmek için aşağıdaki seçenek (CPU ek yükünde olası hafif artış).</string>
 
     <string name="debug_dialog_1">Hata ayıklama modu</string>
-    <string name="debug_dialog_2">Bu mod, uygulama görünümlerine bazı ekstra mesajların yanı sıra ekli herhangi bir ADB'ye bazı Günlük mesajları yazdıracaktır.</string>
+    <string name="debug_dialog_2">Bu mod, uygulama görünümlerine bazı ekstra mesajların yanı sıra ekli herhangi bir ADB\'ye bazı Günlük mesajları yazdıracaktır.</string>
 
     <string name="settings_label_1">Aktif Jammer Ayarları</string>
     <string name="settings_label_2">Pasif Jammer Ayarları</string>
@@ -171,7 +170,7 @@
     <string name="eq_check_4">EQ bantlarının sayısı:\u0020</string>
     <string name="eq_check_5">EQ minimumunu ayarla milliBels:\u0020</string>
     <string name="eq_check_6">EQ maksimumunu ayarla milliBels:\u0020</string>
-    <string name="eq_check_7">MinEQ ile EQ'yu iki kez azaltmak için HPF testi value:\u0020</string>
+    <string name="eq_check_7">MinEQ ile EQ\'yu iki kez azaltmak için HPF testi value:\u0020</string>
     <string name="eq_check_8">testEQ İstisna, muhtemelen cihaza özel uygulama.</string>
 
     <string name="audio_check_pre_1">En iyi ses kaydı türü kontrol ediliyor.</string>
@@ -246,7 +245,7 @@
     <string name="userapp_scan_15">RECORD_AUDIO özelliğine sahip olası NUHF/ACR SDK imzası/imzaları bulundu.</string>
     <string name="userapp_scan_16">RECORD_AUDIO özellikli NUHF/ACR SDK imzaları bulunamadı.</string>
 
-    <string name="userapp_scan_intro_1">Ses izleyici SDK'larında en az üç kategoride DOĞRU olabilir.</string>
+    <string name="userapp_scan_intro_1">Ses izleyici SDK\'larında en az üç kategoride DOĞRU olabilir.</string>
     <string name="userapp_scan_intro_2">Bu, ses izleyici davranışının veya varlığının bir kanıtı değildir.</string>
     <string name="userapp_scan_intro_3">Kullanıcı Uygulama Adı</string>
     <string name="userapp_scan_intro_4">Kullanıcı Uygulaması paket adı</string>
@@ -286,8 +285,8 @@
     <string name="action_assist">Jammer Yardımcısı</string>
     <string name="assist_dialog_1">Ses Karıştırıcısı Asistanı </string>
     <string name="assist_dialog_2">Jammer Ses Asistanı, mikrofona erişmeye çalışan herhangi bir VOICE_RECOGNITION veya VOICE_ASSISTANT kayıt ses hizmetine müdahale etmek ve engellemek amacıyla BIND_VOICE_INTERACTION iznini kullanan bir özelliktir. \n\nPasif Karıştırıcıda olduğu gibi, herhangi bir ses kaydetmez ve herhangi bir Sesli Asistan, sıfırlanmış ses verisi almalıdır. PilferShush uygulamasını Assist (Ses girişi) uygulaması olarak seçmenize veya seçimini kaldırmanıza izin vermek için bir Android Ayarları penceresi görünebilir. \n\nVarsayılan Android uyarısına rağmen, PilferShush Assistant Jammer, Müfettiş aracılığıyla yapılanlar dışında herhangi bir uygulama hakkında hiçbir bilgiyi okumayacaktır.</string>
-    <string name="assist_dialog_3">Tap on \'Assist app\' etkinleştirmek için PilferShush Jammer'ı seçin</string>
-    <string name="assist_dialog_4">Tap on \'Assist app\' devre dışı bırakmak için PilferShush Jammer'ı seçin</string>
+    <string name="assist_dialog_3">Tap on \'Assist app\' etkinleştirmek için PilferShush Jammer\'ı seçin</string>
+    <string name="assist_dialog_4">Tap on \'Assist app\' devre dışı bırakmak için PilferShush Jammer\'ı seçin</string>
     <string name="assist_dialog_activated">Jammer Asistanı etkinleştirildi</string>
     <string name="assist_dialog_deactivated">Jammer Asistanı devre dışı bırakıldı</string>
     <string name="assist_dialog_blocked">Jammer Asistanı bir Ses Etkileşimini engelledi</string>
