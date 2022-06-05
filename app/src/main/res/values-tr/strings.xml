@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PilferShush Jammer</string>
-    <string name="passive_service_name">PilferSus Pasif</string>
+    <string name="passive_service_name">PilferShush Pasif</string>
     <string name="active_service_name">PilferShush Aktif</string>
     <string name="action_about">Hakkında</string>
     <string name="action_readme">Beni Oku</string>
@@ -33,7 +33,7 @@
     <string name="dialog_button_moreinfo">Daha fazla bilgi</string>
     <string name="notify_stop_button">PASİF ET</string>
 
-    <string name="options_dialog_1">Tampon okuma kilidi</string>
+    <string name="options_dialog_1">Arabellek okuma kilidi</string>
 
     <string name="doze_dialog_title">Ayarları değiştir</string>
     <string name="doze_dialog_1">PilferShush Jammer, Android sistemi Pil Optimizasyonları istisnaları izin verilenler listesinde yer almayı talep ediyor.</string>
@@ -62,9 +62,9 @@
 
     <string name="main_scanner_1" translatable="false">Aktif</string>
     <string name="main_scanner_2" translatable="false">Pasif</string>
-    <string name="main_scanner_3">Frekans bozmayı çalıştırma\u2026</string>
+    <string name="main_scanner_3">Frekans bozma çalışıyor\u2026</string>
     <string name="main_scanner_4">Frekans bozmayı durdur.</string>
-    <string name="main_scanner_5">Aktif frekans bozmayı çalıştırma\u2026</string>
+    <string name="main_scanner_5">Aktif frekans bozma çalışıyor\u2026</string>
     <string name="main_scanner_6">Aktif frekans bozmayı durdur.</string>
 
     <string name="main_inspector_1" translatable="false">Özet</string>
