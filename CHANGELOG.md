@@ -1,3 +1,7 @@
+### 4.6.2 (unreleased)
+* dupe fdroid metadata en-AU to en-US
+* fixes for TR translation
+
 ### 4.6.1 (2022-6-01)
 * prep for google request
 * build dependencies update
