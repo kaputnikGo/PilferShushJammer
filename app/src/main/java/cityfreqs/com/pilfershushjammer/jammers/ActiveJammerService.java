@@ -1,5 +1,6 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -82,11 +84,18 @@ public class ActiveJammerService extends Service {
         //
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void createNotification() {
         Intent notificationIntent = new Intent(this, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, notificationIntent,0);
+        PendingIntent pendingIntent;
+        // android 31 makes notifications crash without flag_immutable/mutable
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         NotificationManager notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

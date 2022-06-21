@@ -1,6 +1,8 @@
-### 4.6.2 (unreleased)
+### 4.6.2 (2022-6-22)
 * dupe/move fdroid metadata en-AU to en-US
 * fixes for TR translation
+* bugfix for Android 12 notification changes causing crashes
+* versionCode 43
 
 ### 4.6.1 (2022-6-01)
 * prep for google request

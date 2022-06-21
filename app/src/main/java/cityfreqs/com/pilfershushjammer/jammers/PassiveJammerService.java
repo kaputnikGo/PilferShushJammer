@@ -1,5 +1,6 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -96,15 +98,30 @@ public class PassiveJammerService extends Service {
         //
     }
 
+
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void createNotification() {
         Intent notificationIntent = new Intent(this, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, notificationIntent,0);
+        PendingIntent pendingIntent;
+        // android 31 makes notifications crash without flag_immutable/mutable
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         Intent notifyStopIntent = new Intent("notifyStopPassive");
-        PendingIntent notifyStopPendingIntent = PendingIntent.getBroadcast(this,
-                0, notifyStopIntent, 0);
+        PendingIntent notifyStopPendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            notifyStopPendingIntent = PendingIntent.getBroadcast(this,
+                    0, notifyStopIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            notifyStopPendingIntent = PendingIntent.getBroadcast(this,
+                    0, notifyStopIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
 
         NotificationManager notifyManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

@@ -66,15 +66,10 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 
 
 **Changes:**
-- 4.6.1 (released June 01, 2022)
-- google request prep
-- build dependencies update
-- new SDK name
-- device list update
-- gradle build update
-- compile to SDK 31
-- placeholder data extraction rules xml
-- Turkish translation from <https://github.com/FabrieI>
+- 4.6.2 (released June 22, 2022)
+- bugfix for API 31 notification change
+- fdroid metadata folder
+- TR syntax fixes
 
 
    testing devices
@@ -83,6 +78,7 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
    - EMU : Nexus 5X 7.0 (24) (Android Studio AVD, GApps)
    - EMU : Galaxy Nexus Oreo (27) (Android Studio AVD, GApps)
    - EMU : Pixel 3a 10.0 (29) (Android Studio AVD, GApps)
+   - EMU : Pixel 4a 12.0 (31) (Android Studio AVD, GApps)
    - LOW : s4 I9195 (antique) 7.1.2 (25)( /e/ 0.13, Cleanapk)
    - SLO : Mts 5045D (tainted) 7.1.2 (25) (LineageOS 14.1, GApps)
    - MID : Galaxy Tab 2 GT-P5110 (minimal) 7.1.2 (25) (LineageOS 14.1, F-Droid)
