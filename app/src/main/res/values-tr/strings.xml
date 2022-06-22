@@ -14,8 +14,8 @@
     <string name="tab_text_3">Ayarlar</string>
 
     <string name="perms_state_1">Ses kaydı</string>
-    <string name="perms_state_2_1">PilferShush Jammer\'ın mikrofona erişmek ve mikrofonun sıkışmasını etkinleştirmek için bir izin isteğinde bulunması gerekir, aksi takdirde bu uygulama çalışmaz.</string>
-    <string name="perms_state_2_2">Bu uygulama herhangi bir sesi dinlemez, herhangi bir ses kaydetmez ve internete bağlanmaz.</string>
+    <string name="perms_state_2_1">PilferShush Jammer çalışabilmesi için mikrofona erişim izni vermeniz gerekli, aksi takdirde frekans bozucu bu uygulama çalışmaz.</string>
+    <string name="perms_state_2_2">Bu uygulama herhangi bir sesi dinlemez, herhangi bir sesi kaydetmez ve internete bağlanmaz.</string>
     <string name="perms_state_3">İzin reddedildi, lütfen bu uygulamayı kapatın, RECORD AUDIO izni olmadan çalışmaz.</string>
     <string name="perms_state_4">RECORD_AUDIO izni verilmediği için uygulama kapatılıyor.</string>
 
@@ -62,9 +62,9 @@
     <string name="main_scanner_1" translatable="false">Aktif</string>
     <string name="main_scanner_2" translatable="false">Pasif</string>
     <string name="main_scanner_3">Frekans bozma çalışıyor\u2026</string>
-    <string name="main_scanner_4">Frekans bozmayı durdur.</string>
+    <string name="main_scanner_4">Frekans bozma durduruldu.</string>
     <string name="main_scanner_5">Aktif frekans bozma çalışıyor\u2026</string>
-    <string name="main_scanner_6">Aktif frekans bozmayı durdur.</string>
+    <string name="main_scanner_6">Aktif frekans bozma durduruldu.</string>
 
     <string name="main_inspector_1" translatable="false">Özet</string>
     <string name="main_inspector_2" translatable="false">Denetle</string>
@@ -138,7 +138,7 @@
     <string name="drift_dialog_2">10</string>
     <string name="drift_dialog_3">(1 = fast, 10 = slow)</string>
 
-    <string name="jammer_dialog_1">Aktif jammer sinyal tipini değiştir.</string>
+    <string name="jammer_dialog_1">Aktif jammer frekans tipini değiştir.</string>
     <string name="jammer_dialog_2">Yavaş mod test tonu (~440Hz)</string>
     <string name="jammer_dialog_3">Tam NUHF tonu (18kHz-24kHz)</string>
     <string name="jammer_dialog_4">Kullanıcı, NUHF sinyalini belirledi</string>
@@ -275,7 +275,7 @@
     <!--
      Passive jammer app widget
     -->
-    <string name="passive_appwidget_name">Sinyal Karıştırıcı Kontrolü</string>
+    <string name="passive_appwidget_name">Frekans Karıştırıcı Kontrolü</string>
     <string name="passive_appwidget_text">Jammer Kontrol</string>
     <string name="passive_add_widget">Widget ekle</string>
 
