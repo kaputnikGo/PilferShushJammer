@@ -14,7 +14,7 @@ System telephone calls will override and bump the Jammer from the microphone.
 
 Adds a notification as a reminder for running while in background.
 
-Tested and blocks Google Voice search (user) app.
+Tested and blocks Google Voice search (user) app (up to API 34).
 Currently testing Chrome/Omnibox/Assistant app voice blocking.
 
 Active jammer - tone and white noise versions, boost EQ for higher amplitude.
@@ -42,8 +42,8 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 
 
 **TODO:**
-- Android Dev Partner Outreach complaining about their app(s) crashing from RecognitionService calls
-
+- Quick Setting system tile mic revoke causes app crash (retrigger to service, client silenced)
+- restart from above reports service running, it is not.
 
 - API 24 (7.0) minimum: add Quick Settings tile service for passive (req: android.permission.BIND_QUICK_SETTINGS_TILE)
 - add sdk name print (link to exodus?) to Inspector dialog if nuhf/acr sdk found
@@ -51,25 +51,24 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 - background autostart activity for concurrent audio fight via SYSTEM_ALERT_WINDOW permission
 - vs AccessibilityService misuse, in Android 10 (does not work in Go version)
 - see : <https://developer.android.com/guide/components/activities/background-starts>
-- Android 11/12 changes to concurrent audio
-- inconsistent behaviour with widget and jammer service state
 - use NotificationCompat classes in services, check for use
 - Android 12(S, API31) adds SensorPrivacyManager for device checks as to addition of MIC toggle
 
 
 **Build:**
 - min API 21 (5.0)
-- target API 31 (12.0)
-- compiled API 31 (12.0)
-- Android Studio 2021.2.1 Patch 1
-- Gradle 7.2.1
+- target API 33 (13.0)
+- compiled API 34 (14.0)
+- Android Studio 2022.3.1 Patch 2
+- Gradle 8.1.2
 
 
 **Changes:**
-- 4.6.2 (released June 22, 2022)
-- bugfix for API 31 notification change
-- fdroid metadata folder
-- TR syntax fixes
+- 4.6.3 (Oct, 2023)
+- new SDK added
+- updated build environment
+- min Android SDK requirements build
+- post notifications permission added
 
 
    testing devices
