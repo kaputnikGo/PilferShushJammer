@@ -127,7 +127,7 @@ public class PassiveJammerService extends Service {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_LOW);
+                    NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(getResources().getString(R.string.service_state_1));
             channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
             assert notifyManager != null;
@@ -143,7 +143,7 @@ public class PassiveJammerService extends Service {
                 .setContentIntent(pendingIntent)
                 .addAction(R.mipmap.ic_stat_logo_notify_jammer, getString(R.string.notify_stop_button), notifyStopPendingIntent)
                 .setWhen(System.currentTimeMillis())
-                .setPriority(Notification.PRIORITY_LOW)
+                .setPriority(Notification.PRIORITY_DEFAULT)
                 .setOngoing(true)
                 .setAutoCancel(false);
 

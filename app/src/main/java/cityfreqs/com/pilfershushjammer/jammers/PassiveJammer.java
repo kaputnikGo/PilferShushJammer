@@ -1,5 +1,6 @@
 package cityfreqs.com.pilfershushjammer.jammers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -43,6 +44,7 @@ public class PassiveJammer {
         }
     }
 
+    @SuppressLint("MissingPermission")
     boolean startPassiveJammer() {
         // concurrent audio fight gets java.lang.IllegalStateException: Unable to retrieve AudioRecord pointer for getId()
         // find it, after retriggerPassive is called. from AudioRecord.h:579 getPortId() :
@@ -225,6 +227,7 @@ public class PassiveJammer {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getAudioConfig() {
         // illegalState not here
+        // TODO handle silenced: true state
         AudioRecordingConfiguration recordConfig = audioRecord.getActiveRecordingConfiguration();
         if (recordConfig != null) {
             debugLogger("registerCallback config, silenced: " + recordConfig.isClientSilenced(), false);
