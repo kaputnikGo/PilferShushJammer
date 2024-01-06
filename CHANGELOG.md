@@ -3,6 +3,7 @@
 * updated build environment
 * updated Android API build targets
 * added post_notifications permission to manifest
+* add openai package name
 
 ### 4.6.2 (2022-6-22)
 * dupe/move fdroid metadata en-AU to en-US
