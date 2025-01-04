@@ -64,7 +64,8 @@ C-1-3 ... another app can capture the voice call if it is a privileged (pre-inst
 
 
 **Changes:**
-- 4.6.3 (Oct, 2023)
+- 4.6.3 (Jan, 2025)
+- unreleased
 - new SDK added
 - updated build environment
 - min Android SDK requirements build
