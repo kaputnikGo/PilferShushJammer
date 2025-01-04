@@ -1,4 +1,4 @@
-### 4.6.3 (unreleased)
+### 4.6.3 (unreleased, 2025)
 * new SDK added
 * updated build environment
 * updated Android API build targets
