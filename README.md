@@ -1,5 +1,7 @@
 # PilferShush Jammer
 
+** Migrating this project source to https://codeberg.org/kaputnikGo/PilferShushJammer **
+
 Research and project page : <https://www.cityfreqs.com.au/pilfer.php>
 
 Android microphone checker and jamming application built for AOSP LineageOS.  
